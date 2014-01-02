@@ -13,8 +13,10 @@ gem 'sprockets-rails', '2.0.0' #  github: "rails/sprockets-rails"
 gem 'sass-rails',       github: "rails/sass-rails"
 gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'font-awesome-rails'
+gem 'jquery-rails'
 gem 'angularjs-rails'
 gem 'angular-ui-bootstrap-rails'
+gem 'bootstrap-sass-rails'
 gem 'ngmin-rails'
 
 # Use Uglifier as compressor for JavaScript assets
