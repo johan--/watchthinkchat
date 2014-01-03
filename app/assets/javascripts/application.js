@@ -7,4 +7,3 @@
 //= require_tree
 
 'use strict'
-4

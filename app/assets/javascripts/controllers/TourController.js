@@ -39,7 +39,7 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
       onShown: function (bt) {
         //player.seekTo(0);
         //player.playVideo();
-      },
+      }
     },
     {
       orphan: true,
