@@ -1,19 +1,19 @@
 'use strict';
 /*
- angular.module("chatApp", ["ngRoute"]).config(($routeProvider, $locationProvider) ->
- $locationProvider.html5Mode true
- $routeProvider.when("/",
- templateUrl: "/templates/dashboard.html"
- controller: "DashboardController as ctrl"
- ).when("/tour",
- templateUrl: "/templates/tour.html"
- controller: "TourController as ctrl"
- ).when("/features",
- templateUrl: "/templates/features.html"
- controller: "FeaturesController as ctrl"
- ).otherwise redirectTo: "/"
- ).run ($rootScope) ->
- $rootScope.YouTubeApiLoaded = false
+angular.module("chatApp", ["ngRoute"]).config(($routeProvider, $locationProvider) ->
+  $locationProvider.html5Mode true
+  $routeProvider.when("/",
+    templateUrl: "/templates/dashboard.html"
+  controller: "DashboardController as ctrl"
+  ).when("/tour",
+    templateUrl: "/templates/tour.html"
+  controller: "TourController as ctrl"
+  ).when("/features",
+    templateUrl: "/templates/features.html"
+  controller: "FeaturesController as ctrl"
+  ).otherwise redirectTo: "/"
+).run ($rootScope) ->
+  $rootScope.YouTubeApiLoaded = false
 */
 
 angular.module('chatApp', ['ngRoute'])
