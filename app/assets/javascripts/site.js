@@ -18,7 +18,7 @@ angular.module("chatApp", ["ngRoute"]).config(($routeProvider, $locationProvider
 
 angular.module('chatApp', ['ngRoute'])
   .config(function ($routeProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
     $routeProvider.when('/', {
       templateUrl: '/templates/dashboard.html',
       controller: 'DashboardController as ctrl'
@@ -28,6 +28,9 @@ angular.module('chatApp', ['ngRoute'])
       }).when('/features', {
         templateUrl: '/templates/features.html',
         controller: 'FeaturesController as ctrl'
+      }).when('/u/:videoId', {
+        templateUrl: '/templates/chat.html',
+        controller: 'ChatController as ctrl'
       }).otherwise({ redirectTo: '/' });
   }).run(function ($rootScope) {
     $rootScope.YouTubeApiLoaded = false;
