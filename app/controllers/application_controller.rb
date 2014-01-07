@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery
+
+  def current_visitor
+    @visitor ||= Visitor.find(session[:visitor_id]) if session[:visitor_id]
+    @visitor ||= Visitor.new
+  end
+
+  helper_method :current_visitor
 end

@@ -1,49 +1,88 @@
 source 'https://rubygems.org'
+ruby "2.0.0"
 
-gem 'rails', '4.1.0.beta1' #           github: "rails/rails"
-gem 'arel', '5.0.0' #            github: "rails/arel"
-
-# Use mysql as the database for Active Record
-gem 'pg'
-
-# Use edge version of sprockets-rails
+# Core
+gem 'rails', '4.1.0.beta1'
+gem 'rake'
 gem 'sprockets-rails', '2.0.0' #  github: "rails/sprockets-rails"
+gem 'puma'
 
-# Use SCSS for stylesheets
-gem 'sass-rails',       github: "rails/sass-rails"
-gem 'bootstrap-sass', '~> 3.0.3.0'
-gem 'font-awesome-rails'
-gem 'angularjs-rails'
-gem 'angular-ui-bootstrap-rails'
-gem 'ngmin-rails'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails'
-
+# Data Storage
+gem 'redis'
+gem 'resque'
+gem 'pg'
 gem 'dalli'
+
+# Authentication
+gem 'devise'
+gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'cancan'
+
+# Public API
 gem 'MissionHub'
 gem 'pusher'
+gem 'rest-client'
 
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc',             group: :doc, require: false
+# Diagnostics
+gem 'airbrake'
+gem 'newrelic_rpm'
+gem 'useragent'
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/jonleighton/spring
-gem 'spring',           group: :development
+# Assets CSS
+gem 'sass-rails'
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'https://github.com/anjlab/bootstrap-rails', :branch => '3.0.0'
+gem 'font-awesome-rails'
+gem 'compass'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+# Assets Javascript
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'angularjs-rails'
+gem 'angular-ui-rails'
+gem 'angular-ui-bootstrap-rails'
+gem 'therubyracer'
 
-# Use unicorn as the app server
-# gem 'unicorn'
+# Assets HTML
+gem 'haml'
+gem 'formtastic'
+gem 'formtastic-bootstrap', :git => 'https://github.com/nickl-/formtastic-bootstrap3'
+gem 'tabletastic'
+gem 'kaminari'
+gem 'paperclip', '~> 3.0'
+gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# Rails Frameworks
+gem 'wicked'
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+# Active Admin
+gem 'activeadmin', :git => 'https://github.com/gregbell/active_admin'
 
-group :development, :test do
+gem 'uglifier', '>= 1.0.3'
+
+# Testing
+group :test, :development do
   gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'guard-rails'
+  gem 'guard-zeus'
+  gem 'zeus'
+  gem 'be_valid_asset'
+  gem 'factory_girl_rails'
+end
+
+group :development do
+  gem 'railroady'
+  gem 'foreman'
+  gem 'rails-footnotes', '>= 3.7.9'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'quiet_assets'
+  gem 'seed_dump'
+end
+
+group :production do
+  gem 'hirefireapp'
+  gem 'rails_12factor'
+  gem 'rails_serve_static_assets'
 end

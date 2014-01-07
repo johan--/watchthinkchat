@@ -1,61 +1,41 @@
-Rails.application.routes.draw do
+require 'constraints/domain_constraint'
+Godchat::Application.routes.draw do
+  ActiveAdmin.routes(self)
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  devise_scope :user do
+     delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  end
 
-  # You can have the root of your site routed with "root"
-  root 'site#index'
+  authenticated :user do
+    get 'me', to: "operators#index", as: :operator_dashboard
+  end
 
+  constraints Constraints::DomainConstraint.new(ENV['operator_app_url']) do
+    root to: "site#index"
+    get '/tour', to: "site#tour", as: :tour
+    get '/features', to: "site#features", as: :features
+    post '/pusher/presence' => 'pusher#presence'
+    get 'find_friends' => 'friends#find'
+    #get '/c/:channel', action: 'index', controller: 'operators', as: :channel_conversation
+  end
 
-  get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
-  get ':path' => 'templates#index'
+  get '/o/:code', to: "visitors#index"
+  root to: "visitors#index", as: :campaign_root
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  namespace :api, defaults: {format: :json} do
+    namespace :visitors do
+      post 'auth'
+      get 'chat'
+    end
+    namespace :operators do
+      post 'auth'
+      resources :memberships do
+        resources :campaigns, only: [:index, :create, :update, :destroy]
+      end
+      resources :conversations, only: [:index, :destroy] do
+        resources :messages
+      end
+    end
+  end
 end
