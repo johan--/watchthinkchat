@@ -62,13 +62,10 @@ gem 'uglifier', '>= 1.0.3'
 
 # Testing
 group :test, :development do
+  gem 'minitest'
+  gem 'rspec'
   gem 'rspec-rails'
-  gem 'guard-rspec'
-  gem 'guard-rails'
-  gem 'guard-zeus'
-  gem 'zeus'
-  gem 'be_valid_asset'
-  gem 'factory_girl_rails'
+  gem 'factory_girl'
 end
 
 group :development do

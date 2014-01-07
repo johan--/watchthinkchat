@@ -1,6 +1,7 @@
 class Api::VisitorsController < InheritedResources::Base
   protect_from_forgery
 
+=begin
   def auth
     if @visitor.conversations.find_by(channel: params[:channel_name])
       response = Pusher[params[:channel_name]].authenticate(params[:socket_id], {
@@ -15,5 +16,6 @@ class Api::VisitorsController < InheritedResources::Base
       render :text => "Forbidden", :status => '403'
     end
   end
+=end
 
 end

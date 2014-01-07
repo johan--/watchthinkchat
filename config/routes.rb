@@ -24,18 +24,9 @@ Godchat::Application.routes.draw do
   root to: "visitors#index", as: :campaign_root
 
   namespace :api, defaults: {format: :json} do
-    namespace :visitors do
-      post 'auth'
-      get 'chat'
-    end
-    namespace :operators do
-      post 'auth'
-      resources :memberships do
-        resources :campaigns, only: [:index, :create, :update, :destroy]
-      end
-      resources :conversations, only: [:index, :destroy] do
-        resources :messages
-      end
+    resources :campaigns
+    resources :chats do
+      resources :messages
     end
   end
 end

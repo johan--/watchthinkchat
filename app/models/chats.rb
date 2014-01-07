@@ -1,6 +1,7 @@
-class Conversation < ActiveRecord::Base
-  belongs_to :operators
-  belongs_to :visitors
+class Chat < ActiveRecord::Base
+  belongs_to :operator, :class_name => "User"
+  belongs_to :visitor, :class_name => "User"
+  belongs_to :campaign
   has_many :messages
 
   before_validation :set_channel
