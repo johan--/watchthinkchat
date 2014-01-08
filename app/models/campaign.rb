@@ -1,12 +1,12 @@
 class Campaign < ActiveRecord::Base
   validates :name, :missionhub_secret, presence: true
-	before_create :generate_code
+	before_create :generate_uid
 
 	private
 
-	def generate_code
+	def generate_uid
 		begin
-			self.code = SecureRandom.hex(3)
-		end while Campaign.exists?(code: code)
+			self.uid = SecureRandom.hex(3)
+		end while Campaign.exists?(uid: uid)
 	end
 end
