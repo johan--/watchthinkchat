@@ -17,7 +17,6 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
         html5: 1
       },
       events: {
-        'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
       }
     });
@@ -37,15 +36,12 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
       onNext: function (bt) {
       },
       onShown: function (bt) {
-        //player.seekTo(0);
-        //player.playVideo();
-      },
+      }
     },
     {
       orphan: true,
       title: "Invitation to Chat",
       content: "<p class='lead'>The first step is to inform visitors that chat is ready.</p><p>See our bot buddy down the bottom? We've used a persona to invite visitors to chat.</p><a href='#' data-role='next'><div class='alert alert-info text-center'>Pause the video</div></a>",
-      //next: -1,
       onNext: function (bt) {
         player.pauseVideo();
       },
@@ -59,7 +55,6 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
       title: "Chat Priming",
       container: "#chat",
       content: "<p class='lead'>We can encourage visitors to interact with content.</p><p>Here is an example of a simple question that you can ask your visitors to engage them with your content.</p><a href='#' onclick='$(\"#start-btn\").click()'><div class='alert alert-info text-center'>Click the \"I want to start\" button</div></a>",
-      //next: -1,
       onNext: function (bt) {
         $("#start-btn").click();
       },
@@ -86,7 +81,6 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
       title: "Connect to a Christian Friend",
       container: "#chat",
       content: "<p class='lead'>The next step is to get your visitors connected with their friends.</p><p>They can share this link and wait for their friend to come online or reconnect at a time that suits then both.<a href='#'onclick='$(\"#findsomeone-btn \").click()'><div class='alert alert-info text-center'>Click the \"Find someone for me instead\" button</div></a>",
-      //next: -1,
       onNext: function (bt) {
         $("#findsomeone-btn").click();
       },
@@ -156,10 +150,6 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
     }
   ]);
 
-  var onPlayerReady = function (evt) {
-    //evt.target.playVideo();
-  };
-
   var onPlayerStateChange = function (evt) {
     switch (evt.data) {
       case YT.PlayerState.PLAYING:
@@ -209,9 +199,5 @@ angular.module('chatApp').controller('TourController', function ($scope, $rootSc
         $rootScope.bt.goto(next);
       });
     });
-  };
-
-  $scope.pauseVideo = function () {
-    player.pauseVideo();
   };
 });
