@@ -14,10 +14,20 @@ class Api::ChatsController < ApplicationController
 =end
 
   def create
-    campaign = Campaign.find(params[:campaign_id])
+    campaign = Campaign.where(:uid => params[:campaign_uid]).first
+    visitor = User.where(:uid => params[:visitor_uid]).first
+
+    if campaign && visitor
+      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id)
+      render json: { uid: chat.uid }, status: 201
+    elsif !campaign
+      render json: { error: "Campaign not found" }, status: 500 
+    elsif !visitor
+      render json: { error: "Campaign not found" }, status: 500 
+    end
   end
 
   def operator_params
-    params.require(:operators).permit(:first_name, :last_name, :fb_uid)
+    params.permit(:campaign_uid, :visitor_uid)
   end
 end

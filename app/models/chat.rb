@@ -4,16 +4,16 @@ class Chat < ActiveRecord::Base
   belongs_to :campaign
   has_many :messages
 
-  before_validation :set_channel
+  before_validation :set_uid
 
-  validates :operator_id, :channel, :visitor_id, :topic, presence: true
+  validates :uid, :visitor_id, presence: true
 
-  def set_channel
-    return channel if channel
+  def set_uid
+    return uid if uid
 
     loop do
-      self.channel = SecureRandom.hex(10)
-      break channel unless Conversation.find_by(channel: channel)
+      self.uid = SecureRandom.hex(10)
+      break uid unless Chat.find_by(uid: uid)
     end
   end
 end
