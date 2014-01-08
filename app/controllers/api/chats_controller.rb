@@ -1,4 +1,5 @@
 class Api::ChatsController < ApplicationController
+=begin
   def create
     campaign = Campaign.find(params[:campaign_id])
     visitor = Visitor.find(params[:visitors][:id])
@@ -9,6 +10,11 @@ class Api::ChatsController < ApplicationController
                                         .first_or_create!(topic: [visitor.name, campaign.name].join(' - '))
 
     render json: {link: channel_conversation_url(channel: conversation.channel)}
+  end
+=end
+
+  def create
+    campaign = Campaign.find(params[:campaign_id])
   end
 
   def operator_params

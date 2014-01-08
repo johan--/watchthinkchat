@@ -1,0 +1,2 @@
+class Api:: < InheritedResources::Base
+
