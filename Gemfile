@@ -13,16 +13,6 @@ gem 'resque'
 gem 'pg'
 gem 'dalli'
 
-# Use SCSS for stylesheets
-gem 'sass-rails',       github: "rails/sass-rails"
-gem 'bootstrap-sass', '~> 3.0.3.0'
-gem 'font-awesome-rails'
-gem 'jquery-rails'
-gem 'angularjs-rails'
-gem 'angular-ui-bootstrap-rails'
-gem 'bootstrap-sass-rails'
-gem 'ngmin-rails'
-
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
@@ -71,8 +61,6 @@ gem 'wicked'
 
 # Active Admin
 gem 'activeadmin', :git => 'https://github.com/gregbell/active_admin'
-
-gem 'uglifier', '>= 1.0.3'
 
 # Testing
 group :test, :development do
