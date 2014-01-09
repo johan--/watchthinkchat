@@ -7,12 +7,12 @@ body {
   background: #dddce2 image-url("body_bg.jpg") repeat left top;
   -webkit-font-smoothing: antialiased;
   font-family: 'Lato', sans-serif !important;
-  padding-top: 107px;
+  padding-top: 80px
 }
 
 @media (max-width: 979px) {
   body {
-    padding-top: 0 !important;
+    padding-top: 44px !important;
   }
 }
 

@@ -1,5 +1,6 @@
 require 'constraints/domain_constraint'
 Godchat::Application.routes.draw do
+  get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   ActiveAdmin.routes(self)
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 

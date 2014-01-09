@@ -3,7 +3,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">
         <strong>
-          <i class="icon-comments-alt">&nbsp;</i>
+          <i class="fa fa-comments-o">&nbsp;</i>
           Godchat
           <span class="text-muted">Beta</span>
         </strong>
@@ -26,32 +26,10 @@
           <li>
             <a href="/tour">Tour</a>
           </li>
-          <li>
-            <a href="http://support.godchat.tv/">Support</a>
-          </li>
-          <li class="navbar-text">
-            |
-          </li>
-          <% if current_user %>
-            <li class="<%= 'active' if current_page?(root_path) %>">
-              <%= link_to('Dashboard', operator_dashboard_path) %>
-            </li>
-            <li class="navbar-text">
-            </li>
-            <li>
-              <%= link_to('Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-success navbar-btn') %>
-            </li>
-          <% else %>
-            <li>
-              <a href="/users/auth/facebook">Sign in</a>
-            </li>
-            <li class="navbar-text no-space">
-              or
-            </li>
-            <li class="<%= 'active' if current_page?(new_user_registration_path) %>">
-              <a class="btn btn-success navbar-btn" href="/users/sign_up">Sign up</a>
-            </li>
-          <% end %>
+          <!--<li>-->
+            <!--<a href="http://support.godchat.tv/">Support</a>-->
+          <!--</li>-->
+
         </ul>
       </div>
     </div>
