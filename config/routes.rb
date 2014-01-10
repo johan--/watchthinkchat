@@ -25,10 +25,12 @@ Godchat::Application.routes.draw do
   get '/o/:code', to: "visitors#index"
   root to: "visitors#index", as: :campaign_root
 
-  namespace :api, defaults: {format: :json} do
-    resources :campaigns
-    resources :chats do
-      resources :messages
-    end
-  end
+  # API
+  get "/api/campaigns/:uid", to: "api/campaigns#show"
+  post "/api/visitors", to: "api/users#create", role: :visitor
+  post "/api/operators", to: "api/users#create", role: :operator
+  post "/api/chats", to: "api/chats#create"
+  post "/api/chats/:chat_uid/messages", to: "api/messages#index"
+  get "/api/chats/:uid", to: "api/chats#show"
+
 end
