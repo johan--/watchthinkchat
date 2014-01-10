@@ -1,4 +1,3 @@
-require 'constraints/domain_constraint'
 Godchat::Application.routes.draw do
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   ActiveAdmin.routes(self)
@@ -12,11 +11,9 @@ Godchat::Application.routes.draw do
     get 'me', to: "operators#index", as: :operator_dashboard
   end
 
-  constraints Constraints::DomainConstraint.new(ENV['operator_app_url']) do
-    get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
-    get ':path' => 'templates#index'
-    get ':path/:subpath' => 'templates#index'
-  end
+  get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
+  get ':path' => 'templates#index'
+  get ':path/:subpath' => 'templates#index'
 
   # API
   get "/api/campaigns/:permalink", to: "api/campaigns#show"
