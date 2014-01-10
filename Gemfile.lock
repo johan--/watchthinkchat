@@ -91,6 +91,8 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.0.3.0)
+      sass (~> 3.2)
     bourbon (3.1.8)
       sass (>= 3.2.0)
       thor
@@ -325,6 +327,7 @@ DEPENDENCIES
   anjlab-bootstrap-rails!
   better_errors
   binding_of_caller
+  bootstrap-sass (~> 3.0.3.0)
   cancan
   coffee-rails
   compass
