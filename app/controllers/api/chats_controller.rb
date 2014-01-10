@@ -19,7 +19,7 @@ class Api::ChatsController < ApplicationController
 
     if campaign && visitor
       chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id)
-      render json: { uid: chat.uid }, status: 201
+      render json: { chat_uid: chat.uid }, status: 201
     elsif !campaign
       render json: { error: "Campaign not found" }, status: 500 
     elsif !visitor

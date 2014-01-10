@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
     :away => 3
   }
 
+  def as_json
+    { :first_name => self.first_name }
+  end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
