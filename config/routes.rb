@@ -19,7 +19,7 @@ Godchat::Application.routes.draw do
     post '/pusher/presence' => 'pusher#presence'
     get '/find_friends' => 'friends#find'
     #get '/c/:channel', action: 'index', controller: 'operators', as: :channel_conversation
-    get '/:campaign_id', to: "campaigns#show"
+    get '/:campaign_id', to: "site#index" # angular will handle the correct view
   end
 
   get '/o/:code', to: "visitors#index"
