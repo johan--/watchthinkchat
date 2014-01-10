@@ -8,8 +8,9 @@ describe Api::ChatsController do
     describe "#create" do
       it "should create a new chat room" do
         campaign = create_campaign
-        user = create_user
-        post :create, :campaign_uid => campaign.uid, :visitor_uid => user.uid
+        visitor = create_user
+        operator = create_user
+        post :create, :campaign_uid => campaign.uid, :visitor_uid => visitor.uid, :operator_uid => operator.uid
         json_response.should have_key('uid')
       end
     end
