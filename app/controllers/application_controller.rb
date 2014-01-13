@@ -7,4 +7,16 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_visitor
+
+  protected
+
+    def authenticate_by_facebook!
+      unless signed_in?
+        session[:return_to] ||= request.url
+        puts "In TemplatesController, session: #{session.inspect}"
+        puts "   #{session.keys}"
+        puts "   #{session.values}"
+        redirect_to user_omniauth_authorize_path(:facebook)
+      end
+    end
 end

@@ -9,8 +9,6 @@ class User < ActiveRecord::Base
   has_many :conversations, foreign_key: :operator_id
   has_many :outsiders, through: :conversations
 
-  before_create :generate_uid
-
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
   # constants
@@ -28,12 +26,12 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     unless user
-      user = User.create(first_name:auth.extra.raw_info.first_name,
-                          last_name:auth.extra.raw_info.last_name,
-                          provider:auth.provider,
-                          uid:auth.uid,
-                          email:auth.info.email
-                          )
+      user = User.create(first_name: auth.extra.raw_info.first_name,
+                          last_name: auth.extra.raw_info.last_name,
+                          provider: auth.provider,
+                          uid: auth.uid,
+                          email: auth.info.email
+                        )
     end
     user
   end
@@ -68,11 +66,5 @@ class User < ActiveRecord::Base
 
   def is?(role)
     roles.include?(role.to_s)
-  end
-
-  def generate_uid
-    begin
-      self.uid = SecureRandom.hex(3)
-    end while User.exists?(uid: uid)
   end
 end

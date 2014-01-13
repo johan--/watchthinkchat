@@ -12,6 +12,7 @@ gem 'redis'
 gem 'resque'
 gem 'pg'
 gem 'dalli'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -79,6 +80,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'seed_dump'
+  gem 'debugger'
 end
 
 group :production do

@@ -6,6 +6,5 @@ describe Api::VisitorsController do
     json_response.should have_key('first_name')
     json_response.should have_key('uid')
     json_response['first_name'].should == 'Bob'
-    puts json_response['uid']
   end
 end
