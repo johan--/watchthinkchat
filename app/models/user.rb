@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   before_create :generate_uid
 
+  validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
+
   # constants
   STATE = {
     :offline => 0,
