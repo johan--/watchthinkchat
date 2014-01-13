@@ -1,10 +1,10 @@
-<div class="tour">
+<div class="visitor_chat">
   <div class='invite'>
     Hey! After the video, stick around because I want to chat...
   </div>
   <div class='box'>
     <div id='player'></div>
-    <iframe frameborder='0' id='webpage' src='http://www.startingwithgod.com/'></iframe>
+    <iframe frameborder='0' id='webpage' src='about:blank'></iframe>
   </div>
   <div id='chat'>
     <h1 class='special'>#FallingPlates</h1>
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div id='chatbox'>
-      <h1 class='special'>#FallingPlates Chat</h1>
+      <h1 class='special'>{{campaign_data.title}} Chat</h1>
       <ul class='conversation'>
       </ul>
       <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">
