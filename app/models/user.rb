@@ -2,13 +2,14 @@ class User < ActiveRecord::Base
   ROLES = %w[admin operator friend]
 
   devise :registerable, :trackable
+  devise :omniauthable, :omniauth_providers => [:facebook]
 
   has_and_belongs_to_many :languages
 
   has_many :conversations, foreign_key: :operator_id
   has_many :outsiders, through: :conversations
 
-  devise :omniauthable, :omniauth_providers => [:facebook]
+  before_create :generate_uid
 
   # constants
   STATE = {
@@ -18,8 +19,8 @@ class User < ActiveRecord::Base
     :away => 3
   }
 
-  def as_json
-    { :first_name => self.first_name }
+  def as_json(options = {})
+    { :first_name => self.first_name, :uid => uid }
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
@@ -67,6 +68,9 @@ class User < ActiveRecord::Base
     roles.include?(role.to_s)
   end
 
-
-
+  def generate_uid
+    begin
+      self.uid = SecureRandom.hex(3)
+    end while User.exists?(uid: uid)
+  end
 end

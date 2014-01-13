@@ -19,8 +19,8 @@ Godchat::Application.routes.draw do
 
   # API
   get "/api/campaigns/:permalink", to: "api/campaigns#show"
-  post "/api/visitors", to: "api/users#create", role: :visitor
-  post "/api/operators", to: "api/users#create", role: :operator
+  post "/api/visitors", to: "api/visitors#create"
+  post "/api/operators", to: "api/operators#create"
   post "/api/chats", to: "api/chats#create"
   post "/api/chats/:chat_uid/messages", to: "api/messages#index"
   get "/api/chats/:uid", to: "api/chats#show"

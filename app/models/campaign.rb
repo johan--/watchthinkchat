@@ -3,7 +3,7 @@ class Campaign < ActiveRecord::Base
 
   def as_json(options = {})
     #super({ :only => [ :title, :type, :permalink ] }.merge(options))
-    { :title => self.name, :type => "", :permalink => self.permalink }
+    { :title => self.name, :type => self.campaign_type, :permalink => self.permalink, :video_id => self.video_id }
   end
 
 end
