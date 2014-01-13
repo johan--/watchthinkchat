@@ -11,6 +11,8 @@ Godchat::Application.routes.draw do
     get 'me', to: "operators#index", as: :operator_dashboard
   end
 
+  root 'site#index'
+
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   get ':path' => 'templates#index'
   get ':path/:subpath' => 'templates#index'
