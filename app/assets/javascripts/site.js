@@ -28,13 +28,17 @@ angular.module('chatApp', ['ngRoute', 'ngCookies'])
       }).when('/features', {
         templateUrl: '/templates/features.html',
         controller: 'FeaturesController as ctrl'
-      }).when('/u/:videoId', {
+      }).when('/c/:videoId', {
         templateUrl: '/templates/chat.html',
         controller: 'ChatController as ctrl'
       }).when('/operator', {
         templateUrl: '/templates/operator.html',
         controller: 'OperatorController as ctrl'
-      }).otherwise({ redirectTo: '/' });
+      }).otherwise({
+        templateUrl: '/templates/operator.html',
+        controller: 'OperatorController as ctrl',
+        reloadOnSearch: false
+      });
   }).run(function ($rootScope) {
     $rootScope.YouTubeApiLoaded = false;
   });
