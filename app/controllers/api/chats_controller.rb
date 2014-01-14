@@ -14,16 +14,17 @@ class Api::ChatsController < ApplicationController
 =end
 
   def create
-    campaign = Campaign.where(:uid => params[:campaign_uid]).first
-    visitor = User.where(:uid => params[:visitor_uid]).first
+    campaign = Campaign.where(:permalink => params[:campaign_permalink]).first
+    visitor = User.where(:visitor_uid => params[:visitor_uid]).first
+    operator = User.where(:uid => params[:operator_uid]).first
 
     if campaign && visitor
       chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id)
-      render json: { chat_uid: chat.uid }, status: 201
+      render json: { chat_uid: chat.uid, operator: operator }, status: 201
     elsif !campaign
       render json: { error: "Campaign not found" }, status: 500 
     elsif !visitor
-      render json: { error: "Campaign not found" }, status: 500 
+      render json: { error: "Visitor not found" }, status: 500 
     end
   end
 

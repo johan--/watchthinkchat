@@ -22,7 +22,11 @@ class User < ActiveRecord::Base
   }
 
   def as_json(options = {})
-    { :first_name => self.first_name, :uid => self.uid || self.visitor_uid }
+    { :name => self.fullname, :uid => self.uid || self.visitor_uid }
+  end
+
+  def fullname
+    "#{self.first_name} #{self.last_name}".strip
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)

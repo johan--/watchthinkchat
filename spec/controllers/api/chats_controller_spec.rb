@@ -10,8 +10,10 @@ describe Api::ChatsController do
         campaign = create_campaign
         visitor = create_user
         operator = create_user
-        post :create, :campaign_uid => campaign.uid, :visitor_uid => visitor.uid, :operator_uid => operator.uid
+        post :create, :campaign_permalink => campaign.permalink, :visitor_uid => visitor.visitor_uid, :operator_uid => operator.uid
+        #puts json_response.inspect
         json_response.should have_key('chat_uid')
+        json_response.should have_key('operator')
       end
     end
   end
