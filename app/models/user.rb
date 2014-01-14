@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   ROLES = %w[admin operator friend]
 
+  before_create :generate_visitor_uid
+
   devise :registerable, :trackable
   devise :omniauthable, :omniauth_providers => [:facebook]
 
@@ -20,7 +22,7 @@ class User < ActiveRecord::Base
   }
 
   def as_json(options = {})
-    { :first_name => self.first_name, :uid => uid }
+    { :first_name => self.first_name, :uid => self.uid || self.visitor_uid }
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
@@ -66,5 +68,11 @@ class User < ActiveRecord::Base
 
   def is?(role)
     roles.include?(role.to_s)
+  end
+
+  def generate_visitor_uid
+    begin
+      self.visitor_uid = SecureRandom.hex(3)
+    end while User.exists?(visitor_uid: visitor_uid)
   end
 end
