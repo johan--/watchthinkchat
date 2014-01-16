@@ -72,6 +72,7 @@
     <div id='chatbox'>
       <h1 class='special'>{{campaign_data.title}} Chat</h1>
       <ul class='conversation'>
+        <li><a href="#" data-ng-click="startChat()">Start Chat</a></li>
       </ul>
       <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">
     </div>

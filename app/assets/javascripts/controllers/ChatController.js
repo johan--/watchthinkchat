@@ -1,9 +1,14 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies, $location) {
   var campaign_data;
   var visitor_data={};
   var chat_data={};
+  var operator_data={
+    uid: $location.search()['o']
+  };
+
+  console.log('operator: '+operator_data.uid);
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.videoId}).
     success(function (data, status, headers, config) {
       campaign_data = data;
@@ -53,7 +58,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
       });
   } else {
-    visitor_data.uid = visitor_data;
+    visitor_data.uid = $cookies.gchat_visitor_id;
   }
 
   $scope.postMessage = function () {
@@ -63,15 +68,29 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   }
 
   $scope.startChat = function(){
+    var data = {
+      campaign_permalink: campaign_data.permalink,
+      visitor_uid: visitor_data.uid,
+      operator_uid: operator_data.uid
+    };
+    console.log(data);
+
+    $http({method: 'POST', url: '/api/chats', data: data}).
+      success(function (data, status, headers, config) {
+        console.log(data);
+        console.log('================ New Chat Created: ' + data.chat_uid);
+      }).error(function (data, status, headers, config) {
+
+      });
+
+    var pusher = new Pusher('249ce47158b276f4d32b');
+    var channel = pusher.subscribe('test_chat');
+    channel.bind('event', function (data) {
+      var unixtime = Math.round(+new Date() / 1000);
+      $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right" timestamp="' + unixtime.toString() + '">Just Now</div>      <div class="person">' + data.user + '</div></li>');
+    });
 
   }
-
-  var pusher = new Pusher('249ce47158b276f4d32b');
-  var channel = pusher.subscribe('test_chat');
-  channel.bind('event', function (data) {
-    var unixtime = Math.round(+new Date() / 1000);
-    $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right" timestamp="' + unixtime.toString() + '">Just Now</div>      <div class="person">' + data.user + '</div></li>');
-  });
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp').each(function (i) {
