@@ -3,7 +3,13 @@ class TemplatesController < ApplicationController
 
   def index
     if request.domain == ENV['operator_app_url'] && signed_in? && !params[:o].present?
-      @campaign = Campaign.where("uid = ? OR permalink = ?", session[:campaign], session[:campaign])
+      session[:campaign] ||= params[:path]
+      @campaign = Campaign.where("uid = ? OR permalink = ?", session[:campaign], session[:campaign]).first
+      if @campaign.nil?
+        session[:campaign] = params[:path]
+        redirect_to request.path
+        return
+      end
       redirect_to "/#{@campaign.uid}?o=#{current_user.uid}"
     end
   end
