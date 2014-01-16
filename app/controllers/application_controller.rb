@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate_by_facebook!
       unless signed_in?
-        session[:return_to] ||= request.url
+        session[:campaign] ||= request.path
         puts "In TemplatesController, session: #{session.inspect}"
         puts "   #{session.keys}"
         puts "   #{session.values}"

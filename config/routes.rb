@@ -18,7 +18,7 @@ Godchat::Application.routes.draw do
   get ':path/:subpath' => 'templates#index'
 
   # API
-  get "/api/campaigns/:permalink", to: "api/campaigns#show"
+  get "/api/campaigns/:uid", to: "api/campaigns#show"
   post "/api/visitors", to: "api/visitors#create"
   post "/api/operators", to: "api/operators#create"
   post "/api/chats", to: "api/chats#create"

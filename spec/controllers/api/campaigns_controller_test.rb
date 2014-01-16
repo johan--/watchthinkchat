@@ -7,7 +7,7 @@ describe Api::CampaignsController do
   describe "#show" do
     it "should work" do
       campaign = create_campaign
-      get :show, :permalink => campaign.permalink
+      get :show, :uid => campaign.uid
       json_response['title'].should == campaign.name
       json_response['type'].should == "youtube"
       json_response['permalink'].should == "test"
@@ -16,7 +16,7 @@ describe Api::CampaignsController do
 
     it "should give a 404 if no campaign found" do
       campaign = create_campaign
-      get :show, :permalink => "bob"
+      get :show, :uid => "bob"
       assert_response 404
     end
   end

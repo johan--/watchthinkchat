@@ -1,6 +1,6 @@
 class Api::CampaignsController < ApplicationController
   def show
-    @campaign = Campaign.where(:permalink => params[:permalink]).first
+    @campaign = Campaign.where(:uid => params[:uid]).first
     if @campaign
       render json: @campaign, status: 201
     else
