@@ -403,6 +403,21 @@
   height: 100%;
   background: black !important;
 
+  .after-chat-buttons{
+    position: absolute;
+    display:none;
+    top:32%;
+    width:968px;
+    left:calc(50% - 484px);
+    z-index: 1;
+  }
+  .after-chat-buttons .btn{
+    width:290px;
+    margin:15px;
+    height:80px;
+    display:inline-block;
+    font-size:150%;
+  }
   #link {
     cursor: pointer;
   }
@@ -507,6 +522,7 @@
     list-style: none;
     padding: 0;
     overflow: auto;
+    height:calc(100% - 113px);
   }
   #chat #chatbox ul.conversation li {
     padding: 10px;
@@ -559,9 +575,19 @@
     padding: 0;
   }
   .navbar .shareurl{
-    width: 450px;
+    width: 480px;
     position: fixed;
     right:5px;
+  }
+  .navbar .shareurl img{
+    width:45px;
+    height:45px;
+    float:left;
+    margin-right:5px;
+  }
+  .navbar .shareurl h3{
+    color:#fff;
+    margin:0px;
   }
   .box {
     z-index: 0;
@@ -581,6 +607,11 @@
     left:5px;
     top:80px;
     width:270px;
+    height: 100%;
+  }
+  .activity #activesessions{
+    height: calc(100% - 156px);
+    overflow: auto;
   }
   .activity .activechat {
     background:#f9bfc1;

@@ -2,7 +2,7 @@
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="#">
           <strong>
             <i class="fa fa-comments-o">&nbsp;</i>
             Godchat
@@ -11,7 +11,10 @@
         </a>
 
         <div class="shareurl">
-          <input type="text" value="http://www.watchthinkchat.com/fallingplates?o=j9f28hsg908h4" style="width:100%;" readonly>
+          <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/260659_1615307648_1433519762_q.jpg">
+          <h3>Adam Meyer</h3>
+          {{operator_chat_url}} <i class="fa fa-copy">&nbsp;</i>
+
         </div>
       </div>
     </div>
@@ -19,51 +22,23 @@
   <div class="activity">
     <h3 class='special'>Active Sessions</h3>
     <ul class="media-list" id="activesessions">
-      <li class="media link" id="session_jf49sdg43" data-ng-click="switchChat('jf49sdg43');">
+      <li class="media link" id="session_{{session.chat_uid}}" data-ng-click="switchChat(session.chat_uid);" ng-repeat="session in active_sessions">
         <div class="pull-left">
-          <img class="media-object" src="http://meisatransportation.com/img/Person_Undefined_Male_Light.png" alt="...">
+          <img class="media-object" src="{{session.visitor_profile}}" alt="...">
         </div>
         <div class="media-body">
-          <h4 class="media-heading">Visitor #1</h4>
+          <h4 class="media-heading">{{session.visitor_name}}</h4>
           <p class="newmessage">New Message!<i class="fa fa-exclamation">&nbsp;</i></p>
-        </div>
-      </li>
-      <li class="media link" id="session_jf425695g43" data-ng-click="switchChat('jf425695g43');">
-        <div class="pull-left">
-          <img class="media-object" src="http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png" alt="...">
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Visitor #2</h4>
-        </div>
-      </li>
-      <li class="media link" id="session_265gf9sdg43" data-ng-click="switchChat('265gf9sdg43');">
-        <div class="pull-left">
-          <img class="media-object" src="http://upload.wikimedia.org/wikipedia/commons/4/49/Gnome-Wikipedia-user-female.png" alt="...">
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Visitor #3</h4>
         </div>
       </li>
     </ul>
   </div>
-  <div id='chat'>
-    <div class='chatbox' id="chatbox_jf49sdg43">
-      <h1 class='special'>Visitor #1</h1>
-      <ul class='conversation'>
+  <div id="chat">
+    <div class="chatbox" id="chatbox_{{session.chat_uid}}" ng-repeat="session in active_sessions" style="display:none;">
+      <h1 class="special">{{session.visitor_name}}</h1>
+      <ul class="conversation">
       </ul>
-      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage('chatbox_jf49sdg43')">
-    </div>
-    <div class='chatbox' id="chatbox_jf425695g43">
-      <h1 class='special'>Visitor #2</h1>
-      <ul class='conversation'>
-      </ul>
-      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage('chatbox_jf425695g43')">
-    </div>
-    <div class='chatbox' id="chatbox_265gf9sdg43">
-      <h1 class='special'>Visitor #3</h1>
-      <ul class='conversation'>
-      </ul>
-      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage('chatbox_265gf9sdg43')">
+      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage('chatbox_'+session.chat_uid)">
     </div>
   </div>
 </div>

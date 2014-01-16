@@ -28,7 +28,7 @@ angular.module('chatApp', ['ngRoute', 'ngCookies'])
       }).when('/features', {
         templateUrl: '/templates/features.html',
         controller: 'FeaturesController as ctrl'
-      }).when('/c/:videoId', {
+      }).when('/c/:campaignId', {
         templateUrl: '/templates/chat.html',
         controller: 'ChatController as ctrl'
       }).when('/operator', {
