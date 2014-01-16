@@ -14,7 +14,7 @@ class Api::ChatsController < ApplicationController
 =end
 
   def create
-    campaign = Campaign.where(:permalink => params[:campaign_permalink]).first
+    campaign = Campaign.where(:uid => params[:campaign_uid]).first
     visitor = User.where(:visitor_uid => params[:visitor_uid]).first
     operator = User.where(:uid => params[:operator_uid]).first
 
