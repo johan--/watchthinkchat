@@ -19,4 +19,8 @@ class ApplicationController < ActionController::Base
         redirect_to user_omniauth_authorize_path(:facebook)
       end
     end
+
+    def authenticate_admin_user!
+      signed_in? && current_user.admin ? current_user : nil
+    end
 end

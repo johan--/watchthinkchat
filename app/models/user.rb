@@ -6,10 +6,8 @@ class User < ActiveRecord::Base
   devise :registerable, :trackable
   devise :omniauthable, :omniauth_providers => [:facebook]
 
-  has_and_belongs_to_many :languages
-
-  has_many :conversations, foreign_key: :operator_id
-  has_many :outsiders, through: :conversations
+  #has_and_belongs_to_many :languages
+  has_many :chats
 
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 

@@ -15,9 +15,9 @@ ActiveAdmin.setup do |config|
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
   #
-  # Note: Recommended image height is 21px to properly fit in the header
+  # Note: Aim for an image that's 21px high so it fits in the header.
   #
-  # config.site_title_image = "/images/logo.png"
+  # config.site_title_image = "logo.png"
 
   # == Default Namespace
   #
@@ -55,7 +55,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the controller.
-  config.authentication_method = :authenticate_user!
+  config.authentication_method = :authenticate_admin_user!
 
   # == User Authorization
   #
@@ -102,7 +102,6 @@ ActiveAdmin.setup do |config|
   #
   # Default:
   # config.logout_link_method = :get
-  config.logout_link_method = :delete
 
 
   # == Root

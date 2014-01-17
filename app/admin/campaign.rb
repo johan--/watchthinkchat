@@ -1,14 +1,17 @@
-ActiveAdmin.register User do
+ActiveAdmin.register Campaign do
   index do
-    column :email
-    column :current_sign_in_at
-    column :last_sign_in_at
-    column :sign_in_count
+    column :name
+    column :created_at
+    column :permalink
+    column :campaign_type
+    column :status
     default_actions
   end
 
-  filter :email
+  filter :name
+  filter :permalink
 
+=begin
   form do |f|
     f.inputs "User Details" do
       f.input :email
@@ -23,4 +26,5 @@ ActiveAdmin.register User do
       params.permit user: [:email, :password, :password_confirmation]
     end
   end
+=end
 end

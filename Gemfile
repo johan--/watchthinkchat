@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 
 # Authentication
-gem 'devise'
+gem "devise", github: "plataformatec/devise"
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'cancan'
@@ -51,10 +51,10 @@ gem 'therubyracer'
 
 # Assets HTML
 gem 'haml'
-gem 'formtastic'
+gem "formtastic", github: "justinfrench/formtastic"
 gem 'formtastic-bootstrap', :git => 'https://github.com/nickl-/formtastic-bootstrap3'
 gem 'tabletastic'
-gem 'kaminari'
+gem 'kaminari', '~> 0.15'
 gem 'paperclip', '~> 3.0'
 gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 
@@ -62,7 +62,9 @@ gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 gem 'wicked'
 
 # Active Admin
-gem 'activeadmin', :git => 'https://github.com/gregbell/active_admin'
+gem 'activeadmin', github: 'gregbell/active_admin'
+gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
+gem "devise", github: "plataformatec/devise"
 
 # Testing
 group :test, :development do
