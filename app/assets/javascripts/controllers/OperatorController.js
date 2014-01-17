@@ -3,7 +3,6 @@
 angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location) {
   var operator_id = $location.search()['o'];
   $location.search('o', null);
-  $location.path('/');
 
   $scope.operator_chat_url = "http://www.watchthinkchat.com/c" + $location.$$path + "?o=" + operator_id;
   $scope.active_sessions=[];

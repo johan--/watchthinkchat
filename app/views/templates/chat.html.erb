@@ -1,18 +1,13 @@
 <div class="visitor_chat">
   <div class="box">
     <div class="after-chat-buttons">
-      <div class='btn btn-info btn-block' data-ng-click="startChat()">No</div>
-      <div class='btn btn-info btn-block' data-ng-click="startChat()">I follow another religion</div>
-      <div class='btn btn-info btn-block' data-ng-click="startChat()">I am not sure</div>
-      <div class='btn btn-success btn-block' data-ng-click="startChat()">I want to start</div>
-      <div class='btn btn-success btn-block' data-ng-click="startChat()">I am trying</div>
-      <div class='btn btn-success btn-block' data-ng-click="startChat()">I am following you</div>
+      <div class='btn btn-info btn-block' data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
     </div>
-    <div id='player'></div>
-    <iframe frameborder='0' id='webpage' src='about:blank'></iframe>
+    <div id="player"></div>
+    <iframe frameborder="0" id="webpage" src="about:blank"></iframe>
   </div>
-  <div id='chat'>
-    <h1 class='special'>{{campaign_data.title}}</h1>
+  <div id="chat">
+    <h1 class="special">{{campaign_data.title}}</h1>
 
     <div>
       <div class='panel panel-default'>
@@ -22,41 +17,18 @@
           Will you follow me?
         </div>
         <div class='panel-body'>
-          <div class='btn btn-info btn-block' id='start-btn' data-ng-click="startChat()">Start Chat</div>
+          <div class='btn btn-info btn-block' id='start-btn' data-ng-click="startChat('')">Start Chat</div>
+        </div>
+      </div>
+      <div class="panel panel-default" id="finishVideo" style="display:none;">
+        <div class="panel-body">
+          <p>Finish watching the video, then we can chat.</p>
         </div>
       </div>
     </div>
-    <div id='myfriends'>
-      <div class='panel panel-default'>
-        <div class='panel-heading'>
-          <p class='lead name_box'>
-            Hey &nbsp;<span class='name'></span>.
-          </p>
-          <p>That's great you want to start to follow Jesus. Sometimes, it's easier to start something new when a friend is involved.</p>
-          <p>Would you like to invite a friend to chat or would you rather talk with someone we know?</p>
-        </div>
-        <div class='panel-body'>
-          <div class='btn btn-primary btn-block' id='invite-btn' data-ng-click="showNextStep('#myfriends', '#linkafriend', 3, 4)">Invite a Christian friend</div>
-          <div class='btn btn-primary btn-block' data-ng-click="showNextStep('#myfriends', '#opconnect', 3, 5)">Find someone for me</div>
-        </div>
-      </div>
-    </div>
-    <div id='linkafriend'>
-      <div class='panel panel-default'>
-        <div class='panel-heading'>
-          <p class='lead'>You can invite your friend by sharing the link below with them via Facebook.</p>
-          <input class='form-control' id='link' onClick='this.select();' readonly='readonly' value='http://godchat.tv/u/06dEQ'>
-        </div>
-        <div class='panel-body'>
-          <p class='new-article'>While you wait why not look through the article “Starting with God”, I have just loaded it into the media box to the left.</p>
-          <p class='old-article'>While we wait for your friend, you can keep reading the "Starting with God" article.</p>
-          <a class='btn btn-default btn-sm btn-block' id='findsomeone-btn' data-ng-click="showNextStep('#linkafriend', '#opconnect', 4, 5)">Find someone for me instead</a>
-        </div>
-      </div>
-    </div>
-    <div id='chatbox'>
-      <h1 class='special'>{{campaign_data.title}} Chat</h1>
-      <ul class='conversation'>
+    <div id="chatbox">
+      <h1 class="special">{{campaign_data.title}} Chat</h1>
+      <ul class="conversation">
       </ul>
       <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">
     </div>

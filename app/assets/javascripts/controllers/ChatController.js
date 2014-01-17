@@ -7,6 +7,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var operator_data={
     uid: $location.search()['o'] || ''
   };
+  var video_completed=false;
+  $scope.followup_buttons=[];
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -43,6 +45,37 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('.box, #chat').addClass('paused');
         };
       }
+
+      $scope.followup_buttons.push({
+        text: 'No',
+        action: 'url',
+        value: 'http://cru.org'
+      });
+      $scope.followup_buttons.push({
+        text: 'I follow another religion',
+        action: 'chat',
+        value: ''
+      });
+      $scope.followup_buttons.push({
+        text: 'I am not sure',
+        action: 'chat',
+        value: ''
+      });
+      $scope.followup_buttons.push({
+        text: 'I want to start',
+        action: 'chat',
+        value: ''
+      });
+      $scope.followup_buttons.push({
+        text: 'I am trying',
+        action: 'chat',
+        value: ''
+      });
+      $scope.followup_buttons.push({
+        text: 'I am following you',
+        action: 'chat',
+        value: ''
+      });
     }).error(function (data, status, headers, config) {
 
     });
@@ -67,7 +100,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
   }
 
-  $scope.startChat = function(){
+  $scope.startChat = function(initialMsg){
+    if(!video_completed){
+      $('#finishVideo').fadeIn().delay(3000).fadeOut();
+      return;
+    }
     var data = {
       campaign_uid: campaign_data.uid,
       visitor_uid: visitor_data.uid,
@@ -85,6 +122,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $('.after-chat-buttons').fadeOut();
 
         $('.conversation').append('<li>      <div class="message">You are now chatting with ' + operator_data.name + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">-</div></li>');
+        console.log('Inital message: '+initialMsg);
 
         var pusher = new Pusher('249ce47158b276f4d32b');
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
@@ -94,7 +132,23 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
         alert('Error: ' + (data.error || 'Cannot create new chat.'));
       });
-  }
+  };
+
+  var launchWebPage = function(url){
+    $('#player').hide();
+    $('#webpage').show();
+    $('#webpage').attr('src',url);
+  };
+
+  $scope.buttonClick = function(button){
+    $('.after-chat-buttons').fadeOut();
+    console.log(button);
+    if(button.action == 'url'){
+      launchWebPage('http://cru.org');
+    }else{
+      $scope.startChat(button.text);
+    }
+  };
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp-refresh').each(function (i) {
@@ -123,7 +177,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       case YT.PlayerState.PLAYING:
         break;
       case YT.PlayerState.ENDED:
-        $('.after-chat-buttons').fadeIn(2000);
+        if(!video_completed){
+          $('.after-chat-buttons').fadeIn(2000);
+        }
+        video_completed=true;
         break;
       case YT.PlayerState.PAUSED:
         break;
