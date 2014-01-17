@@ -2,6 +2,7 @@ class Campaign < ActiveRecord::Base
   validates :name, :missionhub_secret, presence: true
   before_create :generate_uid
   before_create :set_status
+  belongs_to :user
 
   def as_json(options = {})
     #super({ :only => [ :title, :type, :permalink ] }.merge(options))

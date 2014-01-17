@@ -10,17 +10,25 @@ ActiveAdmin.register Campaign do
 
   filter :name
   filter :permalink
+  filter :status, :as => :select, :collection => [ "opened", "closed" ]
 
-=begin
   form do |f|
     f.inputs "User Details" do
-      f.input :email
-      f.input :password
-      f.input :password_confirmation
+      f.input :name
+      f.input :cname
+      f.input :missionhub_secret
+      f.input :permalink
+      f.input :campaign_type
+      f.input :max_chats
+      f.input :user
+      f.input :description, :as => :text
+      f.input :language
+      f.input :status, :as => :select, :collection => [ "opened", "closed" ]
     end
     f.actions
   end
 
+=begin
   controller do
     def permitted_params
       params.permit user: [:email, :password, :password_confirmation]
