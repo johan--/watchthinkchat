@@ -13,8 +13,8 @@ Godchat::Application.routes.draw do
   root 'site#index'
 
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
-  #get ':path' => 'templates#index'
-  #get ':path/:subpath' => 'templates#index'
+  get ':path' => 'templates#index'
+  get ':path/:subpath' => 'templates#index'
 
   # API
   get "/api/campaigns/:uid", to: "api/campaigns#show"
