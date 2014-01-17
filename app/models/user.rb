@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   }
 
   def as_json(options = {})
-    { :name => self.fullname, :uid => self.uid || self.visitor_uid }
+    { :name => self.fullname, :uid => self.uid || self.visitor_uid, :profile_pic => self.profile_pic }
   end
 
   def fullname
