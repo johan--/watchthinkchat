@@ -137,7 +137,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         var pusher = new Pusher('249ce47158b276f4d32b');
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
         channel_chat.bind('event', function (data) {
-          $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + data.user + '</div></li>');
+          $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
         });
       }).error(function (data, status, headers, config) {
         alert('Error: ' + (data.error || 'Cannot create new chat.'));

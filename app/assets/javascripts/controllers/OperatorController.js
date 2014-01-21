@@ -9,8 +9,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
   var pusher = new Pusher('249ce47158b276f4d32b');
   var channel_operator = pusher.subscribe('operator_' + operator_id);
-  channel_operator.bind('event', function (data) {
+  channel_operator.bind('newchat', function (data) {
     console.log(data);
+
+    $scope.$apply(function () {
+      $scope.active_sessions.push({
+        chat_uid: '265gf9sdg43',
+        visitor_uid: '03',
+        visitor_name: 'Visitor #3',
+        visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg'
+      });
+    });
+
   });
 
   $scope.switchChat = function (id) {
@@ -46,12 +56,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     visitor_uid: '02',
     visitor_name: 'Visitor #2',
     visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });
-  $scope.active_sessions.push({
-    chat_uid: '265gf9sdg43',
-    visitor_uid: '03',
-    visitor_name: 'Visitor #3',
-    visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/4/49/Gnome-Wikipedia-user-female.png'
   });
 
 });
