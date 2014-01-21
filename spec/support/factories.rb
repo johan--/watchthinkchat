@@ -9,4 +9,6 @@ FactoryGirl.define do
     sequence(:permalink) {|n| "permalink_#{n}" }
     missionhub_secret "missionhub_secret"
   end
+
+  factory :chat
 end

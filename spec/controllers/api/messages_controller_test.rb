@@ -1,23 +1,22 @@
 require 'spec_helper'
 
-describe Api::CampaignsController do
+describe Api::MessagesController do
   let(:create_user) { create(:user); }
   let(:create_campaign) { create(:campaign, :campaign_type => "youtube", :video_id => "12345", :permalink => "test"); }
 
-  describe "#show" do
+  describe "#create" do
     it "should work" do
       campaign = create_campaign
-      get :show, :uid => campaign.uid
-      json_response['title'].should == campaign.name
-      json_response['type'].should == "youtube"
-      json_response['permalink'].should == "test"
-      json_response['video_id'].should == "12345"
-    end
+      visitor = create_user
+      operator = create_user
+      chat = create(:chat, :campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id)
 
-    it "should give a 404 if no campaign found" do
-      campaign = create_campaign
-      get :show, :uid => "bob"
-      assert_response 404
+      mock_client = mock('client')
+      Pusher.stub(:[]).with("chat_#{chat.uid}").and_return(mock_client)
+      mock_client.should_receive(:trigger).with('event', { :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing" })
+
+      get :create, :chat_uid => chat.uid, :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing"
+      json_response['success'].should == true
     end
   end
 end

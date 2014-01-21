@@ -1,6 +1,7 @@
 class PusherController < ApplicationController
   protect_from_forgery :except => :presence # stop rails CSRF protection for this action
   def presence
+    throw "PRESENCE"
     webhook = Pusher.webhook(request)
     if webhook.valid?
       webhook.events.each do |event|
