@@ -20,6 +20,12 @@ class Api::ChatsController < ApplicationController
 
     if campaign && visitor
       chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id)
+      Pusher["operator_#{operator.uid}"].trigger('newchat', {
+        chat_uid: chat.uid,
+        visitor_uid: visitor.visitor_uid,
+        visitor_name: visitor.fullname,
+        visitor_profile: ""
+      })
       render json: { chat_uid: chat.uid, operator: operator }, status: 201
     elsif !campaign
       render json: { error: "Campaign not found" }, status: 500 
