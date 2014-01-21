@@ -19,7 +19,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     $('#activesessions li').removeClass('activechat');
     $('#session_' + id).addClass('activechat');
     $('#session_' + id + ' .newmessage').hide();
-  }
+  };
 
   $scope.postMessage = function (id) {
     var message = $('#' + id + ' input').val();
@@ -29,7 +29,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     $('#' + id + ' input').val('');
 
     conversation.scrollTop(conversation[0].scrollHeight);
-  }
+  };
 
   var createNewChat = function (chat_uid, visitor_uid, visitor_name) {
 

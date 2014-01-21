@@ -2,9 +2,9 @@
 
 angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies, $location, $filter) {
   var campaign_data;
-  var visitor_data={};
-  var chat_data={};
-  var operator_data={
+  var visitor_data = {};
+  var chat_data = {};
+  var operator_data = {
     uid: $location.search()['o'] || ''
   };
   var video_completed=false;
@@ -53,8 +53,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       });
       $scope.followup_buttons.push({
         text: 'I follow another religion',
-        action: 'chat',
-        value: ''
+        action: 'url',
+        value: 'http://gotcx.com/'
       });
       $scope.followup_buttons.push({
         text: 'I am not sure',
@@ -95,10 +95,20 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   console.log('operator: '+operator_data.uid,'visitor: '+visitor_data.uid);
 
   $scope.postMessage = function () {
-    $('.conversation').append('<li>      <div class="message text-right">' + $scope.chatMessage + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
-    $scope.chatMessage = '';
-    $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
-  }
+    var data = {
+      user_uid: visitor_data.uid,
+      message_type: 'user',
+      message: $scope.chatMessage
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: data}).
+      success(function (data, status, headers, config) {
+        $('.conversation').append('<li>      <div class="message text-right">' + $scope.chatMessage + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
+        $scope.chatMessage = '';
+        $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+      }).error(function (data, status, headers, config) {
+        //alert('Error: ' + (data.error || 'Cannot create new chat.'));
+      });
+  };
 
   $scope.startChat = function(initialMsg){
     if(!video_completed){
@@ -144,7 +154,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $('.after-chat-buttons').fadeOut();
     console.log(button);
     if(button.action == 'url'){
-      launchWebPage('http://cru.org');
+      launchWebPage(button.value);
     }else{
       $scope.startChat(button.text);
     }

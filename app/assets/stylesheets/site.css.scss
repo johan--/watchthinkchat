@@ -523,6 +523,7 @@
     padding: 0;
     overflow: auto;
     height:calc(100% - 113px);
+    width:100%;
   }
   #chat #chatbox ul.conversation li {
     padding: 10px;
@@ -612,6 +613,7 @@
   .activity #activesessions{
     height: calc(100% - 156px);
     overflow: auto;
+    width: 100%;
   }
   .activity .activechat {
     background:#f9bfc1;
@@ -652,10 +654,9 @@
     list-style: none;
     padding: 0;
     overflow: auto;
-  }
-  ul.conversation {
     height:calc(100% - 111px);
     overflow-y:scroll;
+    width:100%;
   }
   #chat .chatbox ul.conversation li {
     padding: 10px;
