@@ -658,6 +658,9 @@
     overflow-y:scroll;
     width:100%;
   }
+  #chat .chatbox ul.conversation .message-activity {
+    text-align:center;
+  }
   #chat .chatbox ul.conversation li {
     padding: 10px;
     border-bottom: 1px solid #cccccc;

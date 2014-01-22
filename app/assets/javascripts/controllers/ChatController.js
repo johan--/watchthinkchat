@@ -95,18 +95,20 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   console.log('operator: '+operator_data.uid,'visitor: '+visitor_data.uid);
 
   $scope.postMessage = function () {
-    var data = {
+    var post_data = {
       user_uid: visitor_data.uid,
       message_type: 'user',
       message: $scope.chatMessage
     };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: data}).
+    $scope.chatMessage = '';
+    $('.chat-input').attr('placeholder','Sending...');
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
-        $('.conversation').append('<li>      <div class="message text-right">' + $scope.chatMessage + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
-        $scope.chatMessage = '';
+        $('.chat-input').attr('placeholder','Message...');
+        $('.conversation').append('<li>      <div class="message text-right">' + post_data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
         $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
-        //alert('Error: ' + (data.error || 'Cannot create new chat.'));
+        $('.chat-input').attr('placeholder','Message...');
       });
   };
 
@@ -125,7 +127,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       success(function (data, status, headers, config) {
         chat_data = data;
         operator_data = data.operator;
-        console.log(chat_data);
         console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox').fadeIn();
@@ -137,8 +138,24 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         var pusher = new Pusher('249ce47158b276f4d32b');
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
         channel_chat.bind('event', function (data) {
-          $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
+          console.log(data);
+          if(data.user_uid != visitor_data.uid){
+            $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
+            $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+          }
         });
+
+        if(initialMsg){
+          var post_data = {
+            user_uid: visitor_data.uid,
+            message_type: 'activity',
+            message: initialMsg
+          };
+          $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+        }
       }).error(function (data, status, headers, config) {
         alert('Error: ' + (data.error || 'Cannot create new chat.'));
       });
@@ -156,7 +173,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if(button.action == 'url'){
       launchWebPage(button.value);
     }else{
-      $scope.startChat(button.text);
+      $scope.startChat('Visitor has clicked: ' + button.text);
     }
   };
 
