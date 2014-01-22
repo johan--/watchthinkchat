@@ -7,3 +7,5 @@
 //= require_tree
 
 'use strict'
+
+/* Here is a comment, to try to get heroku to compile assets again. */

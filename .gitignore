@@ -18,6 +18,5 @@
 secret.yml
 vendor/ruby
 database.yml
-schema.rb
 *.swp
 .env
