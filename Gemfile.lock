@@ -211,6 +211,8 @@ GEM
     multi_json (1.8.4)
     multipart-post (1.2.0)
     newrelic_rpm (3.7.1.182)
+    ngmin-rails (0.4.0)
+      rails (>= 3.1)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -380,6 +382,7 @@ DEPENDENCIES
   kaminari (~> 0.15)
   minitest
   newrelic_rpm
+  ngmin-rails
   omniauth
   omniauth-facebook
   paperclip (~> 3.0)

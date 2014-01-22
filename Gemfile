@@ -42,6 +42,7 @@ gem 'compass'
 gem 'bootstrap-sass', '~> 3.0.3.0'
 
 # Assets Javascript
+gem 'ngmin-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'angularjs-rails'
