@@ -36,9 +36,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       if(data.user_uid != operator_id){
         var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
         if(data.message_type=='activity'){
-          conversation.append('<li>      <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
+          conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
         }else{
-          conversation.append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
+          conversation.append('<li> <div class="person">' + newchat_data.visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
         }
         conversation.scrollTop(conversation[0].scrollHeight);
 
@@ -81,7 +81,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     };
     $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
-        conversation.append('<li>      <div class="message text-right">' + message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
+        conversation.append('<li class="graybg"><div class="person">You</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div><div class="message">' + message + '</div></li>');
         conversation.scrollTop(conversation[0].scrollHeight);
       }).error(function (data, status, headers, config) {
 
