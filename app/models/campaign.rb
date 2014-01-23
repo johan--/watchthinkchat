@@ -25,7 +25,7 @@ class Campaign < ActiveRecord::Base
   def generate_uid
     begin
       self.uid = SecureRandom.hex(3)
-    end while User.exists?(uid: uid)
+    end while Campaign.exists?(uid: uid)
   end
 
   def set_status

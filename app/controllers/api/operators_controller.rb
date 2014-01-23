@@ -1,6 +1,16 @@
 class Api::OperatorsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: :show
   protect_from_forgery except: :auth
+
+  def show
+    operator = User.where(:operator_uid => params[:uid]).first
+
+    if operator
+      render json: operator, status: 201
+    else
+      render json: { error: "Operator not found" }, status: 500
+    end
+  end
 
   def auth
     if user_signed_in?

@@ -10,6 +10,10 @@ class TemplatesController < ApplicationController
         session[:campaign] = params[:path]
         redirect_to request.path
         return
+      else
+        user.operator = true
+        user.operator_uid = user.fb_uid
+        user.save!
       end
       redirect_to "/#{@campaign.uid}?o=#{current_user.uid}"
     end

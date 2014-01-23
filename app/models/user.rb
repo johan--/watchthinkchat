@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  ROLES = %w[admin operator friend]
+  ROLES = %w[admin operator visitor]
 
   before_create :generate_visitor_uid
 
@@ -20,7 +20,11 @@ class User < ActiveRecord::Base
   }
 
   def as_json(options = {})
-    { :name => self.fullname, :uid => self.uid || self.visitor_uid, :profile_pic => self.profile_pic }
+    if options[:as] == :operator
+      { uid: self.operator_uid, name: self.fullname, profile_pic: self.profile_pic }
+    else
+      { :name => self.fullname, :uid => self.visitor_uid }
+    end
   end
 
   def fullname
@@ -28,12 +32,12 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user = User.where(:provider => auth.provider, :fb_uid => auth.uid).first
     unless user
       user = User.create(first_name: auth.extra.raw_info.first_name,
                           last_name: auth.extra.raw_info.last_name,
                           provider: auth.provider,
-                          uid: auth.uid,
+                          fb_uid: auth.uid,
                           email: auth.info.email
                         )
     end
@@ -55,21 +59,6 @@ class User < ActiveRecord::Base
   def set_status(status)
     self.status = status
     self.save
-  end
-
-  # Role Assignment
-  def roles=(roles)
-    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
-  end
-
-  def roles
-    ROLES.reject do |r|
-      ((roles_mask.to_i || 0) & 2**ROLES.index(r)).zero?
-    end
-  end
-
-  def is?(role)
-    roles.include?(role.to_s)
   end
 
   def generate_visitor_uid
