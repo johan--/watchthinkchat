@@ -661,6 +661,9 @@
   #chat .chatbox ul.conversation .message-activity {
     text-align:center;
   }
+  #chat .graybg{
+    background:#FAF9F9;
+  }
   #chat .chatbox ul.conversation li {
     padding: 10px;
     border-bottom: 1px solid #cccccc;
@@ -669,6 +672,9 @@
     color: #777777;
     font-size: smaller;
     font-weight: 300;
+  }
+  #chat .chatbox .person{
+    font-weight: bold;
   }
   #chat .chatbox input[type=text] {
     display: block;
