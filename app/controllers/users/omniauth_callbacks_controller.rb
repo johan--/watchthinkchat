@@ -5,8 +5,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     sign_in @user
     @user.update_attribute(:profile_pic, request.env["omniauth.auth"]["info"]["image"])
-    @user[:type] = "Operator"
-    @user.save!
     if session[:campaign_id]
       redirect_to "/operator/#{@user.operator_uid}?campaign=#{session[:campaign_uid]}"
     else
