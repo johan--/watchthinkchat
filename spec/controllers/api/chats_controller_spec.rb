@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Api::ChatsController do
   context "for a visitor" do
-    let(:create_user) { create(:user); }
+    let(:create_user) { create(:user, :operator_uid => 'op_uid'); }
     let(:create_campaign) { create(:campaign); }
 
     describe "#create" do
@@ -11,7 +11,7 @@ describe Api::ChatsController do
         visitor = create_user
         operator = create_user
 
-        mock_client = mock('client')
+        mock_client = double('client')
         Pusher.stub(:[]).with("operator_#{operator.operator_uid}").and_return(mock_client)
         mock_client.should_receive(:trigger)
 
@@ -19,6 +19,7 @@ describe Api::ChatsController do
         #puts json_response.inspect
         json_response.should have_key('chat_uid')
         json_response.should have_key('operator')
+        json_response['operator']['uid'].should == operator.operator_uid
       end
     end
   end

@@ -12,7 +12,7 @@ class Api::ChatsController < ApplicationController
         visitor_name: visitor.fullname,
         visitor_profile: ""
       })
-      render json: { chat_uid: chat.uid, operator: operator }, status: 201
+      render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif !campaign
       render json: { error: "Campaign not found" }, status: 500 
     elsif !visitor

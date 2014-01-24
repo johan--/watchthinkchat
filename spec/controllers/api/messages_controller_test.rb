@@ -11,7 +11,7 @@ describe Api::MessagesController do
       operator = create_user
       chat = create(:chat, :campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id)
 
-      mock_client = mock('client')
+      mock_client = double('client')
       Pusher.stub(:[]).with("chat_#{chat.uid}").and_return(mock_client)
       mock_client.should_receive(:trigger).with('event', { :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing" })
 

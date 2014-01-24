@@ -6,7 +6,7 @@ class Api::OperatorsController < ApplicationController
     operator = User.where(:operator_uid => params[:uid]).first
 
     if operator
-      render json: operator, status: 201
+      render json: operator.as_json(:as => :operator), status: 201
     else
       render json: { error: "Operator not found" }, status: 500
     end

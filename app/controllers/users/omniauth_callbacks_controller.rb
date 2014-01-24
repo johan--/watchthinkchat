@@ -7,14 +7,21 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.update_attribute(:profile_pic, request.env["omniauth.auth"]["info"]["image"])
     @user[:type] = "Operator"
     @user.save!
-    return_to = session[:return_to]
-    session[:return_to] = nil
-    redirect_to return_to || '/'
+    if session[:campaign_id]
+      redirect_to "/operator/#{@user.operator_uid}?campaign=#{session[:campaign_uid]}"
+    else
+      redirect_to session[:return_to] || '/'
+      session[:return_to] = nil
+    end
     set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
   end
 
   def failure
     set_flash_message :alert, :failure, :kind => OmniAuth::Utils.camelize(failed_strategy.name), :reason => failure_message
-    redirect_to "/"
+    if session[:campaign_id]
+      session[:campaign_id] = nil
+    else
+      redirect_to "/?m=invalid"
+    end
   end
 end

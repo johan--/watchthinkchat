@@ -12,18 +12,22 @@ class ApplicationController < ActionController::Base
 
     def authenticate_by_facebook!
       unless signed_in?
-        session[:campaign] ||= params[:path]
         session[:return_to] = request.path
-=begin
-        puts "In TemplatesController, session: #{session.inspect}"
-        puts "   #{session.keys}"
-        puts "   #{session.values}"
-=end
         redirect_to user_omniauth_authorize_path(:facebook)
       end
     end
 
     def authenticate_admin_user!
       signed_in? && current_user.admin ? current_user : nil
+    end
+
+    def operator_app?
+      request.domain == ENV['operator_app_url']
+    end
+
+    def ensure_operator_app
+      unless operator_app?
+        redirect_to '/'
+      end
     end
 end

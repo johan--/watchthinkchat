@@ -9,16 +9,12 @@ Godchat::Application.routes.draw do
      get 'sign_out', :to => 'devise/sessions#destroy' # so that we can just put /sign_out in the url
   end
 
-  authenticated :user do
-    get 'me', to: "operators#index", as: :operator_dashboard
-  end
-
   root 'site#index'
 
-  get '/templates/:path.html' => 'templates#public_template', :constraints => { :path => /tour|features/  }
+  get '/operator/:operator_uid' => 'operators#show'
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
-  get ':path' => 'templates#index'
-  get ':path/:subpath' => 'templates#index'
+  get ':path' => 'templates#template'
+  get ':path/:subpath' => 'templates#template'
 
   # API
   get "/api/campaigns/:uid", to: "api/campaigns#show"
