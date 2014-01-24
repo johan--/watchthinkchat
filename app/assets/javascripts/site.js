@@ -23,22 +23,20 @@ angular.module('chatApp', ['ngRoute', 'ngCookies'])
       templateUrl: '/templates/dashboard.html',
       controller: 'DashboardController as ctrl'
     }).when('/tour', {
-        templateUrl: '/templates/tour.html',
-        controller: 'TourController as ctrl'
-      }).when('/features', {
-        templateUrl: '/templates/features.html',
-        controller: 'FeaturesController as ctrl'
-      }).when('/c/:campaignId', {
-        templateUrl: '/templates/chat.html',
-        controller: 'ChatController as ctrl'
-      }).when('/operator', {
-        templateUrl: '/templates/operator.html',
-        controller: 'OperatorController as ctrl'
-      }).otherwise({
-        templateUrl: '/templates/operator.html',
-        controller: 'OperatorController as ctrl',
-        reloadOnSearch: false
-      });
+      templateUrl: '/templates/tour.html',
+      controller: 'TourController as ctrl'
+    }).when('/features', {
+      templateUrl: '/templates/features.html',
+      controller: 'FeaturesController as ctrl'
+    }).when('/c/:campaignId', {
+      templateUrl: '/templates/chat.html',
+      controller: 'ChatController as ctrl'
+    }).when('/operator/:operatorId', {
+      templateUrl: '/templates/operator.html',
+      controller: 'OperatorController as ctrl'
+    }).otherwise({
+      redirectTo: '/'
+    });
   }).run(function ($rootScope) {
     $rootScope.YouTubeApiLoaded = false;
   });

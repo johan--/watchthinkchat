@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $http) {
-  var operator_id = $location.search()['o'];
+angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http) {
+  var operator_id = $route.current.params.operatorId;
   var active_chat = '';
-  $location.search('o', null);
+  //$location.search('o', null);
 
   if(!operator_id){
     document.write('Invalid operator id');
     return;
   }
 
-  $scope.operator_chat_url = "http://www.watchthinkchat.com/c" + $location.$$path + "?o=" + operator_id;
+  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + $location.search()['campaign'] + "?o=" + operator_id;
   $scope.active_sessions=[];
 
   var pusher = new Pusher('249ce47158b276f4d32b');
