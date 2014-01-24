@@ -13,8 +13,8 @@ Godchat::Application.routes.draw do
 
   get '/operator/:operator_uid' => 'operators#show'
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
-  get ':path' => 'templates#template'
-  get ':path/:subpath' => 'templates#template'
+  get ':path' => 'templates#index'
+  get ':path/:subpath' => 'templates#index'
 
   # API
   get "/api/campaigns/:uid", to: "api/campaigns#show"

@@ -1,11 +1,14 @@
 class TemplatesController < ApplicationController
   before_filter :authenticate_by_facebook!, :if => :is_campaign?
+  
+  def index
+  end
 
   def template
     if is_campaign?
       redirect_to "/operator/#{current_user.operator_uid}?campaign=#{@campaign.uid}"
     else
-      render :template => 'templates/' + params[:path], :layout => !request.xhr?
+      render :template => 'templates/' + params[:path], :layout => false
     end
   end
 
