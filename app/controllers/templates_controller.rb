@@ -21,7 +21,7 @@ class TemplatesController < ApplicationController
     return false unless operator_app?
     @campaign = Campaign.where("uid = ? OR permalink = ?", params[:path], params[:path]).first
     if @campaign
-      session[:campaign_id] = @campaign.id
+      session[:campaign] = @campaign.uid
       return true
     end
     return false

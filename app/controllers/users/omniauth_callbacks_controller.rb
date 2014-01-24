@@ -5,8 +5,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     sign_in @user
     @user.update_attribute(:profile_pic, request.env["omniauth.auth"]["info"]["image"])
-    if session[:campaign_id]
-      redirect_to "/operator/#{@user.operator_uid}?campaign=#{session[:campaign_uid]}"
+    if session[:campaign]
+      redirect_to "/operator/#{@user.operator_uid}?campaign=#{session[:campaign]}"
     else
       redirect_to session[:return_to] || '/'
       session[:return_to] = nil
@@ -15,11 +15,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    set_flash_message :alert, :failure, :kind => OmniAuth::Utils.camelize(failed_strategy.name), :reason => failure_message
-    if session[:campaign_id]
-      session[:campaign_id] = nil
-    else
-      redirect_to "/?m=invalid"
-    end
+    session[:campaign] = nil
+    redirect_to "/?t=invalid&m=#{failure_message}"
   end
 end
