@@ -1,22 +1,30 @@
 class TemplatesController < ApplicationController
-  before_filter :authenticate_by_facebook!, :if => Proc.new { |c| request.domain == ENV['operator_app_url'] }
+  before_filter :authenticate_by_facebook!, :except => :public_template, :if => Proc.new { |c| request.domain == ENV['operator_app_url'] }
 
   def index
-    logger.info "In TemplatesController request.domain=#{request.domain} ENV['operator_app_url']=#{ENV['operator_app_url']} signed_in?=#{signed_in?} params[:o]=#{params[:o]}"
     if request.domain == ENV['operator_app_url'] && signed_in? && !params[:o].present?
       session[:campaign] ||= params[:path]
       @campaign = Campaign.where("uid = ? OR permalink = ?", session[:campaign], session[:campaign]).first
+      logger.info "in templates#index @campaign #{@campaign.inspect}"
       if @campaign.nil?
         session[:campaign] = params[:path]
         redirect_to request.path
         return
       else
-        user.operator = true
-        user.operator_uid = user.fb_uid
-        user.save!
+        current_user.operator = true
+        current_user.operator_uid = current_user.fb_uid
+        current_user.save!
       end
-      redirect_to "/#{@campaign.uid}?o=#{current_user.uid}"
+      unless current_user.operator_uid.present?
+        redirect_to "/", notice: "current user is not an operator or is missing operator_uid"
+        return
+      end
+      redirect_to "/#{@campaign.uid}?o=#{current_user.operator_uid}"
     end
+  end
+
+  def public_template
+    render :template => 'templates/' + params[:path], :layout => nil
   end
 
   def template

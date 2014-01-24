@@ -1,9 +1,12 @@
 Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
+  get '/users/sign_up', to: redirect('/')
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   devise_scope :user do
      delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+     get 'sign_out', :to => 'devise/sessions#destroy' # so that we can just put /sign_out in the url
   end
 
   authenticated :user do
@@ -12,6 +15,7 @@ Godchat::Application.routes.draw do
 
   root 'site#index'
 
+  get '/templates/:path.html' => 'templates#public_template', :constraints => { :path => /tour|features/  }
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   get ':path' => 'templates#index'
   get ':path/:subpath' => 'templates#index'

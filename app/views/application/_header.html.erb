@@ -26,9 +26,11 @@
           <li>
             <a href="/tour">Tour</a>
           </li>
+          <% if signed_in? %>
           <li>
             <%= link_to "Logout", destroy_user_session_url, :method => :DELETE %>
           </li>
+          <% end %>
           <!--<li>-->
             <!--<a href="http://support.godchat.tv/">Support</a>-->
           <!--</li>-->

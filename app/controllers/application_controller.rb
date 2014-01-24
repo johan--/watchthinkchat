@@ -13,9 +13,12 @@ class ApplicationController < ActionController::Base
     def authenticate_by_facebook!
       unless signed_in?
         session[:campaign] ||= params[:path]
+        session[:return_to] = request.path
+=begin
         puts "In TemplatesController, session: #{session.inspect}"
         puts "   #{session.keys}"
         puts "   #{session.values}"
+=end
         redirect_to user_omniauth_authorize_path(:facebook)
       end
     end

@@ -69,6 +69,8 @@ gem "devise", github: "plataformatec/devise"
 
 # Testing
 group :test, :development do
+  gem 'binding_of_caller'
+  gem 'better_errors'
   gem 'minitest'
   gem 'rspec'
   gem 'rspec-rails'

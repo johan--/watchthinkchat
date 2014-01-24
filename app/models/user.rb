@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :fb_uid => auth.uid).first
+    user ||= User.where(:email => auth.info.email).first
     unless user
       user = User.create(first_name: auth.extra.raw_info.first_name,
                           last_name: auth.extra.raw_info.last_name,
@@ -41,6 +42,7 @@ class User < ActiveRecord::Base
                           email: auth.info.email
                         )
     end
+    user.update_attribute(:fb_uid, auth.uid) unless user.fb_uid == auth.uid
     user
   end
 
