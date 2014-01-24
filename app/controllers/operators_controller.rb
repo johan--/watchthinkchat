@@ -17,7 +17,5 @@ class OperatorsController < ApplicationController
       redirect_to "/?t=invalid&m=current user is not an operator or is missing operator_uid"
       return
     end
-
-    render :inline => "" # angular will take care of the rest
   end
 end
