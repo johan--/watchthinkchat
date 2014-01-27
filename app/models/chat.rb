@@ -8,6 +8,8 @@ class Chat < ActiveRecord::Base
 
   validates :uid, :visitor_id, presence: true
 
+  scope :open, lambda { where(:status => "open") }
+
   def set_uid
     return uid if uid
 

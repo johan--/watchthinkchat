@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  ROLES = %w[admin operator visitor]
-
   before_create :generate_visitor_uid
 
   devise :registerable, :trackable
@@ -11,13 +9,7 @@ class User < ActiveRecord::Base
 
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
-  # constants
-  STATE = {
-    :offline => 0,
-    :online => 1,
-    :busy => 2,
-    :away => 3
-  }
+  scope :online, Proc.new { where(:status => "online") }
 
   def as_json(options = {})
     if options[:as] == :operator
@@ -56,6 +48,10 @@ class User < ActiveRecord::Base
 
   def name
     first_name + " " + last_name
+  end
+
+  def online?
+    self.status == "online"
   end
 
   def set_status(status)

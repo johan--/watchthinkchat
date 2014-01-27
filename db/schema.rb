@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140124212724) do
+ActiveRecord::Schema.define(version: 20140127195427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 20140124212724) do
     t.datetime "updated_at",  null: false
     t.string   "uid"
     t.integer  "campaign_id"
+    t.integer  "max_chats"
+    t.string   "chat_start"
+    t.string   "owner"
+    t.integer  "user_id"
+    t.string   "description"
+    t.string   "language"
+    t.string   "status"
   end
 
   add_index "chats", ["operator_id"], name: "index_chats_on_operator_id", using: :btree
@@ -159,11 +166,12 @@ ActiveRecord::Schema.define(version: 20140124212724) do
     t.string   "first_name"
     t.string   "last_name"
     t.text     "bio"
-    t.integer  "status"
+    t.string   "status"
     t.string   "location"
     t.string   "ip"
     t.string   "referrer"
     t.string   "authentication_token"
+    t.integer  "roles_mask"
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "fb_uid"
