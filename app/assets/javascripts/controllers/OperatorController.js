@@ -147,7 +147,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
   };
 
-  $scope.active_sessions.push({
+/*  $scope.active_sessions.push({
     chat_uid: '265gf95sdg43',
     visitor_uid: '01',
     visitor_name: 'Visitor #1',
@@ -158,7 +158,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     visitor_uid: '02',
     visitor_name: 'Visitor #2',
     visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });
+  });*/
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp-refresh').each(function (i) {
