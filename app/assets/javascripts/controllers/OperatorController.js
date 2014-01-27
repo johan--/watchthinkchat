@@ -142,6 +142,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             }
           }
         });
+      }).bind('end', function () {
+        console.log('End Chat: '+newchat_data.chat_uid);
       });
     }
 
