@@ -1,20 +1,31 @@
 'use strict';
 
 angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http) {
-  var operator_id = $route.current.params.operatorId;
+  var operator_data = {
+    uid: $route.current.params.operatorId
+  };
   var active_chat = '';
   //$location.search('o', null);
 
-  if(!operator_id){
+  if(!operator_data.uid){
     document.write('Invalid operator id');
     return;
   }
 
-  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + $location.search()['campaign'] + "?o=" + operator_id;
+  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + $location.search()['campaign'] + "?o=" + operator_data.uid;
   $scope.active_sessions=[];
 
+  $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
+    success(function (data, status, headers, config) {
+      operator_data = data;
+      $scope.operator_data = data;
+    }).error(function (data, status, headers, config) {
+
+    });
+
+
   var pusher = new Pusher('249ce47158b276f4d32b');
-  var channel_operator = pusher.subscribe('operator_' + operator_id);
+  var channel_operator = pusher.subscribe('operator_' + operator_data.uid);
   channel_operator.bind('newchat', function (newchat_data) {
     console.log('New Incoming Chat: '+ newchat_data.chat_uid);
 
@@ -33,7 +44,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
     pusher.subscribe('chat_'+newchat_data.chat_uid).bind('event', function (data) {
       console.log(data);
-      if(data.user_uid != operator_id){
+      if(data.user_uid != operator_data.uid){
         var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
         if(data.message_type=='activity'){
           conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
@@ -75,7 +86,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     var conversation = $('#chatbox_' + id + ' .conversation');
 
     var post_data = {
-      user_uid: operator_id,
+      user_uid: operator_data.uid,
       message_type: 'user',
       message: message
     };

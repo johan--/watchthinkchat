@@ -130,9 +130,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox').fadeIn();
-        $('.after-chat-buttons').fadeOut();
 
-        $('.conversation').append('<li>      <div class="message">You are now chatting with ' + operator_data.name + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">-</div></li>');
+        $('.conversation').append('<li>   <img src="' + operator_data.profile_pic + '" style="float:left; padding:6px;">   <div class="message">You are now chatting with<br>' + operator_data.name + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">-</div></li>');
         console.log('Inital message: '+initialMsg);
 
         var pusher = new Pusher('249ce47158b276f4d32b');
@@ -146,15 +145,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         });
 
         if(initialMsg){
-          var post_data = {
-            user_uid: visitor_data.uid,
-            message_type: 'activity',
-            message: initialMsg
-          };
-          $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
+          postActivityMessage(initialMsg);
         }
       }).error(function (data, status, headers, config) {
         alert('Error: ' + (data.error || 'Cannot create new chat.'));
@@ -173,8 +164,24 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if(button.action == 'url'){
       launchWebPage(button.value);
     }else{
-      $scope.startChat('Visitor has clicked: ' + button.text);
+      if(!chat_data.chat_uid){
+        $scope.startChat('Visitor has clicked: ' + button.text);
+      }else{
+        postActivityMessage('Visitor has clicked: ' + button.text);
+      }
     }
+  };
+
+  var postActivityMessage = function(message){
+    var post_data = {
+      user_uid: visitor_data.uid,
+      message_type: 'activity',
+      message: message
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
+      success(function (data, status, headers, config) {
+      }).error(function (data, status, headers, config) {
+      });
   };
 
   var timeUpdate = setInterval(function () {
