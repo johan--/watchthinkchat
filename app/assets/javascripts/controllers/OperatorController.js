@@ -118,7 +118,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           });
         });
 
-        pusher.subscribe('chat_'+newchat_data.chat_uid).bind('event', function (data) {
+        var chat_channel = pusher.subscribe('chat_'+newchat_data.chat_uid);
+        chat_channel.bind('event', function (data) {
           if(data.user_uid != operator_data.uid){
             var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
             if(data.message_type=='activity'){
@@ -142,8 +143,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             }
           }
         });
-      }).bind('end', function () {
-        console.log('End Chat: '+newchat_data.chat_uid);
+        chat_channel.bind('end', function () {
+          console.log('End Chat: '+newchat_data.chat_uid);
+        });
       });
     }
 
