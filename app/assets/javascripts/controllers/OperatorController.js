@@ -5,14 +5,24 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     uid: $route.current.params.operatorId
   };
   var active_chat = '';
-  //$location.search('o', null);
+  var campaign_id = $location.search()['campaign'] || '';
+//$location.search('o', null);
 
   if(!operator_data.uid){
     document.write('Invalid operator id');
     return;
   }
+  if(!operator_data.uid){
+    document.write('Invalid operator id');
+    return;
+  }
 
-  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + $location.search()['campaign'] + "?o=" + operator_data.uid;
+  if(!campaign_id){
+    document.write('Invalid campaign id');
+    return;
+  }
+
+  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
   $scope.active_sessions=[];
 
   $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).

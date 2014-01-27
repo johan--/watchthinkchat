@@ -135,6 +135,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         console.log('Inital message: '+initialMsg);
 
         var pusher = new Pusher('249ce47158b276f4d32b');
+        pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
         channel_chat.bind('event', function (data) {
           console.log(data);
