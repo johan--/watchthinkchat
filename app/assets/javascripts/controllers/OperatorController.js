@@ -6,6 +6,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   };
   var active_chat = '';
   var campaign_id = $location.search()['campaign'] || '';
+  var operator_channel_connected = false;
+  $scope.operator_edit_mode = false;
 //$location.search('o', null);
 
   if(!operator_data.uid){
@@ -29,55 +31,23 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     success(function (data, status, headers, config) {
       operator_data = data;
       $scope.operator_data = data;
+      $scope.toggleOperatorStatus();
     }).error(function (data, status, headers, config) {
 
     });
 
 
   var pusher = new Pusher('249ce47158b276f4d32b');
-  var channel_operator = pusher.subscribe('operator_' + operator_data.uid);
-  channel_operator.bind('newchat', function (newchat_data) {
-    console.log('New Incoming Chat: '+ newchat_data.chat_uid);
-
-    if(newchat_data.visitor_name == ''){
-      newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
-    }
-
-    $scope.$apply(function () {
-      $scope.active_sessions.push({
-        chat_uid: newchat_data.chat_uid,
-        visitor_uid: newchat_data.visitor_uid,
-        visitor_name: newchat_data.visitor_name,
-        visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg'
-      });
-    });
-
-    pusher.subscribe('chat_'+newchat_data.chat_uid).bind('event', function (data) {
-      console.log(data);
-      if(data.user_uid != operator_data.uid){
-        var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
-        if(data.message_type=='activity'){
-          conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
-        }else{
-          conversation.append('<li> <div class="person">' + newchat_data.visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
-        }
-        conversation.scrollTop(conversation[0].scrollHeight);
-
-        if(active_chat != newchat_data.chat_uid){
-          var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
-          element.show();
-          var distance = '5px';
-          var speed = 210;
-          var i;
-          for(i = 0; i < 4; i++) {
-            element.animate({marginTop: '-='+distance},speed)
-              .animate({marginTop: '+='+distance},speed);
-          }
-          $('#operatorAlert')[0].play();
-        }
-      }
-    });
+  pusher.connection.bind('state_change', function(states) {
+    // states = {previous: 'oldState', current: 'newState'}
+/*    $('.operator_status').html(states.current);
+    if(states.current === 'connected'){
+      $('.operator_status').removeClass('operator_status_pending').addClass('operator_status_online');
+    }else{
+      $('.operator_status').removeClass('operator_status_online').addClass('operator_status_pending');
+    }*/
   });
+
 
   $scope.switchChat = function (id) {
     var conversation = $('#chatbox_'+id+' .conversation');
@@ -110,14 +80,74 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   };
 
   $scope.endChat = function (id) {
-    var index = _.findIndex($scope.active_sessions, function(session) {
-      return session.chat_uid == id;
-    });
-    $scope.active_sessions.splice(index, 1);
-    pusher.unsubscribe('chat_'+id);
+    $http({method: 'DELETE', url: '/api/chats/'+id}).
+      success(function (data, status, headers, config) {
+        var index = _.findIndex($scope.active_sessions, function(session) {
+          return session.chat_uid == id;
+        });
+        $scope.active_sessions.splice(index, 1);
+        pusher.unsubscribe('chat_'+id);
+      }).error(function (data, status, headers, config) {
+
+      });
   };
 
-/*  $scope.active_sessions.push({
+  $scope.toggleOperatorStatus = function(){
+    if(operator_channel_connected){
+      pusher.unsubscribe('operator_' + operator_data.uid);
+      $('.operator_status').removeClass('operator_status_online').addClass('operator_status_offline');
+      $('.operator_status').html('Offline');
+      operator_channel_connected = false;
+    }else{
+      $('.operator_status').removeClass('operator_status_offline').addClass('operator_status_online');
+      $('.operator_status').html('Online');
+      operator_channel_connected = true;
+      pusher.subscribe('operator_' + operator_data.uid).bind('newchat', function (newchat_data) {
+        console.log('New Incoming Chat: '+ newchat_data.chat_uid);
+
+        if(newchat_data.visitor_name == ''){
+          newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
+        }
+
+        $scope.$apply(function () {
+          $scope.active_sessions.push({
+            chat_uid: newchat_data.chat_uid,
+            visitor_uid: newchat_data.visitor_uid,
+            visitor_name: newchat_data.visitor_name,
+            visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg'
+          });
+        });
+
+        pusher.subscribe('chat_'+newchat_data.chat_uid).bind('event', function (data) {
+          if(data.user_uid != operator_data.uid){
+            var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
+            if(data.message_type=='activity'){
+              conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
+            }else{
+              conversation.append('<li> <div class="person">' + newchat_data.visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
+            }
+            conversation.scrollTop(conversation[0].scrollHeight);
+
+            if(active_chat != newchat_data.chat_uid){
+              var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
+              element.show();
+              var distance = '5px';
+              var speed = 210;
+              var i;
+              for(i = 0; i < 4; i++) {
+                element.animate({marginTop: '-='+distance},speed)
+                  .animate({marginTop: '+='+distance},speed);
+              }
+              $('#operatorAlert')[0].play();
+            }
+          }
+        });
+      });
+    }
+
+  };
+
+  $scope.active_sessions.push({
     chat_uid: '265gf95sdg43',
     visitor_uid: '01',
     visitor_name: 'Visitor #1',
@@ -128,7 +158,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     visitor_uid: '02',
     visitor_name: 'Visitor #2',
     visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });*/
+  });
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp-refresh').each(function (i) {

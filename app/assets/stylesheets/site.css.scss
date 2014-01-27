@@ -619,12 +619,16 @@
     background:#FAF9F9;
     text-align: center;
     font-size: 20px;
+    cursor: pointer;
   }
   .operator_status_pending{
     background: #F3F781;
   }
   .operator_status_online{
     background: #9FF781;
+  }
+  .operator_status_offline{
+    background: #FE2E2E;
   }
   .activity #activesessions{
     height: calc(100% - 156px);
@@ -692,7 +696,7 @@
   #chat .chatbox .person{
     font-weight: bold;
   }
-  #chat .chatbox input[type=text] {
+  #chat .chatbox .chat-message {
     display: block;
     position: absolute;
     bottom: 0;
