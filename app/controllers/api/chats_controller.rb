@@ -1,4 +1,6 @@
 class Api::ChatsController < ApplicationController
+  before_filter :ensure_operator, :only => :destroy
+
   def create
     campaign = Campaign.where(:uid => params[:campaign_uid]).first
     visitor = User.where(:visitor_uid => params[:visitor_uid]).first
@@ -24,7 +26,23 @@ class Api::ChatsController < ApplicationController
     end
   end
 
+  def destroy
+    chat = Chat.where(:uid => params[:uid]).first
+    if chat
+      chat.close!
+      render json: {}, status: 201
+    else
+      render json: { error: "Chat not found" }, status: 500 
+    end
+  end
+
   def operator_params
     params.permit(:campaign_uid, :visitor_uid)
+  end
+
+  def ensure_operator
+    unless signed_in? && current_user.operator
+      render json: { error: "must be operator" }, status: 500 
+    end
   end
 end

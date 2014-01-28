@@ -10,5 +10,8 @@ FactoryGirl.define do
     missionhub_secret "missionhub_secret"
   end
 
-  factory :chat
+  factory :chat do
+    association :operator, factory: :user, operator_uid: "op_uid", operator: true, status: "online"
+    association :visitor, factory: :user
+  end
 end

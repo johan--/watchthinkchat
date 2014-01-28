@@ -18,4 +18,9 @@ class Chat < ActiveRecord::Base
       break uid unless Chat.find_by(uid: uid)
     end
   end
+
+  def close!
+    Pusher["chat_#{self.uid}"].trigger('end', { })
+    self.update_attribute(:status, "closed")
+  end
 end

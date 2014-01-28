@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
                           email: auth.info.email
                         )
     end
-    user.update_attributes(fb_uid: auth.uid, operator_uid: auth.uid)
+    user.update_attributes(fb_uid: auth.uid, operator_uid: auth.uid, operator: true)
     user
   end
 
