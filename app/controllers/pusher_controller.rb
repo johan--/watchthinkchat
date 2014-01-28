@@ -56,9 +56,10 @@ class PusherController < ApplicationController
             case event["name"]
             when "channel_occupied"
             when "channel_vacated"
-              logger.info("in existence channel_vacated #{visitor.chats.open.inspect}")
+              logger.info("in existence channel_vacated #{visitor.visitor_chats.open.inspect}")
               # notify all their chats that the visitor has left
-              visitor.chats.open.each do |chat|
+              visitor.visitor_chats.open.each do |chat|
+                logger.info("Sending end trigger on chat_#{chat.uid}")
                 Pusher["chat_#{chat.uid}"].trigger('end', { })
               end
             end

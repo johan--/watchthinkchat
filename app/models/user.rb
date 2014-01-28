@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:facebook]
 
   #has_and_belongs_to_many :languages
-  has_many :chats
+  has_many :operator_chats, :foreign_key => :operator_id, :class_name => "Chat"
+  has_many :visitor_chats, :foreign_key => :visitor_id, :class_name => "Chat"
 
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
@@ -34,7 +35,7 @@ class User < ActiveRecord::Base
                           email: auth.info.email
                         )
     end
-    user.update_attribute(:fb_uid, auth.uid) unless user.fb_uid == auth.uid
+    user.update_attributes(fb_uid: auth.uid, operator_uid: auth.uid)
     user
   end
 
