@@ -11,6 +11,7 @@ class OperatorsController < ApplicationController
 
     current_user.operator = true
     current_user.operator_uid = current_user.fb_uid
+    current_user.status = "online"
     current_user.save!
 
     unless current_user.operator_uid.present? # should never happen but just in case
