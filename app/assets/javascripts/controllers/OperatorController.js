@@ -55,14 +55,14 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     $('#chatbox_' + id).show();
     $('#activesessions li').removeClass('activechat');
     $('#session_' + id).addClass('activechat');
-    $('#session_' + id + ' .newmessage').hide();
+    $('#session_' + id + ' .newmessage').css('visibility','hidden');
     active_chat = id;
     conversation.scrollTop(conversation[0].scrollHeight);
   };
 
   $scope.postMessage = function (id) {
-    var message = $('#chatbox_' + id + ' input').val();
-    $('#chatbox_' + id + ' input').val('');
+    var message = $('#chatbox_' + id + ' .chat-message').val();
+    $('#chatbox_' + id + ' .chat-message').val('');
     var conversation = $('#chatbox_' + id + ' .conversation');
 
     var post_data = {
@@ -114,7 +114,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             chat_uid: newchat_data.chat_uid,
             visitor_uid: newchat_data.visitor_uid,
             visitor_name: newchat_data.visitor_name,
-            visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg'
+            visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg',
+            activity: ''
           });
         });
 
@@ -123,6 +124,12 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           if(data.user_uid != operator_data.uid){
             var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
             if(data.message_type=='activity'){
+              var index = _.findIndex($scope.active_sessions, function(session) {
+                return session.chat_uid == newchat_data.chat_uid;
+              });
+              $scope.$apply(function () {
+                $scope.active_sessions[index].activity = data.message;
+              });
               conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
             }else{
               conversation.append('<li> <div class="person">' + newchat_data.visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
@@ -131,7 +138,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
             if(active_chat != newchat_data.chat_uid){
               var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
-              element.show();
+              element.css('visibility','visible');
               var distance = '5px';
               var speed = 210;
               var i;
@@ -145,13 +152,14 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         chat_channel.bind('end', function () {
           console.log('End Chat: '+newchat_data.chat_uid);
+          $scope.endChat(newchat_data.chat_uid);
         });
       });
     }
 
   };
 
-/*  $scope.active_sessions.push({
+  $scope.active_sessions.push({
     chat_uid: '265gf95sdg43',
     visitor_uid: '01',
     visitor_name: 'Visitor #1',
@@ -162,7 +170,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     visitor_uid: '02',
     visitor_name: 'Visitor #2',
     visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });*/
+  });
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp-refresh').each(function (i) {
