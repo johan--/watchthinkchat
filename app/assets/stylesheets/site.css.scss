@@ -420,6 +420,22 @@
     line-height:60px;
     vertical-align: middle;
   }
+  .after-chat-title{
+    position: absolute;
+    display:none;
+    top:10%;
+    width:100%;
+    text-align: center;
+    font-size:44px;
+    color:#fff;
+    left:0;
+    z-index: 1;
+    text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;
+  }
   #link {
     cursor: pointer;
   }
