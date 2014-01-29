@@ -361,6 +361,7 @@ DEPENDENCIES
   angular-ui-rails
   angularjs-rails
   anjlab-bootstrap-rails!
+  bcrypt-ruby
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.0.3.0)

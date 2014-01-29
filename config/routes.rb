@@ -17,13 +17,14 @@ Godchat::Application.routes.draw do
   get ':path/:subpath' => 'templates#index'
 
   # API
-  get "/api/campaigns/:uid", to: "api/campaigns#show"
+  get  "/api/campaigns/:uid", to: "api/campaigns#show"
+  post "/api/campaigns/:uid/password", to: "api/campaigns#password"
   post "/api/visitors", to: "api/visitors#create"
   post "/api/operators", to: "api/operators#create"
-  get "/api/operators/:uid", to: "api/operators#show"
+  get  "/api/operators/:uid", to: "api/operators#show"
   post "/api/chats", to: "api/chats#create"
   post "/api/chats/:chat_uid/messages", to: "api/messages#create"
-  get "/api/chats/:uid", to: "api/chats#show"
+  get  "/api/chats/:uid", to: "api/chats#show"
   delete "/api/chats/:uid", to: "api/chats#destroy"
 
   # Pusher

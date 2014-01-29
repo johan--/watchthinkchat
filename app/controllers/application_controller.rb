@@ -17,6 +17,16 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def ensure_operator_json
+      unless is_operator
+        render :json => { :error => "Operator access required for this operator" }, :status => 401
+      end
+    end
+
+    def is_operator
+      signed_in? && current_user.operator
+    end
+
     def authenticate_admin_user!
       signed_in? && current_user.admin ? current_user : nil
     end

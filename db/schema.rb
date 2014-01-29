@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140127212446) do
+ActiveRecord::Schema.define(version: 20140129214953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140127212446) do
     t.string   "description"
     t.string   "language"
     t.string   "status"
+    t.string   "password_hash"
   end
 
   create_table "chats", force: true do |t|

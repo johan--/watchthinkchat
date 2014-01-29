@@ -23,6 +23,7 @@ gem "devise", github: "plataformatec/devise"
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'cancan'
+gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Public API
 gem 'MissionHub'
