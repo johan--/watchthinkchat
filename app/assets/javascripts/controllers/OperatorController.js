@@ -8,6 +8,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   var campaign_id = $location.search()['campaign'] || '';
   var operator_channel_connected = false;
   $scope.operator_edit_mode = false;
+  var window_focus=true;
+  var window_focus_timeout;
 //$location.search('o', null);
 
   if(!operator_data.uid){
@@ -136,7 +138,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             }
             conversation.scrollTop(conversation[0].scrollHeight);
 
-            if(active_chat != newchat_data.chat_uid){
+            if(active_chat != newchat_data.chat_uid || window_focus === false){
               var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
               element.css('visibility','visible');
               var distance = '5px';
@@ -159,7 +161,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
   };
 
-  $scope.active_sessions.push({
+/*  $scope.active_sessions.push({
     chat_uid: '265gf95sdg43',
     visitor_uid: '01',
     visitor_name: 'Visitor #1',
@@ -170,7 +172,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     visitor_uid: '02',
     visitor_name: 'Visitor #2',
     visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });
+  });*/
 
   var timeUpdate = setInterval(function () {
     $('.conversation .timestamp-refresh').each(function (i) {
@@ -191,4 +193,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       }
     });
   }, 5000);
+
+  $(window).focus(function() {
+    window_focus=true;
+    clearTimeout(window_focus_timeout);
+  }).blur(function() {
+    window_focus=false;
+    window_focus_timeout = setTimeout(function(){
+      console.log('2 mins inactivity, status set to: Offline');
+      if(operator_channel_connected){
+        $scope.toggleOperatorStatus();
+      }
+    },120000);
+  }).trigger('focus');
+
 });

@@ -8,6 +8,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     uid: $location.search()['o'] || ''
   };
   var video_completed=false;
+  var window_focus=false;
   $scope.followup_buttons=[];
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
@@ -36,7 +37,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               rel: 0,
               showinfo: 0,
               iv_load_policy: 3,
-              html5: 1
+              html5: 1,
+              start: 0,
+              end: 235
             },
             events: {
               'onStateChange': onPlayerStateChange
@@ -138,11 +141,18 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
         channel_chat.bind('event', function (data) {
-          console.log(data);
           if(data.user_uid != visitor_data.uid){
             $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
             $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
           }
+        });
+
+        channel_chat.bind('end', function (data) {
+          pusher.unsubscribe('chat_'+chat_data.chat_uid);
+          $('#chatbox').fadeOut();
+          $('#chatEnd').fadeIn();
+          $('.conversation').empty();
+          //chat_data = {};
         });
 
         if(initialMsg){
@@ -160,7 +170,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   };
 
   $scope.buttonClick = function(button){
-    $('.after-chat-buttons').fadeOut();
+    $('.after-chat-buttons, .after-chat-title').fadeOut();
     console.log(button);
     if(button.action == 'url'){
       launchWebPage(button.value);
@@ -213,7 +223,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
       case YT.PlayerState.ENDED:
         if(!video_completed){
-          $('.after-chat-buttons').fadeIn(2000);
+          $('.after-chat-buttons, .after-chat-title').fadeIn(2000);
         }
         video_completed=true;
         break;
@@ -221,5 +231,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
     }
   };
+
+  $(window).focus(function() {
+    window_focus=true;
+  });
+
+  $(window).blur(function() {
+    window_focus=false;
+  });
 
 });

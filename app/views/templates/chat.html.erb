@@ -1,5 +1,9 @@
 <div class="visitor_chat">
   <div class="box">
+    <div class="after-chat-title">
+      Jesus asks you,<br>
+      "Will you follow me?"
+    </div>
     <div class="after-chat-buttons">
       <div class='btn btn-info btn-block' data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
     </div>
@@ -21,6 +25,11 @@
       <div class="panel panel-default" id="finishVideo" style="display:none;">
         <div class="panel-body">
           <p>Finish watching the video, then we can chat.</p>
+        </div>
+      </div>
+      <div class="panel panel-default" id="chatEnd" style="display:none;">
+        <div class="panel-body">
+          <p>The chat session has ended.</p>
         </div>
       </div>
     </div>

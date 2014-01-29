@@ -30,5 +30,7 @@ module Godchat
     # config.i18n.default_locale = :de
 
     config.cache_store = :dalli_store, 'localhost'
+
+    config.assets.paths << "#{Rails.root}/app/assets/audio"
   end
 end
