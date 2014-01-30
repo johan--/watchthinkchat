@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http) {
+angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter) {
   var operator_data = {
     uid: $route.current.params.operatorId,
     profile_pic: '/assets/avatar.png'
