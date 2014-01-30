@@ -2,7 +2,8 @@
 
 angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http) {
   var operator_data = {
-    uid: $route.current.params.operatorId
+    uid: $route.current.params.operatorId,
+    profile_pic: '/assets/avatar.png'
   };
   var active_chat = '';
   var campaign_id = $location.search()['campaign'] || '';
@@ -10,7 +11,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   $scope.operator_edit_mode = false;
   var window_focus=true;
   var window_focus_timeout;
-//$location.search('o', null);
 
   if(!operator_data.uid){
     document.write('Invalid operator id');
@@ -26,18 +26,30 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     return;
   }
 
-  $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
   $scope.active_sessions=[];
 
-  $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
-    success(function (data, status, headers, config) {
-      operator_data = data;
-      $scope.operator_data = data;
-      $scope.toggleOperatorStatus();
+  $scope.validatePassword = function() {
+    $http({
+      method: 'POST',
+      url: '/api/campaigns/' + campaign_id + '/password',
+      data: {
+        password: $scope.campaignPassword
+      }
+    }).success(function (data, status, headers, config) {
+      $('.password-overlay').fadeOut();
+      $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
+      $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
+        success(function (data, status, headers, config) {
+          operator_data = data;
+          $scope.operator_data = data;
+          $scope.toggleOperatorStatus();
+        }).error(function (data, status, headers, config) {
+
+        });
     }).error(function (data, status, headers, config) {
-
+      $('.password-overlay .alert').fadeIn().delay(2000).fadeOut();
     });
-
+  };
 
   var pusher = new Pusher('249ce47158b276f4d32b');
   pusher.connection.bind('state_change', function(states) {
@@ -116,7 +128,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             chat_uid: newchat_data.chat_uid,
             visitor_uid: newchat_data.visitor_uid,
             visitor_name: newchat_data.visitor_name,
-            visitor_profile: 'http://www.newportoak.com/wp-content/uploads/default-avatar.jpg',
+            visitor_profile: '/assets/avatar.png',
             activity: ''
           });
         });

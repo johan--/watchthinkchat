@@ -1,4 +1,13 @@
 <div class="operator">
+  <div class="password-overlay">
+    <p>Please enter the campaign password to continue:</p>
+    <form class="form-inline" role="form">
+      <input data-ng-model="campaignPassword" type="password" placeholder="password..." class="form-control" style="width:40%;" ng-enter="validatePassword()" autofocus>
+
+      <div class="btn btn-primary" data-ng-click="validatePassword()">Validate</div>
+    </form>
+    <div class="alert alert-danger">Invalid Password</div>
+  </div>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
