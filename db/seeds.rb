@@ -6,4 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Campaign.create(name: 'Falling Plates', campaign_type: 'youtube', permalink: 'fallingplates', cname: 'www.fallingplates.com', missionhub_secret: 'change_me', video_id: 'KGlx11BxF24')
+Campaign.create(name: 'Falling Plates', campaign_type: 'youtube', permalink: 'fallingplates', cname: 'www.fallingplates.com', missionhub_secret: 'change_me', video_id: 'KGlx11BxF24', password: 'password')
