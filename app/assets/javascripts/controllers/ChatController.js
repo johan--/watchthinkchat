@@ -144,6 +144,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           if(data.user_uid != visitor_data.uid){
             $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
             $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+
+            if(window_focus === false){
+              $('#newMsgAlert')[0].play();
+            }
           }
         });
 
@@ -234,9 +238,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $(window).focus(function() {
     window_focus=true;
-  });
-
-  $(window).blur(function() {
+  }).blur(function() {
     window_focus=false;
   });
 

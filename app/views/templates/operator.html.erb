@@ -8,6 +8,12 @@
     </form>
     <div class="alert alert-danger">Invalid Password</div>
   </div>
+  <div class="endchat-overlay">
+    <p>Please rate this chat</p>
+    <form class="form-inline" role="form">
+      <div class="btn btn-primary" onclick="$('.endchat-overlay').fadeOut()">Close</div>
+    </form>
+  </div>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -62,4 +68,4 @@
   </div>
 </div>
 
-<audio id="operatorAlert"><source src="<%= asset_path("notify.ogg") %>" type="audio/ogg"><source src="<%= asset_path("notify.mp3") %>" type="audio/mpeg"><source src="<%= asset_path("notify.wav") %>" type="audio/wav"></audio>
+<audio id="newMsgAlert"><source src="<%= asset_path("notify.ogg") %>" type="audio/ogg"><source src="<%= asset_path("notify.mp3") %>" type="audio/mpeg"><source src="<%= asset_path("notify.wav") %>" type="audio/wav"></audio>

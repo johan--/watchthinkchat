@@ -101,6 +101,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         $scope.active_sessions.splice(index, 1);
         pusher.unsubscribe('chat_'+id);
+        $('.endchat-overlay').fadeIn();
       }).error(function (data, status, headers, config) {
 
       });
@@ -160,7 +161,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                 element.animate({marginTop: '-='+distance},speed)
                   .animate({marginTop: '+='+distance},speed);
               }
-              $('#operatorAlert')[0].play();
+              $('#newMsgAlert')[0].play();
             }
           }
         });
@@ -214,7 +215,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     window_focus_timeout = setTimeout(function(){
       console.log('2 mins inactivity, status set to: Offline');
       if(operator_channel_connected){
-        $scope.toggleOperatorStatus();
+        //$scope.toggleOperatorStatus();
       }
     },120000);
   }).trigger('focus');
