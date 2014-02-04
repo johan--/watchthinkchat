@@ -27,6 +27,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   }
 
   $scope.active_sessions=[];
+  $scope.endchat_session=[];
 
   $scope.validatePassword = function() {
     $http({
@@ -99,9 +100,30 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         var index = _.findIndex($scope.active_sessions, function(session) {
           return session.chat_uid == id;
         });
+        $scope.endchat_session = $scope.active_sessions[index];
         $scope.active_sessions.splice(index, 1);
+        console.log($scope.endchat_session);
         pusher.unsubscribe('chat_'+id);
         $('.endchat-overlay').fadeIn();
+      }).error(function (data, status, headers, config) {
+
+      });
+  };
+
+  $scope.endChatDialogSave = function (id) {
+      $http({
+        method: 'POST',
+        url: '/api/chats/' + $scope.endchat_session.chat_uid + '/collect_stats',
+        data: {
+          visitor_response: $scope.endchat_session.activity,
+          visitor_name: $scope.endchat_session.visitor_name,
+          visitor_email: $scope.endchat_session.visitor_email,
+          calltoaction: '',
+          notes: $scope.endchat_session.notes
+        }
+      }).success(function (data, status, headers, config) {
+        $('.endchat-overlay').fadeOut();
+        $scope.endchat_session=[];
       }).error(function (data, status, headers, config) {
 
       });
@@ -138,16 +160,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         chat_channel.bind('event', function (data) {
           if(data.user_uid != operator_data.uid){
             var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
+            var index = _.findIndex($scope.active_sessions, function(session) {
+              return session.chat_uid == newchat_data.chat_uid;
+            });
             if(data.message_type=='activity'){
-              var index = _.findIndex($scope.active_sessions, function(session) {
-                return session.chat_uid == newchat_data.chat_uid;
-              });
               $scope.$apply(function () {
                 $scope.active_sessions[index].activity = data.message;
               });
               conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
             }else{
-              conversation.append('<li> <div class="person">' + newchat_data.visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
+              conversation.append('<li> <div class="person">' + $scope.active_sessions[index].visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
             }
             conversation.scrollTop(conversation[0].scrollHeight);
 
@@ -167,7 +189,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         chat_channel.bind('end', function () {
           console.log('End Chat: '+newchat_data.chat_uid);
-          $scope.endChat(newchat_data.chat_uid);
+          //$scope.endChat(newchat_data.chat_uid);
         });
       });
     }
