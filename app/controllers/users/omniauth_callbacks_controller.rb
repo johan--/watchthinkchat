@@ -2,9 +2,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
-
     sign_in @user
-    @user.update_attribute(:profile_pic, request.env["omniauth.auth"]["info"]["image"])
+    @user.extra_omniauth_info(request.env["omniauth.auth"]["info"])
     if session[:campaign]
       redirect_to "/operator/#{@user.operator_uid}?campaign=#{session[:campaign]}"
     else

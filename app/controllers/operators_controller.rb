@@ -9,8 +9,6 @@ class OperatorsController < ApplicationController
       return
     end
 
-    current_user.operator = true
-    current_user.operator_uid = current_user.fb_uid
     current_user.status = "online"
     current_user.save!
 

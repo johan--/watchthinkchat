@@ -26,7 +26,8 @@ gem 'cancan'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Public API
-gem 'MissionHub'
+gem 'activeresource', require: 'active_resource'
+gem 'MissionHub', github: "twinge/missionhub-gem"
 gem 'pusher'
 gem 'rest-client'
 
@@ -34,6 +35,10 @@ gem 'rest-client'
 gem 'airbrake'
 gem 'newrelic_rpm'
 gem 'useragent'
+gem 'better_errors'
+gem 'binding_of_caller'
+
+# Testing
 
 # Assets CSS
 gem 'sass-rails'
@@ -66,12 +71,8 @@ gem 'wicked'
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
-gem "devise", github: "plataformatec/devise"
 
-# Testing
 group :test, :development do
-  gem 'binding_of_caller'
-  gem 'better_errors'
   gem 'minitest'
   gem 'rspec'
   gem 'rspec-rails'
@@ -82,8 +83,6 @@ group :development do
   gem 'railroady'
   gem 'foreman'
   gem 'rails-footnotes', '>= 3.7.9'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'seed_dump'
   gem 'debugger'

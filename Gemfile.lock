@@ -62,6 +62,12 @@ GIT
       railties (>= 4.0.0, < 5)
 
 GIT
+  remote: git://github.com/twinge/missionhub-gem.git
+  revision: 263f1f70fb1757aa34c4ac7ba5ec2f9c7462d0fd
+  specs:
+    MissionHub (2.0.0)
+
+GIT
   remote: https://github.com/anjlab/bootstrap-rails
   revision: addb7143365f97f938e3bdbb2ccfc52591230eda
   branch: 3.0.0
@@ -80,9 +86,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    MissionHub (2.1.2)
-      activemodel
-      activeresource
     actionmailer (4.1.0.beta1)
       actionpack (= 4.1.0.beta1)
       actionview (= 4.1.0.beta1)
@@ -353,9 +356,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  MissionHub
+  MissionHub!
   activeadmin!
   activerecord-session_store!
+  activeresource
   airbrake
   angular-ui-bootstrap-rails
   angular-ui-rails

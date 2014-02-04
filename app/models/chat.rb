@@ -23,4 +23,15 @@ class Chat < ActiveRecord::Base
     Pusher["chat_#{self.uid}"].trigger('end', { })
     self.update_attribute(:status, "closed")
   end
+
+  def collect_stats(params)
+    name_words = params[:visitor_name].split(' ')
+    people = MissionHub::Person.find(:all, :params => { :filters => { :email => params[:visitor_email] }})
+    if people.length == 0
+      visitor = MissionHub::Person.create(first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email])
+    else
+      visitor = people.first
+    end
+    MissionHub::FollowupComment.create(contact_id: visitor.id, commenter_id: self.operator.missionhub_id, comment: params[:notes])
+  end
 end

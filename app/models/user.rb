@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
                           email: auth.info.email
                         )
     end
-    user.update_attributes(fb_uid: auth.uid, operator_uid: auth.uid, operator: true)
+    user.update_attributes(fb_uid: auth.uid, operator_uid: auth.uid)
     user
   end
 
@@ -64,5 +64,36 @@ class User < ActiveRecord::Base
     begin
       self.visitor_uid = SecureRandom.hex(3)
     end while User.exists?(visitor_uid: visitor_uid)
+  end
+
+  def extra_omniauth_info(omniauth_info)
+    self.update_attributes(
+      :profile_pic => omniauth_info["image"],
+      :email => omniauth_info["email"],
+      :first_name => omniauth_info["first_name"],
+      :last_name => omniauth_info["last_name"]
+    )
+  end
+
+  def mark_as_operator!
+    puts "in mark_as_operator!"
+    self.operator = true
+    self.operator_uid = self.fb_uid
+    self.save!
+
+    # make sure this person is in missionhub and in leader role
+    @@leader_role_id ||= MissionHub::Role.find(:all).detect{ |role| role.name == "Leader" }.id
+    people = MissionHub::Person.find(:all, :params => { :filters => { :fb_uids => self.fb_uid }})
+    if people.length == 1
+      puts "  people.length was 1, updating person"
+      person = people.first
+      puts "  person: #{person.inspect}"
+      person.roles = [ @@leader_role_id ]
+      person.save
+    else
+      puts "create"
+      MissionHub::Person.create(:roles => @@leader_role_id, :first_name => self.first_name, :last_name => self.last_name, :email => self.email)
+    end
+
   end
 end

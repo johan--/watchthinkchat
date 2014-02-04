@@ -1,5 +1,5 @@
 class Api::ChatsController < ApplicationController
-  before_filter :ensure_operator, :only => :destroy
+  before_filter :ensure_operator, :only => [ :destroy, :collect_stats ]
 
   def create
     campaign = Campaign.where(:uid => params[:campaign_uid]).first
@@ -35,6 +35,18 @@ class Api::ChatsController < ApplicationController
       render json: { error: "Chat not found" }, status: 500 
     end
   end
+
+  def collect_stats
+    chat = Chat.where(:uid => params[:uid]).first
+    if chat
+      chat.collect_stats(params.slice(:visitor_response, :visitor_name, :visitor_email, :calltoaction, :notes))
+      render json: {}, status: 201
+    else
+      render json: { error: "Chat not found" }, status: 500 
+    end
+  end
+
+  protected
 
   def operator_params
     params.permit(:campaign_uid, :visitor_uid)
