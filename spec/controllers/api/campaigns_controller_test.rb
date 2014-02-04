@@ -26,8 +26,7 @@ describe Api::CampaignsController do
     it "should not work unless logged in" do
       campaign = create_campaign
       post :password, :uid => campaign.uid, :password => "password"
-      assert_response 401
-      json_response['error'].should == "Operator access required for this operator"
+      assert_response 302
     end
 
     it "should give invalid password for an operator with the wrong password" do
@@ -43,7 +42,12 @@ describe Api::CampaignsController do
       campaign = create_campaign
       operator = create_operator
       sign_in operator
-      post :password, :uid => campaign.uid, :password => "password"
+      MissionHub::Role.should_receive(:find).and_return(double('roles', :detect => double('role', :id => 1)))
+      MissionHub::Person.should_receive(:find).and_return(double('people', :length => 1, :first => double('person', :roles= => true, :save => true, :id => 1)))
+      lambda {
+        post :password, :uid => campaign.uid, :password => "password"
+        post :password, :uid => campaign.uid, :password => "password" # should only increment UserOperator count by 1 still
+      }.should change(UserOperator, :count).by(1)
       assert_response 201
     end
   end

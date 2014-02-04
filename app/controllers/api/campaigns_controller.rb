@@ -1,5 +1,6 @@
 class Api::CampaignsController < ApplicationController
   #before_filter :ensure_operator_json, :only => :password
+  before_filter :authenticate_user!, :only => :password
 
   def show
     @campaign = Campaign.where(:uid => params[:uid]).first
@@ -13,10 +14,10 @@ class Api::CampaignsController < ApplicationController
   def password
     @campaign = Campaign.where(:uid => params[:uid]).first
     if params[:password].present? && @campaign.try(:password) == params[:password]
-      puts "Api::CampaignsController#password"
+      #puts "Api::CampaignsController#password"
       # this is the most secure spot to mark them as an operator
-      unless current_user.operator
-        current_user.mark_as_operator!
+      unless current_user.operating?(@campaign)
+        current_user.mark_as_operator!(@campaign)
       end
       render :text => "", status: 201
     elsif @campaign

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   #has_and_belongs_to_many :languages
   has_many :operator_chats, :foreign_key => :operator_id, :class_name => "Chat"
   has_many :visitor_chats, :foreign_key => :visitor_id, :class_name => "Chat"
+  has_many :user_operators
+  has_many :operating_campaigns, :through => :user_operators, :class_name => "Campaign", :source => :campaign
 
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
@@ -75,9 +77,14 @@ class User < ActiveRecord::Base
     )
   end
 
-  def mark_as_operator!
-    puts "in mark_as_operator!"
+  def operating?(campaign)
+    self.operator && self.operating_campaigns.include?(campaign)
+  end
+
+  def mark_as_operator!(campaign)
+    #puts "in mark_as_operator!"
     self.operator = true
+    self.operating_campaigns << campaign unless self.operating_campaigns.include?(campaign)
     self.operator_uid = self.fb_uid
     self.save!
 
@@ -85,13 +92,13 @@ class User < ActiveRecord::Base
     @@leader_role_id ||= MissionHub::Role.find(:all).detect{ |role| role.name == "Leader" }.id
     people = MissionHub::Person.find(:all, :params => { :filters => { :fb_uids => self.fb_uid }})
     if people.length == 1
-      puts "  people.length was 1, updating person"
+      #puts "  people.length was 1, updating person"
       person = people.first
-      puts "  person: #{person.inspect}"
+      #puts "  person: #{person.inspect}"
       person.roles = [ @@leader_role_id ]
       person.save
     else
-      puts "create"
+      #puts "create"
       person = MissionHub::Person.create(:roles => @@leader_role_id, :first_name => self.first_name, :last_name => self.last_name, :email => self.email)
     end
     self.update_attribute :missionhub_id, person.id
