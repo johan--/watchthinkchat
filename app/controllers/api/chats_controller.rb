@@ -7,7 +7,7 @@ class Api::ChatsController < ApplicationController
     operator = User.where(:operator_uid => params[:operator_uid]).first
 
     if campaign && visitor && operator && operator.online?
-      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id)
+      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id)
       Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
         chat_uid: chat.uid,
         visitor_uid: visitor.visitor_uid,

@@ -92,8 +92,9 @@ class User < ActiveRecord::Base
       person.save
     else
       puts "create"
-      MissionHub::Person.create(:roles => @@leader_role_id, :first_name => self.first_name, :last_name => self.last_name, :email => self.email)
+      person = MissionHub::Person.create(:roles => @@leader_role_id, :first_name => self.first_name, :last_name => self.last_name, :email => self.email)
     end
+    self.update_attribute :missionhub_id, person.id
 
   end
 end
