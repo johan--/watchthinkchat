@@ -9,9 +9,47 @@
     <div class="alert alert-danger">Invalid Password</div>
   </div>
   <div class="endchat-overlay">
-    <p>Please rate this chat</p>
-    <form class="form-inline" role="form">
-      <div class="btn btn-primary" onclick="$('.endchat-overlay').fadeOut()">Close</div>
+    <form class="form" role="form" style="width:700px;margin:auto;">
+      <div class="form-group" style="width:49%;display:inline-block;">
+        <label class="control-label">Response to follow Jesus</label>
+        <div class="">
+          <p class="form-control-static">{{endchat_session.activity}}</p>
+        </div>
+      </div>
+      <div class="form-group" style="width:49%;display:inline-block;margin-bottom:0;vertical-align:top;">
+        <label class="control-label">Link shared by</label>
+        <div class="">
+          <img src="{{operator_data.profile_pic}}" style="float:left;">
+          <p class="form-control-static">Bob Operator</p>
+        </div>
+      </div>
+    <h2>Who are they</h2>
+      <div class="form-group">
+        <label>Persons name</label>
+        <input type="text" class="form-control" data-ng-model="endchat_session.visitor_name">
+      </div>
+
+      <div class="form-group">
+        <label>Contact email</label>
+        <input type="email" class="form-control" data-ng-model="endchat_session.visitor_email">
+      </div>
+    <h2>Next steps</h2>
+      <div class="form-group">
+        <label>Call to action</label>
+        <select class="form-control">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea class="form-control" rows="3" data-ng-model="endchat_session.notes"></textarea>
+      </div>
+      <div class="btn btn-primary" data-ng-click="endChatDialogSave()">Save &amp; Close</div>
     </form>
   </div>
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -56,11 +94,26 @@
   </div>
   <div id="chat">
     <div class="chatbox" id="chatbox_{{session.chat_uid}}" ng-repeat="session in active_sessions" style="display:none;">
-      <div class="btn btn-danger" data-ng-click="endChat(session.chat_uid)" style="float:right;margin:12px;">End Chat</div>
-      <h1 class="special">
-        <span data-ng-show="!operator_edit_mode" data-ng-click="operator_edit_mode=true" style="cursor: pointer;">{{session.visitor_name}}</span>
-        <input type="text" data-ng-model="session.visitor_name" data-ng-show="operator_edit_mode" ng-enter="operator_edit_mode=false">
-      </h1>
+      <div class="btn btn-danger" data-ng-click="endChat(session.chat_uid)" style="position:absolute;margin:12px;right:0;z-index:1;">End Chat</div>
+      <div data-ng-show="operator_edit_mode" style="margin-top: 8px;">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Visitor Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="session.visitor_name" ng-enter="operator_edit_mode=false">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Visitor Email</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="session.visitor_email" ng-enter="operator_edit_mode=false">
+            </div>
+          </div>
+        </form>
+      </div>
+      <h1 class="special" data-ng-show="!operator_edit_mode" data-ng-click="operator_edit_mode=true" style="cursor: pointer;">
+        {{session.visitor_name}}
+      </h1><span data-ng-show="!operator_edit_mode" style="text-align: center;width: 100%;position: absolute;margin-top: -32px;">{{session.visitor_email}}</span>
       <ul class="conversation">
       </ul>
       <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)">
