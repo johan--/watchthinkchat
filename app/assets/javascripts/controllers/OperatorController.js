@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter) {
+angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout) {
   var operator_data = {
     uid: $route.current.params.operatorId,
     profile_pic: '/assets/avatar.png'
@@ -55,30 +55,22 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   var pusher = new Pusher('249ce47158b276f4d32b');
   pusher.connection.bind('state_change', function(states) {
     // states = {previous: 'oldState', current: 'newState'}
-/*    $('.operator_status').html(states.current);
-    if(states.current === 'connected'){
-      $('.operator_status').removeClass('operator_status_pending').addClass('operator_status_online');
-    }else{
-      $('.operator_status').removeClass('operator_status_online').addClass('operator_status_pending');
-    }*/
   });
 
 
   $scope.switchChat = function (id) {
-    var conversation = $('#chatbox_'+id+' .conversation');
     $('.chatbox').hide();
     $('#chatbox_' + id).show();
     $('#activesessions li').removeClass('activechat');
     $('#session_' + id).addClass('activechat');
-    $('#session_' + id + ' .newmessage').css('visibility','hidden');
+    $('#session_' + id + ' .newmessage').css('visibility', 'hidden');
     active_chat = id;
-    conversation.scrollTop(conversation[0].scrollHeight);
+    scollBottom(id);
   };
 
   $scope.postMessage = function (id) {
     var message = $('#chatbox_' + id + ' .chat-message').val();
     $('#chatbox_' + id + ' .chat-message').val('');
-    var conversation = $('#chatbox_' + id + ' .conversation');
 
     var post_data = {
       user_uid: operator_data.uid,
@@ -87,8 +79,17 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     };
     $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
-        conversation.append('<li class="graybg"><div class="person">You</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div><div class="message">' + message + '</div></li>');
-        conversation.scrollTop(conversation[0].scrollHeight);
+        var index = _.findIndex($scope.active_sessions, function(session) {
+          return session.chat_uid == id;
+        });
+        $scope.active_sessions[index].chatMessages.push({
+          time: Math.round(+new Date()).toString(),
+          class: 'graybg',
+          messageClass: 'message',
+          person: 'You',
+          message: message
+        });
+        scollBottom(id);
       }).error(function (data, status, headers, config) {
 
       });
@@ -152,7 +153,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             visitor_uid: newchat_data.visitor_uid,
             visitor_name: newchat_data.visitor_name,
             visitor_profile: '/assets/avatar.png',
-            activity: ''
+            activity: '',
+            chatMessages: []
           });
         });
 
@@ -167,11 +169,29 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               $scope.$apply(function () {
                 $scope.active_sessions[index].activity = data.message;
               });
-              conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
+              //conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
+              $scope.$apply(function () {
+                $scope.active_sessions[index].chatMessages.push({
+                  time: Math.round(+new Date()).toString(),
+                  class: '',
+                  messageClass: 'message-activity',
+                  person: 'visitor',
+                  message: data.message
+                });
+              });
             }else{
-              conversation.append('<li> <div class="person">' + $scope.active_sessions[index].visitor_name + '</div>           <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' + data.message + '</div></li>');
+              //conversation.append('<li> <div class="person">' +  + '</div>  <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' +  + '</div></li>');
+              $scope.$apply(function () {
+                $scope.active_sessions[index].chatMessages.push({
+                  time: Math.round(+new Date()).toString(),
+                  class: '',
+                  messageClass: 'message',
+                  person: 'visitor',
+                  message: data.message
+                });
+              });
             }
-            conversation.scrollTop(conversation[0].scrollHeight);
+            scollBottom(newchat_data.chat_uid);
 
             if(active_chat != newchat_data.chat_uid || window_focus === false){
               var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
@@ -228,6 +248,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       }
     });
   }, 5000);
+
+var scollBottom = function(id){
+  $timeout(function(){
+    var $id= $('#chatbox_' + id + ' .conversation');
+    $id.scrollTop($id[0].scrollHeight);
+  }, 10);
+};
 
   $(window).focus(function() {
     window_focus=true;

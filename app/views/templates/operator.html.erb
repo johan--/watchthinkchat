@@ -115,6 +115,14 @@
         {{session.visitor_name}}
       </h1><span data-ng-show="!operator_edit_mode" style="text-align: center;width: 100%;position: absolute;margin-top: -32px;">{{session.visitor_email}}</span>
       <ul class="conversation">
+        <li class="{{message.class}}" data-ng-repeat="message in session.chatMessages">
+          <div class="person" ng-if="message.person === 'visitor'">{{session.visitor_name}}</div>
+          <div class="person" ng-if="message.person !== 'visitor'">{{message.person}}</div>
+          <div class="timestamp pull-right timestamp-refresh" timestamp="{{message.time}}">Just
+            Now
+          </div>
+          <div ng-class="message.messageClass">{{message.message}}</div>
+        </li>
       </ul>
       <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)">
     </div>
