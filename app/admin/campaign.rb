@@ -15,6 +15,7 @@ ActiveAdmin.register Campaign do
   form do |f|
     f.inputs "User Details" do
       f.input :name
+      f.input :password
       f.input :cname
       f.input :missionhub_secret
       f.input :permalink
@@ -30,7 +31,7 @@ ActiveAdmin.register Campaign do
     f.actions
   end
 
-  permit_params :name, :cname, :missionhub_secret, :permalink, :campaign_type, :max_chats, :user_id, :admin1_id, :admin2_id, :admin3_id, :description, :language, :status
+  permit_params :name, :cname, :missionhub_secret, :permalink, :campaign_type, :max_chats, :user_id, :admin1_id, :admin2_id, :admin3_id, :description, :language, :status, :password, :password_hash
 
   before_create do |campaign|
     campaign.user_id = current_user.id
