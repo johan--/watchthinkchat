@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
 
   def is_superadmin?
-    %w(aandrewroth@gmail.com).include?(email) ||
+    self.admin ||
+      %w(aandrewroth@gmail.com).include?(email) ||
       %w(100000523830165 682423688 122607328 1615307648 835310561).include?(fb_uid)
   end
 
