@@ -27,7 +27,7 @@ class Chat < ActiveRecord::Base
   def collect_stats(params)
     name_words = params[:visitor_name].split(' ')
     people = MissionHub::Person.find(:all, :params => { :filters => { :email => params[:visitor_email] }})
-    puts "people.length: #{people.length}"
+    #puts "people.length: #{people.length}"
     if people.length == 0
       visitor = MissionHub::Person.create(first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email])
     else

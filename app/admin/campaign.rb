@@ -20,7 +20,9 @@ ActiveAdmin.register Campaign do
       f.input :permalink
       f.input :campaign_type
       f.input :max_chats
-      f.input :user
+      f.input :admin1, :as => :select, :collection => User.has_operator_uid
+      f.input :admin2, :as => :select, :collection => User.has_operator_uid
+      f.input :admin3, :as => :select, :collection => User.has_operator_uid
       f.input :description, :as => :text
       f.input :language
       f.input :status, :as => :select, :collection => [ "opened", "closed" ]
@@ -28,11 +30,9 @@ ActiveAdmin.register Campaign do
     f.actions
   end
 
-=begin
-  controller do
-    def permitted_params
-      params.permit user: [:email, :password, :password_confirmation]
-    end
+  permit_params :name, :cname, :missionhub_secret, :permalink, :campaign_type, :max_chats, :user_id, :admin1_id, :admin2_id, :admin3_id, :description, :language, :status
+
+  before_create do |campaign|
+    campaign.user_id = current_user.id
   end
-=end
 end

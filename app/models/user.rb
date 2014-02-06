@@ -13,6 +13,12 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
   scope :online, Proc.new { where(:status => "online") }
+  scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
+
+  def is_superadmin?
+    %w(aandrewroth@gmail.com).include?(email) ||
+      %w(100000523830165 682423688 122607328 1615307648 835310561).include?(fb_uid)
+  end
 
   def as_json(options = {})
     if options[:as] == :operator

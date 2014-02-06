@@ -6,6 +6,9 @@ class Campaign < ActiveRecord::Base
   before_create :generate_uid
   before_create :set_status
   belongs_to :user
+  belongs_to :admin1, :class_name => "User"
+  belongs_to :admin2, :class_name => "User"
+  belongs_to :admin3, :class_name => "User"
 
   def as_json(options = {})
     #super({ :only => [ :title, :type, :permalink ] }.merge(options))
@@ -22,7 +25,6 @@ class Campaign < ActiveRecord::Base
       :status => self.status
     }
   end
-
 
   def password
     return nil unless password_hash
