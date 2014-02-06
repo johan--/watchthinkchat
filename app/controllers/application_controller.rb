@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  prepend_before_filter :authenticate_by_facebook!, :if => Proc.new { request.path == "/admin" }
 
   def current_visitor
     @visitor ||= Visitor.find(session[:visitor_id]) if session[:visitor_id]
@@ -13,6 +14,7 @@ class ApplicationController < ActionController::Base
     def authenticate_by_facebook!
       unless signed_in?
         session[:return_to] = request.path
+        session[:campaign] = nil
         redirect_to user_omniauth_authorize_path(:facebook)
       end
     end
@@ -40,4 +42,10 @@ class ApplicationController < ActionController::Base
         redirect_to '/'
       end
     end
+
+=begin
+    def access_denied(exception)
+      redirect_to "/", :alert => exception.message
+    end
+=end
 end
