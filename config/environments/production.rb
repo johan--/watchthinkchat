@@ -79,4 +79,8 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Heroku requires logging to go to stdout
+  config.logger = Logger.new(STDOUT) 
+  config.logger.level = Logger::INFO
 end
