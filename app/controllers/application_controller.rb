@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate_admin_user!
-      signed_in? && current_user.admin ? current_user : nil
+      signed_in? && current_user.fb_uid.present?
     end
 
     def operator_app?
