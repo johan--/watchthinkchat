@@ -15,7 +15,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     success(function (data, status, headers, config) {
       campaign_data = data;
       $scope.campaign_data = campaign_data;
-      console.log(campaign_data);
+      window.document.title = campaign_data.title;
 
       if (campaign_data.type === 'youtube') {
         var player;

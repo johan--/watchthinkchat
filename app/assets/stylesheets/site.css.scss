@@ -774,7 +774,7 @@
       width: 100%;
       transition: bottom ease-out 0.5s;
       padding: 20px;
-      top:50%
+      top:30%
     }
     #chat.paused {
       bottom: 0;
@@ -794,7 +794,10 @@
     }
     .box.paused {
       right: 0;
-      bottom: 50%;
+      bottom: 70%;
+    }
+    .after-chat-buttons{
+      top: -1032%;
     }
   }
 }

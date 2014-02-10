@@ -3,7 +3,7 @@
 angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout) {
   var operator_data = {
     uid: $route.current.params.operatorId,
-    profile_pic: '/assets/avatar.png'
+    profile_pic: '<%= asset_path("avatar.png") %>'
   };
   var active_chat = '';
   var campaign_id = $location.search()['campaign'] || '';
@@ -152,7 +152,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             chat_uid: newchat_data.chat_uid,
             visitor_uid: newchat_data.visitor_uid,
             visitor_name: newchat_data.visitor_name,
-            visitor_profile: '/assets/avatar.png',
+            visitor_profile: '<%= asset_path("avatar.png") %>',
             activity: '',
             chatMessages: []
           });
