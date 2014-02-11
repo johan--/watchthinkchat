@@ -14,6 +14,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
       campaign_data = data;
+      campaign_data.video_start = 0;
+      campaign_data.video_end = 235;
+
       $scope.campaign_data = campaign_data;
       window.document.title = campaign_data.title;
 
@@ -28,8 +31,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
         window.onYouTubeIframeAPIReady = function () {
           player = new YT.Player('player', {
-            height: '390',
-            width: '640',
             videoId: campaign_data.video_id,
             playerVars: {
               autoplay: 0,
@@ -38,8 +39,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               showinfo: 0,
               iv_load_policy: 3,
               html5: 1,
-              start: 0,
-              end: 235
+              start: campaign_data.video_start,
+              end: campaign_data.video_end
             },
             events: {
               'onStateChange': onPlayerStateChange
@@ -175,7 +176,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.buttonClick = function(button){
     $('.after-chat-buttons, .after-chat-title').fadeOut();
-    console.log(button);
     if(button.action == 'url'){
       launchWebPage(button.value);
     }else{
@@ -228,6 +228,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       case YT.PlayerState.ENDED:
         if(!video_completed){
           $('.after-chat-buttons, .after-chat-title').fadeIn(2000);
+          $('.box #player').css('opacity','.3');
         }
         video_completed=true;
         break;
