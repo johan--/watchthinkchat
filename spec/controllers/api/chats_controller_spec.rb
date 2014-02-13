@@ -54,7 +54,7 @@ describe Api::ChatsController do
           mock_person = double('person', :id => chat.visitor.missionhub_id)
           mock_people = double('people', :length => 1, :first => mock_person)
           MissionHub::Person.should_receive(:find).and_return(mock_people)
-          MissionHub::FollowupComment.should_receive(:create).with(contact_id: mock_person.id, commenter_id: chat.operator.missionhub_id, comment: "notes here")
+          MissionHub::FollowupComment.should_receive(:create).with(a: "b", followup_comment: { contact_id: mock_person.id, commenter_id: chat.operator.missionhub_id, comment: "notes here" })
           post :collect_stats, :uid => chat.uid, :visitor_response => "I want to start", :visitor_name => "Steve", :visitor_email => "test@test.com", :calltoaction => "something", :notes => "notes here"
         end
       end

@@ -85,7 +85,7 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.9'
   gem 'quiet_assets'
   gem 'seed_dump'
-  gem 'debugger'
+  gem 'byebug'
 end
 
 group :production do

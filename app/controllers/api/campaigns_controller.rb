@@ -16,9 +16,7 @@ class Api::CampaignsController < ApplicationController
     if params[:password].present? && @campaign.try(:password) == params[:password]
       #puts "Api::CampaignsController#password"
       # this is the most secure spot to mark them as an operator
-      unless current_user.operating?(@campaign)
-        current_user.mark_as_operator!(@campaign)
-      end
+      current_user.mark_as_operator!(@campaign)
       render :text => "", status: 201
     elsif @campaign
       render :json => { :error => "Password not valid" }, :status => 401

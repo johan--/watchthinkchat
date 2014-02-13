@@ -1,0 +1,18 @@
+# visitor
+MissionHub::Person.create(:permissions => 2, :person => {:first_name => "FN", :last_name => "LN", :email => "test2@test.com"})
+# operator
+MissionHub::Person.create(:permissions => 4, :person => {:first_name => "FN", :last_name => "LN", :email => "test2@test.com"})
+
+# test leader label
+#FN LN Test person id 2856753
+#Andrew's person id 778531
+leader_id = MissionHub::Label.all.detect{ |l| l.name == "Leader" }.id
+ol = MissionHub::OrganizationalLabel.create :person_id => 2856753, :label_id => leader_id, :added_by_id => 778531
+
+But when I go to http://www.missionhub.com/profile/2856753 I see no labels assigned still
+
+curl -H "Content-type: application/json" -X POST -d '{"organizational_label":{"label_id":"3","person_id":"2856753"}}'  "https://www.missionhub.com/apis/v3/surveys?secret=d871b9810c99bfacca73c2aef946bb0223dcb2d2003eb2440211c0ff312f94d0"
+
+ol = MissionHub::OrganizationalLabel.create "organizational_label" => { :person_id => 2856753, :label_id => leader_id, :added_by_id => 778531 }
+
+Ok, seems you need to include another param in the create hash parllel to organizational_lable, otherwise rails for some reason just behaves as if you passed the inner attributes hash

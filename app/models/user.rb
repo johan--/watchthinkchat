@@ -95,20 +95,12 @@ class User < ActiveRecord::Base
     self.operator_uid = self.fb_uid
     self.save!
 
-    # make sure this person is in missionhub and in leader role
-    @@leader_role_id ||= MissionHub::Role.find(:all).detect{ |role| role.name == "Leader" }.id
-    people = MissionHub::Person.find(:all, :params => { :filters => { :fb_uids => self.fb_uid }})
-    if people.length == 1
-      #puts "  people.length was 1, updating person"
-      person = people.first
-      #puts "  person: #{person.inspect}"
-      person.roles = [ @@leader_role_id ]
-      person.save
-    else
-      #puts "create"
-      person = MissionHub::Person.create(:roles => @@leader_role_id, :first_name => self.first_name, :last_name => self.last_name, :email => self.email)
-    end
-    self.update_attribute :missionhub_id, person.id
-
+    # make sure this person is in missionhub and in leader role and label
+    # it will search for him by email first and add the permission if it doesn't already exist
+    @@leader_permission_id ||= MissionHub::Permission.all.detect{ |p| p.name == "User" }.id
+    p = MissionHub::Person.create(:permissions => @@leader_permission_id, :person => {:fb_uid => self.fb_uid, :first_name => self.first_name, :last_name => self.last_name, :email => self.email})
+    self.update_attribute :missionhub_id, p.id
+    @@leader_label_id = MissionHub::Label.all.detect{ |l| l.name == "Leader" }.id
+    MissionHub::OrganizationalLabel.create "a" => "b", :organizational_label => {:person_id => self.missionhub_id, :label_id => @@leader_label_id}
   end
 end

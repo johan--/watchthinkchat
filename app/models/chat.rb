@@ -26,13 +26,13 @@ class Chat < ActiveRecord::Base
 
   def collect_stats(params)
     name_words = params[:visitor_name].split(' ')
-    people = MissionHub::Person.find(:all, :params => { :filters => { :email => params[:visitor_email] }})
+    people = MissionHub::Person.find(:all, :params => { :filters => { :email_exact => params[:visitor_email] }})
     #puts "people.length: #{people.length}"
     if people.length == 0
-      visitor = MissionHub::Person.create(first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email])
+      visitor = MissionHub::Person.create(:permission => User::VISITOR_PERMISSION, :person => { first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email] })
     else
       visitor = people.first
     end
-    MissionHub::FollowupComment.create(contact_id: visitor.id, commenter_id: self.operator.missionhub_id, comment: params[:notes])
+    MissionHub::FollowupComment.create(a: "b", followup_comment: { contact_id: visitor.id, commenter_id: self.operator.missionhub_id, comment: params[:notes] })
   end
 end
