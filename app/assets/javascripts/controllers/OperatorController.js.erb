@@ -95,6 +95,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       });
   };
 
+    $scope.showChallenge = function (id) {
+        var post_data = {
+            user_uid: operator_data.uid,
+            message_type: 'activity',
+            message: 'challenge'
+        };
+        $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
+                success(function (data, status, headers, config) {
+                }).error(function (data, status, headers, config) {
+                });
+    };
+
   $scope.endChat = function (id) {
     $http({method: 'DELETE', url: '/api/chats/'+id}).
       success(function (data, status, headers, config) {

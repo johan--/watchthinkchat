@@ -7,6 +7,56 @@
     <div class="after-chat-buttons">
       <div class='btn btn-info btn-block' data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
     </div>
+    <div class="after-chat-information" id="after-chat-information-01">
+      <p>{{after_chat_message}}</p>
+    </div>
+    <div class="after-chat-information" id="after-chat-information-02">
+      <p>We think this stuff is important and hope you do too.  We would like to invite you and a friend to keep talking about this.</p>
+      <div style="width:700px;margin:auto;display:block;">
+        <img src="<%= asset_path("content-friend.png") %>">
+      </div>
+
+      <div style="margin:20px auto 0 auto;width:85%;display:block;">
+        <div class='btn btn-success btn-block' data-ng-click="nextStep(3)">Continue ></div>
+        <input type="text" class="form-control" ng-enter="nextStep(3)" style="width:calc(99% - 260px);height:70px;font-size:22px;" placeholder="Email Address..." data-ng-model="visitor_email">
+      </div>
+    </div>
+    <div class="after-chat-information" id="after-chat-information-03">
+      <p>Invite a Friend</p>
+      <div style="width:800px;margin:auto;display:block;">
+        <a href="#" data-ng-click="nextStep(4)"><img src="<%= asset_path("facebook.jpg") %>"></a>
+        <a href="#" data-ng-click="nextStep(5)"><img src="<%= asset_path("email.jpg") %>" align="right"></a>
+      </div>
+    </div>
+    <div class="after-chat-information" id="after-chat-information-05">
+      <form class="form" role="form" style="width:700px;margin:auto;">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="text" class="form-control" data-ng-model="visitor_email">
+        </div>
+        <div class="form-group">
+          <label>Friends Email</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
+      </form>
+      <div class='btn btn-success btn-block' data-ng-click="nextStep(7)">Continue ></div>
+    </div>
+    <div class="after-chat-information" id="after-chat-information-06">
+      <h1>Thank You!</h1>
+      <p>Check Out: EveryStudent.com<br>Get plugged in when visiting: http://www.cru.org</p>
+    </div>
+    <div class="after-chat-challenge">
+      <div class='btn btn-success btn-block' data-ng-click="nextStep(2)">Click to get started</div>
+      <p>"Take the growth adventure"</p>
+    </div>
     <div id="player"></div>
     <iframe frameborder="0" id="webpage" src="about:blank"></iframe>
   </div>
@@ -35,6 +85,7 @@
     </div>
     <div id="chatbox">
       <h1 class="special">{{campaign_data.title}} Chat</h1>
+      <div id="chatting_with"></div>
       <ul class="conversation">
       </ul>
       <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">

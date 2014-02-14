@@ -436,6 +436,34 @@
       -1px 1px 0 #000,
       1px 1px 0 #000;
   }
+  .after-chat-information{
+    position: absolute;
+    display: none;
+    top:8%;
+    width:100%;
+    z-index: 1;
+    color:white;
+    font-size: 24px;
+    padding: 50px;
+  }
+  .after-chat-challenge{
+    display:none;
+    position: absolute;
+    bottom:90px;
+    width:100%;
+    z-index: 1;
+    color:white;
+    padding: 0 90px;
+    font-size: 26px;
+  }
+  .after-chat-challenge .btn, .after-chat-information .btn{
+    float:right;
+    width:240px;
+    height:70px;
+    line-height:50px;
+    vertical-align: middle;
+    font-size: 22px;
+  }
   #link {
     cursor: pointer;
   }
@@ -537,11 +565,16 @@
     border-bottom: 1px solid #cccccc;
     padding-bottom: 20px;
   }
+  #chatting_with{
+    width:100%;
+    height:62px;
+    border-bottom: 1px solid #cccccc;
+  }
   #chat #chatbox ul.conversation {
     list-style: none;
     padding: 0;
     overflow: auto;
-    height:calc(100% - 113px);
+    height:calc(100% - 175px);
     width:100%;
   }
   #chat #chatbox ul.conversation li {
