@@ -75,7 +75,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         text: 'I want to start',
         action: 'chat',
         value: '',
-        message_active_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Tell us a bit about what’s behind your desire? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->',
+        message_active_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->',
         message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :) '
       });
       $scope.followup_buttons.push({
@@ -214,8 +214,24 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $('#after-chat-information-01, .after-chat-challenge').hide();
       $('#after-chat-information-02').show();
     }else if(step == 3){
-      $('#after-chat-information-02').hide();
-      $('#after-chat-information-03').show();
+
+      var post_data = {
+        EMAIL: $scope.visitor_email,
+        RESPONSE: 'I want to start'
+      };
+      $http({method: 'JSONP',
+        url: 'http://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f&EMAIL=' + encodeURIComponent($scope.visitor_email) + '&c=JSON_CALLBACK'
+      }).success(function (data, status, headers, config) {
+        if (data.result === 'success') {
+          $('#after-chat-information-02').hide();
+          $('#after-chat-information-03').show();
+        } else {
+          alert('Error: ' + data.msg);
+        }
+      }).error(function (data, status, headers, config) {
+        alert('Error: Could not connect to mail service.');
+        return;
+      });
     }else if(step == 4){
       FB.ui({
         method: 'send',
