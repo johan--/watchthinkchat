@@ -1,14 +1,25 @@
 'use strict';
 
 angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies, $location, $filter) {
+  ////STAGEING////
+
+
+  delete $cookies.gchat_visitor_id;
+
+
+  /// //////
+
   var campaign_data;
   var visitor_data = {};
-  var chat_data = {};
+  var chat_data = {
+    chat_uid: ''
+  };
   var operator_data = {
     uid: $location.search()['o'] || ''
   };
   var video_completed=false;
   var window_focus=false;
+  var YTplayer;
   $scope.followup_buttons=[];
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
@@ -21,8 +32,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       window.document.title = campaign_data.title;
 
       if (campaign_data.type === 'youtube') {
-        var player;
-
         var tag = document.createElement('script');
         var title = document.title;
         tag.src = "//www.youtube.com/iframe_api";
@@ -30,7 +39,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         window.onYouTubeIframeAPIReady = function () {
-          player = new YT.Player('player', {
+          YTplayer = new YT.Player('player', {
             videoId: campaign_data.video_id,
             playerVars: {
               autoplay: 0,
@@ -51,6 +60,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }
 
       $scope.followup_buttons.push({
+        id: 1,
         text: 'No thanks',
         action: 'url',
         value: 'http://cru.org',
@@ -58,6 +68,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus. '
       });
       $scope.followup_buttons.push({
+        id: 2,
         text: 'I follow another faith',
         action: 'url',
         value: 'http://gotcx.com/',
@@ -65,32 +76,36 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_no_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested we have an article here that you could look into and see if Jesus is really is ----> '
       });
       $scope.followup_buttons.push({
+        id: 3,
         text: 'I am not sure',
         action: 'chat',
         value: '',
-        message_active_chat: 'This is a big deal :) and we pumped that u want to take the time to at least consider following Jesus. What is one thing that is attractive to u in following Jesus? What is one thing that makes u hesitant? Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'This is an important issue and we are glad that you want to take the time to consider following Jesus. Regarding following Jesus, what is one thing that is attractive to you? What is one thing that makes you hesitant? We have a growth adventure that can help you find significance in following Jesus. Find out more "Take the growth adventure" ------>'
+        message_active_chat: 'Thanks for watching #FallingPlates and considering Jesus\'s call to follow Him. Right now u feel "not sure"? Well we are pumped that u are at least considering following Jesus! What is one thing that is attractive to u in following Jesus? What is one thing that makes u hesitant? Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
+        message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him.So you identified that you are "not sure" right now. Well we are glad that you are at least considering following Jesus. What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We have a growth challenge that can help you find significance in following Jesus. Find out more "take the Growth Challenge" ------>'
       });
       $scope.followup_buttons.push({
+        id: 4,
         text: 'I want to start',
         action: 'chat',
         value: '',
         message_active_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :) '
+        message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. It’s awesome to see you have that desire! We have a growth challenge that can help u grow after u have asked Christ to come into your life. Heres the best place for u to get connected with a friend to grow :)'
       });
       $scope.followup_buttons.push({
+        id: 5,
         text: 'I\'m trying',
         action: 'chat',
         value: '',
         message_active_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. We have a growth adventure that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient :) To find out more click here ---->'
+        message_no_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. We have a Growth Challenge that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient :)'
       });
       $scope.followup_buttons.push({
-        text: 'I\'m following you',
+        id: 6,
+        text: 'I\'m following Jesus',
         action: 'chat',
         value: '',
         message_active_chat: 'We are pumped that u are following Jesus! We would love to connect with u and discover how your journey is going and what you think the next steps are to be who He wants you to be? Lets chat over on your right-----> :)',
-        message_no_chat: 'We are pumped that u are following Jesus! We know that its not always an easy path, but it’s definitely worth it :)  How ever you feel you are doing today, we are glad He led you here! It’s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. You up for the adventure?'
+        message_no_chat: 'We are pumped that u are following Jesus! We know that its not always an easy path, but it’s definitely worth it :)  We dont know all thats going on in your life today, but we are glad He led you here! It’s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. You up for the challenge?'
       });
     }).error(function (data, status, headers, config) {
 
@@ -136,6 +151,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $('#finishVideo').fadeIn().delay(3000).fadeOut();
       return;
     }
+    if(chat_data.chat_uid){ //chat already started
+      return;
+    }
     var data = {
       campaign_uid: campaign_data.uid,
       visitor_uid: visitor_data.uid,
@@ -146,6 +164,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       success(function (data, status, headers, config) {
         chat_data = data;
         operator_data = data.operator;
+        $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
         console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox, #after-chat-information-01').fadeIn();
@@ -178,14 +197,20 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('#chatbox').fadeOut();
           $('#chatEnd').fadeIn();
           $('.conversation').empty();
-          //chat_data = {};
+          chat_data.chat_uid = '';
         });
 
         if(initialMsg){
           postActivityMessage(initialMsg);
         }
       }).error(function (data, status, headers, config) {
-        alert('Error: ' + (data.error || 'Cannot create new chat.'));
+        if(data.error === 'Operator offline'){
+          chat_data.chat_uid = 'offline';
+          $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat;
+          $('#after-chat-information-01, #noOperators, .after-chat-challenge').fadeIn();
+        }else{
+          alert('Error: ' + (data.error || 'Cannot create new chat.'));
+        }
       });
   };
 
@@ -197,6 +222,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.buttonClick = function(button){
     $('.after-chat-buttons, .after-chat-title').fadeOut();
+    YTplayer.stopVideo();
+    YTplayer.clearVideo();
+    $("#player").remove();
+
     if(button.action == 'url'){
       launchWebPage(button.value);
     }else{
@@ -205,7 +234,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }else{
         postActivityMessage('Visitor has clicked: ' + button.text);
       }
-      $scope.after_chat_message = button.message_active_chat;
+      $scope.button_clicked = button;
     }
   };
 
@@ -214,13 +243,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $('#after-chat-information-01, .after-chat-challenge').hide();
       $('#after-chat-information-02').show();
     }else if(step == 3){
-
-      var post_data = {
-        EMAIL: $scope.visitor_email,
-        RESPONSE: 'I want to start'
-      };
       $http({method: 'JSONP',
-        url: 'http://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f&EMAIL=' + encodeURIComponent($scope.visitor_email) + '&c=JSON_CALLBACK'
+        url: 'http://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
+          '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
+          '&RESPCODE=' + encodeURIComponent($scope.button_clicked.id) +
+          '&c=JSON_CALLBACK'
       }).success(function (data, status, headers, config) {
         if (data.result === 'success') {
           $('#after-chat-information-02').hide();
@@ -276,8 +303,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $(this).html($filter('date')(origtime, 'shortTime'));
         $(this).removeClass('timestamp-refresh');
       }
-
-      //$(this).html(NiceTime(currentval)+'<span>'+currentval+'</span>');
     });
   }, 5000);
 
@@ -288,7 +313,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       case YT.PlayerState.ENDED:
         if(!video_completed){
           $('.after-chat-buttons, .after-chat-title').fadeIn(2000);
-          $('.box #player').css('opacity','.3');
+          //$('.box #player').css('opacity','.3');
         }
         video_completed=true;
         break;
