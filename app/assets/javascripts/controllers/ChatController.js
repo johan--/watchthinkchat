@@ -4,7 +4,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   ////STAGEING////
 
 
-  delete $cookies.gchat_visitor_id;
+  //delete $cookies.gchat_visitor_id;
 
 
   /// //////
@@ -62,16 +62,16 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $scope.followup_buttons.push({
         id: 1,
         text: 'No thanks',
-        action: 'url',
-        value: 'http://cru.org',
+        action: 'chat',
+        value: '',
         message_active_chat: 'We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it, if you are interested lets chat on your right hand side--->',
         message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus. '
       });
       $scope.followup_buttons.push({
         id: 2,
         text: 'I follow another faith',
-        action: 'url',
-        value: 'http://gotcx.com/',
+        action: 'chat',
+        value: '',
         message_active_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. What is it that you find interesting about Jesus? Lets chat on your right hand side ----->',
         message_no_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested we have an article here that you could look into and see if Jesus is really is ----> '
       });
@@ -148,7 +148,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.startChat = function(initialMsg){
     if(!video_completed){
-      $('#finishVideo').fadeIn().delay(3000).fadeOut();
+      $('#finishVideo').fadeIn(1).delay(3000).fadeOut(1);
+      $('#start-chat-panel').fadeOut(1).delay(3000).fadeIn(1);
       return;
     }
     if(chat_data.chat_uid){ //chat already started
@@ -164,7 +165,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       success(function (data, status, headers, config) {
         chat_data = data;
         operator_data = data.operator;
-        $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
+        if(angular.isDefined($scope.button_clicked)){
+          $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
+        }
         console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox, #after-chat-information-01').fadeIn();
@@ -206,7 +209,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
         if(data.error === 'Operator offline'){
           chat_data.chat_uid = 'offline';
-          $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat;
+          $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat || '';
           $('#after-chat-information-01, #noOperators, .after-chat-challenge').fadeIn();
         }else{
           alert('Error: ' + (data.error || 'Cannot create new chat.'));
@@ -222,9 +225,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.buttonClick = function(button){
     $('.after-chat-buttons, .after-chat-title').fadeOut();
-    YTplayer.stopVideo();
-    YTplayer.clearVideo();
-    $("#player").remove();
 
     if(button.action == 'url'){
       launchWebPage(button.value);
@@ -235,42 +235,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         postActivityMessage('Visitor has clicked: ' + button.text);
       }
       $scope.button_clicked = button;
-    }
-  };
-
-  $scope.nextStep = function(step){
-    if(step == 2){
-      $('#after-chat-information-01, .after-chat-challenge').hide();
-      $('#after-chat-information-02').show();
-    }else if(step == 3){
-      $http({method: 'JSONP',
-        url: 'http://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
-          '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
-          '&RESPCODE=' + encodeURIComponent($scope.button_clicked.id) +
-          '&c=JSON_CALLBACK'
-      }).success(function (data, status, headers, config) {
-        if (data.result === 'success') {
-          $('#after-chat-information-02').hide();
-          $('#after-chat-information-03').show();
-        } else {
-          alert('Error: ' + data.msg);
-        }
-      }).error(function (data, status, headers, config) {
-        alert('Error: Could not connect to mail service.');
-        return;
-      });
-    }else if(step == 4){
-      FB.ui({
-        method: 'send',
-        link: 'http://www.godchat.tv'
-      });
-      $scope.nextStep(7);
-    }else if(step == 5){
-      $('#after-chat-information-03').hide();
-      $('#after-chat-information-05').show();
-    }else if(step == 7){
-      $('#after-chat-information-06').show();
-      $('#after-chat-information-03, #after-chat-information-05').hide();
     }
   };
 
@@ -314,6 +278,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(!video_completed){
           $('.after-chat-buttons, .after-chat-title').fadeIn(2000);
           //$('.box #player').css('opacity','.3');
+          YTplayer.stopVideo();
+          YTplayer.clearVideo();
+          $("#player").remove();
         }
         video_completed=true;
         break;
@@ -327,11 +294,4 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   }).blur(function() {
     window_focus=false;
   });
-
-  FB.init({
-    appId      : '555591577865154',
-    status     : true,
-    xfbml      : true
-  });
-
 });

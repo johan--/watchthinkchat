@@ -1,65 +1,12 @@
 <div class="visitor_chat">
   <div class="box">
     <div class="after-chat-title">
-      Jesus asks you,<br>
-      "Will you follow me?"
+      Jesus asks you, "Will you follow me?"
     </div>
     <div class="after-chat-buttons">
-      <div class='btn btn-info btn-block' data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
+      <div class="btn btn-info btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
     </div>
-    <div class="after-chat-information" id="after-chat-information-01">
-      <p>{{button_clicked.message_visible}}</p>
-    </div>
-    <div class="after-chat-information" id="after-chat-information-02">
-      <p>Following Jesus is deeply rewarding, but it takes some effort :) We have a simple 4 email Growth Challenge we believe will make a real difference in your life. Each email has video based content for you to interact with a Christian friend you know and trust to help you on progress. </p>
-      <div style="max-width:726px;margin:auto;display:block;">
-        <img src="<%= asset_path("content-friend.png") %>" style="max-width:100%;">
-      </div>
-       <p style="padding-top:20px;"><strong>Step 1</strong>: To get started with our free growth challenge content: enter your email address here:</p>
-      <div style="margin:20px auto 0 auto;width:85%;display:block;">
-        <div class='btn btn-success btn-block' data-ng-click="nextStep(3)">Continue ></div>
-        <input type="text" class="form-control" ng-enter="nextStep(3)" style="width:calc(99% - 260px);height:70px;font-size:22px;" placeholder="Email Address..." data-ng-model="visitor_email">
-      </div>
-    </div>
-    <div class="after-chat-information" id="after-chat-information-03">
-      <img src="<%= asset_path("growth_challenge_logo.jpg") %>" style="margin: auto;
-              display: block;
-              width: 270px;
-              padding-bottom: 16px;">
-      <p>Thanks for completing step 1 and registering to get the 4 part Growth Challenge over email.<br>
-        Step 2 is an opportunity to turbo charge your challenge by adding a Christian friend you know and trust to the experience! Sure, you can just go it alone from here, but having a friend is going to make a world of difference to how far you go.</p>
-        <p style="font-size:24px;text-align: center;">Choose one of two ways to add your friend, or go it alone.</p>
-      <div style="width:800px;margin:auto;display:block;padding-top:20px;">
-        <a href="#" data-ng-click="nextStep(4)"><img src="<%= asset_path("facebook.jpg") %>"></a>
-        <span style="width:126px;text-align: center;display:inline-block;">or</span>
-        <a href="#" data-ng-click="nextStep(5)"><img src="<%= asset_path("email.jpg") %>" align="right"></a>
-      </div>
-    </div>
-    <div class="after-chat-information" id="after-chat-information-05">
-      <form class="form" role="form" style="width:700px;margin:auto;">
-        <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="form-group">
-          <label>Your Email</label>
-          <input type="text" class="form-control" data-ng-model="visitor_email">
-        </div>
-        <div class="form-group">
-          <label>Friends Email</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-      </form>
-      <div class='btn btn-success btn-block' data-ng-click="nextStep(7)">Continue ></div>
-    </div>
-    <div class="after-chat-information" id="after-chat-information-06">
-      <h1>Thank You!</h1>
-      <p>Check Out: EveryStudent.com<br>Get plugged in when visiting: http://www.cru.org</p>
-    </div>
+   <growth-challenge></growth-challenge>
     <div class="after-chat-challenge">
       <div class='btn btn-success btn-block' data-ng-click="nextStep(2)">Click to get started</div>
       <p>"Take the growth adventure"</p>
@@ -71,7 +18,7 @@
     <h1 class="special">{{campaign_data.title}}</h1>
 
     <div>
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="start-chat-panel">
         <div class="panel-heading">
           Watch the film, then let's chat.
         </div>

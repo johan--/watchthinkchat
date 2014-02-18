@@ -401,7 +401,6 @@
   overflow: none;
   padding: 0;
   height: 100%;
-  background: black !important;
 
   .after-chat-buttons{
     position: absolute;
@@ -410,15 +409,16 @@
     width:968px;
     left:calc(50% - 484px);
     z-index: 1;
-  }
-  .after-chat-buttons .btn{
-    width:290px;
-    margin:15px;
-    height:80px;
-    display:inline-block;
-    font-size:150%;
-    line-height:60px;
-    vertical-align: middle;
+
+   .btn{
+      width:290px;
+      margin:15px;
+      height:80px;
+      display:inline-block;
+      font-size:150%;
+      line-height:60px;
+      vertical-align: middle;
+    }
   }
   .after-chat-title{
     position: absolute;
@@ -445,6 +445,25 @@
     color:white;
     font-size: 20px;
     padding: 0 50px;
+
+    .friend-share-options{
+      width:800px;
+      margin:auto;
+      display:block;
+      padding-top:20px;
+      span{
+        width:126px;
+        text-align: center;
+        display:inline-block;
+      }
+    }
+  }
+
+  #after-chat-information-02 .form-control{
+    width:calc(99% - 260px);
+    height:70px;
+    font-size:22px;
+    float: left;
   }
   .after-chat-challenge{
     display:none;
@@ -513,7 +532,7 @@
     right: 0;
     bottom: 50px;
     transition: right ease-out 0.5s, bottom ease-out 0.5s;
-    background: black;
+    background: #7D868c;
   }
   .box iframe,  .box object,  .box embed {
     width: 100%;
@@ -808,7 +827,7 @@
       width: 100%;
       transition: bottom ease-out 0.5s;
       padding: 20px;
-      top:30%
+      top:40%
     }
     #chat.paused {
       bottom: 0;
@@ -828,10 +847,65 @@
     }
     .box.paused {
       right: 0;
-      bottom: 70%;
+      bottom: 60%;
     }
+
+
     .after-chat-buttons{
-      top: -1032%;
+      position: absolute;
+      display:none;
+      top:18%;
+      width:300px;
+      left:calc(50% - 150px);
+      z-index: 1;
+    }
+    .after-chat-buttons .btn{
+      width:135px;
+      margin:5px;
+      height:40px;
+      display:inline-block;
+      font-size:100%;
+      line-height:30px;
+      vertical-align: middle;
+    }
+
+    #after-chat-information-02 .form-control{
+      width:100%;
+    }
+
+    .after-chat-title{
+      top:2%;
+      font-size:18px;
+    }
+    .after-chat-information{
+      position: relative;
+      display: none;
+      top:0;
+      width:100%;
+      z-index: 1;
+      color:white;
+      font-size: 14px;
+      padding: 6px;
+      .friend-share-options{
+        width: 100%;
+        max-width: 333px;
+        img{
+          max-width:100%;
+        }
+        span{
+          width:inherit;
+        }
+      }
+    }
+    .after-chat-challenge{
+      display:none;
+      position: relative;
+      bottom:auto;
+      padding:0;
+      font-size: 18px;
+    }
+    .after-chat-challenge .btn, .after-chat-information .btn{
+      margin-top:15px;
     }
   }
 }
