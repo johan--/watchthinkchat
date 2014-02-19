@@ -1,0 +1,28 @@
+<div class="visitor_chat" style="position: relative;">
+  <div class="after-chat-information" id="after-chat-information-02">
+    <img src="<%= asset_path("growth_challenge_logo.png") %>" style="margin: auto;
+            display: block;
+            width: 270px;
+            padding-bottom: 16px;">
+    <p>Thanks for being interested in helping your friend grow spiritually as part of a 4 conversation Growth Challenge run by <a href="http://cru.org/" target="_blank">Cru</a>.</p>
+    <p>A spiritual mentor is like a coach. In Matthew 28 Jesus tells us to “go and make disciples.” This simply means helping others learn to follow Jesus. This is a chance for you to mentor someone you already know who has identified you as a Christian they know and trust!</p>
+    <p>The Growth Challenge is limited to one email each week for four weeks total. You would have to commit to:</p>
+    <ol>
+      <li>Read each email</li>
+      <li>Start a conversation with your friend over the content.</li>
+    </ol>
+
+    <p style="padding-top:20px;"><strong>Join the challenge</strong>:</p>
+    <div style="margin:20px auto 0 auto;width:85%;display:block;height:140px;" data-ng-show="successfulSubscribe==''">
+      <input type="email" class="form-control" ng-enter="emailSubscribe()" placeholder="Email Address..." data-ng-model="visitor_email">
+      <div class='btn btn-success btn-block' data-ng-click="emailSubscribe()">Continue ></div>
+    </div>
+
+    <div data-ng-show="successfulSubscribe != ''"><p>{{successfulSubscribe}}</p></div>
+    <br>
+
+    <p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> - We won't sell or torture your personal data :)</p>
+  </div>
+</div>
+
+<privacy-policy></privacy-policy>

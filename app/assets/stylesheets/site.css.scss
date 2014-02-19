@@ -903,9 +903,22 @@
       bottom:auto;
       padding:0;
       font-size: 18px;
+      width: 240px;
+      margin: auto;
+      text-align:center;
     }
     .after-chat-challenge .btn, .after-chat-information .btn{
       margin-top:15px;
     }
   }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 767px) and (orientation:landscape) {
+  .visitor_chat{
+    .after-chat-buttons{
+      width:440px;
+      left:calc(50% - 220px);
+    }
+  }
+
 }
