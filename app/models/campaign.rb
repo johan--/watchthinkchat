@@ -2,13 +2,18 @@ class Campaign < ActiveRecord::Base
   # users.password_hash in the database is a :string
   include BCrypt
 
-  validates :name, :missionhub_secret, presence: true
-  before_create :generate_uid
-  before_create :set_status
+  has_many :followup_buttons
   belongs_to :user
   belongs_to :admin1, :class_name => "User"
   belongs_to :admin2, :class_name => "User"
   belongs_to :admin3, :class_name => "User"
+
+  validates :name, :missionhub_secret, presence: true
+
+  before_create :generate_uid
+  before_create :set_status
+
+  accepts_nested_attributes_for :followup_buttons, :allow_destroy => true
 
   def as_json(options = {})
     #super({ :only => [ :title, :type, :permalink ] }.merge(options))
@@ -22,7 +27,8 @@ class Campaign < ActiveRecord::Base
       :owner => self.owner,
       :description => self.description,
       :language => self.language,
-      :status => self.status
+      :status => self.status,
+      :followup_buttons => followup_buttons
     }
   end
 
@@ -32,6 +38,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def password=(new_password)
+    return unless new_password.present?
     @password = Password.create(new_password)
     self.password_hash = @password
   end
