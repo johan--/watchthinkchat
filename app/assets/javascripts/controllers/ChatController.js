@@ -155,12 +155,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if(chat_data.chat_uid){ //chat already started
       return;
     }
+
     var data = {
       campaign_uid: campaign_data.uid,
       visitor_uid: visitor_data.uid,
       operator_uid: operator_data.uid
     };
-
     $http({method: 'POST', url: '/api/chats', data: data}).
       success(function (data, status, headers, config) {
         chat_data = data;
@@ -183,6 +183,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             if (data.message_type == 'activity') {
               if(data.message == 'challenge'){
                 $('.after-chat-challenge').fadeIn();
+                if(window.innerWidth <= 800){
+                  $('#after-chat-information-01').fadeOut();
+                }
               }
             } else {
               $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');

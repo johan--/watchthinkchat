@@ -34,6 +34,9 @@ angular.module('chatApp', ['ngRoute', 'ngCookies'])
     }).when('/challenge', {
       template: '<div class="visitor_chat" style="position: relative;"><growth-challenge step="2"></growth-challenge></div>',
       controller: 'ChallengeController as ctrl'
+    }).when('/challenge/friend', {
+      templateUrl: '/templates/growthchallenge_friend.html',
+      controller: 'ChallengeFriendController as ctrl'
     }).when('/operator/:operatorId', {
       templateUrl: '/templates/operator.html',
       controller: 'OperatorController as ctrl'

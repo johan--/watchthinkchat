@@ -8,7 +8,7 @@
   </div>
   <p style="padding-top:20px;"><strong>Step 1</strong>: To get started with our free growth challenge content: enter your email address here:</p>
   <div style="margin:20px auto 0 auto;width:85%;display:block;height:140px;">
-    <input type="text" class="form-control" ng-enter="nextStep(3)" placeholder="Email Address..." data-ng-model="visitor_email">
+    <input type="email" class="form-control" ng-enter="nextStep(3)" placeholder="Email Address..." data-ng-model="visitor_email">
     <div class='btn btn-success btn-block' data-ng-click="nextStep(3)">Continue ></div>
   </div>
   <br><p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> - We won't sell or torture your personal data :)</p>
@@ -34,25 +34,32 @@
         <form class="form" role="form">
           <div class="form-group">
             <label>Your Name</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" data-ng-click="visitor_name">
           </div>
           <div class="form-group">
             <label>Your Email</label>
-            <input type="text" class="form-control" data-ng-model="visitor_email">
+            <input type="email" class="form-control" data-ng-model="visitor_email">
           </div>
           <div class="form-group">
             <label>Friends Email</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" data-ng-model="friend_email">
           </div>
           <div class="form-group">
             <label>Message</label>
-            <textarea class="form-control" rows="3"></textarea>
+            <textarea class="form-control" rows="10">I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!
+
+Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That's it.
+
+Lets take the challenge together!
+You can click here to find out more information:
+{{friend_url}}
+            </textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-ng-click="nextStep(6)">Continue ></button>
+        <button type="button" class="btn btn-success" data-ng-click="nextStep(6)">Send</button>
       </div>
     </div>
   </div>
@@ -62,27 +69,4 @@
   <p>Check Out: EveryStudent.com<br>Get plugged in when visiting: http://www.cru.org</p>
 </div>
 
-
-<div class="modal" id="privacy-policy" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Privacy Policy</h4>
-      </div>
-      <div class="modal-body">
-        <p>B)  feedback on &quot;Show challenge&quot;<br>
-          Have the  show challenge operate once, then disabled, and have the visitor 1 button at  left, change to show that visitor 1 already has been issued the challenge. So I  can tell when I look at my three visitors</p>
-        <p>&nbsp;</p>
-        <p>C) I had  user select &quot;I want to start&quot; but they showed up as visitor, but no  button was registered against the person? Wired, I ended chat, and the pop up  did not register what button they had clicked also.  Some kind of error?</p>
-        <p>&nbsp;</p>
-        <p>D) We have  a major issue to solve, eg. Who are we putting into mission hub? All contacts?  And how do we leave chat and leave them to the friend know and trust part, but  not know what they did, or what emails they did or didn't sign up for? Can we  use mail chimp API to trigger modification at Mission hub?</p>
-        <p>&nbsp;</p>
-        <p>E) I have  engaged Andrew to work on the dashboard at owner area, at Godchat/owner Need  KPI (Key performance indicators for this dash board.)</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<privacy-policy></privacy-policy>
