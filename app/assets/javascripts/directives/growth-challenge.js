@@ -9,8 +9,6 @@ angular.module('chatApp')
         }
       },
       controller: function ($scope, $http, $route) {
-        $('#privacy-policy').modal({backdrop: false, show: false});
-
         if(angular.isDefined($scope.button_clicked)){
           var button_id = $scope.button_clicked.id;
         }else{
