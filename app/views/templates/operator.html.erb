@@ -101,7 +101,7 @@
           <p>{{session.activity}}</p>
         </div>
       </li>
-      <li data-ng-show="active_sessions.length == 0">You do not have any active chat sessions yet. They will appear hear when you do.</li>
+      <li data-ng-show="active_sessions.length == 0">You do not have any active chat sessions yet. They will appear here when you do.</li>
     </ul>
   </div>
   <div class="operator_status operator_status_offline" data-ng-click="toggleOperatorStatus()" title="Click to toggle status">
@@ -115,13 +115,13 @@
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label class="col-sm-2 control-label">Visitor Name</label>
-            <div class="col-sm-10">
+            <div class="col-sm-7">
               <input type="text" class="form-control" data-ng-model="session.visitor_name" ng-enter="operator_edit_mode=false">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Visitor Email</label>
-            <div class="col-sm-10">
+            <div class="col-sm-7">
               <input type="text" class="form-control" data-ng-model="session.visitor_email" ng-enter="operator_edit_mode=false">
             </div>
           </div>
@@ -129,7 +129,9 @@
       </div>
       <h1 class="special" data-ng-show="!operator_edit_mode" data-ng-click="operator_edit_mode=true" style="cursor: pointer;">
         {{session.visitor_name}}
-      </h1><span data-ng-show="!operator_edit_mode" style="text-align: center;width: 100%;position: absolute;margin-top: -32px;">{{session.visitor_email}}</span>
+      </h1><span data-ng-show="!operator_edit_mode" data-ng-click="operator_edit_mode=true" style="text-align: center;width: 100%;position: absolute;cursor: pointer;margin-top: -32px;">
+      {{session.visitor_email || 'Click here to set visitor name/email'}}
+      </span>
       <ul class="conversation">
         <li class="{{message.class}}" data-ng-repeat="message in session.chatMessages">
           <div class="person" ng-if="message.person === 'visitor'">{{session.visitor_name}}</div>

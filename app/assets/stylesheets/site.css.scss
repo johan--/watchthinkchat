@@ -471,6 +471,8 @@
     color:white;
     font-size: 20px;
     padding: 0 50px;
+    a:link { color:#fff; text-decoration: underline; }
+    a:visited { color:#fff; }
 
     .friend-share-options{
       width:800px;
@@ -558,7 +560,20 @@
     right: 0;
     bottom: 50px;
     transition: right ease-out 0.5s, bottom ease-out 0.5s;
-    background: #7D868c;
+    background-image: -webkit-gradient(
+        linear,
+        right top,
+        left top,
+        color-stop(0, #2B77AD),
+        color-stop(0.50, #3494C7),
+        color-stop(1, #2B77AD)
+    );
+    background-image: -o-linear-gradient(left, #2B77AD 0%, #3494C7 50%, #2B77AD 100%);
+    background-image: -moz-linear-gradient(left, #2B77AD 0%, #3494C7 50%, #2B77AD 100%);
+    background-image: -webkit-linear-gradient(left, #2B77AD 0%, #3494C7 50%, #2B77AD 100%);
+    background-image: -ms-linear-gradient(left, #2B77AD 0%, #3494C7 50%, #2B77AD 100%);
+    background-image: linear-gradient(to left, #2B77AD 0%, #3494C7 50%, #2B77AD 100%);
+    //background: #7D868c;
   }
   .box iframe,  .box object,  .box embed {
     width: 100%;

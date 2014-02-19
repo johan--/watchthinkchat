@@ -9,14 +9,6 @@ angular.module('chatApp')
         }
       },
       controller: function ($scope, $http, $route) {
-        if(angular.isDefined($scope.button_clicked)){
-          var button_id = $scope.button_clicked.id;
-        }else{
-          var button_id = $route.current.params.button_id;
-        }
-
-        $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?button_id='+button_id
-
         $scope.nextStep = function(step){
           if(step == 2){
             $('#after-chat-information-01, .after-chat-challenge').hide();
@@ -26,6 +18,12 @@ angular.module('chatApp')
               $('#after-chat-information-02').show();
             }
           }else if(step == 3){
+            if(angular.isDefined($scope.button_clicked)){
+              var button_id = $scope.button_clicked.id;
+            }else{
+              var button_id = $route.current.params.button_id;
+            }
+            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?button_id='+button_id
             $http({method: 'JSONP',
               url: 'http://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
@@ -45,7 +43,7 @@ angular.module('chatApp')
           }else if(step == 4){
             FB.ui({
               method: 'send',
-              link: 'http://www.godchat.tv'
+              link: $scope.friend_url
             });
             $scope.nextStep(7);
           }else if(step == 5){
@@ -56,6 +54,9 @@ angular.module('chatApp')
           }else if(step == 7){
             $('#after-chat-information-06').show();
             $('#after-chat-information-03').hide();
+          }else if(step == 99){
+            $('.after-chat-information').hide();
+            $('#after-chat-information-exit').show();
           }
         };
 

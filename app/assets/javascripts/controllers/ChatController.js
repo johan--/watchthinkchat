@@ -171,9 +171,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         //console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox, #after-chat-information-01').fadeIn();
+        $('#start-chat-panel').hide();
 
         $('#chatting_with').html('<img src="' + operator_data.profile_pic + '" style="float:left; padding:6px;">   <div class="message">You are chatting with<br>' + operator_data.name + '</div>');
-
         var pusher = new Pusher('249ce47158b276f4d32b');
         pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
