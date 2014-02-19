@@ -8,49 +8,63 @@
     </form>
     <div class="alert alert-danger">Invalid Password</div>
   </div>
-  <div class="endchat-overlay">
-    <form class="form" role="form" style="width:700px;margin:auto;">
-      <div class="form-group" style="width:49%;display:inline-block;">
-        <label class="control-label">Response to follow Jesus</label>
-        <div class="">
-          <p class="form-control-static">{{endchat_session.activity}}</p>
+
+  <div class="modal" id="endchat-overlay" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Save Chat</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form" role="form">
+            <div class="form-group" style="width:49%;display:inline-block;">
+              <label class="control-label">Response to follow Jesus</label>
+              <div class="">
+                <p class="form-control-static">{{endchat_session.activity}}</p>
+              </div>
+            </div>
+            <div class="form-group" style="width:49%;display:inline-block;margin-bottom:0;vertical-align:top;">
+              <label class="control-label">Link shared by</label>
+              <div class="">
+                <img src="{{operator_data.profile_pic}}" style="float:left;">
+                <p class="form-control-static">Bob Operator</p>
+              </div>
+            </div>
+            <h4>Who are they</h4>
+            <div class="form-group">
+              <label>Persons name</label>
+              <input type="text" class="form-control" data-ng-model="endchat_session.visitor_name">
+            </div>
+
+            <div class="form-group">
+              <label>Contact email</label>
+              <input type="email" class="form-control" data-ng-model="endchat_session.visitor_email">
+            </div>
+            <h4>Next steps</h4>
+            <div class="form-group">
+              <label>Call to action</label>
+              <select class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Notes</label>
+              <textarea class="form-control" rows="3" data-ng-model="endchat_session.notes"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" data-ng-click="endChatDialogSave()">Save &amp; Close</button>
         </div>
       </div>
-      <div class="form-group" style="width:49%;display:inline-block;margin-bottom:0;vertical-align:top;">
-        <label class="control-label">Link shared by</label>
-        <div class="">
-          <img src="{{operator_data.profile_pic}}" style="float:left;">
-          <p class="form-control-static">Bob Operator</p>
-        </div>
-      </div>
-    <h2>Who are they</h2>
-      <div class="form-group">
-        <label>Persons name</label>
-        <input type="text" class="form-control" data-ng-model="endchat_session.visitor_name">
-      </div>
-
-      <div class="form-group">
-        <label>Contact email</label>
-        <input type="email" class="form-control" data-ng-model="endchat_session.visitor_email">
-      </div>
-    <h2>Next steps</h2>
-      <div class="form-group">
-        <label>Call to action</label>
-        <select class="form-control">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Notes</label>
-        <textarea class="form-control" rows="3" data-ng-model="endchat_session.notes"></textarea>
-      </div>
-      <div class="btn btn-primary" data-ng-click="endChatDialogSave()">Save &amp; Close</div>
-    </form>
+    </div>
   </div>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -87,6 +101,7 @@
           <p>{{session.activity}}</p>
         </div>
       </li>
+      <li data-ng-show="active_sessions.length == 0">You do not have any active chat sessions yet. They will appear hear when you do.</li>
     </ul>
   </div>
   <div class="operator_status operator_status_offline" data-ng-click="toggleOperatorStatus()" title="Click to toggle status">
