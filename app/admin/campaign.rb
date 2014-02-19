@@ -50,7 +50,7 @@ ActiveAdmin.register Campaign do
     f.inputs do
       f.has_many :followup_buttons, :allow_destroy => true, :allow_create => true do |fb|
         fb.input :btn_text
-        fb.input :btn_action
+        fb.input :btn_action, :as => :select, :collection => options_for_select([ "chat", "url" ], "chat"), :include_blank => false
         fb.input :btn_value
         fb.input :message_active_chat
         fb.input :message_no_chat
