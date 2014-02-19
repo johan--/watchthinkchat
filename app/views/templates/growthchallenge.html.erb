@@ -1,0 +1,88 @@
+<div class="after-chat-information" id="after-chat-information-01">
+  <p>{{button_clicked.message_visible}}</p>
+</div>
+<div class="after-chat-information" id="after-chat-information-02">
+  <p>Following Jesus is deeply rewarding, but it takes some effort :) We have a simple 4 email Growth Challenge we believe will make a real difference in your life. Each email has video based content for you to interact with a Christian friend you know and trust.</p>
+  <div style="max-width:726px;margin:auto;display:block;">
+    <img src="<%= asset_path("content-friend.png") %>" style="max-width:100%;">
+  </div>
+  <p style="padding-top:20px;"><strong>Step 1</strong>: To get started with our free growth challenge content: enter your email address here:</p>
+  <div style="margin:20px auto 0 auto;width:85%;display:block;height:140px;">
+    <input type="text" class="form-control" ng-enter="nextStep(3)" placeholder="Email Address..." data-ng-model="visitor_email">
+    <div class='btn btn-success btn-block' data-ng-click="nextStep(3)">Continue ></div>
+  </div>
+  <br><p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> - We won't sell or torture your personal data :)</p>
+</div>
+<div class="after-chat-information" id="after-chat-information-03">
+  <img src="<%= asset_path("growth_challenge_logo.png") %>" style="margin: auto;
+          display: block;
+          width: 270px;
+          padding-bottom: 16px;">
+  <p>Thanks for completing step 1 and registering to get the 4 part Growth Challenge over email.<br>
+    Step 2 is an opportunity to turbo charge your challenge by adding a Christian friend you know and trust to the experience! Sure, you can just go it alone from here, but having a friend is going to make a world of difference to how far you go.</p>
+  <p style="font-size:24px;text-align: center;">Choose one of two ways to add your friend, or go it alone.</p>
+  <div class="friend-share-options">
+    <a href="#" data-ng-click="nextStep(4)"><img src="<%= asset_path("facebook.jpg") %>"></a>
+    <span>or</span>
+    <a href="#" data-ng-click="nextStep(5)"><img src="<%= asset_path("email.jpg") %>" align="right"></a>
+  </div>
+</div>
+<div class="modal" id="after-chat-information-05" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="form" role="form">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Your Email</label>
+            <input type="text" class="form-control" data-ng-model="visitor_email">
+          </div>
+          <div class="form-group">
+            <label>Friends Email</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea class="form-control" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-ng-click="nextStep(6)">Continue ></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="after-chat-information" id="after-chat-information-06">
+  <h1>Thank You!</h1>
+  <p>Check Out: EveryStudent.com<br>Get plugged in when visiting: http://www.cru.org</p>
+</div>
+
+
+<div class="modal" id="privacy-policy" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Privacy Policy</h4>
+      </div>
+      <div class="modal-body">
+        <p>B)  feedback on &quot;Show challenge&quot;<br>
+          Have the  show challenge operate once, then disabled, and have the visitor 1 button at  left, change to show that visitor 1 already has been issued the challenge. So I  can tell when I look at my three visitors</p>
+        <p>&nbsp;</p>
+        <p>C) I had  user select &quot;I want to start&quot; but they showed up as visitor, but no  button was registered against the person? Wired, I ended chat, and the pop up  did not register what button they had clicked also.  Some kind of error?</p>
+        <p>&nbsp;</p>
+        <p>D) We have  a major issue to solve, eg. Who are we putting into mission hub? All contacts?  And how do we leave chat and leave them to the friend know and trust part, but  not know what they did, or what emails they did or didn't sign up for? Can we  use mail chimp API to trigger modification at Mission hub?</p>
+        <p>&nbsp;</p>
+        <p>E) I have  engaged Andrew to work on the dashboard at owner area, at Godchat/owner Need  KPI (Key performance indicators for this dash board.)</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

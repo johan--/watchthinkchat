@@ -6,11 +6,8 @@
   <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">
   <%= csrf_meta_tags %>
   <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
-  <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta property="og:type" content="website"/>
-  <% if @campaign %>
-    <meta property="og:site_name" content="<%= @campaign.name %>"/>
-  <% end %>
   <meta property="og:url" content="<%= request.url %>">
 
   <!--[if lt IE 9]>
@@ -18,11 +15,13 @@
   <![endif]-->
 </head>
 <body class="site">
+  <div id="fb-root"></div>
   <div ng-app="chatApp" ng-controller="ApplicationController as appCtrl">
     <div ng-view></div>
   </div>
   <%= javascript_include_tag "application" %>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-cookies.js" type="text/javascript"></script>
   <script src="//js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
+  <script src="//connect.facebook.net/en_US/all.js" type="text/javascript"></script>
 </body>
 </html>

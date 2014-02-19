@@ -3,7 +3,7 @@
 angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout) {
   var operator_data = {
     uid: $route.current.params.operatorId,
-    profile_pic: '/assets/avatar.png'
+    profile_pic: '<%= asset_path("avatar.png") %>'
   };
   var active_chat = '';
   var campaign_id = $location.search()['campaign'] || '';
@@ -26,8 +26,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     return;
   }
 
-  $scope.active_sessions=[];
-  $scope.endchat_session=[];
+    $scope.active_sessions = [];
+    $scope.endchat_session = [];
 
   $scope.validatePassword = function() {
     $http({
@@ -95,6 +95,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       });
   };
 
+    $scope.showChallenge = function (id) {
+        var post_data = {
+            user_uid: operator_data.uid,
+            message_type: 'activity',
+            message: 'challenge'
+        };
+        $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
+                success(function (data, status, headers, config) {
+                }).error(function (data, status, headers, config) {
+                });
+    };
+
   $scope.endChat = function (id) {
     $http({method: 'DELETE', url: '/api/chats/'+id}).
       success(function (data, status, headers, config) {
@@ -152,7 +164,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             chat_uid: newchat_data.chat_uid,
             visitor_uid: newchat_data.visitor_uid,
             visitor_name: newchat_data.visitor_name,
-            visitor_profile: '/assets/avatar.png',
+            visitor_profile: '<%= asset_path("avatar.png") %>',
             activity: '',
             chatMessages: []
           });
