@@ -227,6 +227,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.buttonClick = function(button){
     $('.after-chat-buttons, .after-chat-title').fadeOut();
+    $('.box').css('overflow-y','auto');
 
     if(button.action == 'url'){
       launchWebPage(button.value);
