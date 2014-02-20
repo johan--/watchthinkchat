@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies, $location, $filter) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $cookies, $location, $filter, $timeout) {
   ////STAGEING////
 
 
-  //delete $cookies.gchat_visitor_id;
+  delete $cookies.gchat_visitor_id;
 
 
   /// //////
@@ -65,7 +65,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         action: 'chat',
         value: '',
         message_active_chat: 'We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it, if you are interested lets chat on your right hand side--->',
-        message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus. '
+        message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus.'
       });
       $scope.followup_buttons.push({
         id: 2,
@@ -168,13 +168,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(angular.isDefined($scope.button_clicked)){
           $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
         }
-        console.log('================ New Chat Created: ' + data.chat_uid);
+        //console.log('================ New Chat Created: ' + data.chat_uid);
 
         $('#chatbox, #after-chat-information-01').fadeIn();
+        $('#start-chat-panel').hide();
 
         $('#chatting_with').html('<img src="' + operator_data.profile_pic + '" style="float:left; padding:6px;">   <div class="message">You are chatting with<br>' + operator_data.name + '</div>');
-        //console.log('Inital message: '+initialMsg);
-
         var pusher = new Pusher('249ce47158b276f4d32b');
         pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
@@ -207,7 +206,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         });
 
         if(initialMsg){
-          postActivityMessage(initialMsg);
+          $timeout(function(){ postActivityMessage(initialMsg); }, 1000);
         }
       }).error(function (data, status, headers, config) {
         if(data.error === 'Operator offline'){

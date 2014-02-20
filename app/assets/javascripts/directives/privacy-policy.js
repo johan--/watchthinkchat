@@ -6,6 +6,7 @@ angular.module('chatApp')
       link: function (scope, element, attrs){
       },
       controller: function ($scope, $http, $route) {
+        $('#privacy-policy').modal({backdrop: false, show: false});
       }
     };
   });

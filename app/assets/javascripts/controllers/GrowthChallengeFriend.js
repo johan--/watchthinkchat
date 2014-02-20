@@ -2,6 +2,7 @@
 
 angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route) {
   $('body').css('background',' #7D868c');
+  window.document.title = 'WatchThinkChat Growth Challenge';
   $('.after-chat-information').show();
 
   $scope.successfulSubscribe = '';

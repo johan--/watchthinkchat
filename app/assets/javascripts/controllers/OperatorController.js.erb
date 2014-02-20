@@ -47,8 +47,12 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         }).error(function (data, status, headers, config) {
 
         });
+        //clear password
+        $scope.campaignPassword='';
     }).error(function (data, status, headers, config) {
       $('.password-overlay .alert').fadeIn().delay(2000).fadeOut();
+      //clear password
+      $scope.campaignPassword='';
     });
   };
 
@@ -115,9 +119,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         $scope.endchat_session = $scope.active_sessions[index];
         $scope.active_sessions.splice(index, 1);
-        console.log($scope.endchat_session);
         pusher.unsubscribe('chat_'+id);
-        $('.endchat-overlay').fadeIn();
+
+        $('#endchat-overlay').modal({backdrop: true, show: true});
       }).error(function (data, status, headers, config) {
 
       });
@@ -135,7 +139,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           notes: $scope.endchat_session.notes
         }
       }).success(function (data, status, headers, config) {
-        $('.endchat-overlay').fadeOut();
+        $('#endchat-overlay').modal('hide');
         $scope.endchat_session=[];
       }).error(function (data, status, headers, config) {
 
@@ -171,58 +175,68 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
 
         var chat_channel = pusher.subscribe('chat_'+newchat_data.chat_uid);
-        chat_channel.bind('event', function (data) {
-          if(data.user_uid != operator_data.uid){
-            var conversation = $('#chatbox_'+newchat_data.chat_uid+' .conversation');
-            var index = _.findIndex($scope.active_sessions, function(session) {
-              return session.chat_uid == newchat_data.chat_uid;
-            });
-            if(data.message_type=='activity'){
-              $scope.$apply(function () {
-                $scope.active_sessions[index].activity = data.message;
-              });
-              //conversation.append('<li> <div class="message-activity">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + newchat_data.visitor_name + '</div></li>');
-              $scope.$apply(function () {
-                $scope.active_sessions[index].chatMessages.push({
-                  time: Math.round(+new Date()).toString(),
-                  class: '',
-                  messageClass: 'message-activity',
-                  person: 'visitor',
-                  message: data.message
-                });
-              });
-            }else{
-              //conversation.append('<li> <div class="person">' +  + '</div>  <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="message">' +  + '</div></li>');
-              $scope.$apply(function () {
-                $scope.active_sessions[index].chatMessages.push({
-                  time: Math.round(+new Date()).toString(),
-                  class: '',
-                  messageClass: 'message',
-                  person: 'visitor',
-                  message: data.message
-                });
-              });
-            }
-            scollBottom(newchat_data.chat_uid);
+          chat_channel.bind('event', function (data) {
+              if (data.user_uid != operator_data.uid) {
+                  var conversation = $('#chatbox_' + newchat_data.chat_uid + ' .conversation');
+                  var index = _.findIndex($scope.active_sessions, function (session) {
+                      return session.chat_uid == newchat_data.chat_uid;
+                  });
+                  if (data.message_type == 'activity') {
+                      $scope.$apply(function () {
+                          $scope.active_sessions[index].activity = data.message;
+                      });
 
-            if(active_chat != newchat_data.chat_uid || window_focus === false){
-              var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
-              element.css('visibility','visible');
-              var distance = '5px';
-              var speed = 210;
-              var i;
-              for(i = 0; i < 4; i++) {
-                element.animate({marginTop: '-='+distance},speed)
-                  .animate({marginTop: '+='+distance},speed);
+                      $scope.$apply(function () {
+                          $scope.active_sessions[index].chatMessages.push({
+                              time: Math.round(+new Date()).toString(),
+                              class: '',
+                              messageClass: 'message-activity',
+                              person: 'visitor',
+                              message: data.message
+                          });
+                      });
+                  } else {
+                      $scope.$apply(function () {
+                          $scope.active_sessions[index].chatMessages.push({
+                              time: Math.round(+new Date()).toString(),
+                              class: '',
+                              messageClass: 'message',
+                              person: 'visitor',
+                              message: data.message
+                          });
+                      });
+                  }
+                  scollBottom(newchat_data.chat_uid);
+
+                  if (active_chat != newchat_data.chat_uid || window_focus === false) {
+                      var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
+                      element.css('visibility', 'visible');
+                      var distance = '5px';
+                      var speed = 210;
+                      var i;
+                      for (i = 0; i < 4; i++) {
+                          element.animate({marginTop: '-=' + distance}, speed)
+                                  .animate({marginTop: '+=' + distance}, speed);
+                      }
+                      $('#newMsgAlert')[0].play();
+                  }
               }
-              $('#newMsgAlert')[0].play();
-            }
-          }
-        });
-        chat_channel.bind('end', function () {
-          console.log('End Chat: '+newchat_data.chat_uid);
-          //$scope.endChat(newchat_data.chat_uid);
-        });
+          });
+          chat_channel.bind('end', function () {
+              console.log('End Chat: ' + newchat_data.chat_uid);
+              var index = _.findIndex($scope.active_sessions, function (session) {
+                  return session.chat_uid == newchat_data.chat_uid;
+              });
+              $scope.$apply(function () {
+                  $scope.active_sessions[index].chatMessages.push({
+                      time: Math.round(+new Date()).toString(),
+                      class: '',
+                      messageClass: 'message-activity',
+                      person: 'visitor',
+                      message: 'Visitor has disconnected from chat session.'
+                  });
+              });
+          });
       });
     }
 
@@ -274,11 +288,10 @@ var scollBottom = function(id){
   }).blur(function() {
     window_focus=false;
     window_focus_timeout = setTimeout(function(){
-      console.log('2 mins inactivity, status set to: Offline');
+      //console.log('2 mins inactivity, status set to: Offline');
       if(operator_channel_connected){
         //$scope.toggleOperatorStatus();
       }
     },120000);
   }).trigger('focus');
-
 });
