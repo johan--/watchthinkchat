@@ -50,7 +50,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         //clear password
         $scope.campaignPassword='';
     }).error(function (data, status, headers, config) {
-      $('.password-overlay .alert').fadeIn().delay(2000).fadeOut();
+      $('.password-overlay .alert').html(data.error).fadeIn().delay(2000).fadeOut();
       //clear password
       $scope.campaignPassword='';
     });

@@ -123,7 +123,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   } else {
     visitor_data.uid = $cookies.gchat_visitor_id;
   }
-  console.log('operator: '+operator_data.uid,'visitor: '+visitor_data.uid);
+  //console.log('operator: '+operator_data.uid,'visitor: '+visitor_data.uid);
 
   $scope.postMessage = function () {
     if($scope.chatMessage==''){
@@ -206,7 +206,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         });
 
         if(initialMsg){
-          $timeout(function(){ postActivityMessage(initialMsg); }, 1000);
+          $timeout(function(){ $scope.postActivityMessage(initialMsg); }, 1000);
         }
       }).error(function (data, status, headers, config) {
         if(data.error === 'Operator offline'){
@@ -235,13 +235,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       if(!chat_data.chat_uid){
         $scope.startChat('Visitor has clicked: ' + button.text);
       }else{
-        postActivityMessage('Visitor has clicked: ' + button.text);
+        $scope.postActivityMessage('Visitor has clicked: ' + button.text);
       }
       $scope.button_clicked = button;
     }
   };
 
-  var postActivityMessage = function(message){
+  $scope.postActivityMessage = function(message){
     var post_data = {
       user_uid: visitor_data.uid,
       message_type: 'activity',
