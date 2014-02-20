@@ -44,11 +44,11 @@ class Campaign < ActiveRecord::Base
 
   def get_available_operator
     if self.max_chats
-      operators = self.operators.find_all{ |o| 
-        o.count_operator_open_chats_for(self)
+      operators = self.operators.online.find_all{ |o| 
+        o.count_operator_open_chats_for(self) < self.max_chats
       }
     else
-      operators = self.operators
+      operators = self.operators.online
     end
     operators.sort { |o1, o2|
       o1.count_operator_open_chats_for(self) <=> o2.count_operator_open_chats_for(self)
