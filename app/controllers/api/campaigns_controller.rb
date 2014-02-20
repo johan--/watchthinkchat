@@ -16,7 +16,12 @@ class Api::CampaignsController < ApplicationController
     if params[:password].present? && @campaign.try(:password) == params[:password]
       #puts "Api::CampaignsController#password"
       # this is the most secure spot to mark them as an operator
-      current_user.mark_as_operator!(@campaign)
+      begin
+        current_user.mark_as_operator!(@campaign)
+      rescue RestClient::Unauthorized => e
+        render :json => { :error => "Invalid missionhub token" }, :status => 500
+        return
+      end
       render :text => "", status: 201
     elsif @campaign
       render :json => { :error => "Password not valid" }, :status => 401

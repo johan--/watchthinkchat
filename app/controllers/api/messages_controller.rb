@@ -4,11 +4,11 @@ class Api::MessagesController < ApplicationController
     user = User.where("visitor_uid = ? OR operator_uid = ?", params[:user_uid], params[:user_uid]).first
 
     if chat && user
-      message = chat.messages.create!(:user_id => user.id, :body => params[:body], :name => user.fullname)
+      message = chat.messages.create!(:user_id => user.id, :body => params[:message], :name => user.fullname)
       Pusher["chat_#{chat.uid}"].trigger('event', {
         user_uid: params["user_uid"],
         message_type: params["message_type"],
-        message: params["message"]
+        message: ERB::Util.html_escape(params["message"])
       })
       render json: { success: true }, status: 201
     elsif !chat

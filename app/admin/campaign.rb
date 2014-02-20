@@ -27,6 +27,37 @@ ActiveAdmin.register Campaign do
         column :btn_value
       end
     end
+    panel "Operators" do
+      if campaign.closed?
+        "Campaign is not open"
+      elsif campaign.opened? && campaign.operators.empty?
+        "Campaign is open, but there are no operators set"
+      elsif campaign.opened?
+        table_for campaign.operators do
+          column :fullname
+          column :email
+          column :missionhub_id do |operator|
+            link_to(operator.missionhub_id, "https://www.missionhub.com/profile/#{operator.missionhub_id}", :target => "_blank")
+          end
+          column :status do |operator|
+            operator.status == "online" ? "online" : ""
+          end
+          column :live_chats do |operator|
+            r = []
+            operator.operator_chats.where(:campaign => campaign, :status => "open").each_with_index do |chat, i|
+              r << link_to(i+1, admin_chat_path(chat))
+            end
+            r.join(", ").html_safe
+          end
+          column :alltime_chats do |operator|
+            operator.count_operator_chats_for(campaign)
+          end
+          column :available do |operator|
+            campaign.max_chats ? operator.count_operator_chats_for(campaign) < campaign.max_chats : true
+          end
+        end
+      end
+    end
   end
 
   form do |f|
@@ -34,7 +65,7 @@ ActiveAdmin.register Campaign do
       f.input :name
       f.input :password
       f.input :cname
-      f.input :missionhub_token
+      f.input :missionhub_token, :hint => %|Get the missionhub token from <A HREF="http://www.missionhub.com/organizations/api" target="_BLANK">http://www.missionhub.com/organizations/api (opens in a new tab)</A>|.html_safe
       f.input :permalink
       f.input :campaign_type
       f.input :max_chats

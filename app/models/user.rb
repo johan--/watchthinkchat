@@ -32,6 +32,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def count_operator_chats_for(campaign)
+    @count_operator_chats_for ||= operator_chats.where(:campaign_id => self.id).count
+  end
+
+  def count_operator_open_chats_for(campaign)
+    @count_operator_open_chats_for ||= operator_chats.where(:campaign_id => self.id, :status => "open").count
+  end
+
   def fullname
     "#{self.first_name} #{self.last_name}".strip
   end
