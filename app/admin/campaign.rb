@@ -34,7 +34,7 @@ ActiveAdmin.register Campaign do
       f.input :name
       f.input :password
       f.input :cname
-      f.input :missionhub_secret
+      f.input :missionhub_token
       f.input :permalink
       f.input :campaign_type
       f.input :max_chats

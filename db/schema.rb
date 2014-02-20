@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140219162211) do
+ActiveRecord::Schema.define(version: 20140219220653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20140219162211) do
     t.string   "cname"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "missionhub_secret"
+    t.string   "missionhub_token"
     t.string   "permalink"
     t.string   "video_id"
     t.string   "campaign_type"

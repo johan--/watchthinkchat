@@ -8,7 +8,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :admin2, :class_name => "User"
   belongs_to :admin3, :class_name => "User"
 
-  validates :name, :missionhub_secret, presence: true
+  validates :name, :missionhub_token, presence: true
 
   before_create :generate_uid
   before_create :set_status
