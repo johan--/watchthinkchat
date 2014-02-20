@@ -54,7 +54,7 @@ ActiveAdmin.register Campaign do
           end
           column :available_for_chat do |operator|
             if operator.status == "online"
-              campaign.max_chats ? operator.count_operator_live_chats_for(campaign) < campaign.max_chats : true
+              campaign.max_chats ? operator.count_operator_open_chats_for(campaign) < campaign.max_chats : true
             else
               ""
             end
