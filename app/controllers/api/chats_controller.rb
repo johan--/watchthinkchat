@@ -10,13 +10,13 @@ class Api::ChatsController < ApplicationController
     end
 
     if campaign && visitor && operator && operator.online?
-      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id)
+      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id, :operator_whose_link_id => operator.id)
       Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
         chat_uid: chat.uid,
         visitor_uid: visitor.visitor_uid,
         visitor_name: visitor.fullname,
         visitor_profile: "",
-        requested_operator: params[:operator_uid]
+        requested_operator: operator.operator_uid
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif !operator

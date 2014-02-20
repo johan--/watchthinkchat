@@ -2,6 +2,7 @@ class Chat < ActiveRecord::Base
   belongs_to :operator, :class_name => "User"
   belongs_to :visitor, :class_name => "User"
   belongs_to :campaign
+  belongs_to :operator_whose_link, :class_name => "User"
   has_many :messages, lambda { order("created_at asc") }
 
   before_validation :set_uid

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140219220653) do
+ActiveRecord::Schema.define(version: 20140220223042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.string   "uid"
     t.integer  "campaign_id"
     t.string   "status"
+    t.integer  "user_whose_link_id"
   end
 
   add_index "chats", ["operator_id"], name: "index_chats_on_operator_id", using: :btree
