@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220223042) do
+ActiveRecord::Schema.define(version: 20140220231029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20140220223042) do
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "cname"
-    t.string   "youtube_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "missionhub_token"
@@ -59,12 +58,17 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.string   "topic"
     t.integer  "operator_id"
     t.integer  "visitor_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "uid"
     t.integer  "campaign_id"
+    t.integer  "max_chats"
+    t.string   "chat_start"
+    t.string   "owner"
+    t.string   "description"
+    t.string   "language"
     t.string   "status"
-    t.integer  "user_whose_link_id"
+    t.integer  "operator_whose_link_id"
   end
 
   add_index "chats", ["operator_id"], name: "index_chats_on_operator_id", using: :btree
@@ -74,8 +78,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.integer  "outsider_id"
     t.integer  "operator_id"
     t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "comments", ["operator_id"], name: "index_comments_on_operator_id", using: :btree
@@ -91,8 +95,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
@@ -111,8 +115,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
   create_table "languages", force: true do |t|
     t.string   "name"
     t.string   "locale"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "memberships", force: true do |t|
@@ -121,8 +125,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.boolean  "valid"
     t.boolean  "admin"
     t.boolean  "owner"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
@@ -132,8 +136,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.text     "body"
     t.integer  "user_id"
     t.integer  "chat_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "name"
   end
 
@@ -142,8 +146,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: true do |t|
@@ -170,8 +174,8 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "provider"
     t.string   "operator_uid"
     t.string   "first_name"
@@ -182,6 +186,7 @@ ActiveRecord::Schema.define(version: 20140220223042) do
     t.string   "ip"
     t.string   "referrer"
     t.string   "authentication_token"
+    t.integer  "roles_mask"
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "fb_uid"
