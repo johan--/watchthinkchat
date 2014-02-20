@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140219220653) do
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "cname"
+    t.string   "youtube_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "missionhub_token"
@@ -58,15 +59,10 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.string   "topic"
     t.integer  "operator_id"
     t.integer  "visitor_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "uid"
     t.integer  "campaign_id"
-    t.integer  "max_chats"
-    t.string   "chat_start"
-    t.string   "owner"
-    t.string   "description"
-    t.string   "language"
     t.string   "status"
   end
 
@@ -77,8 +73,8 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.integer  "outsider_id"
     t.integer  "operator_id"
     t.text     "body"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "comments", ["operator_id"], name: "index_comments_on_operator_id", using: :btree
@@ -94,26 +90,28 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "followup_buttons", force: true do |t|
-    t.string  "btn_text"
-    t.string  "btn_action"
-    t.string  "btn_value"
-    t.integer "campaign_id"
-    t.text    "message_active_chat"
-    t.text    "message_no_chat"
+    t.string   "btn_text"
+    t.string   "btn_action"
+    t.string   "btn_value"
+    t.integer  "campaign_id"
+    t.text     "message_active_chat"
+    t.text     "message_no_chat"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "languages", force: true do |t|
     t.string   "name"
     t.string   "locale"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "memberships", force: true do |t|
@@ -122,8 +120,8 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.boolean  "valid"
     t.boolean  "admin"
     t.boolean  "owner"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
@@ -133,8 +131,8 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.text     "body"
     t.integer  "user_id"
     t.integer  "chat_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
   end
 
@@ -143,8 +141,8 @@ ActiveRecord::Schema.define(version: 20140219220653) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sessions", force: true do |t|
@@ -171,8 +169,8 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "provider"
     t.string   "operator_uid"
     t.string   "first_name"
@@ -183,7 +181,6 @@ ActiveRecord::Schema.define(version: 20140219220653) do
     t.string   "ip"
     t.string   "referrer"
     t.string   "authentication_token"
-    t.integer  "roles_mask"
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "fb_uid"

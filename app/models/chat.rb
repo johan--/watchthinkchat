@@ -26,13 +26,16 @@ class Chat < ActiveRecord::Base
 
   def collect_stats(params)
     name_words = params[:visitor_name].split(' ')
-    people = MissionHub::Person.find(:all, :params => { :filters => { :email_exact => params[:visitor_email] }})
+    #people = MissionHub::Person.find(:all, :params => { :filters => { :email_exact => params[:visitor_email] }})
+    people = Rest.get("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&filters[email_exact]=#{params[:visitor_email]}")["people"]
     #puts "people.length: #{people.length}"
     if people.length == 0
-      visitor = MissionHub::Person.create(:permission => User::VISITOR_PERMISSION, :person => { first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email] })
+      #visitor = MissionHub::Person.create(:permission => User::VISITOR_PERMISSION, :person => { first_name: name_words.shift, last_name: name_words.join(' '), email: params[:visitor_email] })
+      visitor = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{User::VISITOR_PERMISSION}&person[first_name]=#{name_words.shift}&person[last_name]=#{name_words.join(' ')}&person[email]=#{params[:visitor_email]}")["person"]
     else
       visitor = people.first
     end
-    MissionHub::FollowupComment.create(a: "b", followup_comment: { contact_id: visitor.id, commenter_id: self.operator.missionhub_id, comment: params[:notes] })
+    #MissionHub::FollowupComment.create(a: "b", followup_comment: { contact_id: visitor.id, commenter_id: self.operator.missionhub_id, comment: params[:notes] })
+    Rest.post("https://www.missionhub.com/apis/v3/followup_comments?secret=#{campaign.missionhub_token}&followup_comment[contact_id]=#{visitor["id"]}&followup_comment[commenter_id]=#{self.operator.missionhub_id}&followup_comment[comment]=#{params[:notes]}")
   end
 end

@@ -8,7 +8,7 @@ FactoryGirl.define do
   factory :campaign do
     sequence(:name) {|n| "campaign_#{n}" }
     sequence(:permalink) {|n| "permalink_#{n}" }
-    missionhub_secret "missionhub_secret"
+    missionhub_token "missionhub_token"
   end
 
   factory :chat do

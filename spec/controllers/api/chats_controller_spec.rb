@@ -5,7 +5,7 @@ describe Api::ChatsController do
     let(:create_operator) { create(:user, :operator => true, :operator_uid => 'op_uid', :status => "online"); }
     let(:create_visitor) { create(:user); }
     let(:create_campaign) { create(:campaign); }
-    let(:create_chat) { create(:chat, :operator => create_operator, :visitor => create_visitor); }
+    let(:create_chat) { create(:chat, :campaign => create_campaign, :operator => create_operator, :visitor => create_visitor); }
 
     context "for a visitor" do
       describe "#create" do
@@ -53,8 +53,8 @@ describe Api::ChatsController do
           sign_in chat.operator
           mock_person = double('person', :id => chat.visitor.missionhub_id)
           mock_people = double('people', :length => 1, :first => mock_person)
-          MissionHub::Person.should_receive(:find).and_return(mock_people)
-          MissionHub::FollowupComment.should_receive(:create).with(a: "b", followup_comment: { contact_id: mock_person.id, commenter_id: chat.operator.missionhub_id, comment: "notes here" })
+          Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&filters[email_exact]=test@test.com").and_return("people" => [{"id" => 1}])
+          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/followup_comments?secret=missionhub_token&followup_comment[contact_id]=1&followup_comment[commenter_id]=#{chat.operator.missionhub_id}&followup_comment[comment]=notes here").and_return("followup_comment" => [{"id" => 1}])
           post :collect_stats, :uid => chat.uid, :visitor_response => "I want to start", :visitor_name => "Steve", :visitor_email => "test@test.com", :calltoaction => "something", :notes => "notes here"
         end
       end

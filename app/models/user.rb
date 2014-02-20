@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  VISITOR_PERMISSION = 2
+  LEADER_PERMISSION  = 4
+
   before_create :generate_visitor_uid
 
   devise :registerable, :trackable
@@ -97,18 +100,10 @@ class User < ActiveRecord::Base
 
     # make sure this person is in missionhub and in leader role and label
     # it will search for him by email first and add the permission if it doesn't already exist
-    #@@leader_permission_id ||= MissionHub::Permission.all.detect{ |p| p.name == "User" }.id
-    @@leader_permission_id = JSON.parse(RestClient.get("https://www.missionhub.com/apis/v3/permissions?secret=#{campaign.missionhub_token}", {:accept => :json}))["permissions"].detect{ |p| p["name"] == "User" }["id"]
-    #p = MissionHub::Person.create(:permissions => @@leader_permission_id, :person => {:fb_uid => self.fb_uid, :first_name => self.first_name, :last_name => self.last_name, :email => self.email})
-    #p = JSON.parse(RestClient.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{@@leader_permission_id}&person[fb_uid]=#{self.fb_uid}&person[first_name]=#{self.first_name}&person[last_name]=#{self.last_name}&person[email]=#{self.email}", {:accept => :json}))["person"]
-    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{@@leader_permission_id}&person[fb_uid]=#{self.fb_uid}&person[first_name]=#{self.first_name}&person[last_name]=#{self.last_name}&person[email]=#{self.email}")["person"]
+    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{User::LEADER_PERMISSION}&person[fb_uid]=#{self.fb_uid}&person[first_name]=#{self.first_name}&person[last_name]=#{self.last_name}&person[email]=#{self.email}")["person"]
     self.update_attribute :missionhub_id, p["id"]
-    #@@leader_label_id ||= MissionHub::Label.all.detect{ |l| l.name == "Leader" }.id
-    #@@leader_label_id = JSON.parse(RestClient.get("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}", {:accept => :json}))["labels"].detect{ |l| l["name"] == "Leader" }["id"]
-    @@leader_label_id = Rest.get("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}")["labels"].detect{ |l| l["name"] == "Leader" }["id"]
-    #MissionHub::OrganizationalLabel.create "a" => "b", :organizational_label => {:person_id => self.missionhub_id, :label_id => @@leader_label_id}
-    #label = JSON.parse(RestClient.post("https://www.missionhub.com/apis/v3/organizational_labels?secret=#{campaign.missionhub_token}&organizational_label[person_id]=#{self.missionhub_id}&organizational_label[label_id]=#{@@leader_label_id}", {:accept => :json}))
+    @@leader_label_id ||= Rest.get("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}")["labels"].detect{ |l| l["name"] == "Leader" }["id"]
     label = Rest.post("https://www.missionhub.com/apis/v3/organizational_labels?secret=#{campaign.missionhub_token}&organizational_label[person_id]=#{self.missionhub_id}&organizational_label[label_id]=#{@@leader_label_id}")
-    puts label.inspect
+    #puts label.inspect
   end
 end

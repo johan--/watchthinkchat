@@ -42,8 +42,11 @@ describe Api::CampaignsController do
       campaign = create_campaign
       operator = create_operator
       sign_in operator
-      MissionHub::Role.should_receive(:find).and_return(double('roles', :detect => double('role', :id => 1)))
-      MissionHub::Person.should_receive(:find).and_return(double('people', :length => 1, :first => double('person', :roles= => true, :save => true, :id => 1)))
+      Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[fb_uid]=&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[fb_uid]=&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
       lambda {
         post :password, :uid => campaign.uid, :password => "password"
         post :password, :uid => campaign.uid, :password => "password" # should only increment UserOperator count by 1 still
