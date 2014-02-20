@@ -45,6 +45,16 @@ class PusherController < ApplicationController
             case event["name"]
             when "channel_occupied"
               operator.set_status("online")
+              # send any live chats again
+              operator.operator_chats.open.each do |chat|
+                Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
+                  chat_uid: chat.uid,
+                  visitor_uid: chat.visitor.visitor_uid,
+                  visitor_name: chat.visitor.fullname,
+                  visitor_profile: "",
+                  requested_operator: chat.operator_whose_link.try(:uid)
+                })
+              end
             when "channel_vacated"
               operator.set_status("offline")
             end
