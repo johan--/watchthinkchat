@@ -1,5 +1,8 @@
 class CreateFollowupButtons < ActiveRecord::Migration
   def change
+    if ActiveRecord::Base.connection.table_exists? 'followup_buttons'
+      drop_table 'followup_buttons'
+    end
     create_table :followup_buttons do |t|
       t.string :btn_text
       t.string :btn_action
