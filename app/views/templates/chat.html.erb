@@ -7,9 +7,13 @@
       <div class="btn btn-info btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in followup_buttons">{{button.text}}</div>
     </div>
    <growth-challenge></growth-challenge>
+
     <div class="after-chat-challenge">
-      <div class='btn btn-success btn-block' data-ng-click="nextStep(2)">Click to get started</div>
-      <p>"Take the growth adventure"</p>
+      <div class="row">
+        <div class="col-md-6"><p>"Take the growth adventure"</p></div>
+        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, false)">Get started<br>Email</div></div>
+        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, true)">Get started<br>Facebook</div></div>
+      </div>
     </div>
     <div id="player"></div>
     <iframe frameborder="0" id="webpage" src="about:blank"></iframe>
