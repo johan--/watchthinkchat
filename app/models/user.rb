@@ -33,11 +33,11 @@ class User < ActiveRecord::Base
   end
 
   def count_operator_chats_for(campaign)
-    @count_operator_chats_for ||= operator_chats.where(:campaign_id => self.id).count
+    @count_operator_chats_for ||= operator_chats.where(:campaign => campaign).count
   end
 
   def count_operator_open_chats_for(campaign)
-    @count_operator_open_chats_for ||= operator_chats.where(:campaign_id => self.id, :status => "open").count
+    @count_operator_open_chats_for ||= operator_chats.where(:campaign => campaign, :status => "open").count
   end
 
   def fullname
