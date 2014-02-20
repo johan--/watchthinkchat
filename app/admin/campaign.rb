@@ -52,8 +52,8 @@ ActiveAdmin.register Campaign do
           column :alltime_chats do |operator|
             operator.count_operator_chats_for(campaign)
           end
-          column :available do |operator|
-            campaign.max_chats ? operator.count_operator_chats_for(campaign) < campaign.max_chats : true
+          column :available_for_chat do |operator|
+            campaign.max_chats ? operator.count_operator_live_chats_for(campaign) < campaign.max_chats : true
           end
         end
       end
