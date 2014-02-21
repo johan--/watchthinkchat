@@ -10,7 +10,7 @@ ActiveAdmin.register Campaign do
 
   filter :name
   filter :permalink
-  filter :status, :as => :select, :collection => [ "opened", "closed" ]
+  filter :status, :as => :select, :collection => [ "open", "closed" ]
 
   show do
     panel "Campaign" do

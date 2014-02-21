@@ -1,5 +1,6 @@
 ActiveAdmin.register Chat do
   filter :uid
+  filter :status, :as => :select, :collection => [ "open", "closed" ]
 
   show do
     panel "Details" do
@@ -17,4 +18,17 @@ ActiveAdmin.register Chat do
       end
     end
   end
+
+  form do |f|
+    f.inputs "Status" do
+      f.input :status, :as => :select, :collection => [ "open", "closed" ]
+    end
+  end
+
+  controller do
+    def permitted_params
+      params.permit!
+    end
+  end
+
 end
