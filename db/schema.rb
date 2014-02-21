@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221192536) do
+ActiveRecord::Schema.define(version: 20140221204021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140221192536) do
     t.integer  "admin1_id"
     t.integer  "admin2_id"
     t.integer  "admin3_id"
+    t.boolean  "preemptive_chat"
   end
 
   create_table "chats", force: true do |t|

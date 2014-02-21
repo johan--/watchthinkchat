@@ -38,7 +38,8 @@ class Campaign < ActiveRecord::Base
       :description => self.description,
       :language => self.language,
       :status => self.status,
-      :followup_buttons => followup_buttons
+      :followup_buttons => followup_buttons,
+      :preemptive_chat => preemptive_chat
     }
   end
 
