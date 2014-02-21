@@ -107,7 +107,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $http({method: 'POST', url: '/api/visitors'}).
       success(function (data, status, headers, config) {
         visitor_data = data;
-        console.log('================ New Visitor Created: ' + data.uid);
+        //console.log('================ New Visitor Created: ' + data.uid);
         window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
       }).error(function (data, status, headers, config) {
 
@@ -236,7 +236,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   };
 
   $scope.postVisitorInfo = function(data){
-    //console.log(data);
+    $scope.postActivityMessage('Visitor has logged in with Facebook.');
     var post_data = {
       user_uid: visitor_data.uid,
       message_type: 'fbName',
