@@ -13,7 +13,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var video_completed=false;
   var window_focus=false;
   var YTplayer;
-  $scope.followup_buttons=[];
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -56,7 +55,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $scope.startChat('');
       }
 
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 1,
         text: 'No thanks',
         action: 'chat',
@@ -64,7 +63,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_active_chat: 'We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it, if you are interested lets chat on your right hand side--->',
         message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus.'
       });
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 2,
         text: 'I follow another faith',
         action: 'chat',
@@ -72,7 +71,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_active_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. What is it that you find interesting about Jesus? Lets chat on your right hand side ----->',
         message_no_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested we have an article here that you could look into and see if Jesus is really is ----> '
       });
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 3,
         text: 'I am not sure',
         action: 'chat',
@@ -80,7 +79,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_active_chat: 'Thanks for watching #FallingPlates and considering Jesus\'s call to follow Him. Right now u feel "not sure"? Well we are pumped that u are at least considering following Jesus! What is one thing that is attractive to u in following Jesus? What is one thing that makes u hesitant? Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
         message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him.So you identified that you are "not sure" right now. Well we are glad that you are at least considering following Jesus. What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We have a growth challenge that can help you find significance in following Jesus. Find out more "take the Growth Challenge" ------>'
       });
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 4,
         text: 'I want to start',
         action: 'chat',
@@ -88,7 +87,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_active_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->',
         message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. It’s awesome to see you have that desire! We have a growth challenge that can help u grow after u have asked Christ to come into your life. Heres the best place for u to get connected with a friend to grow :)'
       });
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 5,
         text: 'I\'m trying',
         action: 'chat',
@@ -96,7 +95,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_active_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
         message_no_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. We have a Growth Challenge that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient :)'
       });
-      $scope.followup_buttons.push({
+      $scope.campaign_data.followup_buttons.push({
         id: 6,
         text: 'I\'m following Jesus',
         action: 'chat',
