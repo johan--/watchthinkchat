@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
 
   def existing_mh_label_ids
     return [] unless campaign
-    @existing_mh_label_ids ||= Rest.get("https://www.missionhub.com/apis/v3/people/2856946?secret=#{campaign.missionhub_token}&include=organizational_labels")["person"]["organizational_labels"].collect{ |l| l["label_id"] }
+    @existing_mh_label_ids ||= Rest.get("https://www.missionhub.com/apis/v3/people/#{missionhub_id}?secret=#{campaign.missionhub_token}&include=organizational_labels")["person"]["organizational_labels"].collect{ |l| l["label_id"] }
   end
 
   def add_label(name)
