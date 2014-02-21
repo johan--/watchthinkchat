@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221204021) do
+ActiveRecord::Schema.define(version: 20140221220107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 20140221204021) do
     t.datetime "updated_at",             null: false
     t.string   "uid"
     t.integer  "campaign_id"
-    t.integer  "max_chats"
     t.string   "chat_start"
     t.string   "owner"
     t.string   "description"
