@@ -13,6 +13,10 @@ class Api::CampaignsController < ApplicationController
 
   def password
     @campaign = Campaign.where(:uid => params[:uid]).first
+    unless @campaign.opened?
+      render :json => { :error => "Sorry, campaign is closed" }, :status => 403
+      return
+    end
     if params[:password].present? && @campaign.try(:password) == params[:password]
       #puts "Api::CampaignsController#password"
       # this is the most secure spot to mark them as an operator
