@@ -9,10 +9,12 @@ FactoryGirl.define do
     sequence(:name) {|n| "campaign_#{n}" }
     sequence(:permalink) {|n| "permalink_#{n}" }
     missionhub_token "missionhub_token"
+    status "opened"
   end
 
   factory :chat do
     association :operator, factory: :user, operator_uid: "op_uid", operator: true, status: "online"
     association :visitor, factory: :user
+    association :campaign, factory: :campaign
   end
 end

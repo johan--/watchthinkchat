@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def missionhub_url
+    "https://www.missionhub.com/people/#{self.missionhub_id}"
+  end
+
   def count_operator_chats_for(campaign)
     @count_operator_chats_for ||= operator_chats.where(:campaign => campaign).count
   end
@@ -105,13 +109,41 @@ class User < ActiveRecord::Base
     self.operating_campaigns << campaign unless self.operating_campaigns.include?(campaign)
     self.operator_uid = self.fb_uid
     self.save!
+    self.sync_mh
+  end
 
-    # make sure this person is in missionhub and in leader role and label
-    # it will search for him by email first and add the permission if it doesn't already exist
-    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{User::LEADER_PERMISSION}&person[fb_uid]=#{self.fb_uid}&person[first_name]=#{self.first_name}&person[last_name]=#{self.last_name}&person[email]=#{self.email}")["person"]
+  def campaign
+    return @campaign if @campaign
+    # try to guess which campaign this person is with, based on the latest chats or operator statuses
+    guessables = operator_chats + visitor_chats + user_operators
+    guessables.sort!{ |a,b| a.created_at <=> b.created_at }
+    @campaign = guessables.last.try(:campaign)
+  end
+
+  def sync_mh(params = {})
+    return unless campaign
+    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{operator ? User::LEADER_PERMISSION : User::VISITOR_PERMISSION}&person[first_name]=#{first_name}&person[last_name]=#{last_name}&person[email]=#{email}")["person"]
     self.update_attribute :missionhub_id, p["id"]
-    @@leader_label_id ||= Rest.get("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}")["labels"].detect{ |l| l["name"] == "Leader" }["id"]
-    label = Rest.post("https://www.missionhub.com/apis/v3/organizational_labels?secret=#{campaign.missionhub_token}&organizational_label[person_id]=#{self.missionhub_id}&organizational_label[label_id]=#{@@leader_label_id}")
-    #puts label.inspect
+    # add labels
+    add_label("Leader") if self.operator
+    add_label("Challenge Subscribe Self") if self.challenge_subscribe_self
+    add_label("Challenge Subscribe Friend") if self.challenge_subscribe_friend
+  end
+
+  def existing_mh_label_ids
+    return [] unless campaign
+    @existing_mh_label_ids ||= Rest.get("https://www.missionhub.com/apis/v3/people/2856946?secret=#{campaign.missionhub_token}&include=organizational_labels")["person"]["organizational_labels"].collect{ |l| l["label_id"] }
+  end
+
+  def add_label(name)
+    label_mh = Rest.get("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}")["labels"].detect{ |l| l["name"] == name }
+    label_id = (label_mh && label_mh["id"]) || Rest.post("https://www.missionhub.com/apis/v3/labels?secret=#{campaign.missionhub_token}&label[name]=#{name}")["label"]["id"]
+    unless existing_mh_label_ids.include?(label_id)
+      Rest.post("https://www.missionhub.com/apis/v3/organizational_labels?secret=#{campaign.missionhub_token}&organizational_label[person_id]=#{self.missionhub_id}&organizational_label[label_id]=#{label_id}")
+    end
+  end
+
+  def remove_label(name)
+    # TODO
   end
 end

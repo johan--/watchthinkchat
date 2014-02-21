@@ -20,6 +20,7 @@ Godchat::Application.routes.draw do
   get  "/api/campaigns/:uid", to: "api/campaigns#show"
   post "/api/campaigns/:uid/password", to: "api/campaigns#password"
   post "/api/visitors", to: "api/visitors#create"
+  put "/api/visitors", to: "api/visitors#update"
   post "/api/operators", to: "api/operators#create"
   get  "/api/operators/:uid", to: "api/operators#show"
   post "/api/chats", to: "api/chats#create"

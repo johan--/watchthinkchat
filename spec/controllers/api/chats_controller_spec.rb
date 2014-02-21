@@ -5,11 +5,23 @@ describe Api::ChatsController do
     let(:create_operator) { create(:user, :operator => true, :operator_uid => 'op_uid', :status => "online"); }
     let(:create_visitor) { create(:user); }
     let(:create_campaign) { create(:campaign); }
-    let(:create_chat) { create(:chat, :campaign => create_campaign, :operator => create_operator, :visitor => create_visitor); }
+    let(:create_chat) { create(:chat, :campaign => create_campaign, :operator => create_operator, :visitor => create_visitor, :operator_whose_link => create_operator); }
 
     context "for a visitor" do
       describe "#create" do
-        it "should create a new chat room" do
+        it "should not create a new chat for a closed campaign" do
+          campaign = create_campaign
+          visitor = create_visitor
+          operator = create_operator
+
+          campaign.update_attribute :status, "closed"
+
+          post :create, :campaign_uid => campaign.uid, :visitor_uid => visitor.visitor_uid, :operator_uid => operator.operator_uid
+          json_response.should have_key('error')
+          json_response['error'].should == "Sorry, campaign is closed"
+        end
+
+        it "should create a new chat" do
           campaign = create_campaign
           visitor = create_visitor
           operator = create_operator
@@ -53,9 +65,10 @@ describe Api::ChatsController do
           sign_in chat.operator
           mock_person = double('person', :id => chat.visitor.missionhub_id)
           mock_people = double('people', :length => 1, :first => mock_person)
-          Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&filters[email_exact]=test@test.com").and_return("people" => [{"id" => 1}])
-          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/followup_comments?secret=missionhub_token&followup_comment[contact_id]=1&followup_comment[commenter_id]=#{chat.operator.missionhub_id}&followup_comment[comment]=notes here").and_return("followup_comment" => [{"id" => 1}])
-          post :collect_stats, :uid => chat.uid, :visitor_response => "I want to start", :visitor_name => "Steve", :visitor_email => "test@test.com", :calltoaction => "something", :notes => "notes here"
+          params = { :uid => chat.uid, :visitor_response => "I want to start", :visitor_name => "Steve", :visitor_email => "test@test.com", :calltoaction => "something", :notes => "notes here" }
+          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[first_name]=Steve&person[last_name]=&person[email]=test@test.com").and_return("person" => {"id" => 1})
+          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/followup_comments?secret=missionhub_token&followup_comment[contact_id]=1&followup_comment[commenter_id]=#{chat.operator.missionhub_id}&followup_comment[comment]=#{chat.build_notes(params)}").and_return("followup_comment" => [{"id" => 1}])
+          post :collect_stats, params
         end
       end
     end

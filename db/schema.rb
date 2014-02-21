@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220231029) do
+ActiveRecord::Schema.define(version: 20140221192536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,14 +168,14 @@ ActiveRecord::Schema.define(version: 20140220231029) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                default: "",    null: false
-    t.integer  "sign_in_count",        default: 0
+    t.string   "email",                      default: "",    null: false
+    t.integer  "sign_in_count",              default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "provider"
     t.string   "operator_uid"
     t.string   "first_name"
@@ -197,9 +197,11 @@ ActiveRecord::Schema.define(version: 20140220231029) do
     t.text     "answers"
     t.string   "visitor_uid"
     t.string   "profile_pic"
-    t.boolean  "admin",                default: false
-    t.boolean  "operator",             default: false
-    t.boolean  "visitor",              default: true
+    t.boolean  "admin",                      default: false
+    t.boolean  "operator",                   default: false
+    t.boolean  "visitor",                    default: true
+    t.boolean  "challenge_subscribe_self"
+    t.boolean  "challenge_subscribe_friend"
   end
 
   create_table "users_languages", force: true do |t|

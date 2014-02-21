@@ -10,7 +10,7 @@ class Api::ChatsController < ApplicationController
       operator = campaign.get_available_operator
     end
 
-    if campaign && visitor && operator && operator.online?
+    if campaign && campaign.opened? && visitor && operator && operator.online?
       chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id, :operator_whose_link_id => requested_operator.id)
       Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
         chat_uid: chat.uid,
@@ -20,6 +20,8 @@ class Api::ChatsController < ApplicationController
         requested_operator: params[:operator_uid]
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
+    elsif campaign && !campaign.opened?
+      render json: { error: "Sorry, campaign is closed" }, status: 403
     elsif !operator
       render json: { error: "Operator not found" }, status: 500 
     elsif !operator.online?

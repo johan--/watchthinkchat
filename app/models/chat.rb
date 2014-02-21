@@ -27,13 +27,30 @@ class Chat < ActiveRecord::Base
 
   def collect_stats(params)
     name_words = params[:visitor_name].split(' ')
-    people = Rest.get("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&filters[email_exact]=#{params[:visitor_email]}")["people"]
-    # TODO - need to make this contact in our local db as well
-    if people.length == 0
-      visitor = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{User::VISITOR_PERMISSION}&person[first_name]=#{name_words.shift}&person[last_name]=#{name_words.join(' ')}&person[email]=#{params[:visitor_email]}")["person"]
-    else
-      visitor = people.first
+    visitor.update_attributes :first_name => name_words.shift, :last_name => name_words.join(" "), :email => params[:visitor_email]
+    visitor.sync_mh
+    Rest.post("https://www.missionhub.com/apis/v3/followup_comments?secret=#{campaign.missionhub_token}&followup_comment[contact_id]=#{visitor.missionhub_id}&followup_comment[commenter_id]=#{self.operator.missionhub_id}&followup_comment[comment]=#{build_notes(params)}")
+  end
+
+  def transcript
+    messages.collect(&:transcript_line).join("\n")
+  end
+
+  def build_notes(params)
+    lines = []
+    lines << "Chat initiated through a link to #{operator_whose_link.fullname} (#{operator_whose_link.missionhub_url})"
+    lines << "They chatted with #{operator.fullname} (#{operator.missionhub_url})"
+    lines << "Their response: #{params[:response]}"
+    lines << "Call to action: #{params[:calltoaction]}"
+    
+    if params[:notes].present?
+      lines << "Operator recorded these notes: #{params[:notes]}"
     end
-    Rest.post("https://www.missionhub.com/apis/v3/followup_comments?secret=#{campaign.missionhub_token}&followup_comment[contact_id]=#{visitor["id"]}&followup_comment[commenter_id]=#{self.operator.missionhub_id}&followup_comment[comment]=#{params[:notes]}")
+
+    lines << "Chat transcript:"
+    lines << ""
+    lines << transcript
+
+    return lines.join("\n")
   end
 end
