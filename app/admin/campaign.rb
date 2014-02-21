@@ -76,6 +76,7 @@ ActiveAdmin.register Campaign do
       f.input :description, :as => :text
       f.input :language
       f.input :status, :as => :select, :collection => [ "opened", "closed" ]
+      f.input :preemptive_chat
     end
     f.inputs "Admins" do
       f.input :admin1, :as => :select, :collection => User.has_operator_uid
