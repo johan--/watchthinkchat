@@ -638,6 +638,7 @@
     list-style: none;
     padding: 0;
     overflow: auto;
+    height:42%;
     height:calc(100% - 175px);
     width:100%;
   }
@@ -818,6 +819,9 @@
   #chat .chatbox ul.conversation .message-activity {
     text-align:center;
   }
+  #chat .chatbox ul.conversation .message-activity-li {
+    background: #d3e8f4;
+  }
   #chat .graybg{
     background:#FAF9F9;
   }
@@ -829,6 +833,10 @@
     color: #777777;
     font-size: smaller;
     font-weight: 300;
+  }
+  #chat .chatbox ul.conversation li .timestamp{
+    position: absolute;
+    right: 5px;
   }
   #chat .chatbox .person{
     font-weight: bold;
@@ -890,6 +898,7 @@
       display:none;
       top:18%;
       width:300px;
+      left:10%;
       left:calc(50% - 150px);
       z-index: 1;
     }

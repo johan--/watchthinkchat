@@ -20,13 +20,12 @@
           padding-bottom: 16px;">
   <p>Thanks for completing step 1 and registering to get the 4 part Growth Challenge over email.<br>
     Step 2 is an opportunity to turbo charge your challenge by adding a Christian friend you know and trust to the experience! Sure, you can just go it alone from here, but having a friend is going to make a world of difference to how far you go.</p>
-  <p style="font-size:24px;text-align: center;">Choose one of two ways to add your friend, or go it alone.</p>
+  <p style="font-size:24px;text-align: center;">Choose one of two ways to add your friend, or <a href="#" data-ng-click="nextStep(99)">go it alone</a>.</p>
   <div class="friend-share-options">
     <a href="#" data-ng-click="nextStep(4)"><img src="<%= asset_path("facebook.jpg") %>"></a>
     <span>or</span>
     <a href="#" data-ng-click="nextStep(5)"><img src="<%= asset_path("email.jpg") %>" align="right"></a>
   </div>
-  <p><a href="#" data-ng-click="nextStep(99)">Go it alone</a></p>
 </div>
 <div class="modal" id="after-chat-information-05" tabindex="-1" role="dialog">
   <div class="modal-dialog">

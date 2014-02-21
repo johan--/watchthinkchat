@@ -27,8 +27,8 @@
             <div class="form-group" style="width:49%;display:inline-block;margin-bottom:0;vertical-align:top;">
               <label class="control-label">Link shared by</label>
               <div class="">
-                <img src="{{operator_data.profile_pic}}" style="float:left;">
-                <p class="form-control-static">Bob Operator</p>
+                <img src="{{endchat_session.requested_operator.profile_pic}}" style="float:left;">
+                <p class="form-control-static">{{endchat_session.requested_operator.name}}</p>
               </div>
             </div>
             <h4>Who are they</h4>
@@ -98,7 +98,7 @@
         <div class="media-body">
           <h4 class="media-heading">{{session.visitor_name}}</h4>
           <i class="fa fa-exclamation newmessage">&nbsp;</i>
-          <p>{{session.activity}}</p>
+          <p ng-bind-html="session.activity"></p>
         </div>
       </li>
       <li data-ng-show="active_sessions.length == 0">You do not have any active chat sessions yet. They will appear here when you do.</li>
@@ -133,13 +133,13 @@
       {{session.visitor_email || 'Click here to set visitor name/email'}}
       </span>
       <ul class="conversation">
-        <li class="{{message.class}}" data-ng-repeat="message in session.chatMessages">
+        <li ng-class="message.class" data-ng-repeat="message in session.chatMessages">
           <div class="person" ng-if="message.person === 'visitor'">{{session.visitor_name}}</div>
           <div class="person" ng-if="message.person !== 'visitor'">{{message.person}}</div>
-          <div class="timestamp pull-right timestamp-refresh" timestamp="{{message.time}}">Just
+          <div class="timestamp timestamp-refresh" timestamp="{{message.time}}">Just
             Now
           </div>
-          <div ng-class="message.messageClass">{{message.message}}</div>
+          <div ng-class="message.messageClass" ng-bind-html="message.message"></div>
         </li>
       </ul>
       <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)">
