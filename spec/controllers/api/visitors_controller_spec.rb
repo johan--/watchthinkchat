@@ -17,7 +17,7 @@ describe Api::VisitorsController do
     # mh gets
     Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
     Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
-    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people/2856946?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [{ "name" => "Leader", "id" => 1 }]})
+    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people/1?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [{ "name" => "Leader", "id" => 1 }]})
     # mh posts
     # should create the two labels
     Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token&label[name]=Challenge Subscribe Self").and_return({"label" => {"id" => 1}})

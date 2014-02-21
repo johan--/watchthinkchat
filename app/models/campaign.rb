@@ -22,7 +22,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def closed?
-    status == "closed"
+    status == "" || status == nil || status == "closed"
   end
 
   def as_json(options = {})
