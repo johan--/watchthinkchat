@@ -45,10 +45,7 @@ angular.module('chatApp')
                   $scope.visitor_email = visitor_fb_data.email;
                   $scope.visitor_name = visitor_fb_data.name;
                 });
-                try{
-                  $scope.postVisitorInfo(response);
-                }catch(e){
-                }
+                $scope.postVisitorInfo(response);
               });
             }
           }else if(step == 3){
@@ -110,6 +107,41 @@ angular.module('chatApp')
             $('#after-chat-information-exit').show();
           }
         };
+
+        $scope.postVisitorInfo = function(data){
+          try{
+            $scope.postActivityMessage('Visitor has logged in with Facebook.');
+          }catch(e){}
+          var chat_uid = window.localStorage.getItem('gchat_chat_uid');
+          var visitor_uid = window.localStorage.getItem('gchat_visitor_id');
+          var post_data = {
+            user_uid: visitor_uid,
+            message_type: 'fbName',
+            message: data.name
+          };
+          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+          var post_data = {
+            user_uid: visitor_uid,
+            message_type: 'fbEmail',
+            message: data.email
+          };
+          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+          var post_data = {
+            user_uid: visitor_uid,
+            message_type: 'fbId',
+            message: data.id
+          };
+          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+        }
 
         FB.init({
           appId      : '555591577865154',

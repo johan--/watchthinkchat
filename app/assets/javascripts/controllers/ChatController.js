@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout) {
+  //window.localStorage.removeItem('gchat_visitor_id');
   var campaign_data;
   var visitor_data = {};
   var chat_data = {
@@ -49,6 +50,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
           $('.box, #chat').addClass('paused');
         };
+      }
+
+      if(campaign_data.preemptive_chat){
+        $scope.startChat('');
       }
 
       $scope.followup_buttons.push({
@@ -138,7 +143,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   };
 
   $scope.startChat = function(initialMsg){
-    if(!video_completed){
+    if(!video_completed && !campaign_data.preemptive_chat){
       $('#finishVideo').fadeIn(1).delay(3000).fadeOut(1);
       $('#start-chat-panel').fadeOut(1).delay(3000).fadeIn(1);
       return;
@@ -160,6 +165,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
         }
         //console.log('================ New Chat Created: ' + data.chat_uid);
+        window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
         $('#chatbox, #after-chat-information-01').fadeIn();
         $('#start-chat-panel').hide();
@@ -234,37 +240,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }
     }
   };
-
-  $scope.postVisitorInfo = function(data){
-    $scope.postActivityMessage('Visitor has logged in with Facebook.');
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbName',
-      message: data.name
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbEmail',
-      message: data.email
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbId',
-      message: data.id
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
-  }
 
   $scope.postActivityMessage = function(message, buttonClick){
     if(buttonClick){
