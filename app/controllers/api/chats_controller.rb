@@ -6,7 +6,7 @@ class Api::ChatsController < ApplicationController
     visitor = User.where(:visitor_uid => params[:visitor_uid]).first
     operator = User.where(:operator_uid => params[:operator_uid]).first
     requested_operator = User.where(:operator_uid => params[:operator_uid]).first
-    if campaign.max_chats && operator.count_operator_open_chats_for(campaign) >= campaign.max_chats
+    if (campaign.max_chats && operator.count_operator_open_chats_for(campaign) >= campaign.max_chats) || !operator.online?
       operator = campaign.get_available_operator
     end
 

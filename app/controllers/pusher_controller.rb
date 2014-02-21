@@ -23,7 +23,7 @@ class PusherController < ApplicationController
 
   def existence
     webhook = Pusher.webhook(request)
-    logger.info "PusherController#existence #{webhook.inspect}"
+    logger.info "PusherController#existence"
     if webhook.valid?
       logger.info "valid"
       webhook.events.each do |event|
@@ -70,7 +70,7 @@ class PusherController < ApplicationController
               # notify all their chats that the visitor has left
               visitor.visitor_chats.open.each do |chat|
                 logger.info("Sending end trigger on chat_#{chat.uid}")
-                Pusher["chat_#{chat.uid}"].trigger('end', { })
+                chat.close!
               end
             end
           end
