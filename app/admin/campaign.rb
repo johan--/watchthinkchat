@@ -37,7 +37,9 @@ ActiveAdmin.register Campaign do
           column :fullname
           column :email
           column :missionhub_id do |operator|
-            link_to(operator.missionhub_id, "https://www.missionhub.com/profile/#{operator.missionhub_id}", :target => "_blank")
+            if operator.missionhub_id
+              link_to(operator.missionhub_id, "https://www.missionhub.com/profile/#{operator.missionhub_id}", :target => "_blank")
+            end
           end
           column :status do |operator|
             operator.status == "online" ? "online" : ""
