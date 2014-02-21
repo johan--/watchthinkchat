@@ -23,6 +23,7 @@ ActiveAdmin.register Chat do
     f.inputs "Status" do
       f.input :status, :as => :select, :collection => [ "open", "closed" ]
     end
+    f.actions
   end
 
   controller do
