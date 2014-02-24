@@ -62,7 +62,8 @@ angular.module('chatApp')
             }else{
               var button_id = $route.current.params.button_id;
             }
-            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?button_id='+button_id
+            var chat_uid = window.localStorage.getItem('gchat_chat_uid');
+            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_uid+'&button_id='+button_id
             $http({method: 'JSONP',
               url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
