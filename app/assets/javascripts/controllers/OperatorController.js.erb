@@ -158,29 +158,31 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       $('.operator_status').removeClass('operator_status_offline').addClass('operator_status_online');
       $('.operator_status').html('Online');
       operator_channel_connected = true;
+
       pusher.subscribe('operator_' + operator_data.uid).bind('newchat', function (newchat_data) {
-      console.log('New Incoming Chat: '+ newchat_data.chat_uid);
+        $('#newMsgAlert')[0].play();
+        //console.log('New Incoming Chat: '+ newchat_data.chat_uid);
 
-      if(newchat_data.visitor_name == ''){
-        newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
-      }
+        if(newchat_data.visitor_name == ''){
+          newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
+        }
 
-      $scope.$apply(function () {
-        $scope.active_sessions.push({
-          chat_uid: newchat_data.chat_uid,
-          visitor_uid: newchat_data.visitor_uid,
-          visitor_name: newchat_data.visitor_name,
-          visitor_email: '',
-          visitor_profile: '<%= asset_path("avatar.png") %>',
-          requested_operator: {
-            uid: newchat_data.requested_operator,
-            name: '',
-            profile_pic: ''
-          },
-          activity: '',
-          chatMessages: []
+        $scope.$apply(function () {
+          $scope.active_sessions.push({
+            chat_uid: newchat_data.chat_uid,
+            visitor_uid: newchat_data.visitor_uid,
+            visitor_name: newchat_data.visitor_name,
+            visitor_email: '',
+            visitor_profile: '<%= asset_path("avatar.png") %>',
+            requested_operator: {
+              uid: newchat_data.requested_operator,
+              name: '',
+              profile_pic: ''
+            },
+            activity: '',
+            chatMessages: []
+          });
         });
-      });
 
         var index = $scope.active_sessions.length - 1;
 

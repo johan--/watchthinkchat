@@ -11,7 +11,8 @@
     <input type="email" class="form-control" ng-enter="nextStep(3)" placeholder="Email Address..." data-ng-model="visitor_email">
     <div class='btn btn-success btn-block' data-ng-click="nextStep(3)">Continue ></div>
   </div>
-  <br><p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> - We won't sell or torture your personal data :)</p>
+  <p><a href="#" data-ng-click="nextStep(0)" data-ng-show="!isMobile">< Back</a></p>
+  <p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> - We won't sell or torture your personal data :)</p>
 </div>
 <div class="after-chat-information" id="after-chat-information-03">
   <img src="<%= asset_path("growth_challenge_logo.png") %>" style="margin: auto;

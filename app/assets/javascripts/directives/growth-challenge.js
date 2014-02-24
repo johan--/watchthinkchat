@@ -9,6 +9,11 @@ angular.module('chatApp')
         }
       },
       controller: function ($scope, $http, $route) {
+        if(window.innerWidth <= 800){
+          $scope.isMobile = true
+        }else{
+          $scope.isMobile = false
+        }
         var visitor_fb_data = {
           id: '',
           first_name:'',
@@ -16,8 +21,11 @@ angular.module('chatApp')
           email: ''
         };
         $scope.nextStep = function(step, fblogin){
-          if(step == 1){
-            if(window.innerWidth <= 800){ //if mobile
+          if(step == 0){
+            $('#after-chat-information-02').hide();
+            $('.after-chat-challenge, #after-chat-information-01').fadeIn();
+          }else if(step == 1){
+            if($scope.isMobile){ //if mobile
               var challengeUrl = '/challenge?button_id=' + $scope.button_clicked.id + '&fb=' + fblogin;
               if(fblogin){
                 window.open('https://www.facebook.com/dialog/oauth?client_id=555591577865154&redirect_uri=' + encodeURIComponent('http://www.watchthinkchat.com'+challengeUrl));
