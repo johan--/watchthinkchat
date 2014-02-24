@@ -114,19 +114,21 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     };
 
   $scope.endChat = function (id) {
-    $http({method: 'DELETE', url: '/api/chats/'+id}).
-      success(function (data, status, headers, config) {
-        var index = _.findIndex($scope.active_sessions, function(session) {
-          return session.chat_uid == id;
+    if(confirm("Are you sure you want to end this chat?")){
+      $http({method: 'DELETE', url: '/api/chats/'+id}).
+        success(function (data, status, headers, config) {
+          var index = _.findIndex($scope.active_sessions, function(session) {
+            return session.chat_uid == id;
+          });
+          $scope.endchat_session = $scope.active_sessions[index];
+          $scope.active_sessions.splice(index, 1);
+          pusher.unsubscribe('chat_'+id);
+
+          $('#endchat-overlay').modal({backdrop: true, show: true});
+        }).error(function (data, status, headers, config) {
+
         });
-        $scope.endchat_session = $scope.active_sessions[index];
-        $scope.active_sessions.splice(index, 1);
-        pusher.unsubscribe('chat_'+id);
-
-        $('#endchat-overlay').modal({backdrop: true, show: true});
-      }).error(function (data, status, headers, config) {
-
-      });
+    }
   };
 
   $scope.endChatDialogSave = function (id) {
