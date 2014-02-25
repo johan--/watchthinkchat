@@ -129,6 +129,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
         });
     }
+    $scope.active_sessions[0].status = 'inactive';
   };
 
   $scope.endChatDialogSave = function (id) {
@@ -163,7 +164,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
       pusher.subscribe('operator_' + operator_data.uid).bind('newchat', function (newchat_data) {
         $('#newMsgAlert')[0].play();
-        //console.log('New Incoming Chat: '+ newchat_data.chat_uid);
+        console.log('New Incoming Chat: '+ newchat_data.chat_uid);
 
         if(newchat_data.visitor_name == ''){
           newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
@@ -182,6 +183,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               profile_pic: ''
             },
             activity: '',
+            status: 'active',
             chatMessages: []
           });
         });
@@ -189,7 +191,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         var index = $scope.active_sessions.length - 1;
 
         if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid) {
-          console.log('request operator info');
           $http({method: 'GET', url: '/api/operators/' + $scope.active_sessions[index].requested_operator.uid}).
             success(function (data, status, headers, config) {
               $scope.active_sessions[index].requested_operator = data;
@@ -270,13 +271,14 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                   return session.chat_uid == newchat_data.chat_uid;
               });
               $scope.$apply(function () {
-                  $scope.active_sessions[index].chatMessages.push({
-                      time: Math.round(+new Date()).toString(),
-                      class: '',
-                      messageClass: 'message-activity',
-                      person: 'visitor',
-                      message: 'Visitor has disconnected from chat session.'
-                  });
+                $scope.active_sessions[index].status = 'inactive';
+                $scope.active_sessions[index].chatMessages.push({
+                    time: Math.round(+new Date()).toString(),
+                    class: '',
+                    messageClass: 'message-activity',
+                    person: 'visitor',
+                    message: 'Visitor has disconnected from chat session.'
+                });
               });
           });
       });
