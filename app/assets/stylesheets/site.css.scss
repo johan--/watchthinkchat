@@ -742,7 +742,8 @@
     left:5px;
     top:80px;
     width:270px;
-    height: calc(100% - 40px);
+    height: calc(100% - 122px);
+    overflow: auto;
   }
   .operator_status{
     position: fixed;
@@ -763,11 +764,6 @@
   }
   .operator_status_offline{
     background: #FE2E2E;
-  }
-  .activity #activesessions{
-    height: calc(100% - 156px);
-    overflow: auto;
-    width: 100%;
   }
   .activity .activechat {
     background:#f9bfc1;

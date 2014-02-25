@@ -9,6 +9,11 @@ angular.module('chatApp')
         }
       },
       controller: function ($scope, $http, $route) {
+        if(window.innerWidth <= 800){
+          $scope.isMobile = true
+        }else{
+          $scope.isMobile = false
+        }
         var visitor_fb_data = {
           id: '',
           first_name:'',
@@ -16,8 +21,11 @@ angular.module('chatApp')
           email: ''
         };
         $scope.nextStep = function(step, fblogin){
-          if(step == 1){
-            if(window.innerWidth <= 800){ //if mobile
+          if(step == 0){
+            $('#after-chat-information-02').hide();
+            $('.after-chat-challenge, #after-chat-information-01').fadeIn();
+          }else if(step == 1){
+            if($scope.isMobile){ //if mobile
               var challengeUrl = '/challenge?button_id=' + $scope.button_clicked.id + '&fb=' + fblogin;
               if(fblogin){
                 window.open('https://www.facebook.com/dialog/oauth?client_id=555591577865154&redirect_uri=' + encodeURIComponent('http://www.watchthinkchat.com'+challengeUrl));
@@ -54,7 +62,8 @@ angular.module('chatApp')
             }else{
               var button_id = $route.current.params.button_id;
             }
-            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?button_id='+button_id
+            var chat_uid = window.localStorage.getItem('gchat_chat_uid');
+            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_uid+'&button_id='+button_id
             $http({method: 'JSONP',
               url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +

@@ -88,12 +88,12 @@
       </div>
     </div>
   </div>
-  <div class="activity">
+  <div class="activity" id="activesessions">
     <h3 class='special'>Active Sessions</h3>
-    <ul class="media-list" id="activesessions">
-      <li class="media link" id="session_{{session.chat_uid}}" data-ng-click="switchChat(session.chat_uid);" ng-repeat="session in active_sessions">
+    <ul class="media-list">
+      <li class="media link" id="session_{{session.chat_uid}}" data-ng-click="switchChat(session.chat_uid);" ng-repeat="session in active_sessions | filter: {status: 'active'}:true">
         <div class="pull-left">
-          <img class="media-object" src="{{session.visitor_profile}}" alt="">
+          <img class="media-object" src="{{session.visitor_profile}}">
         </div>
         <div class="media-body">
           <h4 class="media-heading">{{session.visitor_name}}</h4>
@@ -101,7 +101,21 @@
           <p ng-bind-html="session.activity"></p>
         </div>
       </li>
-      <li data-ng-show="active_sessions.length == 0">You do not have any active chat sessions yet. They will appear here when you do.</li>
+      <li data-ng-show="(active_sessions|filter:{status:'active'}:true).length == 0">You do not have any active chat sessions yet. They will appear here when you do.</li>
+    </ul>
+
+    <h3 class='special'>Inactive Sessions</h3>
+    <ul class="media-list">
+      <li class="media link" id="session_{{session.chat_uid}}" data-ng-click="switchChat(session.chat_uid);" ng-repeat="session in active_sessions | filter: {status: 'inactive'}:true">
+        <div class="pull-left">
+          <img class="media-object" src="{{session.visitor_profile}}">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{session.visitor_name}}</h4>
+          <i class="fa fa-exclamation newmessage">&nbsp;</i>
+          <p ng-bind-html="session.activity"></p>
+        </div>
+      </li>
     </ul>
   </div>
   <div class="operator_status operator_status_offline" data-ng-click="toggleOperatorStatus()" title="Click to toggle status">
@@ -110,7 +124,7 @@
   <div id="chat">
     <div class="chatbox" id="chatbox_{{session.chat_uid}}" ng-repeat="session in active_sessions" style="display:none;">
       <div class="btn btn-danger" data-ng-click="endChat(session.chat_uid)" style="position:absolute;margin:12px;right:0;z-index:1;">End Chat</div>
-      <div class="btn btn-warning" data-ng-show="session.activity != ''" data-ng-click="showChallenge(session.chat_uid)" style="position:absolute;margin:12px;right:85px;z-index:1;">Show Challenge</div>
+      <div class="btn btn-warning" data-ng-show="session.activity != '' && session.status === 'active'" data-ng-click="showChallenge(session.chat_uid)" style="position:absolute;margin:12px;right:85px;z-index:1;">Show Challenge</div>
       <div data-ng-show="operator_edit_mode" style="margin-top: 8px;">
         <form class="form-horizontal" role="form">
           <div class="form-group">
@@ -142,7 +156,7 @@
           <div ng-class="message.messageClass" ng-bind-html="message.message"></div>
         </li>
       </ul>
-      <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)">
+      <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)" data-ng-show="session.status === 'active'">
     </div>
   </div>
 </div>

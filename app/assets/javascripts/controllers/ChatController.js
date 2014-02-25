@@ -203,7 +203,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         });
 
         if(initialMsg){
-          $timeout(function(){ $scope.postActivityMessage(initialMsg, true); }, 1000);
+          $timeout(function(){ $scope.postActivityMessage(initialMsg, true); }, 2500);
         }
       }).error(function (data, status, headers, config) {
         if(data.error === 'Operator offline'){
