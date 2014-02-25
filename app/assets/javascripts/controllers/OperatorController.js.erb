@@ -129,7 +129,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
         });
     }
-    $scope.active_sessions[0].status = 'inactive';
   };
 
   $scope.endChatDialogSave = function (id) {
@@ -271,7 +270,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                   return session.chat_uid == newchat_data.chat_uid;
               });
               $scope.$apply(function () {
-                $scope.active_sessions[index].status = 'inactive';
                 $scope.active_sessions[index].chatMessages.push({
                     time: Math.round(+new Date()).toString(),
                     class: '',
@@ -279,6 +277,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                     person: 'visitor',
                     message: 'Visitor has disconnected from chat session.'
                 });
+                $scope.active_sessions[index].status = 'inactive';
               });
           });
       });
