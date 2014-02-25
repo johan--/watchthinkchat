@@ -265,7 +265,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           }
         });
           chat_channel.bind('end', function () {
-              console.log('End Chat: ' + newchat_data.chat_uid);
+              console.log('Visitor Disconnect: ' + newchat_data.chat_uid);
               var index = _.findIndex($scope.active_sessions, function (session) {
                   return session.chat_uid == newchat_data.chat_uid;
               });
@@ -275,7 +275,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                     class: '',
                     messageClass: 'message-activity',
                     person: 'visitor',
-                    message: 'Visitor has disconnected from chat session.'
+                    message: $sce.trustAsHtml('Visitor has disconnected from chat session.')
                 });
                 $scope.active_sessions[index].status = 'inactive';
               });
