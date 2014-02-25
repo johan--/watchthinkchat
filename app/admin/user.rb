@@ -1,4 +1,7 @@
 ActiveAdmin.register User do
+  filter :first_name
+  filter :last_name
+
   menu :if => Proc.new { current_user.is_superadmin? }
 
   index do

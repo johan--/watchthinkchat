@@ -16,3 +16,7 @@ curl -H "Content-type: application/json" -X POST -d '{"organizational_label":{"l
 ol = MissionHub::OrganizationalLabel.create "organizational_label" => { :person_id => 2856753, :label_id => leader_id, :added_by_id => 778531 }
 
 Ok, seems you need to include another param in the create hash parllel to organizational_lable, otherwise rails for some reason just behaves as if you passed the inner attributes hash
+
+**** TESTING
+- put new event message when visitor leaves
+

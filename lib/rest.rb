@@ -1,7 +1,8 @@
 class Rest
-  def self.post(url)
+  def self.post(url, payload = {})
     puts "Rest post #{escape(url)}"
-    JSON.parse(RestClient.post(escape(url), {:accept => :json}))
+    puts "Rest payload #{payload}"
+    JSON.parse(RestClient.post(escape(url), payload, {:accept => :json}))
   end
 
   def self.get(url)
