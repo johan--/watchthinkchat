@@ -5,6 +5,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     uid: $route.current.params.operatorId,
     profile_pic: '<%= asset_path("avatar.png") %>'
   };
+  $scope.operator_data = operator_data;
   var active_chat = '';
   var campaign_id = $location.search()['campaign'] || '';
   var operator_channel_connected = false;
@@ -16,18 +17,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     document.write('Invalid operator id');
     return;
   }
-  if(!operator_data.uid){
-    document.write('Invalid operator id');
-    return;
-  }
-
   if(!campaign_id){
     document.write('Invalid campaign id');
     return;
   }
 
-    $scope.active_sessions = [];
-    $scope.endchat_session = [];
+  $scope.active_sessions = [];
+  $scope.endchat_session = [];
 
   $scope.validatePassword = function() {
     $http({
@@ -75,8 +71,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   $scope.postMessage = function (id) {
     var message = $('#chatbox_' + id + ' .chat-message').val();
     $('#chatbox_' + id + ' .chat-message').val('');
-
     $('#session_' + id + ' .newmessage').css('visibility', 'hidden');
+
+    if(message==''){ return; }
 
     var post_data = {
       user_uid: operator_data.uid,
@@ -97,21 +94,20 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         scollBottom(id);
       }).error(function (data, status, headers, config) {
-
       });
   };
 
-    $scope.showChallenge = function (id) {
-        var post_data = {
-            user_uid: operator_data.uid,
-            message_type: 'activity',
-            message: 'challenge'
-        };
-        $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
-                success(function (data, status, headers, config) {
-                }).error(function (data, status, headers, config) {
-                });
-    };
+  $scope.showChallenge = function (id) {
+      var post_data = {
+          user_uid: operator_data.uid,
+          message_type: 'activity',
+          message: 'challenge'
+      };
+      $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
+  };
 
   $scope.endChat = function (id) {
     if(confirm("Are you sure you want to end this chat?")){
@@ -126,7 +122,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
           $('#endchat-overlay').modal({backdrop: true, show: true});
         }).error(function (data, status, headers, config) {
-
         });
     }
   };
@@ -146,7 +141,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         $('#endchat-overlay').modal('hide');
         $scope.endchat_session=[];
       }).error(function (data, status, headers, config) {
-
       });
   };
 
@@ -162,11 +156,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       operator_channel_connected = true;
 
       pusher.subscribe('operator_' + operator_data.uid).bind('newchat', function (newchat_data) {
-        $('#newMsgAlert')[0].play();
         console.log('New Incoming Chat: '+ newchat_data.chat_uid);
 
         if(newchat_data.visitor_name == ''){
           newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
+        }
+
+        //new chat session notification
+        if (window_focus === false) {
+          $('#newMsgAlert')[0].play();
+          desktopNotify('Incoming Chat Session', newchat_data.visitor_name, newchat_data.chat_uid);
         }
 
         $scope.$apply(function () {
@@ -182,7 +181,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               profile_pic: ''
             },
             activity: '',
+            activity_display: '',
             status: 'active',
+            browser: '-',
+            ip: '-',
+            os: '-',
+            geolocation: {
+              city: '-',
+              region_name: '',
+              country_code: ''
+            },
             chatMessages: []
           });
         });
@@ -208,7 +216,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             });
             if (data.message_type == 'activity-button') {
               $scope.$apply(function () {
-                $scope.active_sessions[index].activity = $sce.trustAsHtml(data.message);
+                $scope.active_sessions[index].activity_display = $sce.trustAsHtml(data.message);
+                $scope.active_sessions[index].activity = data.message;
               });
 
               $scope.$apply(function () {
@@ -217,7 +226,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                   class: 'message-activity-li',
                   messageClass: 'message-activity',
                   person: 'visitor',
-                  message: $sce.trustAsHtml(data.message)
+                  message: $sce.trustAsHtml('Visitor has clicked: ' + data.message)
                 });
               });
             } else if (data.message_type == 'activity') {
@@ -237,6 +246,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             } else if (data.message_type == 'fbId') {
               $scope.active_sessions[index].visitor_uid=data.message;
               $scope.active_sessions[index].visitor_profile='http://graph.facebook.com/'+data.message+'/picture?width=80&height=80';
+            } else if (data.message_type == 'browser') {
+              $scope.active_sessions[index].browser=data.message;
+            } else if (data.message_type == 'os') {
+              $scope.active_sessions[index].os=data.message;
+            } else if (data.message_type == 'ip') {
+              $scope.active_sessions[index].ip=data.message;
+              $http({method: 'JSONP',
+                url: 'http://freegeoip.net/json/'+data.message+'?callback=JSON_CALLBACK'
+              }).success(function (data, status, headers, config) {
+                $scope.active_sessions[index].geolocation=data;
+              }).error(function (data, status, headers, config) {
+              });
             } else {
               $scope.$apply(function () {
                 $scope.active_sessions[index].chatMessages.push({
@@ -259,31 +280,54 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                           .animate({marginTop: '+=' + distance}, speed);
                 }
                 $('#newMsgAlert')[0].play();
+                desktopNotify('New Message', $scope.active_sessions[index].visitor_name+': ' + $("<div/>").html(data.message).text(), newchat_data.chat_uid);
               }
             }
             scollBottom(newchat_data.chat_uid);
           }
         });
-          chat_channel.bind('end', function () {
-              console.log('Visitor Disconnect: ' + newchat_data.chat_uid);
-              var index = _.findIndex($scope.active_sessions, function (session) {
-                  return session.chat_uid == newchat_data.chat_uid;
+        chat_channel.bind('end', function () {
+            console.log('Visitor Disconnect: ' + newchat_data.chat_uid);
+            var index = _.findIndex($scope.active_sessions, function (session) {
+                return session.chat_uid == newchat_data.chat_uid;
+            });
+            $scope.$apply(function () {
+              $scope.active_sessions[index].chatMessages.push({
+                  time: Math.round(+new Date()).toString(),
+                  class: '',
+                  messageClass: 'message-activity',
+                  person: 'visitor',
+                  message: $sce.trustAsHtml('Visitor has disconnected from chat session.')
               });
-              $scope.$apply(function () {
-                $scope.active_sessions[index].chatMessages.push({
-                    time: Math.round(+new Date()).toString(),
-                    class: '',
-                    messageClass: 'message-activity',
-                    person: 'visitor',
-                    message: $sce.trustAsHtml('Visitor has disconnected from chat session.')
-                });
-                $scope.active_sessions[index].status = 'inactive';
-              });
-          });
+              $scope.active_sessions[index].status = 'inactive';
+            });
+        });
       });
     }
-
   };
+
+  $scope.requestNotifyPermission = function(){
+    if (window.webkitNotifications.checkPermission() == 0) {
+    } else {
+      window.webkitNotifications.requestPermission();
+    }
+  }
+
+  var desktopNotify = function(title, message, chat_id){
+    var havePermission = window.webkitNotifications.checkPermission();
+    if (havePermission == 0) {
+      var notification = window.webkitNotifications.createNotification(
+              '<%= asset_path("features-ico2.png") %>', title, message
+      );
+      notification.onclick = function () {
+        window.focus();
+        if(chat_id){
+          $scope.switchChat(chat_id);
+        }
+      }
+      notification.show();
+    }
+  }
 
 /*  $scope.active_sessions.push({
     chat_uid: '265gf95sdg43',
@@ -331,9 +375,9 @@ var scollBottom = function(id){
   }).blur(function() {
     window_focus=false;
     window_focus_timeout = setTimeout(function(){
-      //console.log('2 mins inactivity, status set to: Offline');
       if(operator_channel_connected){
-        //$scope.toggleOperatorStatus();
+        desktopNotify('Offline','2 mins inactivity, status set to: Offline');
+        $scope.toggleOperatorStatus();
       }
     },120000);
   }).trigger('focus');

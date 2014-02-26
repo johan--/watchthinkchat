@@ -804,13 +804,22 @@
   #chat .chatbox ul.conversation {
     list-style: none;
     padding: 0;
-    overflow: auto;
     height:calc(100% - 134px);
     overflow-y:scroll;
-    width:100%;
+    width:calc(100% - 250px);
     border-top: 1px solid #cccccc;
     top: 100px;
     position: absolute;
+  }
+  #chat .chatbox .user_info {
+    padding: 5px;
+    height:calc(100% - 134px);
+    width:250px;
+    border-top: 1px solid #cccccc;
+    top: 100px;
+    right:0;
+    position: absolute;
+    overflow: auto;
   }
   #chat .chatbox ul.conversation .message-activity {
     text-align:center;
