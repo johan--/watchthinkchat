@@ -104,6 +104,11 @@ angular.module('chatApp')
             });
             $scope.nextStep(7);
           }else if(step == 5){
+            $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
+              'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
+              'Lets take the challenge together!\n\n' +
+              'You can click here to find out more information:\n' +
+              $scope.friend_url;
             $('#after-chat-information-05').modal({backdrop: false, show: true});
           }else if(step ==6){
             if(!$scope.visitor_name){
@@ -120,9 +125,24 @@ angular.module('chatApp')
             }
 
             //Send email
-
-            $('#after-chat-information-05').modal('hide');
-            $scope.nextStep(7);
+            $('#after-chat-information-05 .modal-footer button').hide();
+            $('#after-chat-information-05 .modal-footer p').show();
+            var post_data = {
+              to: $scope.friend_email,
+              from: $scope.visitor_email,
+              from_name: $scope.visitor_name,
+              subject: 'Take the "Growth Challenge" with me',
+              message: $scope.email_message
+            };
+            $http({method: 'POST', url: '/api/emails', data: post_data}).
+              success(function (data, status, headers, config) {
+                $('#after-chat-information-05').modal('hide');
+                $scope.nextStep(7);
+              }).error(function (data, status, headers, config) {
+                $('#after-chat-information-05 .modal-footer button').show();
+                $('#after-chat-information-05 .modal-footer p').hide();
+                alert('Error: '+data);
+              });
           }else if(step == 7){
             $('#after-chat-information-06').show();
             $('#after-chat-information-03').hide();
