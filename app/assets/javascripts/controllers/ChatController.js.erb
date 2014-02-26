@@ -209,12 +209,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2800);
         $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
       }).error(function (data, status, headers, config) {
-        if(data.error === 'Operator offline'){
+        if(data.error === 'no_operators_available'){
           chat_data.chat_uid = 'offline';
           $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat || '';
           $('#after-chat-information-01, #noOperators, .after-chat-challenge').fadeIn();
         }else{
-          alert('Error: ' + (data.error || 'Cannot create new chat.'));
+          alert('Error: ' + (data.message || 'Cannot create new chat.'));
         }
       });
   };
