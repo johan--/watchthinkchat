@@ -21,13 +21,13 @@ class Api::ChatsController < ApplicationController
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif campaign && !campaign.opened?
-      render json: { error: "Sorry, campaign is closed" }, status: 403
+      render json: { error: "campaign_closed", message: "Sorry, the campaign was closed" }, status: 403
     elsif !operator
-      render json: { error: "No operators available" }, status: 500 
+      render json: { error: "no_operators_available", message: "Sorry, no operators are available" }, status: 500 
     elsif !campaign
-      render json: { error: "Campaign not found" }, status: 500 
+      render json: { error: "campaign_not_found", message: "Campaign not found" }, status: 404 
     elsif !visitor
-      render json: { error: "Visitor not found" }, status: 500 
+      render json: { error: "visitor_not_found", message: "Visitor not found" }, status: 404 
     end
   end
 

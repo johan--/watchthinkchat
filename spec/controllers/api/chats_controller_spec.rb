@@ -18,7 +18,7 @@ describe Api::ChatsController do
 
           post :create, :campaign_uid => campaign.uid, :visitor_uid => visitor.visitor_uid, :operator_uid => operator.operator_uid
           json_response.should have_key('error')
-          json_response['error'].should == "Sorry, campaign is closed"
+          json_response['error'].should == "campaign_closed"
         end
 
         it "should create a new chat" do
