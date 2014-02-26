@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :visitor_chats, :foreign_key => :visitor_id, :class_name => "Chat"
   has_many :user_operators
   has_many :operating_campaigns, :through => :user_operators, :class_name => "Campaign", :source => :campaign
+  belongs_to :assigned_operator1, :class_name => "User"
+  belongs_to :assigned_operator2, :class_name => "User"
 
   validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
@@ -128,6 +130,9 @@ class User < ActiveRecord::Base
     add_label("Leader") if self.operator
     add_label("Challenge Subscribe Self") if self.challenge_subscribe_self
     add_label("Challenge Subscribe Friend") if self.challenge_subscribe_friend
+    # add assignments if necessary
+    add_assignment(assigned_operator1) if assigned_operator1
+    add_assignment(assigned_operator2) if assigned_operator2 && assigned_operator1 != assigned_operator2
   end
 
   def existing_mh_label_ids
@@ -145,5 +150,9 @@ class User < ActiveRecord::Base
 
   def remove_label(name)
     # TODO
+  end
+
+  def add_assignment(user)
+    Rest.post("https://www.missionhub.com/apis/v3/contact_assignments?secret=#{campaign.missionhub_token}&contact_assignment[person_id]=#{self.missionhub_id}&contact_assignment[assigned_to_id]=#{user.missionhub_id}")
   end
 end
