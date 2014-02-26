@@ -77,6 +77,7 @@ group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'factory_girl'
+  gem 'assert_difference'
 end
 
 group :development do

@@ -122,7 +122,7 @@ class User < ActiveRecord::Base
 
   def sync_mh(params = {})
     return unless campaign
-    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{operator ? User::LEADER_PERMISSION : User::VISITOR_PERMISSION}&person[first_name]=#{first_name}&person[last_name]=#{last_name}&person[email]=#{email}")["person"]
+    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{operator ? User::LEADER_PERMISSION : User::VISITOR_PERMISSION}#{"&person[fb_uid]=#{fb_uid}" if fb_uid.present?}&person[first_name]=#{first_name}&person[last_name]=#{last_name}&person[email]=#{email}")["person"]
     self.update_attribute :missionhub_id, p["id"]
     # add labels
     add_label("Leader") if self.operator
@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
 
   def existing_mh_label_ids
     return [] unless campaign
-    @existing_mh_label_ids ||= Rest.get("https://www.missionhub.com/apis/v3/people/#{missionhub_id}?secret=#{campaign.missionhub_token}&include=organizational_labels")["person"]["organizational_labels"].collect{ |l| l["label_id"] }
+    Rest.get("https://www.missionhub.com/apis/v3/people/#{missionhub_id}?secret=#{campaign.missionhub_token}&include=organizational_labels")["person"]["organizational_labels"].collect{ |l| l["label_id"] }
   end
 
   def add_label(name)

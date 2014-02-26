@@ -43,8 +43,10 @@ describe Api::CampaignsController do
       operator = create_operator
       sign_in operator
       Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
-      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[fb_uid]=&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
-      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[fb_uid]=&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
+      Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=4&person[first_name]=#{operator.first_name}&person[last_name]=&person[email]=#{operator.email}").and_return("person" => { "id" => 1})
+      Rest.stub(:get).with("https://www.missionhub.com/apis/v3/people/1?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [] })
       Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
       Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
       lambda {

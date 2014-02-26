@@ -83,4 +83,15 @@ Rails.application.configure do
   # Heroku requires logging to go to stdout
   config.logger = Logger.new(STDOUT) 
   config.logger.level = Logger::INFO
+
+  # smtp
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    "smtp_user_name": ENV["smtp_user_name"],
+    "smtp_password": ENV["smtp_password"],
+    "smtp_address": "email-smtp.us-east-1.amazonaws.com",
+    "smtp_authentication": "plain",
+    "smtp_enable_starttls_auto": true,
+    "smtp_port": 587
+  }
 end

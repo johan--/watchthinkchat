@@ -14,17 +14,26 @@ describe Api::VisitorsController do
   it "should update a visitor" do
     visitor = create_visitor
     chat = create(:chat, :visitor => visitor)
-    # mh gets
-    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
-    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }])
-    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people/1?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [{ "name" => "Leader", "id" => 1 }]})
-    # mh posts
-    # should create the two labels
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token&label[name]=Challenge Subscribe Self").and_return({"label" => {"id" => 1}})
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token&label[name]=Challenge Subscribe Friend").and_return({"label" => {"id" => 1}})
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[first_name]=#{visitor.first_name}&person[last_name]=#{visitor.last_name}&person[email]=email@email.com").and_return({"person" => {"id" => 1}})
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
+    # sync_mh method always posts to people first, as MH is smart enough to find an existing record
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[fb_uid]=123&person[first_name]=#{visitor.first_name}&person[last_name]=&person[email]=email@email.com").and_return("person" => { "id" => visitor.missionhub_id })
+
+    # from add_label "Challenge Subscribe Self"
+    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }]) # pretend only the Leader label exists
+    # it creates the label because only Leader label existed
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token&label[name]=Challenge Subscribe Self").and_return({"label" => {"id" => 2}})
+    # next it gets all the labels for that person
+    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people/#{visitor.missionhub_id}?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [{ "name" => "Leader", "id" => 1 }]})
+    # since it's only Leader, it adds Challenge Subscribe Self (id 2)
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=#{visitor.missionhub_id}&organizational_label[label_id]=2")
+
+    # from add_label "Challenge Subscribe Friend"
+    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token").and_return("labels" => [{ "name" => "Leader", "id" => 1 }, { "name" => "Challenge Subscribe Self", :id => 2 }])
+    # it creates the label
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/labels?secret=missionhub_token&label[name]=Challenge Subscribe Friend").and_return({"label" => {"id" => 3}})
+    # next it gets all the labels for that person
+    Rest.should_receive(:get).with("https://www.missionhub.com/apis/v3/people/#{visitor.missionhub_id}?secret=missionhub_token&include=organizational_labels").and_return("person" => { "organizational_labels" => [{ "name" => "Leader", "id" => 1 }, { "name" => "Challenge Subscribe Friend", "id" => 2}]})
+    # next it adds Challenge Subscribe Friend
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=#{visitor.missionhub_id}&organizational_label[label_id]=3")
 
     put :update, :visitor_uid => visitor.visitor_uid, :fb_uid => 123, :visitor_email => "email@email.com", :challenge_subscribe_self => true, :challenge_subscribe_friend => true
   end

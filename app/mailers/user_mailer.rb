@@ -5,6 +5,6 @@ class UserMailer < ActionMailer::Base
     if params[:from_name].present?
       from = "noreply@cru.org <#{params[:from]}>"
     end
-    mail(to: params[:to], from: from, message: params[:message], reply_to: params[:from])
+    mail(to: params[:to], from: from, message: params[:message], reply_to: params[:from], subject: params[:subject])
   end
 end
