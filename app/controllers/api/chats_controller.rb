@@ -23,9 +23,7 @@ class Api::ChatsController < ApplicationController
     elsif campaign && !campaign.opened?
       render json: { error: "Sorry, campaign is closed" }, status: 403
     elsif !operator
-      render json: { error: "Operator not found" }, status: 500 
-    elsif !operator.online?
-      render json: { error: "Operator offline" }, status: 500 
+      render json: { error: "No operators available" }, status: 500 
     elsif !campaign
       render json: { error: "Campaign not found" }, status: 500 
     elsif !visitor
