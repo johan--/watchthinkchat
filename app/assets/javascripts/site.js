@@ -16,7 +16,7 @@ angular.module("chatApp", ["ngRoute"]).config(($routeProvider, $locationProvider
   $rootScope.YouTubeApiLoaded = false
 */
 
-angular.module('chatApp', ['ngRoute', 'ngCookies'])
+angular.module('chatApp', ['ngRoute'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider.when('/', {
