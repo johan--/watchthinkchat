@@ -382,8 +382,8 @@ var scollBottom = function(id){
   }).blur(function() {
     window_focus=false;
     window_focus_timeout = setTimeout(function(){
-      desktopNotify('Offline','2 mins inactivity, status set to: Offline');
       if(operator_channel_connected){
+        desktopNotify('Offline','2 mins inactivity, status set to: Offline');
         $scope.toggleOperatorStatus();
       }
     },120000);
