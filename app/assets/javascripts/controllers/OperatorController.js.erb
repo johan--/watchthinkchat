@@ -159,7 +159,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         console.log('New Incoming Chat: '+ newchat_data.chat_uid);
 
         if(newchat_data.visitor_name == ''){
-          newchat_data.visitor_name = 'Visitor '+($scope.active_sessions.length+1);
+          newchat_data.visitor_name = 'Visitor ' + ($scope.active_sessions.length+1);
         }
 
         //new chat session notification

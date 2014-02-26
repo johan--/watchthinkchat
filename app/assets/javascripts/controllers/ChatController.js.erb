@@ -205,9 +205,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(initialMsg){
           $timeout(function(){ $scope.postActivityMessage(initialMsg, 'activity-button'); }, 2500);
         }
-        $timeout(function(){ $scope.postActivityMessage(clientIP, 'ip'); }, 2550);
-        $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2550);
-        $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 2550);
+        $timeout(function(){ $scope.postActivityMessage(clientIP, 'ip'); }, 2600);
+        $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2800);
+        $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
       }).error(function (data, status, headers, config) {
         if(data.error === 'Operator offline'){
           chat_data.chat_uid = 'offline';
