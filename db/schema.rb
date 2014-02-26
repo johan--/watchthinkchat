@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140225205347) do
+ActiveRecord::Schema.define(version: 20140226200442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,7 +211,9 @@ ActiveRecord::Schema.define(version: 20140225205347) do
     t.boolean  "operator",                   default: false
     t.boolean  "visitor",                    default: true
     t.boolean  "challenge_subscribe_self"
-    t.boolean  "challenge_subscribe_friend"
+    t.string   "challenge_subscribe_friend"
+    t.integer  "assigned_operator1_id"
+    t.integer  "assigned_operator2_id"
   end
 
   create_table "users_languages", force: true do |t|
