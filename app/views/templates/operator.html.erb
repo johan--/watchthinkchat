@@ -2,9 +2,9 @@
   <div class="password-overlay">
     <p>Please enter the campaign password to continue:</p>
     <form class="form-inline" role="form">
-      <input data-ng-model="campaignPassword" type="password" placeholder="password..." class="form-control" style="width:40%;" ng-enter="validatePassword()" autofocus>
+      <input data-ng-model="campaignPassword" type="password" placeholder="password..." class="form-control" style="width:40%;" ng-enter="validatePassword(); requestNotifyPermission();" autofocus>
 
-      <div class="btn btn-primary" data-ng-click="validatePassword()">Validate</div>
+      <div class="btn btn-primary" data-ng-click="validatePassword(); requestNotifyPermission();">Validate</div>
     </form>
     <div class="alert alert-danger">Invalid Password</div>
   </div>
@@ -21,12 +21,12 @@
             <div class="form-group" style="width:49%;display:inline-block;">
               <label class="control-label">Response to follow Jesus</label>
               <div class="">
-                <p class="form-control-static">{{endchat_session.activity}}</p>
+                <p class="form-control-static" ng-bind-html="endchat_session.activity_display"></p>
               </div>
             </div>
             <div class="form-group" style="width:49%;display:inline-block;margin-bottom:0;vertical-align:top;">
               <label class="control-label">Link shared by</label>
-              <div class="">
+              <div>
                 <img src="{{endchat_session.requested_operator.profile_pic}}" style="float:left;">
                 <p class="form-control-static">{{endchat_session.requested_operator.name}}</p>
               </div>
@@ -76,7 +76,6 @@
             <span class="text-muted">Beta</span>
           </strong>
         </a>
-
         <div class="shareurl">
           <img src="{{operator_data.profile_pic}}">
           <h3>{{operator_data.name}}</h3>
@@ -98,7 +97,7 @@
         <div class="media-body">
           <h4 class="media-heading">{{session.visitor_name}}</h4>
           <i class="fa fa-exclamation newmessage">&nbsp;</i>
-          <p ng-bind-html="session.activity"></p>
+          <p ng-bind-html="session.activity_display"></p>
         </div>
       </li>
       <li data-ng-show="(active_sessions|filter:{status:'active'}:true).length == 0">You do not have any active chat sessions yet. They will appear here when you do.</li>
@@ -156,6 +155,30 @@
           <div ng-class="message.messageClass" ng-bind-html="message.message"></div>
         </li>
       </ul>
+      <div class="user_info">
+        <h3 class="special">User Info</h3>
+        <label class="control-label">Link shared by</label>
+        <div>
+          <img src="{{session.requested_operator.profile_pic}}" style="float:left;padding:0 6px 6px 0;">
+          <p class="form-control-static">{{session.requested_operator.name}}</p>
+        </div>
+        <div style="clear:both;">
+          <label class="control-label">Browser</label>
+          <p class="form-control-static">{{session.browser}}</p>
+        </div>
+        <label class="control-label">IP Address</label>
+        <div>
+          <p class="form-control-static">{{session.ip}}</p>
+        </div>
+        <label class="control-label">OS</label>
+        <div>
+          <p class="form-control-static">{{session.os}}</p>
+        </div>
+        <label class="control-label">Location</label>
+        <div>
+          <p class="form-control-static">{{session.geolocation.city}}, {{session.geolocation.region_name}} {{session.geolocation.country_code}}</p>
+        </div>
+      </div>
       <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)" data-ng-show="session.status === 'active'">
     </div>
   </div>
