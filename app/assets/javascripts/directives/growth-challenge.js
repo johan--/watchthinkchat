@@ -87,7 +87,7 @@ angular.module('chatApp')
                   visitor_email: $scope.visitor_email,
                   challenge_subscribe_self: true
                 };
-                $http({method: 'POST', url: '/api/visitors/'+window.localStorage.getItem('gchat_visitor_id'), data: post_data}).
+                $http({method: 'PUT', url: '/api/visitors/'+window.localStorage.getItem('gchat_visitor_id'), data: post_data}).
                   success(function (data, status, headers, config) {
                   }).error(function (data, status, headers, config) {
                   });
@@ -106,6 +106,21 @@ angular.module('chatApp')
           }else if(step == 5){
             $('#after-chat-information-05').modal({backdrop: false, show: true});
           }else if(step ==6){
+            if(!$scope.visitor_name){
+              alert('Please enter Your Name.');
+              return;
+            }
+            if(!validateEmail($scope.visitor_email)){
+              alert('Your Email must be a valid email address.');
+              return;
+            }
+            if(!validateEmail($scope.friend_email)){
+              alert('Your Friend\'s Email must be a valid email address.');
+              return;
+            }
+
+            //Send email
+
             $('#after-chat-information-05').modal('hide');
             $scope.nextStep(7);
           }else if(step == 7){
@@ -150,6 +165,11 @@ angular.module('chatApp')
             success(function (data, status, headers, config) {
             }).error(function (data, status, headers, config) {
             });
+        }
+
+        var validateEmail = function(email) {
+          var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
         }
 
         FB.init({
