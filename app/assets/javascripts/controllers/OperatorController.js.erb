@@ -17,18 +17,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     document.write('Invalid operator id');
     return;
   }
-  if(!operator_data.uid){
-    document.write('Invalid operator id');
-    return;
-  }
-
   if(!campaign_id){
     document.write('Invalid campaign id');
     return;
   }
 
-    $scope.active_sessions = [];
-    $scope.endchat_session = [];
+  $scope.active_sessions = [];
+  $scope.endchat_session = [];
 
   $scope.validatePassword = function() {
     $http({
@@ -76,8 +71,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   $scope.postMessage = function (id) {
     var message = $('#chatbox_' + id + ' .chat-message').val();
     $('#chatbox_' + id + ' .chat-message').val('');
-
     $('#session_' + id + ' .newmessage').css('visibility', 'hidden');
+
+    if(message==''){ return; }
 
     var post_data = {
       user_uid: operator_data.uid,
@@ -98,21 +94,20 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         });
         scollBottom(id);
       }).error(function (data, status, headers, config) {
-
       });
   };
 
-    $scope.showChallenge = function (id) {
-        var post_data = {
-            user_uid: operator_data.uid,
-            message_type: 'activity',
-            message: 'challenge'
-        };
-        $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
-                success(function (data, status, headers, config) {
-                }).error(function (data, status, headers, config) {
-                });
-    };
+  $scope.showChallenge = function (id) {
+      var post_data = {
+          user_uid: operator_data.uid,
+          message_type: 'activity',
+          message: 'challenge'
+      };
+      $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
+  };
 
   $scope.endChat = function (id) {
     if(confirm("Are you sure you want to end this chat?")){
@@ -127,7 +122,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
           $('#endchat-overlay').modal({backdrop: true, show: true});
         }).error(function (data, status, headers, config) {
-
         });
     }
   };
@@ -147,7 +141,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         $('#endchat-overlay').modal('hide');
         $scope.endchat_session=[];
       }).error(function (data, status, headers, config) {
-
       });
   };
 
@@ -314,10 +307,10 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   };
 
   $scope.requestNotifyPermission = function(){
-      if (window.webkitNotifications.checkPermission() == 0) {
-      } else {
-        window.webkitNotifications.requestPermission();
-      }
+    if (window.webkitNotifications.checkPermission() == 0) {
+    } else {
+      window.webkitNotifications.requestPermission();
+    }
   }
 
   var desktopNotify = function(title, message, chat_id){
