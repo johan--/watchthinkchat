@@ -144,6 +144,16 @@ angular.module('chatApp')
                 alert('Error: '+data);
               });
           }else if(step == 7){
+            //notify mission hub
+            var post_data = {
+              fb_uid: visitor_fb_data.id,
+              visitor_email: $scope.visitor_email,
+              challenge_subscribe_friend: $scope.friend_email || 'facebook'
+            };
+            $http({method: 'PUT', url: '/api/visitors/'+window.localStorage.getItem('gchat_visitor_id'), data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
             $('#after-chat-information-06').show();
             $('#after-chat-information-03').hide();
           }else if(step == 99){
