@@ -134,8 +134,6 @@ GEM
     assert_difference (0.5.0)
     atomic (1.1.14)
     bcrypt (3.1.7)
-    bcrypt-ruby (3.1.5)
-      bcrypt (>= 3.1.3)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -375,7 +373,7 @@ DEPENDENCIES
   angularjs-rails
   anjlab-bootstrap-rails!
   assert_difference
-  bcrypt-ruby
+  bcrypt
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.0.3.0)
