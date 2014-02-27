@@ -294,20 +294,20 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           }
         });
         chat_channel.bind('end', function () {
-            console.log('Visitor Disconnect: ' + newchat_data.chat_uid);
-            var index = _.findIndex($scope.active_sessions, function (session) {
-                return session.chat_uid == newchat_data.chat_uid;
+          console.log('Visitor Disconnect: ' + newchat_data.chat_uid);
+          var index = _.findIndex($scope.active_sessions, function (session) {
+              return session.chat_uid == newchat_data.chat_uid;
+          });
+          $scope.$apply(function () {
+            $scope.active_sessions[index].chatMessages.push({
+                time: Math.round(+new Date()).toString(),
+                class: 'message-activity-li',
+                messageClass: 'message-activity',
+                person: 'visitor',
+                message: $sce.trustAsHtml('Visitor has disconnected from chat session.')
             });
-            $scope.$apply(function () {
-              $scope.active_sessions[index].chatMessages.push({
-                  time: Math.round(+new Date()).toString(),
-                  class: '',
-                  messageClass: 'message-activity',
-                  person: 'visitor',
-                  message: $sce.trustAsHtml('Visitor has disconnected from chat session.')
-              });
-              $scope.active_sessions[index].status = 'inactive';
-            });
+            $scope.active_sessions[index].status = 'inactive';
+          });
         });
       });
     }
