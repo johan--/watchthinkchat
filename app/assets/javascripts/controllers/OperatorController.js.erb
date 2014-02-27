@@ -196,7 +196,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             requested_operator: {
               uid: newchat_data.requested_operator,
               name: '',
-              profile_pic: ''
+              profile_pic: '<%= asset_path("avatar.png") %>'
             },
             selectedCannedMessage: $scope.cannedResponses[0].response,
             activity: '',
