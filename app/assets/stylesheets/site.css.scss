@@ -429,12 +429,12 @@
     position: absolute;
     display:none;
     top:32%;
-    width:968px;
-    left:calc(50% - 484px);
+    width:870px;
+    left:calc(50% - 430px);
     z-index: 1;
 
    .btn{
-      width:290px;
+      width:260px;
       margin:15px;
       height:80px;
       display:inline-block;
@@ -865,7 +865,7 @@
   }
 }
 
-@media only screen and (min-width: 0px) and (max-width: 1220px) {
+@media only screen and (min-width: 0px) and (max-width: 768px) {
   .visitor_chat {
     #chat {
       position: fixed;
@@ -961,7 +961,7 @@
   }
 }
 
-@media only screen and (min-width: 0px) and (max-width: 1220px) and (orientation:landscape) {
+@media only screen and (min-width: 0px) and (max-width: 768px) and (orientation:landscape) {
   .visitor_chat{
     .after-chat-buttons{
       width:440px;
