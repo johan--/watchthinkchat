@@ -17,15 +17,14 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs "User Details" do
       f.input :email
-      f.input :password
-      f.input :password_confirmation
+      f.input :status, :as => :select, :collection => [ "online", "offline" ]
     end
     f.actions
   end
 
   controller do
     def permitted_params
-      params.permit user: [:email, :password, :password_confirmation]
+      params.permit!
     end
   end
 end

@@ -34,7 +34,9 @@ ActiveAdmin.register Campaign do
         "Campaign is open, but there are no operators set"
       elsif campaign.opened?
         table_for campaign.operators do
-          column :fullname
+          column :fullname do |operator|
+            link_to operator.fullname, admin_user_path(operator)
+          end
           column :email
           column :missionhub_id do |operator|
             if operator.missionhub_id
