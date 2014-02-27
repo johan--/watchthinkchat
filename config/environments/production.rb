@@ -81,7 +81,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Heroku requires logging to go to stdout
-  config.logger = Logger.new(STDOUT) 
+  #config.logger = Logger.new(STDOUT) 
   config.logger.level = Logger::INFO
 
   # smtp
