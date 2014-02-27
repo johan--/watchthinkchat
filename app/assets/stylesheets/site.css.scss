@@ -840,8 +840,7 @@
     font-weight: 300;
   }
   #chat .chatbox ul.conversation li .timestamp{
-    position: absolute;
-    right: 5px;
+    float:right;
   }
   #chat .chatbox .person{
     font-weight: bold;
