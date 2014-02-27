@@ -79,8 +79,8 @@
         <div class="shareurl">
           <img src="{{operator_data.profile_pic}}">
           <h3>{{operator_data.name}}</h3>
-          <input type="text" data-ng-model="operator_chat_url" readonly style="width:400px;"> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{operator_chat_url}}&p[images][0]=&p[title]=" target="_blank" style="color:#fff;">
-          <i class="fa fa-share">&nbsp;</i>
+          <input type="text" data-ng-model="operator_chat_url" readonly style="width:380px;"> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{operator_chat_url}}&p[images][0]=&p[title]=" target="_blank" style="color:#fff;" title="Share link with Facebook">
+          <i class="fa fa-facebook-square">&nbsp;</i>
         </a>
 
         </div>
@@ -177,6 +177,12 @@
         <label class="control-label">Location</label>
         <div>
           <p class="form-control-static">{{session.geolocation.city}}, {{session.geolocation.region_name}} {{session.geolocation.country_code}}</p>
+        </div>
+
+        <div style="position: absolute; bottom: 10px; width:95%;">
+          <p><strong>Canned Responses</strong></p>
+          <button type="button" class="btn btn-success" style="float:right;" data-ng-click="copyCannedMessage(session.chat_uid);">Copy <i class="fa fa-level-down">&nbsp;</i></button>
+          <select style="width:150px;margin-top:6px;" data-ng-model="session.selectedCannedMessage" ng-options="response.response as response.name for response in cannedResponses"></select>
         </div>
       </div>
       <input class="form-control chat-input chat-message" placeholder="Message..." type="text" ng-enter="postMessage(session.chat_uid)" data-ng-show="session.status === 'active'">

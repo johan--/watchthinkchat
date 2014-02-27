@@ -24,6 +24,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
   $scope.active_sessions = [];
   $scope.endchat_session = [];
+  $scope.cannedResponses = [
+    {
+      name: 'Welcome',
+      response: 'Welcome to WatchThinkChat, what did you think of the video?'
+    },
+    {
+      name: 'Challenge',
+      response: 'I\'m sending the challenge now, please take a look!'
+    }
+  ];
 
   $scope.validatePassword = function() {
     $http({
@@ -141,6 +151,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         $('#endchat-overlay').modal('hide');
         $scope.endchat_session=[];
       }).error(function (data, status, headers, config) {
+        alert('Error: cannot save chat to Mission Hub');
       });
   };
 
@@ -187,6 +198,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               name: '',
               profile_pic: ''
             },
+            selectedCannedMessage: $scope.cannedResponses[0].response,
             activity: '',
             activity_display: '',
             status: 'active',
@@ -318,6 +330,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     } else {
       window.webkitNotifications.requestPermission();
     }
+  }
+
+  $scope.copyCannedMessage = function(id){
+    var index = _.findIndex($scope.active_sessions, function (session) {
+      return session.chat_uid == id;
+    });
+    $('#chatbox_' + id + ' .chat-message').val($scope.active_sessions[index].selectedCannedMessage);
   }
 
   var desktopNotify = function(title, message, chat_id){
