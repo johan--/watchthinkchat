@@ -79,7 +79,7 @@
         <div class="shareurl">
           <img src="{{operator_data.profile_pic}}">
           <h3>{{operator_data.name}}</h3>
-          {{operator_chat_url}} <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{operator_chat_url}}&p[images][0]=&p[title]=" target="_blank" style="color:#fff;">
+          <input type="text" data-ng-model="operator_chat_url" readonly style="width:400px;"> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{operator_chat_url}}&p[images][0]=&p[title]=" target="_blank" style="color:#fff;">
           <i class="fa fa-share">&nbsp;</i>
         </a>
 
