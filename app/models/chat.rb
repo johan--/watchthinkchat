@@ -27,6 +27,7 @@ class Chat < ActiveRecord::Base
 
   def collect_stats(params)
     name_words = params[:visitor_name].split(' ')
+    params.delete(:visitor_email) unless params[:visitor_email].present?
     visitor.update_attributes :first_name => name_words.shift, :last_name => name_words.join(" "), :email => params[:visitor_email], :assigned_operator1_id => operator_id, :assigned_operator2_id => operator_whose_link_id
     visitor.sync_mh
     r = Rest.post("https://www.missionhub.com/apis/v3/followup_comments?secret=#{campaign.missionhub_token}&followup_comment[contact_id]=#{visitor.missionhub_id}&followup_comment[commenter_id]=#{self.operator.missionhub_id}&followup_comment[comment]=#{build_comment(params)}")
