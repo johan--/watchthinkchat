@@ -326,10 +326,12 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   };
 
   $scope.requestNotifyPermission = function(){
-    if (window.webkitNotifications.checkPermission() == 0) {
-    } else {
-      window.webkitNotifications.requestPermission();
-    }
+    try{
+      if (window.webkitNotifications.checkPermission() == 0) {
+      } else {
+        window.webkitNotifications.requestPermission();
+      }
+    }catch(e){}
   }
 
   $scope.copyCannedMessage = function(id){
@@ -340,19 +342,21 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   }
 
   var desktopNotify = function(title, message, chat_id){
-    var havePermission = window.webkitNotifications.checkPermission();
-    if (havePermission == 0) {
-      var notification = window.webkitNotifications.createNotification(
-              '<%= asset_path("features-ico2.png") %>', title, message
-      );
-      notification.onclick = function () {
-        window.focus();
-        if(chat_id){
-          $scope.switchChat(chat_id);
+    try{
+      var havePermission = window.webkitNotifications.checkPermission();
+      if (havePermission == 0) {
+        var notification = window.webkitNotifications.createNotification(
+                '<%= asset_path("features-ico2.png") %>', title, message
+        );
+        notification.onclick = function () {
+          window.focus();
+          if(chat_id){
+            $scope.switchChat(chat_id);
+          }
         }
+        notification.show();
       }
-      notification.show();
-    }
+    }catch(e){}
   }
 
 /*  $scope.active_sessions.push({

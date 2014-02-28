@@ -159,7 +159,7 @@
         <h3 class="special">Visitor Info</h3>
         <label class="control-label">Link shared by</label>
         <div>
-          <img src="{{session.requested_operator.profile_pic}}" style="float:left;padding:0 6px 6px 0;width:50px;height:50px;">
+          <img src="{{session.requested_operator.profile_pic || ''}}" style="float:left;padding:0 6px 6px 0;width:50px;height:50px;">
           <p class="form-control-static">{{session.requested_operator.name}}</p>
         </div>
         <div style="clear:both;">
