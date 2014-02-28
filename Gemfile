@@ -42,7 +42,6 @@ gem 'binding_of_caller'
 
 # Assets CSS
 gem 'sass-rails'
-gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'https://github.com/anjlab/bootstrap-rails', :branch => '3.0.0'
 gem 'font-awesome-rails'
 gem 'compass'
 gem 'bootstrap-sass', '~> 3.0.3.0'
