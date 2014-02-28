@@ -44,7 +44,7 @@ gem 'binding_of_caller'
 gem 'sass-rails'
 gem 'font-awesome-rails'
 gem 'compass'
-gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'bootstrap-sass', '~> 3.1.1.0'
 
 # Assets Javascript
 gem 'ngmin-rails'
