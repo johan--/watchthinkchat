@@ -4,8 +4,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   //window.localStorage.removeItem('gchat_visitor_id');
   var campaign_data;
   var visitor_data = {};
-  var visitor_fb_data = {
+  $scope.visitor_fb_data = {
     id: '',
+    name: '',
     first_name:'',
     last_name: '',
     email: ''
@@ -19,6 +20,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var video_completed=false;
   var window_focus=false;
   var YTplayer;
+  $scope.growthChallengeStep = -1;
   $scope.liveChat=false;
   $scope.mobileMinChat=true;
 
@@ -179,7 +181,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
         $scope.liveChat=true;
-        $scope.growthChallengeStep=1;
+        $scope.growthChallengeStep = 1;
 
         $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
                 '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
@@ -240,9 +242,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   };
 
   $scope.buttonClick = function(button){
-    $('.after-chat-buttons, .after-chat-title').fadeOut();
-    $('.box').css('overflow-y','auto');
-
     $scope.button_clicked = button;
 
     if(button.action == 'url'){
@@ -253,6 +252,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }else{
         $scope.postActivityMessage(button.text, 'activity-button');
         $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
+        $scope.growthChallengeStep = 1;
       }
     }
   };
@@ -279,17 +279,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       if (response.authResponse) {
         FB.api('/me', function(response) {
           //console.log(response);
-          $('.chat-column').removeClass('chat-facebook');
           postVisitorInfo(response);
           visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
           $scope.visitor_email = response.email;
-          visitor_fb_data = response;
+          $scope.visitor_fb_data = response;
         });
       }
     });
   }
 
-  $scope.growthChallengeStep = 0;
   $scope.growthChallengeNextStep = function(step){
     if(step==2){
       $('.after-chat-challenge').hide();
@@ -300,8 +298,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $http({method: 'JSONP',
         url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
-                '&FNAME=' + encodeURIComponent(visitor_fb_data.first_name) +
-                '&LNAME=' + encodeURIComponent(visitor_fb_data.last_name) +
+                '&FNAME=' + encodeURIComponent($scope.visitor_fb_data.first_name) +
+                '&LNAME=' + encodeURIComponent($scope.visitor_fb_data.last_name) +
                 '&RESPCODE=' + encodeURIComponent(button_id) +
                 '&c=JSON_CALLBACK'
       }).success(function (data, status, headers, config) {
@@ -315,7 +313,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
           //notify mission hub
           var post_data = {
-            fb_uid: visitor_fb_data.id,
+            fb_uid: $scope.visitor_fb_data.id,
             visitor_email: $scope.visitor_email,
             challenge_subscribe_self: true
           };
@@ -329,6 +327,62 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
         alert('Error: Could not connect to mail service.');
       });
+    }
+  }
+
+  $scope.growthChallengePrevStep = function(){
+    if($scope.growthChallengeStep===1){
+      $scope.growthChallengeStep=0;
+    }
+  }
+
+  $scope.growthChallengeInviteFriend = function(how){
+    if(how=='fb'){
+      FB.ui({
+        method: 'send',
+        link: $scope.friend_url
+      });
+      $scope.growthChallengeStep=10;
+    }else if(how=='email'){
+      $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
+              'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
+              'Lets take the challenge together!\n\n' +
+              'You can click here to find out more information:\n' +
+              $scope.friend_url;
+      $('#growth-challenge-invite-friend').modal({backdrop: true, show: true});
+    }else if(how=='sendemail'){
+      if(!$scope.visitor_name){
+        alert('Please enter Your Name.');
+        return;
+      }
+      if(!validateEmail($scope.visitor_email)){
+        alert('Your Email must be a valid email address.');
+        return;
+      }
+      if(!validateEmail($scope.friend_email)){
+        alert('Your Friend\'s Email must be a valid email address.');
+        return;
+      }
+
+      //Send email
+      $('#growth-challenge-invite-friend .modal-footer button').hide();
+      $('#growth-challenge-invite-friend .modal-footer p').show();
+      var post_data = {
+        to: $scope.friend_email,
+        from: $scope.visitor_email,
+        from_name: $scope.visitor_name,
+        subject: 'Take the "Growth Challenge" with me',
+        message: $scope.email_message
+      };
+      $http({method: 'POST', url: '/api/emails', data: post_data}).
+        success(function (data, status, headers, config) {
+          $('#growth-challenge-invite-friend').modal('hide');
+          $scope.growthChallengeStep=10;
+        }).error(function (data, status, headers, config) {
+          $('#growth-challenge-invite-friend .modal-footer button').show();
+          $('#growth-challenge-invite-friend .modal-footer p').hide();
+          alert('Error: '+data);
+        });
     }
   }
 
@@ -367,6 +421,18 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             });
   }
 
+  $scope.updateVisitorName = function(){
+    var post_data = {
+      user_uid: visitor_data.uid,
+      message_type: 'fbName',
+      message: $scope.visitor_fb_data.name
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
+      success(function (data, status, headers, config) {
+      }).error(function (data, status, headers, config) {
+      });
+  }
+
   var timeUpdate = setInterval(function () {
     $('.body .timestamp-refresh').each(function (i) {
       var origtime = parseInt($(this).attr('timestamp'));
@@ -393,7 +459,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
       case YT.PlayerState.ENDED:
         if(!video_completed){
-          $('.after-chat-buttons, .after-chat-title').fadeIn(2000);
+          $scope.$apply(function(){
+            $scope.growthChallengeStep = 0;
+          });
           //$('.box #player').css('opacity','.3');
           YTplayer.stopVideo();
           YTplayer.clearVideo();
@@ -405,12 +473,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
     }
   };
-
-  $(window).focus(function() {
-    window_focus=true;
-  }).blur(function() {
-    window_focus=false;
-  });
 
   var getBrowser = function(){
     var ua= navigator.userAgent, tem,
@@ -432,7 +494,17 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
     return OSName;
   }
+  var validateEmail = function(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
+
+  $(window).focus(function() {
+    window_focus=true;
+  }).blur(function() {
+    window_focus=false;
+  });
 
   FB.init({
     appId      : '555591577865154',

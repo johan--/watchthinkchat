@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "font-awesome";
 
 /*!
  * WatchThinkChat.com Theme
@@ -41,7 +42,7 @@ h1, h2, h3, h4, h5 {
   transition: width 1s;
 }
 .chat-column .header {
-  background: #297BB5 url(../img/logo.png) right 10px center no-repeat;
+  background: #297BB5 right 10px center no-repeat;
   height: 48px;
   font-size: 20px;
   font-weight: 300;
@@ -51,6 +52,9 @@ h1, h2, h3, h4, h5 {
   top: 0;
   right: 0;
   left: 0;
+}
+.chat-column .header .fa-comments-o{
+  float:right;
 }
 .chat-column .operator {
   background-color: #c9deec;
@@ -282,6 +286,9 @@ footer .sep {
   .minimized .header {
     background-position: center center;
     background-image: image-url('forward.png');
+  }
+  .chat-column .header .fa-comments-o{
+    display: none;
   }
   .minimized .content, .minimized .content.operator {
     padding: 5px;
