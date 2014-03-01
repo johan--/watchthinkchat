@@ -4,6 +4,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   //window.localStorage.removeItem('gchat_visitor_id');
   var campaign_data;
   var visitor_data = {};
+  var visitor_fb_data = {
+    id: '',
+    first_name:'',
+    last_name: '',
+    email: ''
+  };
   var chat_data = {
     chat_uid: ''
   };
@@ -14,6 +20,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var window_focus=false;
   var YTplayer;
   $scope.liveChat=false;
+  $scope.mobileMinChat=true;
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -33,7 +40,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
         window.onYouTubeIframeAPIReady = function () {
           YTplayer = new YT.Player('player', {
-            videoId: campaign_data.video_id,
+            //videoId: campaign_data.video_id,
+            videoId: 'KGlx11BxF24',
             playerVars: {
               autoplay: 0,
               modestbranding: 1,
@@ -171,7 +179,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
         $scope.liveChat=true;
-        $('#after-chat-information-01').fadeIn();
+        $scope.growthChallengeStep=1;
 
         $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
                 '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
@@ -183,9 +191,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             if (data.message_type == 'activity') {
               if(data.message == 'challenge'){
                 $('.after-chat-challenge').fadeIn();
-                if(window.innerWidth <= 800){
-                  $('#after-chat-information-01').fadeOut();
-                }
                 $scope.postActivityMessage('Growth Challenge visible');
               }
             } else {
@@ -220,7 +225,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(data.error === 'no_operators_available'){
           chat_data.chat_uid = 'offline';
           $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat || '';
-          $('#after-chat-information-01, #noOperators, .after-chat-challenge').fadeIn();
+          $('#noOperators, .after-chat-challenge').fadeIn();
+          $scope.growthChallengeStep=1;
         }else{
           alert('Error: ' + (data.message || 'Cannot create new chat.'));
         }
@@ -276,9 +282,54 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('.chat-column').removeClass('chat-facebook');
           postVisitorInfo(response);
           visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
+          $scope.visitor_email = response.email;
+          visitor_fb_data = response;
         });
       }
     });
+  }
+
+  $scope.growthChallengeStep = 0;
+  $scope.growthChallengeNextStep = function(step){
+    if(step==2){
+      $('.after-chat-challenge').hide();
+      $scope.growthChallengeStep=2;
+    }else if(step==3){
+      var button_id = $scope.button_clicked.id;
+      $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_data.chat_uid+'&button_id='+button_id
+      $http({method: 'JSONP',
+        url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
+                '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
+                '&FNAME=' + encodeURIComponent(visitor_fb_data.first_name) +
+                '&LNAME=' + encodeURIComponent(visitor_fb_data.last_name) +
+                '&RESPCODE=' + encodeURIComponent(button_id) +
+                '&c=JSON_CALLBACK'
+      }).success(function (data, status, headers, config) {
+        if (data.result === 'success') {
+          $scope.growthChallengeStep=3;
+
+          try{
+            $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
+          }catch(e){
+          }
+
+          //notify mission hub
+          var post_data = {
+            fb_uid: visitor_fb_data.id,
+            visitor_email: $scope.visitor_email,
+            challenge_subscribe_self: true
+          };
+          $http({method: 'PUT', url: '/api/visitors/'+visitor_data.uid, data: post_data}).
+                  success(function (data, status, headers, config) {
+                  }).error(function (data, status, headers, config) {
+                  });
+        } else {
+          alert('Error: ' + data.msg);
+        }
+      }).error(function (data, status, headers, config) {
+        alert('Error: Could not connect to mail service.');
+      });
+    }
   }
 
   var postVisitorInfo = function(data){

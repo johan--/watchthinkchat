@@ -1,12 +1,12 @@
 <style>
-.after-chat-information{display: none;}
+.after-chat-challenge {display: none;}
 </style>
 <div class="row">
   <!-- Chat Column Begin -->
   <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
   <!-- Remove chat-facebook class to hide Custom Name section -->
-  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column chat-facebook">
-    <div class="header">WatchThinkChat.com</div>
+  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column chat-facebook" ng-class="{minimized: mobileMinChat}">
+    <div class="header" ng-click="mobileMinChat=!mobileMinChat"><span class="title">WatchThinkChat</span></div>
 
     <div class="panel-body" data-ng-show="!liveChat">
       <div class="btn btn-danger btn-lg btn-block" data-ng-click="startChat('')">Start Chat</div>
@@ -62,10 +62,68 @@
         </div>
       </div>
 
+      <!--<growth-challenge></growth-challenge>-->
       <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
-        <growth-challenge></growth-challenge>
+        <div class="after-chat-information" ng-show="growthChallengeStep===1">
+          <p>{{button_clicked.message_visible}}</p>
+        </div>
+        <div class="after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+          <h1>Take the Growth Challenge!</h1>
+          <p>
+            It’s simple and it’s free! Over the next
+            4 weeks we’ll share 4 thought-provoking videos about growing closer to God
+            over email.
+          </p>
+          <h2>Why involve one of your Christian friends?</h2>
+          <p>
+            By connecting with your own trusted Christian friend, you can challenge and encourage one another.
+          </p>
+        </div>
       </div>
-      <div class="col-md-6 col-lg-6 content-column"></div>
+      <div class="col-md-6 col-lg-6 content-column">
+        <div class="row after-chat-challenge">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray">
+            <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
+          </div>
+        </div>
+        <div class="row after-chat-challenge">
+          <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
+            <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
+              <div class="forward-button"></div>
+              Learn More
+            </div>
+          </a>
+        </div>
+
+        <div class="row after-chat-information" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
+            <h2>Get Started!</h2>
+          </div>
+        </div>
+        <div class="row after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
+            <h2>Step 1: Video Series</h2>
+            <p>Enter your email or login with Facebook.</p>
+            <form class="form-inline">
+              <div class="form-group input">
+                <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email">
+                <a href="#" class="btn btn-danger"><i class="fa fa-facebook-square"></i></a>
+                <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">Submit</button>
+              </div>
+            </form>
+            <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
+          </div>
+        </div>
+        <div class="row after-chat-information"  ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
+            <h2>Step 2: Add Friend</h2>
+            <p>Invite your Christian Friend</p>
+            <a href="#" class="btn btn-large btn-danger btn-block"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
+            <a href="#" class="btn btn-large btn-danger btn-block"><i class="fa fa-envelope-o"></i> Invite via Email</a>
+            <a href="#" class="btn btn-large btn-danger btn-block"><i class="fa fa-frown-o"></i> Go it alone</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <!-- Content Columns End -->
