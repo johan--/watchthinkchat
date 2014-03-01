@@ -1,0 +1,204 @@
+@import "bootstrap";
+
+/*!
+ * WatchThinkChat.com Theme
+ * Copyright 2014 Cru.org
+ * Licensed under MIT
+ */
+
+html,body{
+	height: 100%;
+}
+
+body {
+	background: #58504A;
+	font-family: 'Titillium Web', sans-serif;
+	font-weight: 200;
+}
+.row {
+	height: 100%;
+	margin: 0;
+}
+.chat-column {
+	height: 100%;
+	box-shadow: 10px 0 30px #444;
+	z-index: 50;
+	padding: 0;
+	padding-top: 48px;
+	position: fixed;
+	background-color: #fff;
+}
+.chat-column .header {
+	background: #297BB5 url(../img/logo.png) right 10px center no-repeat;
+	height: 48px;
+	font-size: 20px;
+	font-weight: 300;
+	color: #fff;
+	padding: 10px 15px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+.chat-column .operator {
+	background-color: #c9deec;
+	height: 75px;
+}
+.chat-column .body {
+	overflow: auto;
+	position: absolute;
+	bottom: 64px;
+	top: 120px;
+	left: 0;
+	right: 0;
+}
+.chat-column .odd {
+	background-color: #e6e5e4;
+}
+.chat-column .content {
+	min-height: 55px;
+	padding: 15px;
+	font-size: 12px;
+    color: black;
+}
+.chat-column .content .avatar {
+	width: 45px;
+	height: 45px;
+	float: left;
+}
+.chat-column .content .message, .chat-column .content .name {
+	padding-left: 55px;
+}
+.chat-column .content .name {
+	font-size: 10px;
+	margin-top: 15px;
+}
+.chat-column .content .name .date {
+	float: right;
+}
+.chat-column .input {
+	padding: 15px;
+	background-color: #297BB5;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin-bottom: 0;
+}
+.chat-column .input .form-control {
+	border-radius: 0;
+}
+.chat-column .custom-name {
+	display: none;
+}
+.chat-facebook .body {
+	bottom: 124px;
+}
+.chat-facebook .input {
+	bottom: 60px;
+}
+.chat-facebook .custom-name {
+	display: block;
+	bottom: 0;
+	background-color: #9c9691;
+	box-shadow: 0 5px 20px #444 inset;
+}
+.chat-facebook .custom-name div {
+	padding: 0;
+}
+.content {
+	padding-left:0;
+	padding-top: 100px;
+	color: #fff;
+	padding-bottom:50px;
+}
+.content h1 {
+	color: #fff;
+	font-weight: 200;
+	font-size: 42px;
+	margin: 20px 0;
+}
+.content-column {
+	font-size: 24px;
+	padding-left: 60px;
+}
+.content-column h1 {
+	color: #D75F4D;
+}
+.content-column p {
+	margin: 20px 0;
+}
+.options .btn-danger {
+	background-color: #d75f4d;
+	border: 0;
+	border-radius: 0;
+}
+.options .btn-lg {
+	padding: 20px;
+	margin-bottom: 20px;
+}
+.options h1 {
+	margin-bottom: 50px;
+}
+footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	color: #fff;
+	height: auto;
+	z-index: 20;
+}
+footer a, footer a:link, footer a:visited {
+	color: #fff;
+}
+footer a:hover {
+	text-decoration: underline;
+}
+footer .content-column {
+	height: auto;
+	padding: 0 0 20px 60px;
+	font-size: 12px;
+	background-color: transparent;
+}
+footer .sep {
+	color: #827C77;
+	padding: 0 5px;
+}
+.close-button, .back-button {
+	position:fixed;
+	top: 26px;
+	right: 26px;
+	height: 26px;
+	width: 26px;
+	z-index: 100;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	opacity: 0.5;
+	transition: opacity 0.2s;
+}
+.close-button:hover, .back-button:hover {
+	opacity: 1;
+}
+.close-button {
+	background-image: url(close.png);
+}
+.back-button {
+	background-image: url(back.png);
+	right: 70px;
+}
+
+@media (max-width: 768px) {
+	footer .content-column, .content-column {
+		padding-left: 10px;
+	}
+	.close-button, .back-button {
+		right: 22px;
+	}
+	.back-button {
+		top: 80px;
+	}
+
+}

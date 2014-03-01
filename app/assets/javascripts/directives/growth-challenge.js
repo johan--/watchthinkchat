@@ -162,7 +162,7 @@ angular.module('chatApp')
           }
         };
 
-        $scope.postVisitorInfo = function(data){
+        /*$scope.postVisitorInfo = function(data){
           try{
             $scope.postActivityMessage('Visitor has logged in with Facebook.');
           }catch(e){}
@@ -195,18 +195,18 @@ angular.module('chatApp')
             success(function (data, status, headers, config) {
             }).error(function (data, status, headers, config) {
             });
-        }
+        }*/
 
         var validateEmail = function(email) {
           var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(email);
         }
 
-        FB.init({
+/*        FB.init({
           appId      : '555591577865154',
           status     : true,
           xfbml      : true
-        });
+        });*/
       }
     };
   });

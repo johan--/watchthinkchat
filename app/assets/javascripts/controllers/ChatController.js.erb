@@ -13,6 +13,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var video_completed=false;
   var window_focus=false;
   var YTplayer;
+  $scope.liveChat=false;
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -119,6 +120,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   } else {
     visitor_data.uid = window.localStorage.getItem('gchat_visitor_id');
   }
+  visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
 
   $scope.postMessage = function () {
     if($scope.chatMessage==''){
@@ -134,8 +136,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
         $('.chat-input').attr('placeholder','Message...');
-        $('.conversation').append('<li>      <div class="message text-right">' + post_data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">You</div></li>');
-        $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+        $('.body').append('<div class="content"><img class="avatar" src="' + visitor_data.profile_pic + '"><div class="message">' + post_data.message + '</div>' +
+                '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>You</div>' +
+                '</div>');
+        $('.body').scrollTop($('.body')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
         $('.chat-input').attr('placeholder','Message...');
       });
@@ -166,10 +170,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         //console.log('================ New Chat Created: ' + data.chat_uid);
         window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
-        $('#chatbox, #after-chat-information-01').fadeIn();
-        $('#start-chat-panel').hide();
+        $scope.liveChat=true;
+        $('#after-chat-information-01').fadeIn();
 
-        $('#chatting_with').html('<img src="' + operator_data.profile_pic + '" style="float:left; padding:6px;">   <div class="message">You are chatting with<br>' + operator_data.name + '</div>');
+        $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
+                '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
         var pusher = new Pusher('249ce47158b276f4d32b');
         pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
@@ -184,8 +189,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 $scope.postActivityMessage('Growth Challenge visible');
               }
             } else {
-              $('.conversation').append('<li>      <div class="message">' + data.message + '</div>      <div class="timestamp pull-right timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>      <div class="person">' + operator_data.name + '</div></li>');
-              $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+              $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
+                      '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' + operator_data.name + '</div>' +
+                      '</div>');
+              $('.body').scrollTop($('.body')[0].scrollHeight);
 
               if (!window_focus) {
                 $('#newMsgAlert')[0].play();
@@ -196,9 +203,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
         channel_chat.bind('end', function (data) {
           pusher.unsubscribe('chat_'+chat_data.chat_uid);
-          $('#chatbox').fadeOut();
+          //$('#chatbox').fadeOut();
           $('#chatEnd').fadeIn();
-          $('.conversation').empty();
+          $('.body').empty();
+          $scope.liveChat=false;
           chat_data.chat_uid = '';
         });
 
@@ -260,8 +268,56 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       });
   };
 
+  $scope.facebookLogin = function(){
+    FB.login(function(response) {
+      if (response.authResponse) {
+        FB.api('/me', function(response) {
+          //console.log(response);
+          $('.chat-column').removeClass('chat-facebook');
+          postVisitorInfo(response);
+          visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
+        });
+      }
+    });
+  }
+
+  var postVisitorInfo = function(data){
+    try{
+      $scope.postActivityMessage('Visitor has logged in with Facebook.');
+    }catch(e){}
+    var chat_uid = window.localStorage.getItem('gchat_chat_uid');
+    var visitor_uid = window.localStorage.getItem('gchat_visitor_id');
+    var post_data = {
+      user_uid: visitor_uid,
+      message_type: 'fbName',
+      message: data.name
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+    var post_data = {
+      user_uid: visitor_uid,
+      message_type: 'fbEmail',
+      message: data.email
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+    var post_data = {
+      user_uid: visitor_uid,
+      message_type: 'fbId',
+      message: data.id
+    };
+    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+            success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+  }
+
   var timeUpdate = setInterval(function () {
-    $('.conversation .timestamp-refresh').each(function (i) {
+    $('.body .timestamp-refresh').each(function (i) {
       var origtime = parseInt($(this).attr('timestamp'));
       var unixtime = Math.round(+new Date());
 
@@ -325,4 +381,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
     return OSName;
   }
+
+
+  FB.init({
+    appId      : '555591577865154',
+    status     : true,
+    xfbml      : true
+  });
 });
