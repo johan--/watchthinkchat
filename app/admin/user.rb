@@ -18,6 +18,9 @@ ActiveAdmin.register User do
     f.inputs "User Details" do
       f.input :email
       f.input :status, :as => :select, :collection => [ "online", "offline" ]
+      if user.admin?
+        f.input :admin
+      end
     end
     f.actions
   end
