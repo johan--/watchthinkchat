@@ -28,10 +28,10 @@ angular.module('chatApp', ['ngRoute'])
     }).when('/features', {
       templateUrl: '/templates/features.html',
       controller: 'FeaturesController as ctrl'
-    }).when('/c/:campaignId', {
+    }).when('/c1/:campaignId', {
       templateUrl: '/templates/chat.html',
       controller: 'ChatController as ctrl'
-    }).when('/c2/:campaignId', {
+    }).when('/c/:campaignId', {
       templateUrl: '/templates/chat_redesign.html',
       controller: 'ChatController as ctrl'
     }).when('/challenge', {
