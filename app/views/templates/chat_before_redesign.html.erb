@@ -1,0 +1,59 @@
+<div class="visitor_chat">
+  <div class="box paused">
+    <div class="after-chat-title">
+      Jesus asks you, "Will you follow me?"
+    </div>
+    <div class="after-chat-buttons">
+      <div class="btn btn-info btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons">{{button.text}}</div>
+    </div>
+   <growth-challenge></growth-challenge>
+
+    <div class="after-chat-challenge">
+      <div class="row">
+        <div class="col-md-6"><p>"Take the growth adventure"</p></div>
+        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, false)">Get started<br>Email</div></div>
+        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, true)">Get started<br>Facebook</div></div>
+      </div>
+    </div>
+    <div id="player"></div>
+    <iframe frameborder="0" id="webpage" src="about:blank"></iframe>
+  </div>
+  <div id="chat" class="paused">
+    <h1 class="special">{{campaign_data.title}}</h1>
+
+    <div>
+      <div class="panel panel-default" id="start-chat-panel">
+        <div class="panel-heading">
+          Watch the film, then let's chat.
+        </div>
+        <div class="panel-body">
+          <div class="btn btn-info btn-block" id="start-btn" data-ng-click="startChat('')">Start Chat</div>
+        </div>
+      </div>
+      <div class="panel panel-default" id="finishVideo" style="display:none;">
+        <div class="panel-body">
+          <p>Finish watching the video, then we can chat.</p>
+        </div>
+      </div>
+      <div class="panel panel-default" id="noOperators" style="display:none;">
+        <div class="panel-body">
+          <p>No operators are currently available to chat.</p>
+        </div>
+      </div>
+      <div class="panel panel-default" id="chatEnd" style="display:none;">
+        <div class="panel-body">
+          <p>The operator has ended this chat session. Thanks for the chatting.</p>
+        </div>
+      </div>
+    </div>
+    <div id="chatbox">
+      <h1 class="special">{{campaign_data.title}} Chat</h1>
+      <div id="chatting_with"></div>
+      <ul class="conversation">
+      </ul>
+      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">
+    </div>
+  </div>
+</div>
+
+<audio id="newMsgAlert"><source src="<%= asset_path("notify.ogg") %>" type="audio/ogg"><source src="<%= asset_path("notify.mp3") %>" type="audio/mpeg"><source src="<%= asset_path("notify.wav") %>" type="audio/wav"></audio>

@@ -28,11 +28,8 @@ angular.module('chatApp', ['ngRoute'])
     }).when('/features', {
       templateUrl: '/templates/features.html',
       controller: 'FeaturesController as ctrl'
-    }).when('/c1/:campaignId', {
-      templateUrl: '/templates/chat.html',
-      controller: 'ChatController as ctrl'
     }).when('/c/:campaignId', {
-      templateUrl: '/templates/chat_redesign.html',
+      templateUrl: '/templates/chat.html',
       controller: 'ChatController as ctrl'
     }).when('/challenge', {
       template: '<div class="visitor_chat" style="position: relative;"><growth-challenge step="2"></growth-challenge></div>',

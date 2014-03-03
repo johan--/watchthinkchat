@@ -1,59 +1,179 @@
-<div class="visitor_chat">
-  <div class="box paused">
-    <div class="after-chat-title">
-      Jesus asks you, "Will you follow me?"
-    </div>
-    <div class="after-chat-buttons">
-      <div class="btn btn-info btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons">{{button.text}}</div>
-    </div>
-   <growth-challenge></growth-challenge>
+<div class="row">
+  <!-- Chat Column Begin -->
+  <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
+  <!-- Remove chat-facebook class to hide Custom Name section -->
+  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column" ng-class="{minimized: mobileMinChat, 'chat-facebook': (visitor_fb_data.id==='')}">
+    <div class="header" ng-click="mobileMinChat=!mobileMinChat"><span class="title">WatchThinkChat</span><i class="fa fa-comments-o title">&nbsp;</i></div>
 
-    <div class="after-chat-challenge">
-      <div class="row">
-        <div class="col-md-6"><p>"Take the growth adventure"</p></div>
-        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, false)">Get started<br>Email</div></div>
-        <div class="col-md-3"><div class='btn btn-success btn-block' data-ng-click="nextStep(1, true)">Get started<br>Facebook</div></div>
+    <div class="panel-body" data-ng-show="!liveChat">
+      <div class="btn btn-danger btn-lg btn-block" data-ng-click="startChat('')">Start Chat</div>
+      <p id="finishVideo" style="display:none;">Finish watching the video, then we can chat.</p>
+      <p id="noOperators" style="display:none;">No operators are currently available to chat.</p>
+      <p id="chatEnd" style="display:none;">The operator has ended this chat session. Thanks for the chatting.</p>
+    </div>
+
+    <!-- Fixed Operator Begin -->
+    <div class="content operator" data-ng-show="liveChat">
+    </div>
+    <!-- Fixed Operator End -->
+    <!-- Messages Begin -->
+    <div class="body" data-ng-show="liveChat">
+    </div>
+    <!-- Messages End -->
+    <div class="form-group input" data-ng-show="liveChat">
+      <input class="form-control" type="text" placeholder="Type messages here…" ng-enter="postMessage()" data-ng-model="chatMessage">
+    </div>
+    <div class="form-group input custom-name" data-ng-show="liveChat">
+      <div class="col-xs-10">
+        <input class="form-control" type="text" placeholder="Name" ng-model="visitor_fb_data.name" ng-enter="updateVisitorName()" ng-blur="updateVisitorName()">
+      </div>
+      <div class="col-xs-2 text-right">
+        <a href="#" title="Login with Facebook" data-ng-click="facebookLogin();"><img src="<%= asset_path("facebook.png") %>"></a>
       </div>
     </div>
-    <div id="player"></div>
-    <iframe frameborder="0" id="webpage" src="about:blank"></iframe>
   </div>
-  <div id="chat" class="paused">
-    <h1 class="special">{{campaign_data.title}}</h1>
+  <!-- Chat Column End -->
 
-    <div>
-      <div class="panel panel-default" id="start-chat-panel">
-        <div class="panel-heading">
-          Watch the film, then let's chat.
-        </div>
-        <div class="panel-body">
-          <div class="btn btn-info btn-block" id="start-btn" data-ng-click="startChat('')">Start Chat</div>
+  <!-- Content Columns Begin -->
+  <div id="player" class="col-md-9 col-lg-9 col-sm-8 col-xs-12"></div>
+  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content" ng-show="growthChallengeStep>=0">
+    <div class="row">
+      <div class="col-md-12 text-center options" ng-show="growthChallengeStep===0">
+        <h1>
+          Jesus asks you,<br>
+          "Will you follow me?"
+        </h1>
+        <div class="row">
+          <div class="col-lg-offset-2 col-lg-3 col-md-4">
+            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 2">{{button.text}}</a>
+          </div>
+          <div class="col-lg-3 col-md-4">
+            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 4 | limitTo: -2">{{button.text}}</a>
+          </div>
+          <div class="col-lg-3 col-md-4">
+            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -2">{{button.text}}</a>
+          </div>
         </div>
       </div>
-      <div class="panel panel-default" id="finishVideo" style="display:none;">
-        <div class="panel-body">
-          <p>Finish watching the video, then we can chat.</p>
+
+      <!--<growth-challenge></growth-challenge>-->
+      <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
+        <div class="after-chat-information" ng-show="growthChallengeStep===1" ng-bind-html="button_clicked.message_visible">
+        </div>
+        <div class="after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+          <h1>Take the Growth Challenge!</h1>
+          <p>{{button_clicked.message_growth_challenge}}</p>
+          <h2>{{button_clicked.message_friend_title}}</h2>
+          <p>{{button_clicked.message_friend}}</p>
+        </div>
+        <div ng-show="growthChallengeStep===10">
+          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. If you signed up for the Growth Challenge today- we pray you grow! Go check your email to confirm your subscription. God bless.</p>
+          <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+        </div>
+        <div ng-show="growthChallengeStep===99">
+          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you :) You signed up for the Growth Challenge today and wanted to do that without adding a friend. Check your email to confirm your subscription. We pray you grow! God bless.</p>
+          <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
       </div>
-      <div class="panel panel-default" id="noOperators" style="display:none;">
-        <div class="panel-body">
-          <p>No operators are currently available to chat.</p>
+      <div class="col-md-6 col-lg-6 content-column">
+        <div class="row after-chat-challenge">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray">
+            <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
+          </div>
         </div>
-      </div>
-      <div class="panel panel-default" id="chatEnd" style="display:none;">
-        <div class="panel-body">
-          <p>The operator has ended this chat session. Thanks for the chatting.</p>
+        <div class="row after-chat-challenge">
+          <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
+            <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
+              <div class="forward-button"></div>
+              Learn More
+            </div>
+          </a>
+        </div>
+
+        <div class="row after-chat-information" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
+            <h2>Get Started!</h2>
+          </div>
+        </div>
+        <div class="row after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
+            <h2>Step 1: Video Series</h2>
+            <p>Enter your email or login with Facebook.</p>
+            <form class="form-inline">
+              <div class="form-group input">
+                <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email">
+                <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-show="visitor_fb_data.id===''" title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
+                <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">Submit</button>
+              </div>
+            </form>
+            <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
+          </div>
+        </div>
+        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
+            <h2>Step 2: Add Friend</h2>
+            <p>Invite your Christian Friend</p>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
+          </div>
+        </div>
+        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
+            <h2>Step 2: Accept Challenge</h2>
+            <p>....</p>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept</a>
+          </div>
         </div>
       </div>
     </div>
-    <div id="chatbox">
-      <h1 class="special">{{campaign_data.title}} Chat</h1>
-      <div id="chatting_with"></div>
-      <ul class="conversation">
-      </ul>
-      <input class="form-control chat-input" placeholder="Message..." type="text" ng-enter="postMessage()" data-ng-model="chatMessage">
+  </div>
+  <!-- Content Columns End -->
+</div>
+
+<!-- Controls Begin -->
+<a href="#" class="back-button" ng-show="growthChallengeStep===1" ng-click="growthChallengePrevStep()"></a>
+<a href="#" class="close-button" ng-show="growthChallengeStep>=0" ng-click="growthChallengeStep=99"></a>
+<!-- Content Column End -->
+
+<!-- Footer Begin -->
+<footer>
+  <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
+  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content-column">
+    ©2014 WatchThinkChat.com All Rights Reserved.<span class="sep">|</span><a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a><span class="sep">|</span><a href="#">About Us</a>
+  </div>
+</footer>
+<!-- Footer End -->
+<privacy-policy></privacy-policy>
+<div class="modal" id="growth-challenge-invite-friend" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="form" role="form">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" class="form-control" data-ng-model="visitor_name">
+          </div>
+          <div class="form-group">
+            <label>Your Email</label>
+            <input type="email" class="form-control" data-ng-model="visitor_email">
+          </div>
+          <div class="form-group">
+            <label>Friend's Email</label>
+            <input type="text" class="form-control" data-ng-model="friend_email">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea class="form-control" rows="10" data-ng-model="email_message"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p style="display:none;">Sending...</p>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-ng-click="growthChallengeInviteFriend('sendemail')">Send</button>
+      </div>
     </div>
   </div>
 </div>
-
 <audio id="newMsgAlert"><source src="<%= asset_path("notify.ogg") %>" type="audio/ogg"><source src="<%= asset_path("notify.mp3") %>" type="audio/mpeg"><source src="<%= asset_path("notify.wav") %>" type="audio/wav"></audio>

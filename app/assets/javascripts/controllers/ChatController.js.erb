@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout, Crypt, timeUpdate) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout, $sce, Crypt, timeUpdate) {
   var campaign_data;
   var visitor_data = {};
   $scope.visitor_fb_data = {
@@ -70,48 +70,66 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         text: 'No thanks',
         action: 'chat',
         value: '',
-        message_active_chat: 'We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it, if you are interested lets chat on your right hand side--->',
-        message_no_chat: 'Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus.'
+        message_active_chat: '<p>You said "No" to following Jesus.</p><h1>That\'s honest!</h1><p>We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it. If you are interested we can chat about your perspective...</p>',
+        message_no_chat: '<p>You said "No" to following Jesus.</p><h1>That\'s honest!</h1><p>Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus. The next best step for you is to really talk to a Christian friend that you know and trust. If you are interested, we will help you find one. Check out the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
+        message_friend_title: 'Why involve a Christian friend you know and trust?',
+        message_friend: 'To get a genuine look at how your friend follows Jesus. Select someone you know and trust, who has mentioned their faith to you, and is able to listen.'
       });
       $scope.campaign_data.followup_buttons.push({
         id: 2,
         text: 'I follow another faith',
         action: 'chat',
         value: '',
-        message_active_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. What is it that you find interesting about Jesus? Lets chat on your right hand side ----->',
-        message_no_chat: 'Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested we have an article here that you could look into and see if Jesus is really is ----> '
+        message_active_chat: '<p>You said "I follow another faith"</p><h1>That\'s appreciated!</h1><p>Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. What is it that you find interesting about Jesus? Lets chat about that if you are interested...</p>',
+        message_no_chat: '<p>You said "I follow another faith"</p><h1>That\'s appreciated!</h1><p>Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested to look into this with one of your Christian friends that you know and trust, let us help you connect with them...You interested? Check out the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
+        message_friend_title: 'Why involve a Christian friend you know and trust?',
+        message_friend: 'To get a genuine look at how your friend follows Jesus. Select someone you know and trust, who has mentioned their faith to you, and is able to listen.'
       });
       $scope.campaign_data.followup_buttons.push({
         id: 3,
         text: 'I am not sure',
         action: 'chat',
         value: '',
-        message_active_chat: 'Thanks for watching #FallingPlates and considering Jesus\'s call to follow Him. Right now u feel "not sure"? Well we are pumped that u are at least considering following Jesus! What is one thing that is attractive to u in following Jesus? What is one thing that makes u hesitant? Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him.So you identified that you are "not sure" right now. Well we are glad that you are at least considering following Jesus. What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We have a growth challenge that can help you find significance in following Jesus. Find out more "take the Growth Challenge" ------>'
+        message_active_chat: '<p>You said "I\'m not sure" to following Jesus.<h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and considering Jesus\'s call to follow Him. We are pumped that you are at least considering following Jesus! What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We\'d love to chat with you about this stuff in the chat panel...</p>',
+        message_no_chat: '<p>You said "I\'m not sure" to following Jesus.<h1>That\'s honest!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. We are glad that you are at least considering following Jesus. What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We have a growth challenge that can help you find significance in following Jesus. Check out the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
+        message_friend_title: 'Why involve a Christian friend you know and trust?',
+        message_friend: 'So you can get some insight from your friend on what it looks like to follow Jesus.'
       });
       $scope.campaign_data.followup_buttons.push({
         id: 4,
         text: 'I want to start',
         action: 'chat',
         value: '',
-        message_active_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. It’s awesome to see you have that desire! We have a growth challenge that can help u grow after u have asked Christ to come into your life. Heres the best place for u to get connected with a friend to grow :)'
+        message_active_chat: '<p>You said "I want to start" following Jesus!</p><h1>That\'s Awesome!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. To desire to start following Jesus is a significant step! It\'s awesome to see you have that desire! Tell us a bit about what\'s up, what made you want to start? We\'d love to chat with you about this stuff in the chat panel...</p>',
+        message_no_chat: '<p>You said "I want to start" following Jesus!</p><h1>That\'s Awesome!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. To want to start following Jesus is a significant step. It\'s awesome to see you have that desire! We have a growth challenge that can help you grow if you want to start following Christ. Here\'s the best place for you to get connected with a friend to grow... Checkout the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about your relationship with Jesus.',
+        message_friend_title: 'Why involve a Christian friend you know and trust?',
+        message_friend: 'Following Jesus is meant to happen with others [in community]. Who better to start this with, than a friend you know and trust?'
       });
       $scope.campaign_data.followup_buttons.push({
         id: 5,
         text: 'I\'m trying',
         action: 'chat',
         value: '',
-        message_active_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. Love to chat with ya about this stuff in the chat panel on the right :)   ----->',
-        message_no_chat: 'Thanks for watching #FallingPlates and taking time to express how u feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be…….which can leave us feeling disappointed or disillusioned. We have a Growth Challenge that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient :)'
+        message_active_chat: '<p>You said "I\'m trying" to following Jesus!</p><h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and taking time to express how you feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be...which can leave us feeling disappointed or disillusioned. We\'d love to chat with you about this stuff in the chat panel...</p>',
+        message_no_chat: '<p>You said "I\'m trying" to following Jesus!</p><h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and taking time to express how you feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be...which can leave us feeling disappointed or disillusioned. We have a Growth Challenge that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient  Checkout the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about your relationship with Jesus.',
+        message_friend_title: 'Why involve a Christian friend you know and trust?',
+        message_friend: 'Following Jesus is meant to happen with others [in community]. Who better to start this with, than a friend you know and trust?'
       });
       $scope.campaign_data.followup_buttons.push({
         id: 6,
         text: 'I\'m following Jesus',
         action: 'chat',
         value: '',
-        message_active_chat: 'We are pumped that u are following Jesus! We would love to connect with u and discover how your journey is going and what you think the next steps are to be who He wants you to be? Lets chat over on your right-----> :)',
-        message_no_chat: 'We are pumped that u are following Jesus! We know that its not always an easy path, but it’s definitely worth it :)  We dont know all thats going on in your life today, but we are glad He led you here! It’s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. You up for the challenge?'
+        message_active_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We would love to connect with you and discover how your journey is going and what you think the next steps are to be who He wants you to be? Let\'s chat...</p>',
+        message_no_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We know that its not always an easy path, but it\'s definitely worth it :)  We don\'t know all that\'s going on in your life today, but we are glad He led you here! It\'s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. Checkout the "Growth Challenge"</p>',
+        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions to help you as you disciple others.',
+        message_friend_title: 'Which of your friends do you want to disciple?',
+        message_friend: 'Invite your friends to come to WatchThinkChat.com and experience what you just did. Your friends will then be invited to take the Growth Challenge with you. Grab your friends. Team up. Grow together!'
       });
     }).error(function (data, status, headers, config) {
       document.write('Error: invalid campaign id.');
@@ -169,7 +187,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         chat_data = data;
         operator_data = data.operator;
         if(angular.isDefined($scope.button_clicked)){
-          $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
+          $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         }
         //console.log('================ New Chat Created: ' + data.chat_uid);
         //window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
@@ -221,7 +239,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
         if(data.error === 'no_operators_available'){
           chat_data.chat_uid = 'offline';
-          $scope.button_clicked.message_visible = $scope.button_clicked.message_no_chat || '';
+          $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
           $('#noOperators, .after-chat-challenge').fadeIn();
           $scope.growthChallengeStep=1;
         }else{
@@ -240,7 +258,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $scope.startChat(button.text);
       }else{
         $scope.postActivityMessage(button.text, 'activity-button');
-        $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
+        $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         $scope.growthChallengeStep = 1;
       }
     }
