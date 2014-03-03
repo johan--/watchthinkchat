@@ -114,9 +114,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           message: 'challenge'
       };
       $http({method: 'POST', url: '/api/chats/'+id+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+        success(function (data, status, headers, config) {
+          var index = _.findIndex($scope.active_sessions, function (session) {
+            return session.chat_uid == id;
+          });
+          $scope.active_sessions[index].challenge_available = false;
+        }).error(function (data, status, headers, config) {
+        });
   };
 
   $scope.endChat = function (id) {
@@ -201,6 +205,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             selectedCannedMessage: $scope.cannedResponses[0].response,
             activity: '',
             activity_display: '',
+            challenge_available: false,
             status: 'active',
             browser: '-',
             ip: '-',
@@ -237,9 +242,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               $scope.$apply(function () {
                 $scope.active_sessions[index].activity_display = $sce.trustAsHtml(data.message);
                 $scope.active_sessions[index].activity = data.message;
-              });
+                $scope.active_sessions[index].challenge_available = true;
 
-              $scope.$apply(function () {
                 $scope.active_sessions[index].chatMessages.push({
                   time: Math.round(+new Date()).toString(),
                   class: 'message-activity-li',

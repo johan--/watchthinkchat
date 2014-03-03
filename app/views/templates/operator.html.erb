@@ -123,7 +123,7 @@
   <div id="chat">
     <div class="chatbox" id="chatbox_{{session.chat_uid}}" ng-repeat="session in active_sessions" style="display:none;">
       <div class="btn btn-danger" data-ng-click="endChat(session.chat_uid)" style="position:absolute;margin:12px;right:0;z-index:1;">End Chat</div>
-      <div class="btn btn-warning" data-ng-show="session.activity != '' && session.status === 'active'" data-ng-click="showChallenge(session.chat_uid)" style="position:absolute;margin:12px;right:85px;z-index:1;">Show Challenge</div>
+      <div class="btn btn-warning" data-ng-show="session.challenge_available" data-ng-click="showChallenge(session.chat_uid)" style="position:absolute;margin:12px;right:85px;z-index:1;">Show Challenge</div>
       <div data-ng-show="operator_edit_mode" style="margin-top: 8px;">
         <form class="form-horizontal" role="form">
           <div class="form-group">
