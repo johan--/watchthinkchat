@@ -177,7 +177,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $scope.button_clicked.message_visible = $scope.button_clicked.message_active_chat;
         }
         //console.log('================ New Chat Created: ' + data.chat_uid);
-        window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
+        //window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
         $scope.liveChat=true;
         $scope.growthChallengeStep = 1;

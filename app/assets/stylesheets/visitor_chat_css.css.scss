@@ -302,6 +302,9 @@ footer .sep {
     height: 0;
     overflow: hidden;
   }
+  .minimized .panel-body{
+    display:none;
+  }
   .text {
     padding-right: 20px;
   }
