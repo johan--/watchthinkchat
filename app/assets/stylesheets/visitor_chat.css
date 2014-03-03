@@ -17,3 +17,6 @@
 .modal a, .modal a:link, .modal a:visited {
     color: initial;
 }
+label{
+    font-weight: 200 !important;
+}

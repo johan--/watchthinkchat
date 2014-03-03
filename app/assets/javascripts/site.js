@@ -31,9 +31,9 @@ angular.module('chatApp', ['ngRoute'])
     }).when('/c/:campaignId', {
       templateUrl: '/templates/chat.html',
       controller: 'ChatController as ctrl'
-    }).when('/challenge', {
+/*    }).when('/challenge', {
       template: '<div class="visitor_chat" style="position: relative;"><growth-challenge step="2"></growth-challenge></div>',
-      controller: 'ChallengeController as ctrl'
+      controller: 'ChallengeController as ctrl'*/
     }).when('/challenge/friend', {
       templateUrl: '/templates/growthchallenge_friend.html',
       controller: 'ChallengeFriendController as ctrl'

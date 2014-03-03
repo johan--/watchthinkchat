@@ -286,10 +286,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       if (response.authResponse) {
         FB.api('/me', function(response) {
           //console.log(response);
+          $scope.$apply(function(){
+            visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
+            $scope.visitor_email = response.email;
+            $scope.visitor_fb_data = response;
+          });
           postVisitorInfo(response);
-          visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
-          $scope.visitor_email = response.email;
-          $scope.visitor_fb_data = response;
         });
       }
     });
@@ -411,38 +413,58 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }
   }
 
+  $scope.sendFeedback = function(){
+    if(!$scope.exitFeedback){
+      alert('Please make a feedback selection.');
+      return;
+    }
+    var post_data = {
+      to: 'adam.meyer@cru.org',
+      from: $scope.visitor_email,
+      from_name: $scope.visitor_name,
+      subject: 'Godchat.tv Feedback',
+      message: $scope.exitFeedback+'\n\n'+$scope.exitFeedbackMessage
+    };
+    $http({method: 'POST', url: '/api/emails', data: post_data}).
+      success(function (data, status, headers, config) {
+      }).error(function (data, status, headers, config) {
+      });
+    $scope.growthChallengeStep=100;
+  }
+
   var postVisitorInfo = function(data){
-    try{
-      $scope.postActivityMessage('Visitor has logged in with Facebook.');
-    }catch(e){}
     var chat_uid = chat_data.chat_uid;
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbName',
-      message: data.name
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbEmail',
-      message: data.email
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: 'fbId',
-      message: data.id
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
+    if(chat_uid=='offline'){
+    }else{
+      $scope.postActivityMessage('Visitor has logged in with Facebook.');
+      var post_data = {
+        user_uid: visitor_data.uid,
+        message_type: 'fbName',
+        message: data.name
+      };
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
+      var post_data = {
+        user_uid: visitor_data.uid,
+        message_type: 'fbEmail',
+        message: data.email
+      };
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
+      var post_data = {
+        user_uid: visitor_data.uid,
+        message_type: 'fbId',
+        message: data.id
+      };
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
+    }
   }
 
   $scope.updateVisitorName = function(){

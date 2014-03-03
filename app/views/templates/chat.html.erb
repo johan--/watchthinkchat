@@ -70,18 +70,18 @@
           <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. If you signed up for the Growth Challenge today- we pray you grow! Go check your email to confirm your subscription. God bless.</p>
           <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
-        <div ng-show="growthChallengeStep===99">
+        <div ng-show="growthChallengeStep===99 || growthChallengeStep===100">
           <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you :) You signed up for the Growth Challenge today and wanted to do that without adding a friend. Check your email to confirm your subscription. We pray you grow! God bless.</p>
           <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
       </div>
       <div class="col-md-6 col-lg-6 content-column">
-        <div class="row after-chat-challenge">
+        <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray">
             <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
           </div>
         </div>
-        <div class="row after-chat-challenge">
+        <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
           <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
             <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
               <div class="forward-button"></div>
@@ -90,12 +90,12 @@
           </a>
         </div>
 
-        <div class="row after-chat-information" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
+        <div class="row" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
             <h2>Get Started!</h2>
           </div>
         </div>
-        <div class="row after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+        <div class="row" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
             <h2>Step 1: Video Series</h2>
             <p>Enter your email or login with Facebook.</p>
@@ -109,7 +109,7 @@
             <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
           </div>
         </div>
-        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
+        <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
             <h2>Step 2: Add Friend</h2>
             <p>Invite your Christian Friend</p>
@@ -118,11 +118,56 @@
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
           </div>
         </div>
-        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
+        <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
             <h2>Step 2: Accept Challenge</h2>
             <p>....</p>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept</a>
+          </div>
+        </div>
+        <div class="row" ng-show="growthChallengeStep===99">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8">
+            <h2>Feedback</h2>
+            <p>Sorry to see you go….give us 1 click why and two sentences to make things better.</p>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="exitFeedback" value="Too confusing">
+                Too confusing
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="exitFeedback" value="Privacy concerns">
+                Privacy concerns
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="exitFeedback" value="Not interested in the Growth Challenge">
+                Not interested in the Growth Challenge
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="exitFeedback" value="Don’t care about this Christian stuff">
+                Don’t care about this Christian stuff
+              </label>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea class="form-control" rows="3" ng-model="exitFeedbackMessage"></textarea>
+            </div>
+            <div class="form-group">
+              <p>This is anonymous feedback, so if you want to be contacted, leave your email address. Thanks.</p>
+              <label>Email address</label>
+              <input type="email" class="form-control" placeholder="Email address" data-ng-model="visitor_email">
+            </div>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="sendFeedback()"><i class="fa fa-check"></i> Send</a>
+          </div>
+        </div>
+        <div class="row" ng-show="growthChallengeStep===100">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8">
+            <p>Feedback sent, thank you!</p>
           </div>
         </div>
       </div>
@@ -133,14 +178,14 @@
 
 <!-- Controls Begin -->
 <a href="#" class="back-button" ng-show="growthChallengeStep===1" ng-click="growthChallengePrevStep()"></a>
-<a href="#" class="close-button" ng-show="growthChallengeStep>=0" ng-click="growthChallengeStep=99"></a>
+<a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<99" ng-click="growthChallengeStep=99"></a>
 <!-- Content Column End -->
 
 <!-- Footer Begin -->
 <footer>
   <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
   <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content-column">
-    ©2014 WatchThinkChat.com All Rights Reserved.<span class="sep">|</span><a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a><span class="sep">|</span><a href="#">About Us</a>
+    ©2014 WatchThinkChat.com All Rights Reserved.<span class="sep">|</span><a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a><span class="sep">|</span><a href="http://cruoncampus.org/about-us/" target="_blank">About Us</a>
   </div>
 </footer>
 <!-- Footer End -->
