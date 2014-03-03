@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout) {
-  //window.localStorage.removeItem('gchat_visitor_id');
   var campaign_data;
   var visitor_data = {};
   $scope.visitor_fb_data = {
@@ -124,7 +123,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         visitor_data = data;
         visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
         //console.log('================ New Visitor Created: ' + data.uid);
-        window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
+        //window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
       }).error(function (data, status, headers, config) {
       });
 //  } else {
@@ -389,10 +388,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     try{
       $scope.postActivityMessage('Visitor has logged in with Facebook.');
     }catch(e){}
-    var chat_uid = window.localStorage.getItem('gchat_chat_uid');
-    var visitor_uid = window.localStorage.getItem('gchat_visitor_id');
+    var chat_uid = chat_data.chat_uid;
     var post_data = {
-      user_uid: visitor_uid,
+      user_uid: visitor_data.uid,
       message_type: 'fbName',
       message: data.name
     };
@@ -401,7 +399,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             }).error(function (data, status, headers, config) {
             });
     var post_data = {
-      user_uid: visitor_uid,
+      user_uid: visitor_data.uid,
       message_type: 'fbEmail',
       message: data.email
     };
@@ -410,7 +408,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             }).error(function (data, status, headers, config) {
             });
     var post_data = {
-      user_uid: visitor_uid,
+      user_uid: visitor_data.uid,
       message_type: 'fbId',
       message: data.id
     };
