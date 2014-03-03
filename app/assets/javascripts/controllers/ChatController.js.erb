@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $filter, $timeout, Crypt, timeUpdate) {
   var campaign_data;
   var visitor_data = {};
   $scope.visitor_fb_data = {
@@ -22,6 +22,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   $scope.growthChallengeStep = -1;
   $scope.liveChat=false;
   $scope.mobileMinChat=true;
+  $scope.christianFriendEmail = $route.current.params.refer || '';
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -57,7 +58,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               'onStateChange': onPlayerStateChange
             }
           });
-          //$('.box, #chat').addClass('paused');
         };
       }
 
@@ -114,21 +114,17 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_no_chat: 'We are pumped that u are following Jesus! We know that its not always an easy path, but it’s definitely worth it :)  We dont know all thats going on in your life today, but we are glad He led you here! It’s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. You up for the challenge?'
       });
     }).error(function (data, status, headers, config) {
-
+      document.write('Error: invalid campaign id.');
     });
 
-  //if (!window.localStorage.getItem('gchat_visitor_id')) {
-    $http({method: 'POST', url: '/api/visitors'}).
-      success(function (data, status, headers, config) {
-        visitor_data = data;
-        visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
-        //console.log('================ New Visitor Created: ' + data.uid);
-        //window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
-      }).error(function (data, status, headers, config) {
-      });
-//  } else {
-//    visitor_data.uid = window.localStorage.getItem('gchat_visitor_id');
-//  }
+  $http({method: 'POST', url: '/api/visitors'}).
+    success(function (data, status, headers, config) {
+      visitor_data = data;
+      visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
+      //console.log('================ New Visitor Created: ' + data.uid);
+      //window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
+    }).error(function (data, status, headers, config) {
+    });
 
   $scope.postMessage = function () {
     if($scope.chatMessage==''){
@@ -208,11 +204,12 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
         channel_chat.bind('end', function (data) {
           pusher.unsubscribe('chat_'+chat_data.chat_uid);
-          //$('#chatbox').fadeOut();
-          $('#chatEnd').fadeIn();
+          $('#chatEnd').show();
           $('.body').empty();
-          $scope.liveChat=false;
           chat_data.chat_uid = '';
+          $scope.$apply(function(){
+            $scope.liveChat=false;
+          });
         });
 
         if(initialMsg){
@@ -231,12 +228,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           alert('Error: ' + (data.message || 'Cannot create new chat.'));
         }
       });
-  };
-
-  var launchWebPage = function(url){
-    $('#player').hide();
-    $('#webpage').show();
-    $('#webpage').attr('src',url);
   };
 
   $scope.buttonClick = function(button){
@@ -292,7 +283,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $scope.growthChallengeStep=2;
     }else if(step==3){
       var button_id = $scope.button_clicked.id;
-      $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_data.chat_uid+'&button_id='+button_id
+      if($scope.button_clicked.id===6){
+        $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid + '?o=' + $scope.visitor_fb_data.id + '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email));
+      }else{
+        $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_data.chat_uid+'&button_id='+button_id;
+      }
       $http({method: 'JSONP',
         url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
@@ -381,6 +376,20 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('#growth-challenge-invite-friend .modal-footer p').hide();
           alert('Error: '+data);
         });
+    }else if(how=='accept'){
+      //Send email
+      $scope.growthChallengeStep=10;
+      var post_data = {
+        to: Crypt.decodeStr($scope.christianFriendEmail),
+        from: $scope.visitor_email,
+        from_name: $scope.visitor_name,
+        subject: 'Your friend has accepted your "Growth Challenge"!',
+        message: $scope.visitor_fb_data.name + ' has accepted to take the Growth Challenge with you!'
+      };
+      $http({method: 'POST', url: '/api/emails', data: post_data}).
+        success(function (data, status, headers, config) {
+        }).error(function (data, status, headers, config) {
+        });
     }
   }
 
@@ -429,26 +438,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
       });
   }
-
-  var timeUpdate = setInterval(function () {
-    $('.body .timestamp-refresh').each(function (i) {
-      var origtime = parseInt($(this).attr('timestamp'));
-      var unixtime = Math.round(+new Date());
-
-      if ((unixtime - origtime) < 10000) {
-        $(this).html('Just Now');
-      } else if ((unixtime - origtime) < 60000) {
-        $(this).html('about ' + Math.round((unixtime - origtime)/1000).toString() + ' seconds ago');
-      } else if ((unixtime - origtime) < 120000) {
-        $(this).html('about 1 min ago');
-      } else if ((unixtime - origtime) < 240000) {
-        $(this).html('about ' + Math.floor(((unixtime - origtime) / 60000)).toString() + ' mins ago');
-      }else{
-        $(this).html($filter('date')(origtime, 'shortTime'));
-        $(this).removeClass('timestamp-refresh');
-      }
-    });
-  }, 5000);
 
   var onPlayerStateChange = function (evt) {
     switch (evt.data) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout, $sce) {
+angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout, $sce, timeUpdate) {
   var operator_data = {
     uid: $route.current.params.operatorId,
     profile_pic: '<%= asset_path("avatar.png") %>'
@@ -358,39 +358,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       }
     }catch(e){}
   }
-
-/*  $scope.active_sessions.push({
-    chat_uid: '265gf95sdg43',
-    visitor_uid: '01',
-    visitor_name: 'Visitor #1',
-    visitor_profile: 'http://meisatransportation.com/img/Person_Undefined_Male_Light.png'
-  });
-  $scope.active_sessions.push({
-    chat_uid: '265gfrth9sdg43',
-    visitor_uid: '02',
-    visitor_name: 'Visitor #2',
-    visitor_profile: 'http://upload.wikimedia.org/wikipedia/commons/1/18/Gnome-Wikipedia-user-male.png'
-  });*/
-
-  var timeUpdate = setInterval(function () {
-    $('.conversation .timestamp-refresh').each(function (i) {
-      var origtime = parseInt($(this).attr('timestamp'));
-      var unixtime = Math.round(+new Date());
-
-      if ((unixtime - origtime) < 10000) {
-        $(this).html('Just Now');
-      } else if ((unixtime - origtime) < 60000) {
-        $(this).html('about ' + Math.round((unixtime - origtime)/1000).toString() + ' seconds ago');
-      } else if ((unixtime - origtime) < 120000) {
-        $(this).html('about 1 min ago');
-      } else if ((unixtime - origtime) < 240000) {
-        $(this).html('about ' + Math.floor(((unixtime - origtime) / 60000)).toString() + ' mins ago');
-      }else{
-        $(this).html($filter('date')(origtime, 'shortTime'));
-        $(this).removeClass('timestamp-refresh');
-      }
-    });
-  }, 5000);
 
 var scollBottom = function(id){
   $timeout(function(){

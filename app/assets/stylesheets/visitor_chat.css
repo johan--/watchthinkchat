@@ -10,6 +10,10 @@
     display: none;
 }
 #player{
-    height: 90%;
-    height: calc(100% - 40px);
+    position: absolute;
+    height: 100%;
+    padding-bottom: 40px;
+}
+.modal a, .modal a:link, .modal a:visited {
+    color: initial;
 }

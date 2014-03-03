@@ -36,7 +36,7 @@
 
   <!-- Content Columns Begin -->
   <div id="player" class="col-md-9 col-lg-9 col-sm-8 col-xs-12"></div>
-  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content">
+  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content" ng-show="growthChallengeStep>=0">
     <div class="row">
       <div class="col-md-12 text-center options" ng-show="growthChallengeStep===0">
         <h1>
@@ -116,13 +116,20 @@
             <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
           </div>
         </div>
-        <div class="row after-chat-information"  ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
             <h2>Step 2: Add Friend</h2>
             <p>Invite your Christian Friend</p>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
+          </div>
+        </div>
+        <div class="row after-chat-information"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
+            <h2>Step 2: Accept Challenge</h2>
+            <p>....</p>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept</a>
           </div>
         </div>
       </div>
