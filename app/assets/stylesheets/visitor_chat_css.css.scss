@@ -39,7 +39,9 @@ h1, h2, h3, h4, h5 {
   transition: width 1s;
 }
 .chat-column .header {
-  background: #297BB5 right 10px center no-repeat;
+  background-color: #297BB5;
+  background-repeat: no-repeat;
+  background-position:right 10px center;
   height: 48px;
   font-size: 20px;
   font-weight: 300;

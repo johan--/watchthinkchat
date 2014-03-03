@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route) {
-  $('body').css('background',' #7D868c');
+  $('body').css('background',' #58504A');
   window.document.title = 'WatchThinkChat Growth Challenge';
   $('.after-chat-information').show();
 

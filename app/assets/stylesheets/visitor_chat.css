@@ -4,3 +4,12 @@
  *= require 'visitor_chat_css.css'
  *= require_self
  */
+
+
+.after-chat-challenge {
+    display: none;
+}
+#player{
+    height: 90%;
+    height: calc(100% - 40px);
+}
