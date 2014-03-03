@@ -32,6 +32,5 @@ module Godchat
     config.cache_store = :dalli_store, 'localhost'
 
     config.assets.paths << "#{Rails.root}/app/assets/audio"
-    config.assets.initialize_on_precompile = false
   end
 end
