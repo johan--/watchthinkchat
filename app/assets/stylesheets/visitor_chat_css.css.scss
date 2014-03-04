@@ -82,6 +82,7 @@ h1, h2, h3, h4, h5 {
 }
 .chat-column .content .message, .chat-column .content .name {
   padding-left: 55px;
+  font-family: sans-serif;
 }
 .chat-column .content .name {
   font-size: 10px;
@@ -99,8 +100,13 @@ h1, h2, h3, h4, h5 {
   right: 0;
   margin-bottom: 0;
 }
+.chat-column .input .form-control{
+  resize: none;
+  height:34px;
+}
 .input .form-control {
   border-radius: 0;
+  font-family: sans-serif;
 }
 .chat-column .custom-name {
   display: none;

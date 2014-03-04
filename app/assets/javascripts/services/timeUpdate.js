@@ -3,7 +3,7 @@
 angular.module('chatApp')
     .service('timeUpdate', function () {
         var timeUpdate = setInterval(function () {
-            $('.conversation .timestamp-refresh').each(function (i) {
+            $('.timestamp-refresh').each(function (i) {
                 var origtime = parseInt($(this).attr('timestamp'));
                 var unixtime = Math.round(+new Date());
 
