@@ -46,6 +46,16 @@ describe Api::ChatsController do
     end
 
     context "for an operator" do
+      describe "#show" do
+        it "should work" do
+          chat = create_chat
+          sign_in chat.operator
+          chat.messages.create! :user_id => chat.visitor.id, :body => "visitor says hi", :name => chat.visitor.name
+          chat.messages.create! :user_id => chat.operator.id, :body => "operator says hi", :name => chat.operator.name
+          get :show, :uid => chat.uid
+        end
+      end
+
       describe "#destory" do
         it "should work" do
           chat = create_chat

@@ -1,6 +1,20 @@
 class Api::ChatsController < ApplicationController
   before_filter :ensure_operator, :only => [ :destroy, :collect_stats ]
 
+  def show
+    chat = Chat.where(:uid => params[:uid], :operator_id => current_user.id).first
+    if chat
+      render json: {
+        campaign_uid: chat.campaign.uid,
+        visitor: { uid: chat.visitor.visitor_uid, name: chat.visitor.name },
+        operator: { uid: chat.operator.operator_uid, name: chat.operator.name },
+        transcript: chat.messages
+      }
+    else
+      render json: { error: "chat_not_found", message: "Sorry, that chat can not be found" }, status: 403
+    end
+  end
+
   def create
     campaign = Campaign.where(:uid => params[:campaign_uid]).first
     visitor = User.where(:visitor_uid => params[:visitor_uid]).first
@@ -17,7 +31,7 @@ class Api::ChatsController < ApplicationController
         visitor_uid: visitor.visitor_uid,
         visitor_name: visitor.fullname,
         visitor_profile: "",
-        requested_operator: params[:operator_uid]
+        requested_operator: requested_operator.operator_uid
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif campaign && !campaign.opened?

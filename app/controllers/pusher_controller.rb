@@ -47,6 +47,7 @@ class PusherController < ApplicationController
               operator.set_status("online")
               # send any live chats again
               operator.operator_chats.open.each do |chat|
+                logger.info("in existence channel_vacated #{visitor.visitor_chats.open.inspect}")
                 Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
                   chat_uid: chat.uid,
                   visitor_uid: chat.visitor.visitor_uid,
