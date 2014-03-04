@@ -177,7 +177,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           return session.chat_uid == newchat_data.chat_uid;
         });
         if(index !== -1){
-          console.log(newchat_data.chat_uid+' already exists.');
           return;
         }
 
@@ -219,6 +218,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             chatMessages: []
           });
         });
+
+        var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
+        element.css('visibility', 'visible');
+        var distance = '5px';
+        var speed = 210;
+        var i;
+        for (i = 0; i < 4; i++) {
+          element.animate({marginTop: '-=' + distance}, speed)
+                  .animate({marginTop: '+=' + distance}, speed);
+        }
 
         var index = $scope.active_sessions.length - 1;
 
