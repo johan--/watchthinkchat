@@ -1,6 +1,9 @@
 class AddUniqueEmailIndexToUsers < ActiveRecord::Migration
   def change
-    remove_index :users, :email
+    begin
+      remove_index :users, :email
+    rescue
+    end
     User.connection.execute("CREATE UNIQUE INDEX users_notnull_email ON users (email) WHERE email != '';")
   end
 end
