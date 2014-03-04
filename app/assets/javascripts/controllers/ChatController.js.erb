@@ -206,6 +206,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               if(data.message == 'challenge'){
                 $('.after-chat-challenge').fadeIn();
                 $scope.postActivityMessage('Growth Challenge visible');
+                $('body').scrollTop($('body')[0].scrollHeight);
               }
             } else {
               $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
