@@ -154,16 +154,16 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       message: $scope.chatMessage
     };
     $scope.chatMessage = '';
-    $('.chat-input').attr('placeholder','Sending...');
+    //$('.chat-input').attr('placeholder','Sending...');
     $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
-        $('.chat-input').attr('placeholder','Message...');
+        //$('.chat-input').attr('placeholder','Message...');
         $('.body').append('<div class="content"><img class="avatar" src="' + visitor_data.profile_pic + '"><div class="message">' + post_data.message + '</div>' +
                 '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>You</div>' +
                 '</div>');
         $('.body').scrollTop($('.body')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
-        $('.chat-input').attr('placeholder','Message...');
+        //$('.chat-input').attr('placeholder','Message...');
       });
   };
 
@@ -207,6 +207,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 $('.after-chat-challenge').fadeIn();
                 $scope.postActivityMessage('Growth Challenge visible');
                 $('body').scrollTop($('body')[0].scrollHeight);
+                $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
+                        '<div class="message">Growth Challenge visible</div>' +
+                        '</div>');
+                $('.body').scrollTop($('.body')[0].scrollHeight);
               }
             } else {
               $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
@@ -293,6 +297,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             $scope.visitor_fb_data = response;
           });
           postVisitorInfo(response);
+          $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
+                  '<div class="message">Logged in with Facebook</div>' +
+                  '</div>');
+          $('.body').scrollTop($('.body')[0].scrollHeight);
         });
       }
     });
@@ -469,6 +477,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   }
 
   $scope.updateVisitorName = function(){
+    if(visitor_data.name===$scope.visitor_fb_data.name){
+      return;
+    }
     var post_data = {
       user_uid: visitor_data.uid,
       message_type: 'fbName',
@@ -476,6 +487,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     };
     $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
+        visitor_data.name=$scope.visitor_fb_data.name;
+        $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
+                '<div class="message">Name set to: ' + $scope.visitor_fb_data.name + '</div>' +
+                '</div>');
+        $('.body').scrollTop($('.body')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
       });
   }

@@ -70,10 +70,17 @@ h1, h2, h3, h4, h5 {
 .chat-column .odd {
   background-color: #e6e5e4;
 }
+.chat-column .system {
+  background-color: #c9deec;
+  padding: 15px;
+  font-size: 12px;
+  font-family: sans-serif;
+}
 .chat-column .content {
   min-height: 55px;
   padding: 15px;
   font-size: 12px;
+  font-family: sans-serif;
 }
 .chat-column .content .avatar {
   width: 45px;
@@ -82,13 +89,12 @@ h1, h2, h3, h4, h5 {
 }
 .chat-column .content .message, .chat-column .content .name {
   padding-left: 55px;
-  font-family: sans-serif;
 }
-.chat-column .content .name {
+.chat-column .name {
   font-size: 10px;
   margin-top: 15px;
 }
-.chat-column .content .name .date {
+.chat-column .date {
   float: right;
 }
 .chat-column .input {
