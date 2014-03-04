@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chatApp')
-    .service('timeUpdate', function () {
+    .service('timeUpdate', function ($filter) {
         var timeUpdate = setInterval(function () {
             $('.timestamp-refresh').each(function (i) {
                 var origtime = parseInt($(this).attr('timestamp'));
