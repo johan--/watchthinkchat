@@ -20,6 +20,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var window_focus=false;
   var YTplayer;
   $scope.growthChallengeStep = -1;
+  $scope.growthChallengePrevStep = 0;
   $scope.liveChat=false;
   $scope.mobileMinChat=true;
   $scope.christianFriendEmail = $route.current.params.refer || '';
@@ -328,11 +329,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if (data.result === 'success') {
           $scope.growthChallengeStep=3;
 
-          try{
-            $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
-          }catch(e){
-          }
-
           //notify mission hub
           var post_data = {
             fb_uid: $scope.visitor_fb_data.id,
@@ -351,13 +347,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       });
     }
   }
-
-  $scope.growthChallengePrevStep = function(){
-    if($scope.growthChallengeStep===1){
-      $scope.growthChallengeStep=0;
-    }
-  }
-
+  
   $scope.growthChallengeInviteFriend = function(how){
     if(how=='fb'){
       FB.ui({
@@ -495,6 +485,22 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
       });
   }
+
+  $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
+    $scope.growthChallengePrevStep = oldValue;
+    switch(newValue){
+      case 3:
+        $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
+        break;
+      case 10:
+        $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
+        break;
+      case 99:
+        $scope.postActivityMessage('Visitor has closed the Growth Challenge or chose to "Go it Alone".');
+        break;
+      default:
+    }
+  });
 
   var onPlayerStateChange = function (evt) {
     switch (evt.data) {

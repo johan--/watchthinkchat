@@ -177,7 +177,7 @@
 </div>
 
 <!-- Controls Begin -->
-<a href="#" class="back-button" ng-show="growthChallengeStep===1" ng-click="growthChallengePrevStep()"></a>
+<a href="#" class="back-button" ng-show="growthChallengeStep>=1" ng-click="growthChallengeStep=growthChallengePrevStep"></a>
 <a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<99" ng-click="growthChallengeStep=99"></a>
 <!-- Content Column End -->
 
