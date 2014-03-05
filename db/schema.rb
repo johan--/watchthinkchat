@@ -216,8 +216,6 @@ ActiveRecord::Schema.define(version: 20140301050043) do
     t.integer  "assigned_operator2_id"
   end
 
-  add_index "users", ["email"], name: "users_notnull_email", unique: true, where: "((email)::text <> ''::text)", using: :btree
-
   create_table "users_languages", force: true do |t|
     t.integer "user_id"
     t.integer "language_id"

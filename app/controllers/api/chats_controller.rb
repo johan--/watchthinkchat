@@ -35,7 +35,7 @@ class Api::ChatsController < ApplicationController
         visitor_uid: visitor.visitor_uid,
         visitor_name: visitor.fullname,
         visitor_profile: "",
-        requested_operator: requested_operator.try(:operator_uid)
+        requested_operator: requested_operator.try(:operator_uid).to_s
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif campaign && !campaign.opened?
