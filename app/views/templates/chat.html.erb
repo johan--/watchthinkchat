@@ -63,9 +63,7 @@
           <h2>{{button_clicked.message_friend_title}}</h2>
           <p>{{button_clicked.message_friend}}</p>
         </div>
-        <div ng-show="growthChallengeStep===10">
-          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p>
-          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+        <div ng-show="growthChallengeStep===10" ng-bind-html="button_clicked.message_finished">
         </div>
         <div ng-show="growthChallengeStep===99 || growthChallengeStep===100">
           <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
