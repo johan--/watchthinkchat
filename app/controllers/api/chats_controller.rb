@@ -20,18 +20,22 @@ class Api::ChatsController < ApplicationController
     visitor = User.where(:visitor_uid => params[:visitor_uid]).first
     operator = User.where(:operator_uid => params[:operator_uid]).first
     requested_operator = User.where(:operator_uid => params[:operator_uid]).first
-    if (campaign.max_chats && operator.count_operator_open_chats_for(campaign) >= campaign.max_chats) || !operator.online?
+    if (campaign.max_chats && operator && operator.count_operator_open_chats_for(campaign) >= campaign.max_chats) || 
+      !operator || 
+      !operator.online?
+
       operator = campaign.get_available_operator
     end
+    puts operator.inspect
 
     if campaign && campaign.opened? && visitor && operator && operator.online?
-      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id, :operator_whose_link_id => requested_operator.id)
+      chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id, :operator_whose_link_id => requested_operator.try(:id))
       Pusher["operator_#{operator.operator_uid}"].trigger('newchat', {
         chat_uid: chat.uid,
         visitor_uid: visitor.visitor_uid,
         visitor_name: visitor.fullname,
         visitor_profile: "",
-        requested_operator: requested_operator.operator_uid
+        requested_operator: requested_operator.try(:operator_uid)
       })
       render json: { chat_uid: chat.uid, operator: operator.as_json(:as => :operator) }, status: 201
     elsif campaign && !campaign.opened?
