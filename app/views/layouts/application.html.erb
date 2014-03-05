@@ -2,7 +2,7 @@
 <html>
 <head>
   <title><% if request.url.include? 'godchat.tv' then %><%= 'Godchat' %><% else %><%= 'WatchThinkChat' %><% end %></title>
-  <% if request.url.include? '/c/' then %>
+  <% if request.url.include? '/c/' or request.url.include? '/challenge/' then %>
     <%= stylesheet_link_tag "visitor_chat", media: "all" %>
   <% else %>
     <%= stylesheet_link_tag "application", media: "all" %>

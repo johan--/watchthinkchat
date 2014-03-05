@@ -32,4 +32,18 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
       alert('Error: Could not connect to mail service.');
     });
   }
+
+    $scope.facebookLogin = function () {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                FB.api('/me', function (response) {
+                    //console.log(response);
+                    $scope.$apply(function () {
+                        $scope.visitor_email = response.email;
+                        $scope.visitor_fb_data = response;
+                    });
+                });
+            }
+        });
+    }
 });

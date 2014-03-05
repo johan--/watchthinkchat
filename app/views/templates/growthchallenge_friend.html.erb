@@ -1,9 +1,8 @@
-<div class="visitor_chat" style="position: relative;">
-  <div class="after-chat-information" id="after-chat-information-02">
+  <div style="color:white;">
     <img src="<%= asset_path("growth_challenge_logo.png") %>" style="margin: auto;
             display: block;
             width: 270px;
-            padding-bottom: 16px;">
+            padding: 16px 0;">
     <div class="row">
       <div class="col-md-8 col-lg-9 col-sm-12 col-xs-12">
         <p>You are here because a friend of yours, <strong>{{friendsName || friendsEmail}}</strong>, thought you would be able to talk with them and help
@@ -11,8 +10,21 @@
           A spiritual mentor is like a coach. In Matthew 28, Jesus tells us to "go and make disciples." This simply
           means helping others learn to follow Jesus. This is a chance for you to do that with someone you already know!
         </p>
+        <p style="padding-top:20px;"><strong>To accept this challenge, enter your email below</strong>:</p>
 
-        <p>To accept this challenge, enter your email below</p>
+        <form class="form-inline" data-ng-show="successfulSubscribe==''">
+          <div class="form-group input">
+            <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email" ng-enter="emailSubscribe()">
+            <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-hide="visitor_fb_data" title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
+            <button type="submit" class="btn btn-default btn-danger" data-ng-click="emailSubscribe()">Submit</button>
+          </div>
+        </form>
+
+        <div data-ng-show="successfulSubscribe != ''"><p>{{successfulSubscribe}}</p></div>
+        <br>
+
+        <p>*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> -
+          We won't sell or torture your personal data :)</p>
         <ul>
           <li>We won't share your information with anyone. Only you and your friend will receive a confirmation
             message.
@@ -24,29 +36,13 @@
           <li>This will also let us know that you will be connecting with your friend and helping them take the next
             step to grow toward Jesus.
           </li>
-        </ul>
-
-        <p style="padding-top:20px;"><strong>Join the challenge</strong>:</p>
-
-        <div style="margin:20px auto 0 auto;width:85%;display:block;height:140px;" data-ng-show="successfulSubscribe==''">
-          <input type="email" class="form-control" ng-enter="emailSubscribe()" placeholder="Email Address..." data-ng-model="visitor_email">
-
-          <div class='btn btn-success btn-block' data-ng-click="emailSubscribe()">Continue ></div>
-        </div>
-
-        <div data-ng-show="successfulSubscribe != ''"><p>{{successfulSubscribe}}</p></div>
-        <br>
-
-        <p style="font-size: 60%;">*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> -
-          We won't sell or torture your personal data :)</p>
-
+          </ul>
       </div>
       <div class="col-md-4 col-lg-3 col-sm-12 col-xs-12">
-        <iframe style="margin:auto; display:block; max-width: 100%;" width="560" height="315" src="//www.youtube.com/embed/KGlx11BxF24?rel=0" frameborder="0" allowfullscreen></iframe>
+        <iframe style="margin:auto; display:block; max-width: 100%;" src="//www.youtube.com/embed/KGlx11BxF24?rel=0" frameborder="0" allowfullscreen></iframe>
         <p>Watch #FallingPlates, the 4 minute video above, to see what started the conversation between you and your friend.</p>
       </div>
     </div>
   </div>
-</div>
 
 <privacy-policy></privacy-policy>
