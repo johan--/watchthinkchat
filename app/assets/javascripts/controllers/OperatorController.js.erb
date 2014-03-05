@@ -65,6 +65,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   var pusher = new Pusher('249ce47158b276f4d32b');
   pusher.connection.bind('state_change', function(states) {
     // states = {previous: 'oldState', current: 'newState'}
+    console.log('Pusher state change: '+states.current);
   });
 
 
@@ -176,7 +177,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           return session.chat_uid == newchat_data.chat_uid;
         });
         if(index !== -1){
-          console.log(newchat_data.chat_uid+' already exists.');
           return;
         }
 
@@ -219,6 +219,16 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
           });
         });
 
+        var element = $('#session_' + newchat_data.chat_uid + ' .newmessage');
+        element.css('visibility', 'visible');
+        var distance = '5px';
+        var speed = 210;
+        var i;
+        for (i = 0; i < 4; i++) {
+          element.animate({marginTop: '-=' + distance}, speed)
+                  .animate({marginTop: '+=' + distance}, speed);
+        }
+
         var index = $scope.active_sessions.length - 1;
 
         if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid) {
@@ -230,6 +240,15 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         }else{
           $scope.active_sessions[index].requested_operator = operator_data;
         }
+
+/*        $http({
+          method: 'GET',
+          //url: '/api/chats/' + newchat_data.chat_uid
+          url: '/api/chats/32124c18d69bb50e8449'
+        }).success(function (data, status, headers, config) {
+          console.log(data);
+        }).error(function (data, status, headers, config) {
+        });*/
 
         var chat_channel = pusher.subscribe('chat_'+newchat_data.chat_uid);
         chat_channel.bind('event', function (data) {
