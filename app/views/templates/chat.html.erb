@@ -44,14 +44,11 @@
           "Will you follow me?"
         </h1>
         <div class="row">
-          <div class="col-lg-offset-2 col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 2">{{button.text}}</a>
+          <div class="col-lg-offset-2 col-lg-4 col-md-6 col-xs-6">
+          <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 3">{{button.text}}</a>
           </div>
-          <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 4 | limitTo: -2">{{button.text}}</a>
-          </div>
-          <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -2">{{button.text}}</a>
+          <div class="col-lg-4 col-md-6 col-xs-6">
+          <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -3">{{button.text}}</a>
           </div>
         </div>
       </div>
@@ -67,12 +64,12 @@
           <p>{{button_clicked.message_friend}}</p>
         </div>
         <div ng-show="growthChallengeStep===10">
-          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. If you signed up for the Growth Challenge today- we pray you grow! Go check your email to confirm your subscription. God bless.</p>
-          <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p>
+          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
         <div ng-show="growthChallengeStep===99 || growthChallengeStep===100">
-          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you :) You signed up for the Growth Challenge today and wanted to do that without adding a friend. Check your email to confirm your subscription. We pray you grow! God bless.</p>
-          <p><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
+          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
       </div>
       <div class="col-md-6 col-lg-6 content-column">
