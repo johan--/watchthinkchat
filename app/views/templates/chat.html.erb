@@ -20,10 +20,10 @@
     <div class="body" data-ng-show="liveChat" ng-click="mobileMinChat=!mobileMinChat">
     </div>
     <!-- Messages End -->
-    <div class="form-group input" data-ng-show="liveChat">
+    <div class="form-group input" ng-show="liveChat">
       <textarea class="form-control" placeholder="Type messages here…" ng-enter="postMessage()" data-ng-model="chatMessage" ng-autogrow></textarea>
     </div>
-    <div class="form-group input custom-name" data-ng-show="liveChat">
+    <div class="form-group input custom-name" ng-show="liveChat">
       <div class="col-xs-10">
         <input class="form-control" type="text" placeholder="Name" ng-model="visitor_fb_data.name" ng-enter="updateVisitorName()" ng-blur="updateVisitorName()">
       </div>
@@ -112,7 +112,7 @@
             <p>Invite your Christian Friend</p>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
           </div>
         </div>
         <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">

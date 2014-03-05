@@ -301,7 +301,7 @@ footer .sep {
   .chat-column .header .fa-comments-o{
     display: none;
   }
-  .minimized .content, .minimized .content.operator {
+  .minimized .content, .minimized .system, .minimized .content.operator {
     padding: 5px;
     min-height: 45px;
   }
