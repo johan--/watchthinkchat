@@ -31,12 +31,12 @@ angular.module('chatApp', ['ngRoute'])
     }).when('/c/:campaignId', {
       templateUrl: '/templates/chat.html',
       controller: 'ChatController as ctrl'
-/*    }).when('/challenge', {
-      template: '<div class="visitor_chat" style="position: relative;"><growth-challenge step="2"></growth-challenge></div>',
-      controller: 'ChallengeController as ctrl'*/
     }).when('/challenge/friend', {
       templateUrl: '/templates/growthchallenge_friend.html',
       controller: 'ChallengeFriendController as ctrl'
+    }).when('/challenge/resources', {
+        templateUrl: '/templates/mentor_resources.html'
+        //controller: 'ChallengeController as ctrl'
     }).when('/privacypolicy', {
       templateUrl: '/templates/privacy_policy_full.html'
     }).when('/operator/:operatorId', {
