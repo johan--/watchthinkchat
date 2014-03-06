@@ -6,7 +6,7 @@ class AddUniqueEmailIndexToUsers < ActiveRecord::Migration
     end
     begin
       # this will be getting removed in a future migration anyways
-      User.connection.execute("CREATE UNIQUE INDEX users_notnull_email ON users (email) WHERE email != '';")
+      #User.connection.execute("CREATE UNIQUE INDEX users_notnull_email ON users (email) WHERE email != '';")
     rescue
     end
   end
