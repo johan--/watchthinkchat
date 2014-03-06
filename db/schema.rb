@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306033504) do
+ActiveRecord::Schema.define(version: 20140306040802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20140306033504) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "blacklists", force: true do |t|
+    t.string   "ip"
+    t.integer  "blocked_count", default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "campaigns", force: true do |t|
     t.string   "name"
@@ -127,6 +134,17 @@ ActiveRecord::Schema.define(version: 20140306033504) do
     t.string   "locale"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "log_entries", force: true do |t|
+    t.string   "ip"
+    t.string   "host"
+    t.string   "controller"
+    t.string   "action"
+    t.string   "path"
+    t.boolean  "blocked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "memberships", force: true do |t|
