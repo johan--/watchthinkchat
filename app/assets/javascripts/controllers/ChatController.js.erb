@@ -20,7 +20,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var window_focus=false;
   var YTplayer;
   $scope.growthChallengeStep = -1;
-  $scope.growthChallengePrevStep = 0;
   $scope.liveChat=false;
   $scope.mobileMinChat=true;
   if(angular.isDefined($route.current.params.refer)){
@@ -137,9 +136,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         value: '',
         message_active_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We would love to connect with you and discover how your journey is going and what you think the next steps are to be who He wants you to be? Let\'s chat...</p>',
         message_no_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We know that its not always an easy path, but it\'s definitely worth it :)  We don\'t know all that\'s going on in your life today, but we are glad He led you here! It\'s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. Checkout the "Growth Challenge"</p>',
-        message_growth_challenge: 'The best Growth Challenge you can take is impacting one of your friends! It’s simple and it\'s free! Over the next four weeks we will email you and your friend a new thought-provoking video about how to begin following Jesus.',
+        message_growth_challenge: 'The best Growth Challenge you can take is impacting one of your friends! Enter your info and over the next four weeks we will email you a new thought-provoking video about how a person can begin following Jesus.',
         message_friend_title: 'What type of friend do I invite?',
-        message_friend: 'Think about one person that you really want to see come to know Jesus. One person who would see the film you saw today and accept to join you on the Growth Challenge. They will get a link, watch the film and have the chance to accept to join you.',
+        message_friend: 'Then invite one person you want to know Jesus to take this Growth Challenge with you. They\'ll get a link, watch #FallingPlates, and have the chance to accept your invitation.',
         message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that your experience today has been one of excitement in realising you can impact others with your faith. Thanks also for signing up in the growth challenge as a mentor to the friend you invited. Pray that the friend you invited actually comes and signs up to the growth challenge alongside you! The mentor material you get matches the material your friend will be getting. So go check your email to confirm your 4 week subscription and get on with the Growth Challenge with your friend. We pray you grow! </p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
       });
     }).error(function (data, status, headers, config) {
@@ -276,11 +275,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $scope.postActivityMessage(button.text, 'activity-button');
         $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         $scope.growthChallengeStep = 1;
+        $('.after-chat-challenge').show();
       }
     }
   };
 
   $scope.postActivityMessage = function(message, message_type){
+    if(chat_data.chat_uid==='offline'){
+      return;
+    }
     if(message_type){
       //var message_type=message_type;
     }else{
@@ -425,7 +428,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }
   }
 
-  $scope.sendFeedback = function(){
+/*  $scope.sendFeedback = function(){
     if(!$scope.exitFeedback){
       alert('Please make a feedback selection.');
       return;
@@ -442,7 +445,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       }).error(function (data, status, headers, config) {
       });
     $scope.growthChallengeStep=100;
-  }
+  }*/
 
   var postVisitorInfo = function(data){
     var chat_uid = chat_data.chat_uid;
@@ -499,17 +502,47 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       });
   }
 
+  $scope.growthChallengePrevStep = function(){
+    switch($scope.growthChallengeStep){
+      case 1:
+        $scope.growthChallengeStep=0;
+        $('.after-chat-challenge').hide();
+        break;
+      case 2:
+        $scope.growthChallengeStep=1;
+        $('.after-chat-challenge').show();
+        break;
+      case 3:
+        $scope.growthChallengeStep=2;
+        break;
+      case 9:
+        $scope.growthChallengeStep=3;
+        break;
+    }
+  }
+
   $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
-    $scope.growthChallengePrevStep = oldValue;
     switch(newValue){
       case 3:
         $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
+        var post_data = {
+          user_uid: visitor_data.uid,
+          message_type: 'fbEmail',
+          message: $scope.visitor_email
+        };
+        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
+          success(function (data, status, headers, config) {
+          }).error(function (data, status, headers, config) {
+          });
+        break;
+      case 9:
+        $scope.postActivityMessage('Visitor has chose to "Go it Along".');
         break;
       case 10:
         $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
         break;
       case 99:
-        $scope.postActivityMessage('Visitor has closed the Growth Challenge or chose to "Go it Alone".');
+        $scope.postActivityMessage('Visitor has closed the Growth Challenge".');
         break;
       default:
     }

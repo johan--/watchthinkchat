@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route, Crypt) {
+angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route, $location, Crypt) {
   $('body').css('background',' #58504A');
   window.document.title = 'WatchThinkChat Growth Challenge';
   $('.after-chat-information').show();
 
   $scope.friendsEmail = Crypt.decodeStr($route.current.params.refer);
-  if($route.current.params.n==''){
+  if(!angular.isDefined($route.current.params.n) || $route.current.params.n === true){
     $scope.friendsName = '';
   }else{
     $scope.friendsName = Crypt.decodeStr($route.current.params.n);
@@ -33,6 +33,7 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
               });
         $scope.successfulSubscribe = data.msg;
         $scope.visitor_email = '';
+        $location.path("/challenge/resources");
       } else {
         alert('Error: ' + data.msg);
       }
