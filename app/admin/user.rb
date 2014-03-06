@@ -5,6 +5,7 @@ ActiveAdmin.register User do
   menu :if => Proc.new { current_user.is_superadmin? }
 
   index do
+    selectable_column
     column :email
     column :current_sign_in_at
     column :last_sign_in_at
