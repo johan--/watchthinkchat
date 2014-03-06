@@ -23,6 +23,14 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
         '&c=JSON_CALLBACK'
     }).success(function (data, status, headers, config) {
       if (data.result === 'success') {
+          //notify mission hub
+          var post_data = {
+              challenge_friend_accepted: $scope.visitor_email
+          };
+          $http({method: 'PUT', url: '/api/visitors/'+$route.current.params.v, data: post_data}).
+              success(function (data, status, headers, config) {
+              }).error(function (data, status, headers, config) {
+              });
         $scope.successfulSubscribe = data.msg;
         $scope.visitor_email = '';
       } else {
