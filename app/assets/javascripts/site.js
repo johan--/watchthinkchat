@@ -47,13 +47,6 @@ angular.module('chatApp', ['ngRoute'])
     });
   }).run(function ($rootScope) {
     $rootScope.YouTubeApiLoaded = false;
-      window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '555591577865154',
-            status     : true,
-            xfbml      : true
-        });
-      };
   }).config(["$httpProvider", function(provider) {
     provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   }]);

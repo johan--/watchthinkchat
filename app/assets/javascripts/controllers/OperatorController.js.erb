@@ -239,12 +239,13 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
         var index = $scope.active_sessions.length - 1;
 
-        if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid && requested_operator.uid==='') {
+        if($scope.active_sessions[index].requested_operator.uid===''){
+        }else if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid) {
           $http({method: 'GET', url: '/api/operators/' + $scope.active_sessions[index].requested_operator.uid}).
-            success(function (data, status, headers, config) {
-              $scope.active_sessions[index].requested_operator = data;
-            }).error(function (data, status, headers, config) {
-            });
+                  success(function (data, status, headers, config) {
+                    $scope.active_sessions[index].requested_operator = data;
+                  }).error(function (data, status, headers, config) {
+                  });
         }else{
           $scope.active_sessions[index].requested_operator = operator_data;
         }

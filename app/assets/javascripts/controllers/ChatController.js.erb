@@ -23,7 +23,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   $scope.growthChallengePrevStep = 0;
   $scope.liveChat=false;
   $scope.mobileMinChat=true;
-  $scope.christianFriendEmail = $route.current.params.refer || '';
+  if(angular.isDefined($route.current.params.refer)){
+    $scope.christianFriendEmail = Crypt.decodeStr($route.current.params.refer);
+  }else{
+    $scope.christianFriendEmail = '';
+  }
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -408,7 +412,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       //Send email
       $scope.growthChallengeStep=10;
       var post_data = {
-        to: Crypt.decodeStr($scope.christianFriendEmail),
+        to: $scope.christianFriendEmail,
         from: $scope.visitor_email,
         from_name: $scope.visitor_name,
         subject: 'Your friend has accepted your "Growth Challenge"!',
