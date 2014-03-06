@@ -124,9 +124,10 @@
         </div>
         <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-            <h2>Step 2: Accept Challenge</h2>
-            <p>...</p>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept</a>
+            <h2>Step 2: The Challenge</h2>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept their invite</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite a different friend</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
           </div>
         </div>
         <div class="row" ng-show="growthChallengeStep===10">
