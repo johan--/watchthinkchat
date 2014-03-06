@@ -239,7 +239,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
         var index = $scope.active_sessions.length - 1;
 
-        if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid) {
+        if ($scope.active_sessions[index].requested_operator.uid != operator_data.uid && requested_operator.uid==='') {
           $http({method: 'GET', url: '/api/operators/' + $scope.active_sessions[index].requested_operator.uid}).
             success(function (data, status, headers, config) {
               $scope.active_sessions[index].requested_operator = data;
