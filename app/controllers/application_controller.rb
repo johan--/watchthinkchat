@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   prepend_before_filter :authenticate_by_facebook!, :if => Proc.new { request.path == "/admin" }
+  before_filter :check_blacklist_and_log
 
   def current_visitor
     @visitor ||= Visitor.find(session[:visitor_id]) if session[:visitor_id]
@@ -43,6 +44,21 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def check_blacklist_and_log
+      return if controller_name == "pusher"
+      blacklist = Blacklist.where(:ip => request.ip).first
+      if blacklist
+        blocked = true
+        blacklist.update_attribute(:blocked_count, blacklist.blocked_count + 1)
+      else
+        blocked = false
+      end
+
+      LogEntry.create! :ip => request.ip, :host => request.host, :controller => controller_name, :action => action_name, :path => request.path, :blocked => blocked
+      if blocked
+        render :inline => ""
+      end
+    end
 =begin
     def access_denied(exception)
       redirect_to "/", :alert => exception.message
