@@ -20,3 +20,4 @@ vendor/ruby
 database.yml
 *.swp
 .env
+Procfile
