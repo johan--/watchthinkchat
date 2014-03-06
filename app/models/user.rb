@@ -7,15 +7,12 @@ class User < ActiveRecord::Base
   devise :registerable, :trackable
   devise :omniauthable, :omniauth_providers => [:facebook]
 
-  #has_and_belongs_to_many :languages
   has_many :operator_chats, :foreign_key => :operator_id, :class_name => "Chat"
   has_many :visitor_chats, :foreign_key => :visitor_id, :class_name => "Chat"
   has_many :user_operators
   has_many :operating_campaigns, :through => :user_operators, :class_name => "Campaign", :source => :campaign
   belongs_to :assigned_operator1, :class_name => "User"
   belongs_to :assigned_operator2, :class_name => "User"
-
-  validates_uniqueness_of :email, :allow_nil => true, :allow_blank => true
 
   scope :online, Proc.new { where(:status => "online") }
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
