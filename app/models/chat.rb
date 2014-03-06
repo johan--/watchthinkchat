@@ -41,7 +41,11 @@ class Chat < ActiveRecord::Base
 
   def build_comment(params)
     lines = []
-    lines << "Chat initiated through a link to #{operator_whose_link.fullname} (#{operator_whose_link.missionhub_url})"
+    if operator_whose_link
+      lines << "Chat initiated through a link to #{operator_whose_link.fullname} (#{operator_whose_link.missionhub_url})"
+    else
+      lines << "Chat initiated without a specific operator requested"
+    end
     lines << ""
     lines << "They chatted with #{visitor.fullname} (#{visitor.missionhub_url})"
     lines << ""
