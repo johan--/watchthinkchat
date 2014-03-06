@@ -322,7 +322,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       if($scope.button_clicked.id===6){
         $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid + '?o=' + $scope.visitor_fb_data.id + '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email));
       }else{
-        $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?s='+chat_data.chat_uid +
+        $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?v=' + visitor_data.uid +
                 '&button_id='+button_id +
                 '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
                 '&n=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_fb_data.first_name));
