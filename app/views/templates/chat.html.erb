@@ -60,11 +60,17 @@
       <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
         <div class="after-chat-information" ng-show="growthChallengeStep===1" ng-bind-html="button_clicked.message_visible">
         </div>
-        <div class="after-chat-information" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
+        <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
           <h1>Take the Growth Challenge!</h1>
           <p>{{button_clicked.message_growth_challenge}}</p>
           <h2>{{button_clicked.message_friend_title}}</h2>
           <p>{{button_clicked.message_friend}}</p>
+        </div>
+        <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
+          <h1>Take the Growth Challenge!</h1>
+          <p>Your friend, {{christianFriendEmail}}  had one person they could invite to take the Growth Challenge and they chose YOU! It’s simple and it’s free! Sign up with your email and over the next four weeks and get a new thought-provoking video about what it means to follow Jesus.</p>
+          <h2>What’s involved?</h2>
+          <p>{{christianFriendEmail}} really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
         </div>
         <div ng-show="growthChallengeStep===10" ng-bind-html="button_clicked.message_finished">
         </div>
@@ -119,9 +125,12 @@
         <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
           <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
             <h2>Step 2: Accept Challenge</h2>
-            <p>....</p>
+            <p>...</p>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept</a>
           </div>
+        </div>
+        <div class="row" ng-show="growthChallengeStep===10">
+          <iframe src="https://www.surveymonkey.com/s.aspx?sm=Q6qPjnUyhycI2h1eIECQ3Q%3d%3d" style="border:none;width:100%;height:100%;"></iframe>
         </div>
         <div class="row" ng-show="growthChallengeStep===99">
           <div class="col-md-12 col-lg-offset-4 col-lg-8">

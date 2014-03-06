@@ -21,6 +21,15 @@
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <script> var clientIP='<%= request.remote_ip %>'; </script>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '555591577865154',
+        status     : true,
+        xfbml      : true
+      });
+    };
+  </script>
 </head>
 <body class="site">
   <div id="fb-root"></div>
