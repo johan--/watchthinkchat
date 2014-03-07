@@ -5,8 +5,6 @@ Make sure operator_app_url and visitor_app_url are set to whatever domain you se
 
 == Tests
 
-bundle exec rspec <spec path>
+ALL: bundle exec rake rspec
 
-ex
-
-bundle exec rspec spec/controllers/api/chats_controller_spec.rb 
+specific test: bundle exec rspec spec/controllers/api/chats_controller_spec.rb 
