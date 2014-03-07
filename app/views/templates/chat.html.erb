@@ -72,10 +72,14 @@
           <h2>What’s involved?</h2>
           <p>{{christianFriendEmail}} really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
         </div>
+        <div ng-show="growthChallengeStep===9">
+          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
+          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+        </div>
         <div ng-show="growthChallengeStep===10" ng-bind-html="button_clicked.message_finished">
         </div>
-        <div ng-show="growthChallengeStep===99 || growthChallengeStep===100">
-          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
+        <div ng-show="growthChallengeStep===99">
+          <p>We are sorry to see you go, please tell us why you left.</p>
           <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
         </div>
       </div>
@@ -119,7 +123,7 @@
             <p>Invite your Christian Friend</p>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
           </div>
         </div>
         <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
@@ -127,51 +131,14 @@
             <h2>Step 2: The Challenge</h2>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept their invite</a>
             <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite a different friend</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=99"><i class="fa fa-frown-o"></i> Go it alone</a>
+            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9"><i class="fa fa-frown-o"></i> Go it alone</a>
           </div>
         </div>
-        <div class="row" ng-show="growthChallengeStep===10">
+        <div class="row" ng-show="growthChallengeStep===9 || growthChallengeStep===10">
           <iframe src="https://www.surveymonkey.com/s.aspx?sm=Q6qPjnUyhycI2h1eIECQ3Q%3d%3d" style="border:none;width:100%;height:100%;"></iframe>
         </div>
         <div class="row" ng-show="growthChallengeStep===99">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8">
-            <h2>Feedback</h2>
-            <p>Sorry to see you go….give us 1 click why and two sentences to make things better.</p>
-            <div class="radio">
-              <label>
-                <input type="radio" ng-model="exitFeedback" value="Too confusing">
-                Too confusing
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" ng-model="exitFeedback" value="Privacy concerns">
-                Privacy concerns
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" ng-model="exitFeedback" value="Not interested in the Growth Challenge">
-                Not interested in the Growth Challenge
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" ng-model="exitFeedback" value="Don’t care about this Christian stuff">
-                Don’t care about this Christian stuff
-              </label>
-            </div>
-            <div class="form-group">
-              <label>Message</label>
-              <textarea class="form-control" rows="3" ng-model="exitFeedbackMessage"></textarea>
-            </div>
-            <div class="form-group">
-              <p>This is anonymous feedback, so if you want to be contacted, leave your email address. Thanks.</p>
-              <label>Email address</label>
-              <input type="email" class="form-control" placeholder="Email address" data-ng-model="visitor_email">
-            </div>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="sendFeedback()"><i class="fa fa-check"></i> Send</a>
-          </div>
+          <iframe src="https://www.surveymonkey.com/s.aspx?sm=Cw8SFge7kJBp8a5XPYjbr9nPofo24uDm%2fX6jjKaeGMfuYzQoFI6lY4169Iz7qTkM" style="border:none;width:100%;height:100%;"></iframe>
         </div>
         <div class="row" ng-show="growthChallengeStep===100">
           <div class="col-md-12 col-lg-offset-4 col-lg-8">
@@ -185,8 +152,8 @@
 </div>
 
 <!-- Controls Begin -->
-<a href="#" class="back-button" ng-show="growthChallengeStep>=1" ng-click="growthChallengeStep=growthChallengePrevStep"></a>
-<a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<99" ng-click="growthChallengeStep=99"></a>
+<a href="#" class="back-button" ng-show="growthChallengeStep>=1" ng-click="growthChallengePrevStep()"></a>
+<a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<9" ng-click="growthChallengeStep=99"></a>
 <!-- Content Column End -->
 
 <!-- Footer Begin -->
