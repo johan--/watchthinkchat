@@ -65,9 +65,16 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         };
       }
 
-      if(campaign_data.preemptive_chat){
-        $scope.startChat('');
-      }
+      //create visitor
+      $http({method: 'POST', url: '/api/visitors'}).
+        success(function (data, status, headers, config) {
+          visitor_data = data;
+          visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
+          if(campaign_data.preemptive_chat){
+            $scope.startChat('');
+          }
+        }).error(function (data, status, headers, config) {
+        });
 
       $scope.campaign_data.followup_buttons.push({
         id: 1,
@@ -145,15 +152,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       document.write('Error: invalid campaign id.');
     });
 
-  $http({method: 'POST', url: '/api/visitors'}).
-    success(function (data, status, headers, config) {
-      visitor_data = data;
-      visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
-      //console.log('================ New Visitor Created: ' + data.uid);
-      //window.localStorage.setItem('gchat_visitor_id', visitor_data.uid)
-    }).error(function (data, status, headers, config) {
-    });
-
   $scope.postMessage = function () {
     if($scope.chatMessage==''){
       return;
@@ -206,7 +204,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $scope.growthChallengeStep = 1;
 
         $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
-                '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
+          '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
         var pusher = new Pusher('249ce47158b276f4d32b');
         pusher.subscribe('visitor_' + visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
@@ -266,17 +264,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   $scope.buttonClick = function(button){
     $scope.button_clicked = button;
 
-    if(button.action == 'url'){
-      launchWebPage(button.value);
+    if(!chat_data.chat_uid){
+      $scope.startChat(button.text);
     }else{
-      if(!chat_data.chat_uid){
-        $scope.startChat(button.text);
-      }else{
-        $scope.postActivityMessage(button.text, 'activity-button');
-        $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
-        $scope.growthChallengeStep = 1;
-        $('.after-chat-challenge').show();
-      }
+      $scope.postActivityMessage(button.text, 'activity-button');
+      $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
+      $scope.growthChallengeStep = 1;
+      $('.after-chat-challenge').show();
     }
   };
 
@@ -557,10 +551,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $scope.$apply(function(){
             $scope.growthChallengeStep = 0;
           });
-          //$('.box #player').css('opacity','.3');
           YTplayer.stopVideo();
-          YTplayer.clearVideo();
-          $("#player").remove();
+          $("#player").attr('src', '');
         }
         video_completed=true;
         break;
