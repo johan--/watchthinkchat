@@ -197,8 +197,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(angular.isDefined($scope.button_clicked)){
           $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         }
-        //console.log('================ New Chat Created: ' + data.chat_uid);
-        //window.localStorage.setItem('gchat_chat_uid', chat_data.chat_uid);
 
         $scope.liveChat=true;
         $scope.growthChallengeStep = 1;
@@ -219,6 +217,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                         '<div class="message">Growth Challenge visible</div>' +
                         '</div>');
                 $('.body').scrollTop($('.body')[0].scrollHeight);
+                clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
               }
             } else {
               $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
@@ -272,6 +271,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $scope.growthChallengeStep = 1;
       $('.after-chat-challenge').show();
     }
+    clicky.log('#buttonClick/' + button.id, button.text);
   };
 
   $scope.postActivityMessage = function(message, message_type){
@@ -517,8 +517,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
     switch(newValue){
+      case 2:
+        clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
       case 3:
         $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
+        clicky.goal(campaign_data.permalink + ': Signed Up for Growth Challenge');
         var post_data = {
           user_uid: visitor_data.uid,
           message_type: 'fbEmail',
@@ -534,6 +537,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
       case 10:
         $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
+        clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge');
         break;
       case 99:
         $scope.postActivityMessage('Visitor has closed the Growth Challenge".');
@@ -545,6 +549,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   var onPlayerStateChange = function (evt) {
     switch (evt.data) {
       case YT.PlayerState.PLAYING:
+        clicky.goal(campaign_data.permalink + ': Video Started');
         break;
       case YT.PlayerState.ENDED:
         if(!video_completed){
@@ -553,6 +558,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
           YTplayer.stopVideo();
           $("#player").attr('src', '');
+          clicky.goal(campaign_data.permalink + ': Video Completed');
         }
         video_completed=true;
         break;
