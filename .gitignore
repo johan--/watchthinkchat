@@ -20,5 +20,4 @@ vendor/ruby
 database.yml
 *.swp
 .env
-Procfile
 config/secrets.yml
