@@ -1,8 +1,8 @@
 class VisitorsController < ApplicationController
 
   def index
-    puts "request.host: #{request.host}"
-    puts "ENV['visitor_app_url']: #{ENV['visitor_app_url']}"
+    #puts "request.host: #{request.host}"
+    #puts "ENV['visitor_app_url']: #{ENV['visitor_app_url']}"
     if request.host == ENV['visitor_app_url']
       @campaign = Campaign.find_by(code: params[:code])
       @campaign ||= Campaign.first

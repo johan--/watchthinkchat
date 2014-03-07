@@ -26,7 +26,7 @@ class Api::ChatsController < ApplicationController
 
       operator = campaign.get_available_operator
     end
-    puts operator.inspect
+    #puts operator.inspect
 
     if campaign && campaign.opened? && visitor && operator && operator.online?
       chat = Chat.create!(:campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id, :operator_whose_link_id => requested_operator.try(:id))

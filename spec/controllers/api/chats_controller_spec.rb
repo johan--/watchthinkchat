@@ -76,7 +76,7 @@ describe Api::ChatsController do
           mh_id = chat.visitor.missionhub_id
           params = { :uid => chat.uid, :visitor_response => "I want to start", :visitor_name => chat.visitor.name, :visitor_email => chat.visitor.email, :calltoaction => "something", :notes => "notes here" }
           Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[first_name]=#{chat.visitor.first_name}&person[last_name]=#{chat.visitor.last_name}&person[email]=#{chat.visitor.email}").and_return("person" => {"id" => mh_id})
-          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/followup_comments?secret=missionhub_token&followup_comment[contact_id]=#{mh_id}&followup_comment[commenter_id]=#{chat.operator.missionhub_id}&followup_comment[comment]=#{chat.build_comment(params)}").and_return("followup_comment" => [{"id" => 1}])
+          Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/followup_comments", {:secret=>chat.campaign.missionhub_token, :followup_comment => { :contact_id => chat.visitor.missionhub_id, :commenter_id => chat.operator.missionhub_id, :comment => chat.build_comment(params) }}).and_return("followup_comment" => [{"id" => 1}])
           Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/contact_assignments?secret=missionhub_token&contact_assignment[person_id]=#{chat.visitor.missionhub_id}&contact_assignment[assigned_to_id]=#{chat.operator.missionhub_id}")
           post :collect_stats, params
         end

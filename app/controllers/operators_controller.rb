@@ -9,9 +9,6 @@ class OperatorsController < ApplicationController
       return
     end
 
-    current_user.status = "online"
-    current_user.save!
-
     unless current_user.operator_uid.present? # should never happen but just in case
       redirect_to "/?t=invalid&m=current user is not an operator or is missing operator_uid"
       return
