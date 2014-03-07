@@ -1,8 +1,7 @@
 <div class="row">
   <!-- Chat Column Begin -->
   <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
-  <!-- Remove chat-facebook class to hide Custom Name section -->
-  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column" ng-class="{minimized: mobileMinChat, 'chat-facebook': (visitor_fb_data.id==='')}">
+  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column" ng-class="{'minimized': mobileMinChat, 'chat-facebook': (visitor_fb_data.id==='')}">
     <div class="header" ng-click="mobileMinChat=!mobileMinChat"><span class="title">WatchThinkChat</span><i class="fa fa-comments-o title">&nbsp;</i></div>
 
     <div class="panel-body" data-ng-show="!liveChat">
@@ -45,13 +44,13 @@
         </h1>
         <div class="row">
           <div class="col-lg-offset-2 col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 2">{{button.text}}</a>
+            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 2">{{button.text}}</a>
           </div>
           <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 4 | limitTo: -2">{{button.text}}</a>
+            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 4 | limitTo: -2">{{button.text}}</a>
           </div>
           <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" data-ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -2">{{button.text}}</a>
+            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -2">{{button.text}}</a>
           </div>
         </div>
       </div>
@@ -160,7 +159,7 @@
 <footer>
   <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
   <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content-column">
-    ©2014 WatchThinkChat.com All Rights Reserved.<span class="sep">|</span><a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a><span class="sep">|</span><a href="http://cruoncampus.org/about-us/" target="_blank">About Us</a>
+    &copy;2014 WatchThinkChat.com All Rights Reserved.<span class="sep">|</span><a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a><span class="sep">|</span><a href="http://cruoncampus.org/about-us/" target="_blank">About Us</a>
   </div>
 </footer>
 <!-- Footer End -->
