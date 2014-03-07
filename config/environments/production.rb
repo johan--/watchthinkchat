@@ -77,11 +77,10 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # ### try using the default logs/production.log to fix the issue where app log just dies after a few minutes
   # Heroku requires logging to go to stdout
-  #config.logger = Logger.new(STDOUT) 
-  #config.log_level = :debug
-  #config.logger.level = Logger::DEBUG
+  config.logger = Logger.new(STDOUT) 
+  config.log_level = :debug
+  config.logger.level = Logger::DEBUG
 
   # smtp
   config.action_mailer.delivery_method = :smtp
