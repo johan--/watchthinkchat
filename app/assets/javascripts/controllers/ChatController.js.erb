@@ -271,7 +271,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       $scope.growthChallengeStep = 1;
       $('.after-chat-challenge').show();
     }
-    clicky.log('#buttonClick/' + button.id, button.text);
+    clicky.goal(campaign_data.permalink + ': Button Click: ' + button.id + ' (' + button.text + ')');
   };
 
   $scope.postActivityMessage = function(message, message_type){
