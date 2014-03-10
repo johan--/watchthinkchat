@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  prepend_before_filter :authenticate_by_facebook!, :if => Proc.new { request.path == "/admin" }
   before_filter :check_blacklist_and_log
 
   def current_visitor
@@ -20,7 +19,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def ensure_operator_json
+    def authenticate_active_admin_by_facebook!
+      if request.path =~ /^\/admin/
+        authenticate_by_facebook!
+      end
+    end
+
+     def ensure_operator_json
       unless is_operator
         render :json => { :error => "Operator access required for this operator" }, :status => 401
       end

@@ -140,6 +140,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   config.before_filter :check_blacklist_and_log
+  config.before_filter :authenticate_active_admin_by_facebook!
   
   
   # == Setting a Favicon

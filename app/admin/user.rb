@@ -2,7 +2,7 @@ ActiveAdmin.register User do
   filter :first_name
   filter :last_name
 
-  menu :if => Proc.new { current_user.is_superadmin? }
+  menu :if => Proc.new { current_user && current_user.is_superadmin? }
 
   index do
     selectable_column
