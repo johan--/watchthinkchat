@@ -76,6 +76,12 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     console.log('Pusher state change: '+states.current);
   });
 
+  $scope.shareLink = function(venue){
+    FB.ui({
+      method: 'send',
+      link: $scope.operator_chat_url
+    });
+  };
 
   $scope.switchChat = function (id) {
     $('.chatbox').hide();
