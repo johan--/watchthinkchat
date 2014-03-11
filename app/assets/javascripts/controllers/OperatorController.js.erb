@@ -53,6 +53,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     }).success(function (data, status, headers, config) {
       $('.password-overlay').fadeOut();
       $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
+      $scope.operator_chat_url_encoded = encodeURIComponent($scope.operator_chat_url);
       $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
         success(function (data, status, headers, config) {
           operator_data = data;
@@ -75,7 +76,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     // states = {previous: 'oldState', current: 'newState'}
     console.log('Pusher state change: '+states.current);
   });
-
 
   $scope.switchChat = function (id) {
     $('.chatbox').hide();
@@ -213,7 +213,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             selectedCannedMessage: $scope.cannedResponses[0].response,
             activity: '',
             activity_display: '',
-            challenge_available: true,
+            challenge_available: false,
             status: 'active',
             browser: '-',
             ip: '-',
@@ -249,15 +249,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
         }else{
           $scope.active_sessions[index].requested_operator = operator_data;
         }
-
-/*        $http({
-          method: 'GET',
-          //url: '/api/chats/' + newchat_data.chat_uid
-          url: '/api/chats/32124c18d69bb50e8449'
-        }).success(function (data, status, headers, config) {
-          console.log(data);
-        }).error(function (data, status, headers, config) {
-        });*/
 
         var chat_channel = pusher.subscribe('chat_'+newchat_data.chat_uid);
         chat_channel.bind('event', function (data) {
