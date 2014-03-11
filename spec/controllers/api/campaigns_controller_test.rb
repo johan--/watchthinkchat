@@ -52,6 +52,7 @@ describe Api::CampaignsController do
       lambda {
         post :password, :uid => campaign.uid, :password => "password"
         post :password, :uid => campaign.uid, :password => "password" # should only increment UserOperator count by 1 still
+        json_response["share_url"].should == UrlFwd.last.short_url
       }.should change(UserOperator, :count).by(1)
       assert_response 201
     end

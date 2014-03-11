@@ -21,12 +21,12 @@ class Api::CampaignsController < ApplicationController
       #puts "Api::CampaignsController#password"
       # this is the most secure spot to mark them as an operator
       begin
-        current_user.mark_as_operator!(@campaign)
+        short_url = current_user.mark_as_operator!(@campaign)
+        render :json => { :valid => true, :share_url => short_url }, status: 201
       rescue RestClient::Unauthorized => e
         render :json => { :error => "Invalid missionhub token" }, :status => 500
         return
       end
-      render :text => "", status: 201
     elsif @campaign
       render :json => { :error => "Password not valid" }, :status => 401
     else

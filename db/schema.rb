@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306040802) do
+ActiveRecord::Schema.define(version: 20140311202302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,11 +188,20 @@ ActiveRecord::Schema.define(version: 20140306040802) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
+  create_table "url_fwds", force: true do |t|
+    t.string   "short_url"
+    t.string   "uid"
+    t.string   "full_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_operators", force: true do |t|
     t.integer  "user_id"
     t.integer  "campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "url_fwd_id"
   end
 
   create_table "users", force: true do |t|
@@ -234,6 +243,8 @@ ActiveRecord::Schema.define(version: 20140306040802) do
     t.integer  "assigned_operator2_id"
     t.string   "challenge_friend_accepted"
   end
+
+  add_index "users", ["email"], name: "users_notnull_email", unique: true, where: "((email)::text <> ''::text)", using: :btree
 
   create_table "users_languages", force: true do |t|
     t.integer "user_id"
