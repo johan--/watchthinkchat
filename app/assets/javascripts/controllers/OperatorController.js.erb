@@ -53,6 +53,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     }).success(function (data, status, headers, config) {
       $('.password-overlay').fadeOut();
       $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
+      $scope.operator_chat_url_encoded = encodeURIComponent($scope.operator_chat_url);
       $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
         success(function (data, status, headers, config) {
           operator_data = data;
@@ -75,13 +76,6 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
     // states = {previous: 'oldState', current: 'newState'}
     console.log('Pusher state change: '+states.current);
   });
-
-  $scope.shareLink = function(venue){
-    FB.ui({
-      method: 'send',
-      link: $scope.operator_chat_url
-    });
-  };
 
   $scope.switchChat = function (id) {
     $('.chatbox').hide();
