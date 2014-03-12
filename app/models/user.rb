@@ -109,7 +109,9 @@ class User < ActiveRecord::Base
     self.operator_uid = self.fb_uid
     self.save!
     self.sync_mh
-    return self.user_operators.where(:campaign => campaign).first.url_fwd.short_url
+    user_operator = self.user_operators.where(:campaign => campaign).first
+    user_operator.save! # this will ensure the short_url is set
+    return user_operator.url_fwd.short_url
   end
 
   def campaign
