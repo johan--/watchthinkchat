@@ -250,10 +250,25 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
       }).error(function (data, status, headers, config) {
         if(data.error === 'no_operators_available'){
-          chat_data.chat_uid = 'offline';
-          $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
-          $('#noOperators, .after-chat-challenge').fadeIn();
-          $scope.growthChallengeStep=1;
+          try{
+            $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
+            chat_data.chat_uid = 'offline';
+            $('.after-chat-challenge').fadeIn();
+            $scope.growthChallengeStep=1;
+          }catch(e){}
+          //Get Operator Info
+          if(operator_data.uid){
+            $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
+              success(function (data, status, headers) {
+                operator_data = data;
+                $scope.operator_data = data;
+                $('#noOperators').show();
+              }).error(function() {
+                $('#noOperators').show();
+              });
+          }else{
+            $('#noOperators').show();
+          }
         }else{
           alert('Error: ' + (data.message || 'Cannot create new chat.'));
         }
@@ -310,6 +325,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                   '</div>');
           $('.body').scrollTop($('.body')[0].scrollHeight);
         });
+        clicky.goal(campaign_data.permalink + ': Logged in with Facebook');
       }
     });
   }
@@ -420,26 +436,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         }).error(function (data, status, headers, config) {
         });
     }
-  }
+  };
 
-/*  $scope.sendFeedback = function(){
-    if(!$scope.exitFeedback){
-      alert('Please make a feedback selection.');
-      return;
-    }
-    var post_data = {
-      to: 'aaron.thomson@cru.org',
-      from: $scope.visitor_email,
-      from_name: $scope.visitor_name,
-      subject: 'Godchat.tv Feedback',
-      message: $scope.exitFeedback+'\n\n'+$scope.exitFeedbackMessage
-    };
-    $http({method: 'POST', url: '/api/emails', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
-    $scope.growthChallengeStep=100;
-  }*/
+  $scope.sendFbMsgToOperator = function(){
+    FB.ui({
+      method: 'send',
+      link: document.URL,
+      to: operator_data.uid
+    });
+  };
 
   var postVisitorInfo = function(data){
     var chat_uid = chat_data.chat_uid;
@@ -474,7 +479,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               }).error(function (data, status, headers, config) {
               });
     }
-  }
+  };
 
   $scope.updateVisitorName = function(){
     if(visitor_data.name===$scope.visitor_fb_data.name){
@@ -492,6 +497,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 '<div class="message">Name set to: ' + $scope.visitor_fb_data.name + '</div>' +
                 '</div>');
         $('.body').scrollTop($('.body')[0].scrollHeight);
+        $scope.visitor_fb_data.id='0';
       }).error(function (data, status, headers, config) {
       });
   }
