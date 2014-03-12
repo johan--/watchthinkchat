@@ -52,7 +52,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
       }
     }).success(function (data, status, headers, config) {
       $('.password-overlay').fadeOut();
-      $scope.operator_chat_url = "http://www.watchthinkchat.com/c/" + campaign_id + "?o=" + operator_data.uid;
+      $scope.operator_chat_url = data.share_url;
       $scope.operator_chat_url_encoded = encodeURIComponent($scope.operator_chat_url);
       $http({method: 'GET', url: '/api/operators/' + operator_data.uid}).
         success(function (data, status, headers, config) {
