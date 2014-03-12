@@ -51,8 +51,10 @@ describe Api::CampaignsController do
       Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizational_labels?secret=missionhub_token&organizational_label[person_id]=1&organizational_label[label_id]=1")
       lambda {
         post :password, :uid => campaign.uid, :password => "password"
+        share_url = json_response["share_url"]
+        share_url.should == UrlFwd.last.short_url
         post :password, :uid => campaign.uid, :password => "password" # should only increment UserOperator count by 1 still
-        json_response["share_url"].should == UrlFwd.last.short_url
+        json_response["share_url"].should == share_url
       }.should change(UserOperator, :count).by(1)
       assert_response 201
     end

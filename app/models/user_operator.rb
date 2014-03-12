@@ -3,7 +3,7 @@ class UserOperator < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :url_fwd 
 
-  after_save :create_url_fwd
+  before_save :create_url_fwd
 
   protected
 
