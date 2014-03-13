@@ -277,6 +277,19 @@ footer .sep {
   content:"";
 }
 
+.video footer {
+    display: none;
+}
+
+.video #player {
+    padding: 0;
+}
+
+.video .chat-column {
+    box-shadow: none;
+    border-right: 1px solid #444;
+}
+
 @media (max-width: 768px) {
   footer .content-column, .content-column {
     padding-left: 10px;

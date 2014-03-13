@@ -49,15 +49,14 @@
           "Will you follow me?"
         </h1>
         <div class="row">
-          <div class="col-lg-offset-2 col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 2">{{button.text}}</a>
+          <div class="col-lg-offset-2 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 3">{{button.text}}</a>
           </div>
-          <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 4 | limitTo: -2">{{button.text}}</a>
+          <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -3">{{button.text}}</a>
           </div>
-          <div class="col-lg-3 col-md-4">
-            <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -2">{{button.text}}</a>
-          </div>
+
+
         </div>
       </div>
 

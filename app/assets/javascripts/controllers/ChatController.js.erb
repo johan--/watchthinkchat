@@ -45,6 +45,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         window.onYouTubeIframeAPIReady = function () {
+          $('body').addClass('video');
           YTplayer = new YT.Player('player', {
             //videoId: campaign_data.video_id,
             videoId: 'KGlx11BxF24',
@@ -564,6 +565,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
           YTplayer.stopVideo();
           $("#player").attr('src', '');
+          $('body').removeClass('video');
           clicky.goal(campaign_data.permalink + ': Video Completed');
         }
         video_completed=true;
