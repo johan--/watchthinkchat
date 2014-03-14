@@ -27,10 +27,7 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
           var post_data = {
               challenge_friend_accepted: $scope.visitor_email
           };
-          $http({method: 'PUT', url: '/api/visitors/'+$route.current.params.v, data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+          $http({method: 'PUT', url: '/api/visitors/'+$route.current.params.v, data: post_data});
         $scope.successfulSubscribe = data.msg;
         $scope.visitor_email = '';
         $location.path("/challenge/resources");
@@ -42,17 +39,16 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
     });
   }
 
-    $scope.facebookLogin = function () {
-        FB.login(function (response) {
-            if (response.authResponse) {
-                FB.api('/me', function (response) {
-                    //console.log(response);
-                    $scope.$apply(function () {
-                        $scope.visitor_email = response.email;
-                        $scope.visitor_fb_data = response;
-                    });
-                });
-            }
+  $scope.facebookLogin = function () {
+    FB.login(function (response) {
+      if (response.authResponse) {
+        FB.api('/me', function (response) {
+          $scope.$apply(function () {
+            $scope.visitor_email = response.email;
+            $scope.visitor_fb_data = response;
+          });
         });
-    }
+      }
+    });
+  }
 });
