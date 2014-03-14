@@ -225,7 +225,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                       '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' + operator_data.name + '</div>' +
                       '</div>');
               $('.body').scrollTop($('.body')[0].scrollHeight);
-
+              $scope.$apply(function(){
+                $scope.mobileMinChat=false;
+              });
               if (!window_focus) {
                 $('#newMsgAlert')[0].play();
               }
