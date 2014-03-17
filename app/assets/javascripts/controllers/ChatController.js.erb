@@ -528,6 +528,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     switch(newValue){
       case 2:
         clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
+        break;
       case 3:
         $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
         clicky.goal(campaign_data.permalink + ': Signed Up for Growth Challenge');
