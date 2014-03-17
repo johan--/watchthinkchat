@@ -11,6 +11,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :admin3, :class_name => "User"
 
   validates :name, :missionhub_token, presence: true
+  validates :growth_challenge, allow_blank: true, format: { with: /operator|auto/ }
 
   before_create :generate_uid
   before_create :set_status_closed
@@ -39,7 +40,8 @@ class Campaign < ActiveRecord::Base
       :language => self.language,
       :status => self.status,
       :followup_buttons => followup_buttons,
-      :preemptive_chat => preemptive_chat
+      :preemptive_chat => preemptive_chat,
+      :growth_challenge => growth_challenge
     }
   end
 

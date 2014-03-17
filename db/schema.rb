@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317183947) do
+ActiveRecord::Schema.define(version: 20140317210907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140317183947) do
     t.integer  "admin2_id"
     t.integer  "admin3_id"
     t.boolean  "preemptive_chat"
+    t.string   "growth_challenge", default: "operator"
   end
 
   create_table "chats", force: true do |t|
@@ -244,8 +245,6 @@ ActiveRecord::Schema.define(version: 20140317183947) do
     t.integer  "assigned_operator2_id"
     t.string   "challenge_friend_accepted"
   end
-
-  add_index "users", ["email"], name: "users_notnull_email", unique: true, where: "((email)::text <> ''::text)", using: :btree
 
   create_table "users_languages", force: true do |t|
     t.integer "user_id"
