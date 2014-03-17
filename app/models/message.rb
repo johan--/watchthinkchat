@@ -4,7 +4,7 @@ class Message < ActiveRecord::Base
   #attr_accessible :body
 
   def as_json(options = {})
-    { time: created_at, name: name, user_id: user_id, message: body }
+    { time: created_at, name: name, user_id: user_id, message: body, message_type: message_type }
   end
 
   def transcript_line
