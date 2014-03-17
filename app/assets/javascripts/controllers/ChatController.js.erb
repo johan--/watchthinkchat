@@ -225,7 +225,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                       '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' + operator_data.name + '</div>' +
                       '</div>');
               $('.body').scrollTop($('.body')[0].scrollHeight);
-
+              $scope.$apply(function(){
+                $scope.mobileMinChat=false;
+              });
               if (!window_focus) {
                 $('#newMsgAlert')[0].play();
               }
@@ -526,6 +528,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     switch(newValue){
       case 2:
         clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
+        break;
       case 3:
         $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
         clicky.goal(campaign_data.permalink + ': Signed Up for Growth Challenge');

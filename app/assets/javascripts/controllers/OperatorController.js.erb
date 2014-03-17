@@ -75,6 +75,18 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   pusher.connection.bind('state_change', function(states) {
     // states = {previous: 'oldState', current: 'newState'}
     console.log('Pusher state change: '+states.current);
+    if(states.current==='connected'){
+      if(operator_channel_connected){
+        $('.operator_status').removeClass('operator_status_offline').removeClass('operator_status_pending').addClass('operator_status_online');
+        $('.operator_status').html('Online');
+      }else{
+        $('.operator_status').removeClass('operator_status_online').removeClass('operator_status_pending').addClass('operator_status_offline');
+        $('.operator_status').html('Offline');
+      }
+    }else{
+      $('.operator_status').removeClass('operator_status_online').removeClass('operator_status_offline').addClass('operator_status_pending');
+      $('.operator_status').html(states.current);
+    }
   });
 
   $scope.switchChat = function (id) {
@@ -169,6 +181,9 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
   };
 
   $scope.toggleOperatorStatus = function(){
+    if(pusher.connection.state!=='connected'){
+      return;
+    }
     if(operator_channel_connected){
       pusher.unsubscribe('operator_' + operator_data.uid);
       $('.operator_status').removeClass('operator_status_online').addClass('operator_status_offline');
