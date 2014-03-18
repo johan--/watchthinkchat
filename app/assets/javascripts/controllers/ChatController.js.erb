@@ -17,6 +17,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     uid: $location.search()['o'] || ''
   };
   var video_completed=false;
+  var growth_challenge_visible=false;
   var window_focus=false;
   var YTplayer;
   $scope.growthChallengeStep = -1;
@@ -211,14 +212,17 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           if (data.user_uid != visitor_data.uid) {
             if (data.message_type == 'activity') {
               if(data.message == 'challenge'){
-                $('.after-chat-challenge').fadeIn();
-                $scope.postActivityMessage('Growth Challenge visible');
-                $('body').scrollTop($('body')[0].scrollHeight);
-                $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
-                        '<div class="message">Growth Challenge visible</div>' +
-                        '</div>');
-                $('.body').scrollTop($('.body')[0].scrollHeight);
-                clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+                if(!growth_challenge_visible){
+                  $('.after-chat-challenge').fadeIn();
+                  $scope.postActivityMessage('Growth Challenge visible');
+                  growth_challenge_visible=true;
+                  $('body').scrollTop($('body')[0].scrollHeight);
+                  $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
+                          '<div class="message">Growth Challenge visible</div>' +
+                          '</div>');
+                  $('.body').scrollTop($('.body')[0].scrollHeight);
+                  clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+                }
               }
             } else {
               $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
@@ -255,6 +259,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         //auto offer Growth Challenge
         if(campaign_data.growth_challenge==='auto'){
           $('.after-chat-challenge').fadeIn();
+          growth_challenge_visible=true;
           $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
           clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
         }
@@ -264,6 +269,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
             chat_data.chat_uid = 'offline';
             $('.after-chat-challenge').fadeIn();
+            growth_challenge_visible=true;
             $scope.growthChallengeStep=1;
           }catch(e){}
           //Get Operator Info
