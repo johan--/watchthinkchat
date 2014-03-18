@@ -28,6 +28,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   }else{
     $scope.christianFriendEmail = '';
   }
+  if(angular.isDefined($route.current.params.n)){
+    $scope.christianFriendName = Crypt.decodeStr($route.current.params.n);
+  }else{
+    $scope.christianFriendName = '';
+  }
 
   $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
     success(function (data, status, headers, config) {
@@ -199,9 +204,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(angular.isDefined($scope.button_clicked)){
           $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         }
-
         $scope.liveChat=true;
-        $scope.growthChallengeStep = 1;
 
         $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
           '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
@@ -255,14 +258,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $timeout(function(){ $scope.postActivityMessage(clientIP, 'ip'); }, 2600);
         $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2800);
         $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
-
-        //auto offer Growth Challenge
-        if(campaign_data.growth_challenge==='auto'){
-          $('.after-chat-challenge').fadeIn();
-          growth_challenge_visible=true;
-          $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
-          clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
-        }
       }).error(function (data, status, headers, config) {
         if(data.error === 'no_operators_available'){
           try{
@@ -270,7 +265,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             chat_data.chat_uid = 'offline';
             $('.after-chat-challenge').fadeIn();
             growth_challenge_visible=true;
-            $scope.growthChallengeStep=1;
           }catch(e){}
           //Get Operator Info
           if(operator_data.uid){
@@ -299,9 +293,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }else{
       $scope.postActivityMessage(button.text, 'activity-button');
       $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
-      $scope.growthChallengeStep = 1;
       $('.after-chat-challenge').show();
     }
+    $scope.growthChallengeStep = 1;
     clicky.goal(campaign_data.permalink + ': Button Click: ' + button.id + ' (' + button.text + ')');
   };
 
@@ -353,7 +347,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }else if(step==3){
       var button_id = $scope.button_clicked.id;
       if($scope.button_clicked.id===6){
-        $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid + '?o=' + $scope.visitor_fb_data.id + '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email));
+        $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid +
+                '?o=' + operator_data.uid +
+                '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
+                '&n=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_fb_data.first_name));
       }else{
         $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?v=' + visitor_data.uid +
                 '&button_id='+button_id +
@@ -397,6 +394,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         link: $scope.friend_url
       });
       $scope.growthChallengeStep=10;
+      clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge via Facebook');
     }else if(how=='email'){
       $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
               'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
@@ -437,6 +435,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('#growth-challenge-invite-friend .modal-footer p').hide();
           alert('Error: '+data);
         });
+      clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge via email');
     }else if(how=='accept'){
       //Send email
       $scope.growthChallengeStep=10;
@@ -445,12 +444,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         from: $scope.visitor_email,
         from_name: $scope.visitor_name,
         subject: 'Your friend has accepted your "Growth Challenge"!',
-        message: $scope.visitor_fb_data.name + ' has accepted to take the Growth Challenge with you!'
+        message: $scope.visitor_fb_data.name + '(' + $scope.visitor_email + ') has accepted to take the Growth Challenge with you!'
       };
-      $http({method: 'POST', url: '/api/emails', data: post_data}).
-        success(function (data, status, headers, config) {
-        }).error(function (data, status, headers, config) {
-        });
+      $http({method: 'POST', url: '/api/emails', data: post_data});
     }
   };
 
@@ -472,28 +468,19 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_type: 'fbName',
         message: data.name
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
       var post_data = {
         user_uid: visitor_data.uid,
         message_type: 'fbEmail',
         message: data.email
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
       var post_data = {
         user_uid: visitor_data.uid,
         message_type: 'fbId',
         message: data.id
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
     }
   };
 
@@ -539,6 +526,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
     switch(newValue){
+      case 1:
+        //auto offer Growth Challenge
+        if(campaign_data.growth_challenge==='auto' && !growth_challenge_visible){
+          $('.after-chat-challenge').fadeIn();
+          growth_challenge_visible=true;
+          $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
+          clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+        }
+        break;
       case 2:
         clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
         break;
@@ -560,7 +556,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         break;
       case 10:
         $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
-        clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge');
         break;
       case 99:
         $scope.postActivityMessage('Visitor has closed the Growth Challenge".');

@@ -72,9 +72,9 @@
         </div>
         <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
           <h1>Take the Growth Challenge!</h1>
-          <p>Your friend, {{christianFriendEmail}}  had one person they could invite to take the Growth Challenge and they chose YOU! It’s simple and it’s free! Sign up with your email and over the next four weeks and get a new thought-provoking video about what it means to follow Jesus.</p>
+          <p>Your friend, {{christianFriendName}} ({{christianFriendEmail}})  had one person they could invite to take the Growth Challenge and they chose YOU! It’s simple and it’s free! Sign up with your email and over the next four weeks and get a new thought-provoking video about what it means to follow Jesus.</p>
           <h2>What’s involved?</h2>
-          <p>{{christianFriendEmail}} really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
+          <p>{{christianFriendName}} ({{christianFriendEmail}}) really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
         </div>
         <div ng-show="growthChallengeStep===9">
           <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
@@ -89,7 +89,7 @@
       </div>
       <div class="col-md-6 col-lg-6 content-column">
         <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray">
+          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-click="growthChallengeNextStep(2)">
             <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
           </div>
         </div>
@@ -156,7 +156,7 @@
 </div>
 
 <!-- Controls Begin -->
-<a href="#" class="back-button" ng-show="growthChallengeStep>=1" ng-click="growthChallengePrevStep()"></a>
+<a href="#" class="back-button" ng-show="growthChallengeStep>=1 && growthChallengeStep<9" ng-click="growthChallengePrevStep()"></a>
 <a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<9" ng-click="growthChallengeStep=99"></a>
 <!-- Content Column End -->
 
