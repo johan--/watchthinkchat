@@ -255,7 +255,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         //auto offer Growth Challenge
         if(campaign_data.growth_challenge==='auto'){
           $('.after-chat-challenge').fadeIn();
-          $scope.postActivityMessage('Growth Challenge visible');
+          $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
           clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
         }
       }).error(function (data, status, headers, config) {
