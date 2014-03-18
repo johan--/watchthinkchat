@@ -30,6 +30,7 @@ angular.module('chatApp').controller('ChallengeFriendController', function ($sco
           $http({method: 'PUT', url: '/api/visitors/'+$route.current.params.v, data: post_data});
         $scope.successfulSubscribe = data.msg;
         $scope.visitor_email = '';
+        clicky.goal('Growth Challenge: Friend Subscribed');
         $location.path("/challenge/resources");
       } else {
         alert('Error: ' + data.msg);

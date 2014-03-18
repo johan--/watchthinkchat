@@ -251,6 +251,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $timeout(function(){ $scope.postActivityMessage(clientIP, 'ip'); }, 2600);
         $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2800);
         $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
+
+        //auto offer Growth Challenge
+        if(campaign_data.growth_challenge==='auto'){
+          $('.after-chat-challenge').fadeIn();
+          $scope.postActivityMessage('Growth Challenge visible');
+          clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+        }
       }).error(function (data, status, headers, config) {
         if(data.error === 'no_operators_available'){
           try{
