@@ -178,7 +178,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 '</div>');
         $('.body').scrollTop($('.body')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
-        //$('.chat-input').attr('placeholder','Message...');
       });
   };
 
@@ -313,10 +312,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       message_type: message_type,
       message: message
     };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
   };
 
   $scope.facebookLogin = function(){
@@ -374,10 +370,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             visitor_email: $scope.visitor_email,
             challenge_subscribe_self: true
           };
-          $http({method: 'PUT', url: '/api/visitors/'+visitor_data.uid, data: post_data}).
-                  success(function (data, status, headers, config) {
-                  }).error(function (data, status, headers, config) {
-                  });
+          $http({method: 'PUT', url: '/api/visitors/'+visitor_data.uid, data: post_data});
         } else {
           alert('Error: ' + data.msg);
         }
@@ -433,7 +426,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         }).error(function (data, status, headers, config) {
           $('#growth-challenge-invite-friend .modal-footer button').show();
           $('#growth-challenge-invite-friend .modal-footer p').hide();
-          alert('Error: '+data);
+          alert('Error: ' + data);
         });
       clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge via email');
     }else if(how=='accept'){
@@ -546,10 +539,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           message_type: 'fbEmail',
           message: $scope.visitor_email
         };
-        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-          success(function (data, status, headers, config) {
-          }).error(function (data, status, headers, config) {
-          });
+        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
         break;
       case 9:
         $scope.postActivityMessage('Visitor has chose to "Go it Along".');
@@ -576,6 +566,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
           YTplayer.stopVideo();
           $("#player").attr('src', '');
+          $("#player").hide();
           $('body').removeClass('video');
           clicky.goal(campaign_data.permalink + ': Video Completed');
         }
