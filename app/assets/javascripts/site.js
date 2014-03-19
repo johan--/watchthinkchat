@@ -30,7 +30,12 @@ angular.module('chatApp', ['ngRoute'])
       controller: 'FeaturesController as ctrl'
     }).when('/c/:campaignId', {
       templateUrl: '/templates/chat.html',
-      controller: 'ChatController as ctrl'
+      controller: 'ChatController as ctrl',
+      resolve: {
+        campaign_data: ['$route', 'campaignResolve', function ($route, campaignResolve) {
+          return campaignResolve.getCampaignInfo($route.current.params.campaignId);
+        }]
+      }
     }).when('/challenge/friend', {
       templateUrl: '/templates/growthchallenge_friend.html',
       controller: 'ChallengeFriendController as ctrl'
