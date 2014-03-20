@@ -30,6 +30,7 @@ Godchat::Application.routes.draw do
   get  "/api/chats/:uid", to: "api/chats#show"
   delete "/api/chats/:uid", to: "api/chats#destroy"
   post "/api/emails", to: "api/emails#create"
+  post "/api/url_fwds", to: "api/url_fwds#create"
 
   # Pusher
   post "/pusher/existence"

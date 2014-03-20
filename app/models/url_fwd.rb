@@ -7,6 +7,13 @@ class UrlFwd < ActiveRecord::Base
   protected
 
   def generate_visitor_uid
+    generate_one_visitor_uid
+    while UrlFwd.where(:uid => self.uid).count > 0
+      generate_one_visitor_uid
+    end
+  end
+
+  def generate_one_visitor_uid
     # 0-9 stay
     # 10-35 a-z
     # 36-61 A-Z
