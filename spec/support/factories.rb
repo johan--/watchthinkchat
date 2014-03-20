@@ -10,6 +10,7 @@ FactoryGirl.define do
     sequence(:permalink) {|n| "permalink_#{n}" }
     missionhub_token "missionhub_token"
     status "opened"
+    max_chats 2
   end
 
   factory :chat do
@@ -17,4 +18,6 @@ FactoryGirl.define do
     association :visitor, factory: :user
     association :campaign, factory: :campaign
   end
+
+  factory :user_operator
 end
