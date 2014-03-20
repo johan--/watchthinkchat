@@ -1,5 +1,5 @@
 angular.module('chatApp')
-  .service('campaignResolve', function ConfCache($http, $q, $sce) {
+  .service('campaignResolve', function ($http, $q, $sce) {
     this.getCampaignInfo = function (campaignID) {
       var defer = $q.defer();
 
