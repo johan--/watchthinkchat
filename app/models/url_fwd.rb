@@ -35,6 +35,7 @@ class UrlFwd < ActiveRecord::Base
   def set_short_url
     # https://github.com/rails/rails/issues/12178 causing missing required keys: [:uid]
     #url_fwd_path(:uid => self.uid)
-    self.short_url = "http://#{ENV['visitor_app_url']}/s/#{self.uid}"
+    #self.short_url = "http://#{ENV['visitor_app_url']}/s/#{self.uid}"
+    self.short_url = "/s/#{self.uid}"
   end
 end
