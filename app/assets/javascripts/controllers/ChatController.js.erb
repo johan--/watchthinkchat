@@ -1,7 +1,10 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate) {
-  var campaign_data;
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data) {
+  if(campaign_data === null){
+    document.write('Error: invalid campaign id.');
+    return;
+  }
   var visitor_data = {};
   $scope.visitor_fb_data = {
     id: '',
@@ -17,6 +20,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     uid: $location.search()['o'] || ''
   };
   var video_completed=false;
+  var growth_challenge_visible=false;
   var window_focus=false;
   var YTplayer;
   $scope.growthChallengeStep = -1;
@@ -27,130 +31,54 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   }else{
     $scope.christianFriendEmail = '';
   }
+  if(angular.isDefined($route.current.params.n)){
+    $scope.christianFriendName = Crypt.decodeStr($route.current.params.n);
+  }else{
+    $scope.christianFriendName = '';
+  }
 
-  $http({method: 'GET', url: '/api/campaigns/' + $route.current.params.campaignId}).
+
+  $scope.campaign_data = campaign_data;
+  window.document.title = campaign_data.title;
+
+  if (campaign_data.type === 'youtube') {
+    var tag = document.createElement('script');
+    var title = document.title;
+    tag.src = "//www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = function () {
+      $('body').addClass('video');
+      YTplayer = new YT.Player('player', {
+        //videoId: campaign_data.video_id,
+        videoId: 'KGlx11BxF24',
+        playerVars: {
+          autoplay: 0,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0,
+          iv_load_policy: 3,
+          html5: 1,
+          start: campaign_data.video_start,
+          end: campaign_data.video_end
+        },
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    };
+  }
+
+  //create visitor
+  $http({method: 'POST', url: '/api/visitors'}).
     success(function (data, status, headers, config) {
-      campaign_data = data;
-      campaign_data.video_start = 0;
-      campaign_data.video_end = 235;
-
-      $scope.campaign_data = campaign_data;
-      window.document.title = campaign_data.title;
-
-      if (campaign_data.type === 'youtube') {
-        var tag = document.createElement('script');
-        var title = document.title;
-        tag.src = "//www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        window.onYouTubeIframeAPIReady = function () {
-          $('body').addClass('video');
-          YTplayer = new YT.Player('player', {
-            //videoId: campaign_data.video_id,
-            videoId: 'KGlx11BxF24',
-            playerVars: {
-              autoplay: 0,
-              modestbranding: 1,
-              rel: 0,
-              showinfo: 0,
-              iv_load_policy: 3,
-              html5: 1,
-              start: campaign_data.video_start,
-              end: campaign_data.video_end
-            },
-            events: {
-              'onStateChange': onPlayerStateChange
-            }
-          });
-        };
+      visitor_data = data;
+      visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
+      if(campaign_data.preemptive_chat){
+        $scope.startChat('');
       }
-
-      //create visitor
-      $http({method: 'POST', url: '/api/visitors'}).
-        success(function (data, status, headers, config) {
-          visitor_data = data;
-          visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
-          if(campaign_data.preemptive_chat){
-            $scope.startChat('');
-          }
-        }).error(function (data, status, headers, config) {
-        });
-
-      $scope.campaign_data.followup_buttons.push({
-        id: 1,
-        text: 'No thanks',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "No" to following Jesus.</p><h1>That\'s honest!</h1><p>We appreciate the time you gave to watch Falling Plates.Thanks for telling us straight up what you think. There is obviously a reason in your mind right now that causes you to say no to following Jesus. We would love to have a chat about it. If you are interested we can chat about your perspective...</p>',
-        message_no_chat: '<p>You said "No" to following Jesus.</p><h1>That\'s honest!</h1><p>Thanks for telling us straight up what you think. We really appreciate the time you gave to watch Falling Plates. There is obviously a reason in your mind right now that causes you to say no to following Jesus. The next best step for you is to really talk to a Christian friend that you know and trust. If you are interested, we will help you find one. Check out the "Growth Challenge"</p>',
-        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
-        message_friend_title: 'Why involve a Christian friend you know and trust?',
-        message_friend: 'To get a genuine look at how your friend follows Jesus. Select someone you know and trust, who has mentioned their faith to you, and is able to listen.',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
-      $scope.campaign_data.followup_buttons.push({
-        id: 2,
-        text: 'I follow another faith',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "I follow another faith"</p><h1>That\'s appreciated!</h1><p>Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. What is it that you find interesting about Jesus? Lets chat about that if you are interested...</p>',
-        message_no_chat: '<p>You said "I follow another faith"</p><h1>That\'s appreciated!</h1><p>Thanks for taking time to watch #Fallingplates and considering how Jesus desires to bring life to you today. We would like to help you understand the uniqueness of Jesus and what we believe he has done for you. If you are interested to look into this with one of your Christian friends that you know and trust, let us help you connect with them...You interested? Check out the "Growth Challenge"</p>',
-        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
-        message_friend_title: 'Why involve a Christian friend you know and trust?',
-        message_friend: 'To get a genuine look at how your friend follows Jesus. Select someone you know and trust, who has mentioned their faith to you, and is able to listen.',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
-      $scope.campaign_data.followup_buttons.push({
-        id: 3,
-        text: 'I am not sure',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "I\'m not sure" to following Jesus.<h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and considering Jesus\'s call to follow Him. We are pumped that you are at least considering following Jesus! What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We\'d love to chat with you about this stuff in the chat panel...</p>',
-        message_no_chat: '<p>You said "I\'m not sure" to following Jesus.<h1>That\'s honest!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. We are glad that you are at least considering following Jesus. What is one thing that is attractive to you in following Jesus? What is one thing that makes you hesitant? We have a growth challenge that can help you find significance in following Jesus. Check out the "Growth Challenge"</p>',
-        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about a relationship with Jesus.',
-        message_friend_title: 'Why involve a Christian friend you know and trust?',
-        message_friend: 'So you can get some insight from your friend on what it looks like to follow Jesus.',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
-      $scope.campaign_data.followup_buttons.push({
-        id: 4,
-        text: 'I want to start',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "I want to start" following Jesus!</p><h1>That\'s Awesome!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. To desire to start following Jesus is a significant step! It\'s awesome to see you have that desire! Tell us a bit about what\'s up, what made you want to start? We\'d love to chat with you about this stuff in the chat panel...</p>',
-        message_no_chat: '<p>You said "I want to start" following Jesus!</p><h1>That\'s Awesome!</h1><p>Thanks for taking time to watch #FallingPlates and for considering Jesus\'s call to follow Him. To want to start following Jesus is a significant step. It\'s awesome to see you have that desire! We have a growth challenge that can help you grow if you want to start following Christ. Here\'s the best place for you to get connected with a friend to grow... Checkout the "Growth Challenge"</p>',
-        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about your relationship with Jesus.',
-        message_friend_title: 'Why involve a Christian friend you know and trust?',
-        message_friend: 'Following Jesus is meant to happen with others [in community]. Who better to start this with, than a friend you know and trust?',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
-      $scope.campaign_data.followup_buttons.push({
-        id: 5,
-        text: 'I\'m trying',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "I\'m trying" to following Jesus!</p><h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and taking time to express how you feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be...which can leave us feeling disappointed or disillusioned. We\'d love to chat with you about this stuff in the chat panel...</p>',
-        message_no_chat: '<p>You said "I\'m trying" to following Jesus!</p><h1>That\'s honest!</h1><p>Thanks for watching #FallingPlates and taking time to express how you feel about following Jesus. Sometimes we feel like we will never get there, be good enough or be the person God wants us to be...which can leave us feeling disappointed or disillusioned. We have a Growth Challenge that can help you find real satisfaction and confidence in following Jesus. It will help you understand that the relationship is based on his efforts which are sufficient  Checkout the "Growth Challenge"</p>',
-        message_growth_challenge: 'It\'s simple and it\'s free! Over the next 4 weeks we’ll email you a new thought-provoking video with discussion questions about your relationship with Jesus.',
-        message_friend_title: 'Why involve a Christian friend you know and trust?',
-        message_friend: 'Following Jesus is meant to happen with others [in community]. Who better to start this with, than a friend you know and trust?',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
-      $scope.campaign_data.followup_buttons.push({
-        id: 6,
-        text: 'I\'m following Jesus',
-        action: 'chat',
-        value: '',
-        message_active_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We would love to connect with you and discover how your journey is going and what you think the next steps are to be who He wants you to be? Let\'s chat...</p>',
-        message_no_chat: '<p>You said "I am following Jesus"</p><h1>That\'s Awesome!</h1><p>We are pumped that you are following Jesus! We know that its not always an easy path, but it\'s definitely worth it :)  We don\'t know all that\'s going on in your life today, but we are glad He led you here! It\'s our goal to help you grow and to help you have influence. We would love to connect you with someone in the adventure of knowing Jesus. Checkout the "Growth Challenge"</p>',
-        message_growth_challenge: 'The best Growth Challenge you can take is impacting one of your friends! Enter your info and over the next four weeks we will email you a new thought-provoking video about how a person can begin following Jesus.',
-        message_friend_title: 'What type of friend do I invite?',
-        message_friend: 'Then invite one person you want to know Jesus to take this Growth Challenge with you. They\'ll get a link, watch #FallingPlates, and have the chance to accept your invitation.',
-        message_finished: $sce.trustAsHtml('<p>Thanks for taking the time to watch #Fallingplates today. We hope that your experience today has been one of excitement in realising you can impact others with your faith. Thanks also for signing up in the growth challenge as a mentor to the friend you invited. Pray that the friend you invited actually comes and signs up to the growth challenge alongside you! The mentor material you get matches the material your friend will be getting. So go check your email to confirm your 4 week subscription and get on with the Growth Challenge with your friend. We pray you grow! </p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>')
-      });
     }).error(function (data, status, headers, config) {
-      document.write('Error: invalid campaign id.');
     });
 
   $scope.postMessage = function () {
@@ -163,7 +91,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       message: $scope.chatMessage
     };
     $scope.chatMessage = '';
-    //$('.chat-input').attr('placeholder','Sending...');
     $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
       success(function (data, status, headers, config) {
         //$('.chat-input').attr('placeholder','Message...');
@@ -172,7 +99,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 '</div>');
         $('.body').scrollTop($('.body')[0].scrollHeight);
       }).error(function (data, status, headers, config) {
-        //$('.chat-input').attr('placeholder','Message...');
       });
   };
 
@@ -198,9 +124,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(angular.isDefined($scope.button_clicked)){
           $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
         }
-
         $scope.liveChat=true;
-        $scope.growthChallengeStep = 1;
 
         $('.operator').html('<img class="avatar" src="' + operator_data.profile_pic + '">' +
           '<div class="message">You are chatting with<br>' + operator_data.name + '</div>');
@@ -211,14 +135,17 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           if (data.user_uid != visitor_data.uid) {
             if (data.message_type == 'activity') {
               if(data.message == 'challenge'){
-                $('.after-chat-challenge').fadeIn();
-                $scope.postActivityMessage('Growth Challenge visible');
-                $('body').scrollTop($('body')[0].scrollHeight);
-                $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
-                        '<div class="message">Growth Challenge visible</div>' +
-                        '</div>');
-                $('.body').scrollTop($('.body')[0].scrollHeight);
-                clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+                if(!growth_challenge_visible){
+                  $('.after-chat-challenge').fadeIn();
+                  $scope.postActivityMessage('Growth Challenge visible');
+                  growth_challenge_visible=true;
+                  $('body').scrollTop($('body')[0].scrollHeight);
+                  $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
+                          '<div class="message">Growth Challenge visible</div>' +
+                          '</div>');
+                  $('.body').scrollTop($('.body')[0].scrollHeight);
+                  clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+                }
               }
             } else {
               $('.body').append('<div class="content odd"><img class="avatar" src="' + operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
@@ -257,7 +184,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
             chat_data.chat_uid = 'offline';
             $('.after-chat-challenge').fadeIn();
-            $scope.growthChallengeStep=1;
+            growth_challenge_visible=true;
           }catch(e){}
           //Get Operator Info
           if(operator_data.uid){
@@ -286,9 +213,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }else{
       $scope.postActivityMessage(button.text, 'activity-button');
       $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
-      $scope.growthChallengeStep = 1;
       $('.after-chat-challenge').show();
     }
+    $scope.growthChallengeStep = 1;
     clicky.goal(campaign_data.permalink + ': Button Click: ' + button.id + ' (' + button.text + ')');
   };
 
@@ -297,7 +224,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       return;
     }
     if(message_type){
-      //var message_type=message_type;
     }else{
       var message_type='activity';
     }
@@ -306,10 +232,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       message_type: message_type,
       message: message
     };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-      success(function (data, status, headers, config) {
-      }).error(function (data, status, headers, config) {
-      });
+    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
   };
 
   $scope.facebookLogin = function(){
@@ -340,7 +263,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }else if(step==3){
       var button_id = $scope.button_clicked.id;
       if($scope.button_clicked.id===6){
-        $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid + '?o=' + $scope.visitor_fb_data.id + '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email));
+        $scope.friend_url = 'http://www.watchthinkchat.com/c/' + campaign_data.uid +
+                '?o=' + operator_data.uid +
+                '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
+                '&n=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_fb_data.first_name));
       }else{
         $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?v=' + visitor_data.uid +
                 '&button_id='+button_id +
@@ -364,10 +290,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             visitor_email: $scope.visitor_email,
             challenge_subscribe_self: true
           };
-          $http({method: 'PUT', url: '/api/visitors/'+visitor_data.uid, data: post_data}).
-                  success(function (data, status, headers, config) {
-                  }).error(function (data, status, headers, config) {
-                  });
+          $http({method: 'PUT', url: '/api/visitors/'+visitor_data.uid, data: post_data});
         } else {
           alert('Error: ' + data.msg);
         }
@@ -384,6 +307,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         link: $scope.friend_url
       });
       $scope.growthChallengeStep=10;
+      clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge via Facebook');
     }else if(how=='email'){
       $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
               'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
@@ -422,8 +346,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         }).error(function (data, status, headers, config) {
           $('#growth-challenge-invite-friend .modal-footer button').show();
           $('#growth-challenge-invite-friend .modal-footer p').hide();
-          alert('Error: '+data);
+          alert('Error: ' + data);
         });
+      clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge via email');
     }else if(how=='accept'){
       //Send email
       $scope.growthChallengeStep=10;
@@ -432,12 +357,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         from: $scope.visitor_email,
         from_name: $scope.visitor_name,
         subject: 'Your friend has accepted your "Growth Challenge"!',
-        message: $scope.visitor_fb_data.name + ' has accepted to take the Growth Challenge with you!'
+        message: $scope.visitor_fb_data.name + '(' + $scope.visitor_email + ') has accepted to take the Growth Challenge with you!'
       };
-      $http({method: 'POST', url: '/api/emails', data: post_data}).
-        success(function (data, status, headers, config) {
-        }).error(function (data, status, headers, config) {
-        });
+      $http({method: 'POST', url: '/api/emails', data: post_data});
     }
   };
 
@@ -459,28 +381,19 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         message_type: 'fbName',
         message: data.name
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
       var post_data = {
         user_uid: visitor_data.uid,
         message_type: 'fbEmail',
         message: data.email
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
       var post_data = {
         user_uid: visitor_data.uid,
         message_type: 'fbId',
         message: data.id
       };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
+      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
     }
   };
 
@@ -526,6 +439,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
 
   $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
     switch(newValue){
+      case 1:
+        //auto offer Growth Challenge
+        if(campaign_data.growth_challenge==='auto' && !growth_challenge_visible){
+          $('.after-chat-challenge').fadeIn();
+          growth_challenge_visible=true;
+          $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
+          clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
+        }
+        break;
       case 2:
         clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
         break;
@@ -537,17 +459,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           message_type: 'fbEmail',
           message: $scope.visitor_email
         };
-        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data}).
-          success(function (data, status, headers, config) {
-          }).error(function (data, status, headers, config) {
-          });
+        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
         break;
       case 9:
         $scope.postActivityMessage('Visitor has chose to "Go it Along".');
         break;
       case 10:
         $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
-        clicky.goal(campaign_data.permalink + ': Invited friend and completed Growth Challenge');
         break;
       case 99:
         $scope.postActivityMessage('Visitor has closed the Growth Challenge".');
@@ -568,6 +486,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
           YTplayer.stopVideo();
           $("#player").attr('src', '');
+          $("#player").hide();
           $('body').removeClass('video');
           clicky.goal(campaign_data.permalink + ': Video Completed');
         }
