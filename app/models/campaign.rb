@@ -18,6 +18,10 @@ class Campaign < ActiveRecord::Base
 
   accepts_nested_attributes_for :followup_buttons, :allow_destroy => true
 
+  def display_name
+    "#{name} (#{permalink})"
+  end
+
   def opened?
     status == "opened"
   end

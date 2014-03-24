@@ -2,6 +2,20 @@ ActiveAdmin.register Chat do
   filter :uid
   filter :status, :as => :select, :collection => [ "open", "closed" ]
   filter :campaign
+  filter :operator, :collection => proc { User.operators }
+  filter :operator_whose_link, :collection => proc { User.operators }, :label => "Link Sharer"
+
+  index do
+    selectable_column
+    column :id
+    column :operator
+    column "Link Sharer", :operator_whose_link
+    column :campaign
+    column "Header" do |chat|
+      chat.messages.first(3).collect(&:body).join("<br/>").html_safe
+    end
+    actions
+  end
 
   show do
     panel "Details" do

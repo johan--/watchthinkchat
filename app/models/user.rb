@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   scope :online, Proc.new { where(:status => "online") }
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
+  scope :operators, Proc.new { where(operator: true) }
 
   def is_superadmin?
     self.admin ||
