@@ -46,7 +46,6 @@ class Campaign < ActiveRecord::Base
   end
 
   def get_available_operator
-    byebug
     if self.max_chats
       operators = self.operators.online.find_all{ |o| 
         o.count_operator_open_chats_for(self) < self.max_chats

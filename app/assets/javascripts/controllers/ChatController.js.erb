@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data, visitorActivity) {
   if(campaign_data === null){
     document.write('Error: invalid campaign id.');
     return;
@@ -75,7 +75,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     success(function (data, status, headers, config) {
       visitor_data = data;
       visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
-      if(campaign_data.preemptive_chat){
+      $rootScope.visitor_uid = data.uid;
+      if(campaign_data.preemptive_chat && isMobile() === 'No'){
         $scope.startChat('');
       }
     }).error(function (data, status, headers, config) {
@@ -120,6 +121,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $http({method: 'POST', url: '/api/chats', data: data}).
       success(function (data, status, headers, config) {
         chat_data = data;
+        $rootScope.chat_uid = data.chat_uid;
         operator_data = data.operator;
         if(angular.isDefined($scope.button_clicked)){
           $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
@@ -137,7 +139,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               if(data.message == 'challenge'){
                 if(!growth_challenge_visible){
                   $('.after-chat-challenge').fadeIn();
-                  $scope.postActivityMessage('Growth Challenge visible');
+                  visitorActivity.queueMessage('Growth Challenge visible');
                   growth_challenge_visible=true;
                   $('body').scrollTop($('body')[0].scrollHeight);
                   $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
@@ -172,17 +174,21 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
         });
 
-        if(initialMsg){
-          $timeout(function(){ $scope.postActivityMessage(initialMsg, 'activity-button'); }, 2500);
-        }
-        $timeout(function(){ $scope.postActivityMessage(clientIP, 'ip'); }, 2600);
-        $timeout(function(){ $scope.postActivityMessage(getBrowser(), 'browser'); }, 2800);
-        $timeout(function(){ $scope.postActivityMessage(getOS(), 'os'); }, 3000);
+        $timeout(function(){
+          if(initialMsg){
+            visitorActivity.queueMessage(initialMsg, 'activity-button');
+          }
+          visitorActivity.queueMessage(clientIP, 'ip');
+          visitorActivity.queueMessage(getBrowser(), 'browser');
+          visitorActivity.queueMessage(isMobile(), 'mobile');
+          visitorActivity.queueMessage(getOS(), 'os');
+        }, 2500);
       }).error(function (data, status, headers, config) {
         if(data.error === 'no_operators_available'){
           try{
             $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_no_chat) || $sce.trustAsHtml('');
             chat_data.chat_uid = 'offline';
+            $rootScope.chat_uid = 'offline';
             $('.after-chat-challenge').fadeIn();
             growth_challenge_visible=true;
           }catch(e){}
@@ -211,7 +217,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if(!chat_data.chat_uid){
       $scope.startChat(button.text);
     }else{
-      $scope.postActivityMessage(button.text, 'activity-button');
+      visitorActivity.queueMessage(button.text, 'activity-button');
       $scope.button_clicked.message_visible = $sce.trustAsHtml($scope.button_clicked.message_active_chat);
       $('.after-chat-challenge').show();
     }
@@ -219,30 +225,15 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     clicky.goal(campaign_data.permalink + ': Button Click: ' + button.id + ' (' + button.text + ')');
   };
 
-  $scope.postActivityMessage = function(message, message_type){
-    if(chat_data.chat_uid==='offline'){
-      return;
-    }
-    if(message_type){
-    }else{
-      var message_type='activity';
-    }
-    var post_data = {
-      user_uid: visitor_data.uid,
-      message_type: message_type,
-      message: message
-    };
-    $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
-  };
-
   $scope.facebookLogin = function(){
     FB.login(function(response) {
       if (response.authResponse) {
         FB.api('/me', function(response) {
-          //console.log(response);
           $scope.$apply(function(){
             visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
-            $scope.visitor_email = response.email;
+            if(angular.isDefined(response.email)){
+              $scope.visitor_email = response.email;
+            }
             $scope.visitor_fb_data = response;
           });
           postVisitorInfo(response);
@@ -273,6 +264,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
                 '&n=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_fb_data.first_name));
       }
+
+      //create short url
+      $http({method: 'POST', url: '/api/url_fwds', data: {url: $scope.friend_url}}).
+        success(function (data, status, headers) {
+          $scope.friend_url = 'http://www.watchthinkchat.com' + data.short_url;
+        }).error(function() {
+        });
       $http({method: 'JSONP',
         url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
@@ -311,8 +309,8 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }else if(how=='email'){
       $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
               'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
-              'Lets take the challenge together!\n\n' +
-              'You can click here to find out more information:\n' +
+              'Let\'s take the challenge together!\n\n' +
+              'You can click here to get started, or to get more information:\n' +
               $scope.friend_url;
       $('#growth-challenge-invite-friend').modal({backdrop: true, show: true});
     }else if(how=='sendemail'){
@@ -336,8 +334,18 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         to: $scope.friend_email,
         from: $scope.visitor_email,
         from_name: $scope.visitor_name,
-        subject: 'Take the "Growth Challenge" with me',
-        message: $scope.email_message
+        subject: 'Take the "Growth Challenge" with '+$scope.visitor_name,
+        message: '=== [' + $scope.visitor_name + '\'s Comments] ===\n\n' +
+          $scope.friend_name + ', ' + $scope.email_message +
+          '\n\n === [Note from WatchThinkChat] ===\n\n'+
+          'Greetings ' + $scope.friend_name + '\n\n'+
+          'You are receiving this email because a friend of yours, ' + $scope.visitor_name + ' thought you would be able to talk with them and help them grow closer to Jesus Christ.\n\n' +
+          'We are writing to introduce ourselves at WatchThinkChat.  We are a ministry dedicated to intentionally present the Gospel of Jesus Christ to all people so everyone knows someone who truly follows Jesus. This initiative is simply meant to connect people who are asking for guidance with trusted friends that can help them grow their relationship with Jesus. We are not selling anything. We just want to make meaningful connections in building the kingdom for the Lord.\n\n' +
+          'Please click this link to learn a little more about the process regarding connecting with ' + $scope.visitor_name + '\n\n' +
+          $scope.friend_url +
+          'We will send you some free resources to help you be a great mentor. This will also let us know that you will be connecting with your friend.\n\n' +
+          'We are delighted that ' + $scope.visitor_name + ' enjoyed the WatchThinkChat experience sufficiently to connect with you to provide assistance.\n\n' +
+          'Serving with you,\nThe WatchThinkChat Team'
       };
       $http({method: 'POST', url: '/api/emails', data: post_data}).
         success(function (data, status, headers, config) {
@@ -375,25 +383,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     var chat_uid = chat_data.chat_uid;
     if(chat_uid=='offline'){
     }else{
-      $scope.postActivityMessage('Visitor has logged in with Facebook.');
-      var post_data = {
-        user_uid: visitor_data.uid,
-        message_type: 'fbName',
-        message: data.name
-      };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
-      var post_data = {
-        user_uid: visitor_data.uid,
-        message_type: 'fbEmail',
-        message: data.email
-      };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
-      var post_data = {
-        user_uid: visitor_data.uid,
-        message_type: 'fbId',
-        message: data.id
-      };
-      $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data});
+      visitorActivity.queueMessage('Visitor has logged in with Facebook.');
+      visitorActivity.queueMessage(data.name, 'fbName');
+      visitorActivity.queueMessage(data.email, 'fbEmail');
+      visitorActivity.queueMessage(data.id, 'fbId');
     }
   };
 
@@ -444,7 +437,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         if(campaign_data.growth_challenge==='auto' && !growth_challenge_visible){
           $('.after-chat-challenge').fadeIn();
           growth_challenge_visible=true;
-          $timeout(function(){ $scope.postActivityMessage('Growth Challenge visible'); }, 3200);
+          $timeout(function(){ visitorActivity.queueMessage('Growth Challenge visible'); }, 3200);
           clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
         }
         break;
@@ -452,23 +445,18 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         clicky.goal(campaign_data.permalink + ': Started Growth Challenge');
         break;
       case 3:
-        $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
+        visitorActivity.queueMessage('Visitor has signed up for the Growth Challenge.');
         clicky.goal(campaign_data.permalink + ': Signed Up for Growth Challenge');
-        var post_data = {
-          user_uid: visitor_data.uid,
-          message_type: 'fbEmail',
-          message: $scope.visitor_email
-        };
-        $http({method: 'POST', url: '/api/chats/'+chat_data.chat_uid+'/messages', data: post_data});
+        visitorActivity.queueMessage($scope.visitor_email, 'fbEmail');
         break;
       case 9:
-        $scope.postActivityMessage('Visitor has chose to "Go it Along".');
+        visitorActivity.queueMessage('Visitor has chose to "Go it Along".');
         break;
       case 10:
-        $scope.postActivityMessage('Visitor has invited a friend and completed the Growth Challenge.');
+        visitorActivity.queueMessage('Visitor has invited a friend and completed the Growth Challenge.');
         break;
       case 99:
-        $scope.postActivityMessage('Visitor has closed the Growth Challenge".');
+        visitorActivity.queueMessage('Visitor has closed the Growth Challenge".');
         break;
       default:
     }
@@ -478,6 +466,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     switch (evt.data) {
       case YT.PlayerState.PLAYING:
         clicky.goal(campaign_data.permalink + ': Video Started');
+        visitorActivity.queueMessage('Visitor has started video.');
         break;
       case YT.PlayerState.ENDED:
         if(!video_completed){
@@ -485,7 +474,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
             $scope.growthChallengeStep = 0;
           });
           YTplayer.stopVideo();
-          $("#player").attr('src', '');
+          //$("#player").attr('src', '');
           $("#player").hide();
           $('body').removeClass('video');
           clicky.goal(campaign_data.permalink + ': Video Completed');
@@ -493,6 +482,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         video_completed=true;
         break;
       case YT.PlayerState.PAUSED:
+        visitorActivity.queueMessage('Visitor has paused video.');
         break;
     }
   };
@@ -507,7 +497,30 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     M= M[2]? [M[1], M[2]]:[navigator.appName, navigator.appVersion, '-?'];
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M.join(' ');
-  }
+  };
+
+  var isMobile = function() {
+    var mobileBrowser = 'No';
+    if(navigator.userAgent.match(/Android/i) !== null){
+      mobileBrowser = 'Yes, Android';
+    }
+    if(navigator.userAgent.match(/BlackBerry/i) !== null){
+      mobileBrowser = 'Yes, BlackBerry';
+    }
+    if(navigator.userAgent.match(/iPhone/i) !== null){
+      mobileBrowser = 'Yes, iPhone';
+    }
+    if(navigator.userAgent.match(/iPad/i) !== null){
+      mobileBrowser = 'Yes, iPad';
+    }
+    if(navigator.userAgent.match(/iPod/i) !== null){
+      mobileBrowser = 'Yes, iPod';
+    }
+    if(navigator.userAgent.match(/IEMobile/i) !== null){
+      mobileBrowser = 'Yes, Windows Mobile';
+    }
+    return mobileBrowser;
+  };
 
   var getOS = function(){
     var OSName="Unknown OS";
@@ -516,11 +529,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
     if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
     return OSName;
-  }
+  };
   var validateEmail = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  }
+  };
 
 
   $(window).focus(function() {
