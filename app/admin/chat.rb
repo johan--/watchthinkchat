@@ -1,6 +1,7 @@
 ActiveAdmin.register Chat do
   filter :uid
   filter :status, :as => :select, :collection => [ "open", "closed" ]
+  filter :campaign
 
   show do
     panel "Details" do
