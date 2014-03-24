@@ -233,6 +233,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
             browser: '-',
             ip: '-',
             os: '-',
+            mobile: '-',
             geolocation: {
               city: '-',
               region_name: '',
@@ -305,6 +306,8 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
               $scope.active_sessions[index].visitor_profile='http://graph.facebook.com/'+data.message+'/picture?width=80&height=80';
             } else if (data.message_type == 'browser') {
               $scope.active_sessions[index].browser=data.message;
+            } else if (data.message_type == 'mobile') {
+              $scope.active_sessions[index].mobile=data.message;
             } else if (data.message_type == 'os') {
               $scope.active_sessions[index].os=data.message;
             } else if (data.message_type == 'ip') {

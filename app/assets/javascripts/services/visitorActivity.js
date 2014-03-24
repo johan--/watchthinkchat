@@ -4,7 +4,7 @@ angular.module('chatApp')
     var processingQueue = false;
 
     this.queueMessage = function (message, message_type) {
-      if($rootScope.chat_uid==='offline'){
+      if($rootScope.chat_uid==='offline' || !angular.isDefined($rootScope.chat_uid)){
         return;
       }
       if(message_type){
