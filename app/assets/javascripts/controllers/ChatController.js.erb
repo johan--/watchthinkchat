@@ -76,7 +76,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       visitor_data = data;
       visitor_data.profile_pic = '<%= asset_path("avatar.png") %>';
       $rootScope.visitor_uid = data.uid;
-      if(campaign_data.preemptive_chat){
+      if(campaign_data.preemptive_chat && isMobile() === 'No'){
         $scope.startChat('');
       }
     }).error(function (data, status, headers, config) {
@@ -229,7 +229,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     FB.login(function(response) {
       if (response.authResponse) {
         FB.api('/me', function(response) {
-          //console.log(response);
           $scope.$apply(function(){
             visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
             if(angular.isDefined(response.email)){
