@@ -232,7 +232,9 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           //console.log(response);
           $scope.$apply(function(){
             visitor_data.profile_pic = 'http://graph.facebook.com/'+response.id+'/picture?width=45&height=45';
-            $scope.visitor_email = response.email;
+            if(angular.isDefined(response.email)){
+              $scope.visitor_email = response.email;
+            }
             $scope.visitor_fb_data = response;
           });
           postVisitorInfo(response);
