@@ -82,8 +82,11 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     }).error(function (data, status, headers, config) {
     });
 
-  $scope.postMessage = function () {
+  $scope.postMessage = function (blur) {
     if($scope.chatMessage==''){
+      return;
+    }
+    if(blur && isMobile() === 'No'){
       return;
     }
     var post_data = {
