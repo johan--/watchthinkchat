@@ -15,8 +15,10 @@ describe Api::MessagesController do
       Pusher.stub(:[]).with("chat_#{chat.uid}").and_return(mock_client)
       mock_client.should_receive(:trigger).with('event', { :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing" })
 
-      get :create, :chat_uid => chat.uid, :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing"
+      post :create, :chat_uid => chat.uid, :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing"
       json_response['success'].should == true
+      chat.reload
+      chat.visitor_active.should == true
     end
   end
 end
