@@ -86,6 +86,8 @@ group :development do
   gem 'quiet_assets'
   gem 'seed_dump'
   gem 'byebug'
+  gem 'pry'
+  gem 'pry-debugger'
 end
 
 group :production do

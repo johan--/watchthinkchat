@@ -4,7 +4,9 @@ ActiveAdmin.register Chat do
   filter :campaign, :collection => proc { Campaign.all.order("name asc, permalink asc") }
   filter :operator, :collection => proc { User.operators.order("first_name asc, last_name asc") }
   filter :operator_whose_link, :collection => proc { User.operators }, :label => "Link Sharer"
-  filter :messages_body_contains, :as => :string
+  filter :visitor_active
+  filter :message_with_regex, :as => :custom, :label => "Message(s) Contains"
+  filter :message_without_regex, :as => :custom, :label => "Message(s) Don't Contain"
 
   index do
     selectable_column
@@ -13,7 +15,12 @@ ActiveAdmin.register Chat do
     column "Link Sharer", :operator_whose_link
     column :campaign
     column "Header" do |chat|
-      chat.messages.first(8).collect(&:body).join("<br/>").html_safe
+      html = "".html_safe
+      chat.messages.first(8).collect(&:body).each do |body|
+        html << body
+        html << "<br>".html_safe
+      end
+      html
     end
     actions
   end
@@ -43,6 +50,16 @@ ActiveAdmin.register Chat do
   end
 
   controller do
+    def scoped_collection
+      base = Chat
+      (params[:q] || {}).each do |scope, value|
+        if Chat.respond_to?(scope)
+          base = base.send(scope, value)
+        end
+      end
+      base
+    end
+
     def permitted_params
       params.permit!
     end

@@ -10,6 +10,12 @@ class Chat < ActiveRecord::Base
   validates :uid, :visitor_id, presence: true
 
   scope :open, lambda { where(:status => "open") }
+  scope :message_with_regex, ->(regex) { joins(:messages).where("body ~* ?", regex) }
+  scope :message_without_regex, ->(regex) { where.not(:id => Chat.unscoped.message_with_regex(regex).select(:id).collect(&:id)) }
+
+  def update_visitor_active!
+    self.update_attribute :visitor_active, self.messages.where(message_type: "user", user_id: visitor_id).count > 0
+  end
 
   def set_uid
     return uid if uid
