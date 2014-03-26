@@ -4,7 +4,7 @@ ActiveAdmin.register Chat do
   filter :campaign, :collection => proc { Campaign.all.order("name asc, permalink asc") }
   filter :operator, :collection => proc { User.operators.order("first_name asc, last_name asc") }
   filter :operator_whose_link, :collection => proc { User.operators }, :label => "Link Sharer"
-  filter :messages_body_search, :as => :string
+  filter :messages_body_contains, :as => :string
 
   index do
     selectable_column
