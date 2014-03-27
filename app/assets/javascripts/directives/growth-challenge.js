@@ -15,7 +15,7 @@ angular.module('chatApp')
             var button_id = $scope.button_clicked.id;
             if($scope.button_clicked.id===6){
               $scope.friend_url = 'http://www.watchthinkchat.com/c/' + $scope.campaign_data.uid +
-                '?o=' + operator_data.uid +
+                '?o=' + $scope.operator_data.uid +
                 '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
                 '&n=' + encodeURIComponent(Crypt.encodeStr($rootScope.visitor_data.first_name));
             }else{
