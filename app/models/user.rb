@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
 
   def sync_mh(params = {})
     return unless campaign
-    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{operator ? User::LEADER_PERMISSION : User::VISITOR_PERMISSION}#{"&person[fb_uid]=#{fb_uid}" if fb_uid.present?}&person[first_name]=#{esc(first_name)}&person[last_name]=#{esc(last_name)}&person[email]=#{email}")["person"]
+    p = Rest.post("https://www.missionhub.com/apis/v3/people?secret=#{campaign.missionhub_token}&permissions=#{operator ? User::LEADER_PERMISSION : User::VISITOR_PERMISSION}#{"&person[fb_uid]=#{fb_uid}" if fb_uid.present?}#{"&person[first_name]=#{esc(first_name)}" if first_name.present?}#{"&person[last_name]=#{esc(last_name)}" if last_name.present?}#{"&person[email]=#{email}" if email.present?}")["person"]
     self.update_attribute :missionhub_id, p["id"]
     # add labels
     add_label("Leader") if self.operator

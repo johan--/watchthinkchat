@@ -16,7 +16,7 @@ describe Api::VisitorsController do
     visitor = create_visitor
     chat = create(:chat, :visitor => visitor)
     # sync_mh method always posts to people first, as MH is smart enough to find an existing record
-    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[fb_uid]=123&person[first_name]=#{visitor.first_name}&person[last_name]=&person[email]=email@email.com").and_return("person" => { "id" => visitor.missionhub_id })
+    Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/people?secret=missionhub_token&permissions=2&person[fb_uid]=123&person[first_name]=#{visitor.first_name}&person[email]=email@email.com").and_return("person" => { "id" => visitor.missionhub_id })
     Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/contact_assignments?secret=missionhub_token&contact_assignment[person_id]=#{visitor.missionhub_id}&contact_assignment[assigned_to_id]=#{chat.operator.missionhub_id}")
 
     # from add_label "Challenge Subscribe Self"
@@ -39,4 +39,10 @@ describe Api::VisitorsController do
 
     put :update, :uid => visitor.visitor_uid, :fb_uid => 123, :visitor_email => "email@email.com", :challenge_subscribe_self => true, :challenge_subscribe_friend => "friend@test.com"
   end
-end
+
+  it "should give an error when the visitor ahs no chats" do
+    visitor = create_visitor
+    put :update, :uid => visitor.visitor_uid, :fb_uid => 123, :visitor_email => "email@email.com", :challenge_subscribe_self => true, :challenge_subscribe_friend => "friend@test.com"
+    json_response['error'].should == "chat_not_found"
+  end
+ end
