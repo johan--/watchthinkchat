@@ -16,7 +16,9 @@ class Api::VisitorsController < Api::UsersController
     @user.assigned_operator2_id = chat.operator_whose_link_id
     [ :fb_uid, :email, :challenge_subscribe_self, :challenge_subscribe_friend, :challenge_friend_accepted ].each do |param|
       if param == :email
-        @user.email = params[:visitor_email] if params[:visitor_email]
+        if (email = params[:visitor_email]) && (email =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i)
+          @user.email = params[:visitor_email] if params[:visitor_email]
+        end
       else
         @user.send("#{param}=", params[param]) if params[param].present?
       end
