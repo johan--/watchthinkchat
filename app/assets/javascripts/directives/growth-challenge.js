@@ -4,113 +4,95 @@ angular.module('chatApp')
       restrict: 'E',
       templateUrl: '/templates/growthchallenge.html',
       link: function (scope, element, attrs){
-        if(attrs.step == '2'){
-          setTimeout(function(){ scope.nextStep(2); },1500);
-        }
+
       },
-      controller: function ($scope, $http, $route) {
-        if(window.innerWidth <= 800){
-          $scope.isMobile = true
-        }else{
-          $scope.isMobile = false
-        }
-        var visitor_fb_data = {
-          id: '',
-          first_name:'',
-          last_name: '',
-          email: ''
-        };
-        $scope.nextStep = function(step, fblogin){
-          if(step == 0){
-            $('#after-chat-information-02').hide();
-            $('.after-chat-challenge, #after-chat-information-01').fadeIn();
-          }else if(step == 1){
-            if($scope.isMobile){ //if mobile
-              var challengeUrl = '/challenge?button_id=' + $scope.button_clicked.id + '&fb=' + fblogin;
-              if(fblogin){
-                window.open('https://www.facebook.com/dialog/oauth?client_id=555591577865154&redirect_uri=' + encodeURIComponent('http://www.watchthinkchat.com'+challengeUrl));
-              }else{
-                window.open(challengeUrl);
-              }
-            }else{ //if desktop
-              if(fblogin){
-                FB.login(function(response) {
-                  if (response.authResponse) {
-                    $scope.nextStep(2, fblogin);
-                  }
-                });
-              }else{
-                $scope.nextStep(2, fblogin)
-              }
-            }
-          }else if(step == 2){
-            $('#after-chat-information-01, .after-chat-challenge').hide();
-            $('#after-chat-information-02').show();
-            if(fblogin || $route.current.params.fb == 'true'){
-              FB.api('/me', function(response) {
-                visitor_fb_data = response;
-                $scope.$apply(function(){
-                  $scope.visitor_email = visitor_fb_data.email;
-                  $scope.visitor_name = visitor_fb_data.name;
-                });
-                $scope.postVisitorInfo(response);
-              });
-            }
-          }else if(step == 3){
-            if(angular.isDefined($scope.button_clicked)){
-              var button_id = $scope.button_clicked.id;
+      controller: function ($scope, $rootScope, $http, Crypt) {
+        $scope.growthChallengeNextStep = function(step){
+          if(step==2){
+            $('.after-chat-challenge').hide();
+            $scope.growthChallengeStep=2;
+          }else if(step==3){
+            var button_id = $scope.button_clicked.id;
+            if($scope.button_clicked.id===6){
+              $scope.friend_url = 'http://www.watchthinkchat.com/c/' + $scope.campaign_data.uid +
+                '?o=' + operator_data.uid +
+                '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
+                '&n=' + encodeURIComponent(Crypt.encodeStr($rootScope.visitor_data.first_name));
             }else{
-              var button_id = $route.current.params.button_id;
+              $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?v=' + $rootScope.visitor_data.uid +
+                '&button_id='+button_id +
+                '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
+                '&n=' + encodeURIComponent(Crypt.encodeStr($rootScope.visitor_data.first_name));
             }
-            var chat_uid = window.localStorage.getItem('gchat_chat_uid');
-            $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?session='+chat_uid+'&button_id='+button_id
+
+            //create short url
+            $http({method: 'POST', url: '/api/url_fwds', data: {url: $scope.friend_url}}).
+              success(function (data, status, headers) {
+                $scope.friend_url = 'http://www.watchthinkchat.com' + data.short_url;
+              }).error(function() {
+              });
             $http({method: 'JSONP',
               url: 'https://gcx.us6.list-manage.com/subscribe/post-json?u=1b47a61580fbf999b866d249a&id=c3b97c030f' +
                 '&EMAIL=' + encodeURIComponent($scope.visitor_email) +
-                '&FNAME=' + encodeURIComponent(visitor_fb_data.first_name) +
-                '&LNAME=' + encodeURIComponent(visitor_fb_data.last_name) +
+                '&FNAME=' + encodeURIComponent($rootScope.visitor_data.first_name) +
+                '&LNAME=' + encodeURIComponent($rootScope.visitor_data.last_name) +
                 '&RESPCODE=' + encodeURIComponent(button_id) +
                 '&c=JSON_CALLBACK'
             }).success(function (data, status, headers, config) {
               if (data.result === 'success') {
-                $('#after-chat-information-02').hide();
-                $('#after-chat-information-03').show();
-
-                try{
-                  $scope.postActivityMessage('Visitor has signed up for the Growth Challenge.');
-                }catch(e){
-                }
+                $scope.growthChallengeStep=3;
 
                 //notify mission hub
                 var post_data = {
-                  fb_uid: visitor_fb_data.id,
+                  fb_uid: $rootScope.visitor_data.fb_id,
                   visitor_email: $scope.visitor_email,
                   challenge_subscribe_self: true
                 };
-                $http({method: 'PUT', url: '/api/visitors/'+window.localStorage.getItem('gchat_visitor_id'), data: post_data}).
-                  success(function (data, status, headers, config) {
-                  }).error(function (data, status, headers, config) {
-                  });
+                $http({method: 'PUT', url: '/api/visitors/'+$rootScope.visitor_data.uid, data: post_data});
               } else {
                 alert('Error: ' + data.msg);
               }
             }).error(function (data, status, headers, config) {
               alert('Error: Could not connect to mail service.');
             });
-          }else if(step == 4){
+          }
+        };
+
+        $scope.growthChallengePrevStep = function(){
+          switch($scope.growthChallengeStep){
+            case 1:
+              $scope.growthChallengeStep=0;
+              $('.after-chat-challenge').hide();
+              break;
+            case 2:
+              $scope.growthChallengeStep=1;
+              $('.after-chat-challenge').show();
+              break;
+            case 3:
+              $scope.growthChallengeStep=2;
+              break;
+            case 9:
+              $scope.growthChallengeStep=3;
+              break;
+          }
+        };
+
+        $scope.growthChallengeInviteFriend = function(how){
+          if(how=='fb'){
             FB.ui({
               method: 'send',
               link: $scope.friend_url
             });
-            $scope.nextStep(7);
-          }else if(step == 5){
+            $scope.growthChallengeStep=10;
+            clicky.goal($scope.campaign_data.permalink + ': Invited friend and completed Growth Challenge via Facebook');
+          }else if(how=='email'){
             $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
               'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
-              'Lets take the challenge together!\n\n' +
-              'You can click here to find out more information:\n' +
+              'Let\'s take the challenge together!\n\n' +
+              'You can click here to get started, or to get more information:\n' +
               $scope.friend_url;
-            $('#after-chat-information-05').modal({backdrop: false, show: true});
-          }else if(step ==6){
+            $('#growth-challenge-invite-friend').modal({backdrop: true, show: true});
+          }else if(how=='sendemail'){
             if(!$scope.visitor_name){
               alert('Please enter Your Name.');
               return;
@@ -125,88 +107,49 @@ angular.module('chatApp')
             }
 
             //Send email
-            $('#after-chat-information-05 .modal-footer button').hide();
-            $('#after-chat-information-05 .modal-footer p').show();
+            $('#growth-challenge-invite-friend .modal-footer button').hide();
+            $('#growth-challenge-invite-friend .modal-footer p').show();
             var post_data = {
               to: $scope.friend_email,
               from: $scope.visitor_email,
               from_name: $scope.visitor_name,
-              subject: 'Take the "Growth Challenge" with me',
-              message: $scope.email_message
+              subject: 'Take the "Growth Challenge" with '+$scope.visitor_name,
+              message: '=== [' + $scope.visitor_name + '\'s Comments] ===\n\n' +
+                $scope.friend_name + ', ' + $scope.email_message +
+                '\n\n === [Note from WatchThinkChat] ===\n\n'+
+                'Greetings ' + $scope.friend_name + '\n\n'+
+                'You are receiving this email because a friend of yours, ' + $scope.visitor_name + ' thought you would be able to talk with them and help them grow closer to Jesus Christ.\n\n' +
+                'We are writing to introduce ourselves at WatchThinkChat.  We are a ministry dedicated to intentionally present the Gospel of Jesus Christ to all people so everyone knows someone who truly follows Jesus. This initiative is simply meant to connect people who are asking for guidance with trusted friends that can help them grow their relationship with Jesus. We are not selling anything. We just want to make meaningful connections in building the kingdom for the Lord.\n\n' +
+                'Please click this link to learn a little more about the process regarding connecting with ' + $scope.visitor_name + '\n\n' +
+                $scope.friend_url +
+                'We will send you some free resources to help you be a great mentor. This will also let us know that you will be connecting with your friend.\n\n' +
+                'We are delighted that ' + $scope.visitor_name + ' enjoyed the WatchThinkChat experience sufficiently to connect with you to provide assistance.\n\n' +
+                'Serving with you,\nThe WatchThinkChat Team'
             };
             $http({method: 'POST', url: '/api/emails', data: post_data}).
               success(function (data, status, headers, config) {
-                $('#after-chat-information-05').modal('hide');
-                $scope.nextStep(7);
+                $('#growth-challenge-invite-friend').modal('hide');
+                $scope.growthChallengeStep=10;
               }).error(function (data, status, headers, config) {
-                $('#after-chat-information-05 .modal-footer button').show();
-                $('#after-chat-information-05 .modal-footer p').hide();
-                alert('Error: '+data);
+                $('#growth-challenge-invite-friend .modal-footer button').show();
+                $('#growth-challenge-invite-friend .modal-footer p').hide();
+                alert('Error: ' + data);
               });
-          }else if(step == 7){
-            //notify mission hub
+            clicky.goal($scope.campaign_data.permalink + ': Invited friend and completed Growth Challenge via email');
+          }else if(how=='accept'){
+            //Send email
+            $scope.growthChallengeStep=10;
             var post_data = {
-              fb_uid: visitor_fb_data.id,
-              visitor_email: $scope.visitor_email,
-              challenge_subscribe_friend: $scope.friend_email || 'facebook'
+              to: $scope.christianFriendEmail,
+              from: $scope.visitor_email,
+              from_name: $scope.visitor_name,
+              subject: 'Your friend has accepted your "Growth Challenge"!',
+              message: $rootScope.visitor_data.name + '(' + $scope.visitor_email + ') has accepted to take the Growth Challenge with you!'
             };
-            $http({method: 'PUT', url: '/api/visitors/'+window.localStorage.getItem('gchat_visitor_id'), data: post_data}).
-              success(function (data, status, headers, config) {
-              }).error(function (data, status, headers, config) {
-              });
-            $('#after-chat-information-06').show();
-            $('#after-chat-information-03').hide();
-          }else if(step == 99){
-            $('.after-chat-information').hide();
-            $('#after-chat-information-exit').show();
+            $http({method: 'POST', url: '/api/emails', data: post_data});
           }
         };
 
-        /*$scope.postVisitorInfo = function(data){
-          try{
-            $scope.postActivityMessage('Visitor has logged in with Facebook.');
-          }catch(e){}
-          var chat_uid = window.localStorage.getItem('gchat_chat_uid');
-          var visitor_uid = window.localStorage.getItem('gchat_visitor_id');
-          var post_data = {
-            user_uid: visitor_uid,
-            message_type: 'fbName',
-            message: data.name
-          };
-          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
-          var post_data = {
-            user_uid: visitor_uid,
-            message_type: 'fbEmail',
-            message: data.email
-          };
-          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
-          var post_data = {
-            user_uid: visitor_uid,
-            message_type: 'fbId',
-            message: data.id
-          };
-          $http({method: 'POST', url: '/api/chats/'+chat_uid+'/messages', data: post_data}).
-            success(function (data, status, headers, config) {
-            }).error(function (data, status, headers, config) {
-            });
-        }*/
-
-        var validateEmail = function(email) {
-          var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return re.test(email);
-        }
-
-/*        FB.init({
-          appId      : '555591577865154',
-          status     : true,
-          xfbml      : true
-        });*/
       }
     };
   });

@@ -1,7 +1,7 @@
 <div class="row">
   <!-- Chat Column Begin -->
   <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs"></div>
-  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column" ng-class="{'minimized': mobileMinChat, 'chat-facebook': (visitor_fb_data.id==='')}">
+  <div class="col-xs-10 col-md-3 col-lg-3 col-sm-4 chat-column" ng-class="{'minimized': mobileMinChat, 'chat-facebook': (visitor_data.name==='')}">
     <div class="header" ng-click="mobileMinChat=!mobileMinChat"><span class="title">WatchThinkChat</span><i class="fa fa-comments-o title">&nbsp;</i></div>
 
     <div class="panel-body" data-ng-show="!liveChat">
@@ -30,7 +30,7 @@
     </div>
     <div class="form-group input custom-name" ng-show="liveChat">
       <div class="col-xs-10">
-        <input class="form-control" type="text" placeholder="Name" ng-model="visitor_fb_data.name" ng-enter="updateVisitorName()">
+        <input class="form-control" type="text" placeholder="Name" ng-model="visitor_data.tmp_name" ng-enter="updateVisitorName()">
       </div>
       <div class="col-xs-2 text-right">
         <a href="#" title="Login with Facebook" data-ng-click="facebookLogin();"><img src="<%= asset_path("facebook.png") %>"></a>
@@ -56,101 +56,10 @@
           <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
             <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -3">{{button.text}}</a>
           </div>
-
-
         </div>
       </div>
 
-      <!--<growth-challenge></growth-challenge>-->
-      <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
-        <div class="after-chat-information" ng-show="growthChallengeStep===1" ng-bind-html="button_clicked.message_visible">
-        </div>
-        <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
-          <h1>Take the Growth Challenge!</h1>
-          <p>{{button_clicked.message_growth_challenge}}</p>
-          <h2>{{button_clicked.message_friend_title}}</h2>
-          <p>{{button_clicked.message_friend}}</p>
-        </div>
-        <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
-          <h1>Take the Growth Challenge!</h1>
-          <p>Your friend, {{christianFriendName}} ({{christianFriendEmail}})  had one person they could invite to take the Growth Challenge and they chose YOU! It’s simple and it’s free! Sign up with your email and over the next four weeks and get a new thought-provoking video about what it means to follow Jesus.</p>
-          <h2>What’s involved?</h2>
-          <p>{{christianFriendName}} ({{christianFriendEmail}}) really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
-        </div>
-        <div ng-show="growthChallengeStep===9">
-          <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
-          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
-        </div>
-        <div ng-show="growthChallengeStep===10" ng-bind-html="button_clicked.message_finished">
-        </div>
-        <div ng-show="growthChallengeStep===99">
-          <p>We are sorry to see you go, please tell us why you left.</p>
-          <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6 content-column">
-        <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-click="growthChallengeNextStep(2)">
-            <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
-          </div>
-        </div>
-        <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
-          <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
-            <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-              <div class="forward-button"></div>
-              Learn More
-            </div>
-          </a>
-        </div>
-
-        <div class="row" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-            <h2>Get Started!</h2>
-          </div>
-        </div>
-        <div class="row" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
-            <h2>Step 1: Video Series</h2>
-            <p>Enter your email</p>
-            <form class="form-inline">
-              <div class="form-group input">
-                <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email">
-                <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-show="visitor_fb_data.id===''" title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
-                <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">Submit</button>
-              </div>
-            </form>
-            <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
-          </div>
-        </div>
-        <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-            <h2>Step 2: Add Friend</h2>
-            <p>Invite your Christian Friend</p>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
-          </div>
-        </div>
-        <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-            <h2>Step 2: The Challenge</h2>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept their invite</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite a different friend</a>
-            <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9"><i class="fa fa-frown-o"></i> Go it alone</a>
-          </div>
-        </div>
-        <div class="row" ng-show="growthChallengeStep===9 || growthChallengeStep===10">
-          <iframe src="https://www.surveymonkey.com/s.aspx?sm=Q6qPjnUyhycI2h1eIECQ3Q%3d%3d" style="border:none;width:100%;height:100%;min-height: 480px;"></iframe>
-        </div>
-        <div class="row" ng-show="growthChallengeStep===99">
-          <iframe src="https://www.surveymonkey.com/s.aspx?sm=Cw8SFge7kJBp8a5XPYjbr9nPofo24uDm%2fX6jjKaeGMfuYzQoFI6lY4169Iz7qTkM" style="border:none;width:100%;height:100%;min-height: 480px;"></iframe>
-        </div>
-        <div class="row" ng-show="growthChallengeStep===100">
-          <div class="col-md-12 col-lg-offset-4 col-lg-8">
-            <p>Feedback sent, thank you!</p>
-          </div>
-        </div>
-      </div>
+      <growth-challenge></growth-challenge>
     </div>
   </div>
   <!-- Content Columns End -->
@@ -170,39 +79,4 @@
 </footer>
 <!-- Footer End -->
 <privacy-policy></privacy-policy>
-<div class="modal" id="growth-challenge-invite-friend" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form class="form" role="form">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" class="form-control" data-ng-model="visitor_name">
-          </div>
-          <div class="form-group">
-            <label>Your Email</label>
-            <input type="email" class="form-control" data-ng-model="visitor_email">
-          </div>
-          <div class="form-group">
-            <label>Friend's Name</label>
-            <input type="text" class="form-control" data-ng-model="friend_name">
-          </div>
-          <div class="form-group">
-            <label>Friend's Email</label>
-            <input type="text" class="form-control" data-ng-model="friend_email">
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea class="form-control" rows="10" data-ng-model="email_message"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <p style="display:none;">Sending...</p>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-ng-click="growthChallengeInviteFriend('sendemail')">Send</button>
-      </div>
-    </div>
-  </div>
-</div>
 <audio id="newMsgAlert"><source src="<%= asset_path("notify.ogg") %>" type="audio/ogg"><source src="<%= asset_path("notify.mp3") %>" type="audio/mpeg"><source src="<%= asset_path("notify.wav") %>" type="audio/wav"></audio>
