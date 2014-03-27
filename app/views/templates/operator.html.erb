@@ -152,22 +152,13 @@
           <p class="form-control-static">{{session.requested_operator.name}}</p>
         </div>
         <div style="clear:both;">
-          <label class="control-label">Browser</label>
+          <label class="control-label">Browser:</label>
           <p class="form-control-static">{{session.browser}}</p>
-        </div>
-        <label class="control-label">OS</label>
-        <div>
-          <p class="form-control-static">{{session.os}}</p>
-        </div>
-        <label class="control-label">Mobile</label>
-        <div>
-          <p class="form-control-static">{{session.mobile}}</p>
-        </div>
-        <label class="control-label">IP Address</label>
-        <div>
-          <p class="form-control-static">{{session.ip}}</p>
-        </div>
-        <label class="control-label">Location</label>
+        </div><hr>
+        <label class="control-label">OS:</label> {{session.os}}<hr>
+        <label class="control-label">Mobile:</label> {{session.mobile}}<hr>
+        <label class="control-label">IP Address:</label> {{session.ip}}<hr>
+        <label class="control-label">Location:</label>
         <div>
           <p class="form-control-static">{{session.geolocation.city}}, {{session.geolocation.region_name}} {{session.geolocation.country_code}}</p>
         </div>
