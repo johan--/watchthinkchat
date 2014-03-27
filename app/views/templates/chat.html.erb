@@ -8,8 +8,8 @@
       <div class="btn btn-danger btn-lg btn-block" data-ng-click="startChat('')">Start Chat</div>
       <p id="finishVideo" style="display:none;">Finish watching the video, then we can chat.</p>
       <div id="noOperators" style="display:none;">
-        <p ng-show="!operator_data">No operators are currently available to chat.</p>
-        <div ng-show="operator_data">
+        <p ng-show="!operator_data.uid">No operators are currently available to chat.</p>
+        <div ng-show="operator_data.uid">
           <img ng-src="{{operator_data.profile_pic}}" style="float:left;padding:0 6px 6px 0;width:50px;height:50px;">
           <p class="form-control-static">{{operator_data.name}} is currently not available to chat. <a href="#" style="color:#000;text-decoration:underline;" ng-click="sendFbMsgToOperator()">Send them a message.</a></p>
         </div>
