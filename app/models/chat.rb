@@ -17,6 +17,10 @@ class Chat < ActiveRecord::Base
     self.update_attribute :visitor_active, self.messages.where(message_type: "user", user_id: visitor_id).count > 0
   end
 
+  def update_user_messages_count!
+    self.update_attribute :user_messages_count, self.messages.where(message_type: "user", user_id: visitor_id).count
+  end
+
   def set_uid
     return uid if uid
 
