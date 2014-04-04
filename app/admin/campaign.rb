@@ -3,6 +3,7 @@ ActiveAdmin.register Campaign do
     column :name
     column :created_at
     column :permalink
+    column :uid
     column :campaign_type
     column :status
     default_actions
