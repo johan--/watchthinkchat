@@ -76,6 +76,7 @@ ActiveAdmin.register Campaign do
       f.input :missionhub_token, :hint => %|Get the missionhub token from <A HREF="http://www.missionhub.com/organizations/api" target="_BLANK">http://www.missionhub.com/organizations/api (opens in a new tab)</A>|.html_safe
       f.input :permalink
       f.input :campaign_type
+      f.input :video_id
       f.input :max_chats
       f.input :description, :as => :text
       f.input :language
