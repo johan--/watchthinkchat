@@ -28,12 +28,14 @@ ActiveAdmin.register Chat do
     actions
   end
 
-  sidebar "Stats" do
-    table_for Chat.first do
-      column "Number of Chats in Filter" do
-        collection.limit(nil).offset(nil).count
-      end
+  sidebar "Filter Stats" do
+    base = collection.limit(nil).offset(nil)
+    html = content_tag(:table) do
+      concat("<tr><td>Number of Chats</td><td>#{base.count}</td></tr>".html_safe)
+      concat("<tr><td>Average Messages per Chat</td><td>#{base.average(:user_messages_count).round(2)}</td></tr>".html_safe)
     end
+
+    html
   end
 
   show do
