@@ -51,8 +51,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     window.onYouTubeIframeAPIReady = function () {
       $('body').addClass('video');
       YTplayer = new YT.Player('player', {
-        //videoId: campaign_data.video_id,
-        videoId: 'KGlx11BxF24',
+        videoId: campaign_data.video_id,
         playerVars: {
           autoplay: 0,
           modestbranding: 1,
