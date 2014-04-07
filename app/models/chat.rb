@@ -18,7 +18,7 @@ class Chat < ActiveRecord::Base
   end
 
   def update_user_messages_count!
-    self.update_attribute :user_messages_count, self.messages.where(message_type: "user", user_id: visitor_id).count
+    self.update_attribute :user_messages_count, self.messages.where(message_type: "user").count
   end
 
   def set_uid
