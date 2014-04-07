@@ -1,10 +1,12 @@
 ActiveAdmin.register Chat do
+  filter :id, :as => :numeric_range
   filter :uid
   filter :status, :as => :select, :collection => [ "open", "closed" ]
   filter :campaign, :collection => proc { Campaign.all.order("name asc, permalink asc") }
   filter :operator, :collection => proc { User.operators.order("first_name asc, last_name asc") }
   filter :operator_whose_link, :collection => proc { User.operators }, :label => "Link Sharer"
   filter :visitor_active
+  filter :user_messages_count
   filter :message_with_regex, :as => :custom, :label => "Message(s) Contains"
   filter :message_without_regex, :as => :custom, :label => "Message(s) Don't Contain"
 
@@ -22,7 +24,16 @@ ActiveAdmin.register Chat do
       end
       html
     end
+    column "# User Msg", :user_messages_count
     actions
+  end
+
+  sidebar "Stats" do
+    table_for Chat.first do
+      column "Number of Chats in Filter" do
+        collection.limit(nil).offset(nil).count
+      end
+    end
   end
 
   show do
