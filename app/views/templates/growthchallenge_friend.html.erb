@@ -5,42 +5,30 @@
             padding: 16px 0;">
     <div class="row">
       <div class="col-md-8 col-lg-9 col-sm-12 col-xs-12">
-        <p>You are here because a friend of yours, <strong>{{friendsName || friendsEmail}}</strong>, thought you would be able to talk with them and help
-          them grow closer to Jesus Christ.<br>
-          A spiritual mentor is like a coach. In Matthew 28, Jesus tells us to "go and make disciples." This simply
-          means helping others learn to follow Jesus. This is a chance for you to do that with someone you already know!
-        </p>
-        <p style="padding-top:20px;"><strong>To accept this challenge, enter your email below</strong>:</p>
+        <p>{{translation.GC_YOUR_FRIEND}} <strong>{{friendsName || friendsEmail}}</strong><span ng-bind-html="translation.GC_FRIEND_LEAD_IN"></span></p>
+        <p style="padding-top:20px;"><strong>{{translation.GC_FRIEND_ACCEPT_CHALLENGE}}</strong></p>
 
         <form class="form-inline" data-ng-show="successfulSubscribe==''">
           <div class="form-group input">
             <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email" ng-enter="emailSubscribe()">
-            <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-hide="visitor_fb_data" title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
-            <button type="submit" class="btn btn-default btn-danger" data-ng-click="emailSubscribe()">Submit</button>
+            <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-hide="visitor_fb_data" ng-attr-title="{{translation.GC_STEP1_FB_PRIVACY}}"><i class="fa fa-facebook-square"></i></a>
+            <button type="submit" class="btn btn-default btn-danger" data-ng-click="emailSubscribe()">{{translation.GC_STEP1_SUBMIT}}</button>
           </div>
         </form>
 
         <div data-ng-show="successfulSubscribe != ''"><p>{{successfulSubscribe}}</p></div>
         <br>
 
-        <p>*<a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy policy</a> -
-          We won't sell or torture your personal data :)</p>
+        <p>*<a href="#" data-toggle="modal" data-target="#privacy-policy">{{translation.GC_STEP1_PRIVACY}}</a></p>
         <ul>
-          <li>We won't share your information with anyone. Only you and your friend will receive a confirmation
-            message.
-          </li>
-          <li>We will email you four thought-provoking videos with discussion questions and mentoring tips that will
-            assist you in helping your friend understand something very important about their relationship with God. You
-            can get a preview of the emails <a href="/challenge/resources" target="_blank">here</a>.
-          </li>
-          <li>This will also let us know that you will be connecting with your friend and helping them take the next
-            step to grow toward Jesus.
-          </li>
+          <li ng-bind-html="translation.GC_FRIEND_PRIVACY_1"></li>
+          <li ng-bind-html="translation.GC_FRIEND_PRIVACY_2"></li>
+          <li ng-bind-html="translation.GC_FRIEND_PRIVACY_3"></li>
           </ul>
       </div>
       <div class="col-md-4 col-lg-3 col-sm-12 col-xs-12">
-        <iframe style="margin:auto; display:block; max-width: 100%;" src="//www.youtube.com/embed/KGlx11BxF24?rel=0" frameborder="0" allowfullscreen></iframe>
-        <p>Watch #FallingPlates, the 4 minute video above, to see what started the conversation between you and your friend.</p>
+        <iframe style="margin:auto; display:block; max-width: 100%;" ng-src="{{campaign_data_vid_url}}" frameborder="0" allowfullscreen></iframe>
+        <p>{{translation.GC_FRIEND_WATCH_VIDEO}}</p>
       </div>
     </div>
   </div>

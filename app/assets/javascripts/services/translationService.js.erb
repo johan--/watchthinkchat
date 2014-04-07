@@ -1,0 +1,37 @@
+angular.module('chatApp')
+  .service('translationService', function ($http, $sce) {
+    this.getTranslation = function($scope, language) {
+      language = language || 'en';
+      var ssid = 'translation_' + language;
+      if(language === 'zh'){
+        var languageFilePath = '';
+      }else{
+        var languageFilePath = '<%= asset_path("en.json") %>';
+      }
+
+      if (sessionStorage) {
+        if (sessionStorage.getItem(ssid)) {
+          var data = JSON.parse(sessionStorage.getItem(ssid));
+          setTranslationData(data, $scope);
+        } else {
+          $http({method: 'GET', url: languageFilePath}).
+            success(function (data) {
+              sessionStorage.setItem(ssid, JSON.stringify(data));
+              setTranslationData(data, $scope);
+            });
+        }
+      } else {
+        $http({method: 'GET', url: languageFilePath}).
+          success(function (data) {
+            setTranslationData(data, $scope);
+          });
+      }
+    };
+
+    var setTranslationData = function(data, $scope){
+      angular.forEach(data, function (value, key) {
+        data[key] = $sce.trustAsHtml(value);
+      });
+      $scope.translation = data;
+    }
+  });

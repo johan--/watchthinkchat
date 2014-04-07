@@ -1,21 +1,3 @@
-'use strict';
-/*
-angular.module("chatApp", ["ngRoute"]).config(($routeProvider, $locationProvider) ->
-  $locationProvider.html5Mode true
-  $routeProvider.when("/",
-    templateUrl: "/templates/dashboard.html"
-  controller: "DashboardController as ctrl"
-  ).when("/tour",
-    templateUrl: "/templates/tour.html"
-  controller: "TourController as ctrl"
-  ).when("/features",
-    templateUrl: "/templates/features.html"
-  controller: "FeaturesController as ctrl"
-  ).otherwise redirectTo: "/"
-).run ($rootScope) ->
-  $rootScope.YouTubeApiLoaded = false
-*/
-
 angular.module('chatApp', ['ngRoute'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -38,7 +20,12 @@ angular.module('chatApp', ['ngRoute'])
       }
     }).when('/challenge/friend', {
       templateUrl: '/templates/growthchallenge_friend.html',
-      controller: 'ChallengeFriendController as ctrl'
+      controller: 'ChallengeFriendController as ctrl',
+      resolve: {
+        campaign_data: ['$route', 'campaignResolve', function ($route, campaignResolve) {
+          return campaignResolve.getCampaignInfo($route.current.params.c);
+        }]
+      }
     }).when('/challenge/resources', {
         templateUrl: '/templates/mentor_resources.html'
         //controller: 'ChallengeController as ctrl'

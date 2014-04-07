@@ -1,6 +1,6 @@
-'use strict';
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data, visitorActivity, visitorInfo, translationService) {
+  translationService.getTranslation($scope, campaign_data.language);
 
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data, visitorActivity, visitorInfo) {
   if(campaign_data === null){
     document.write('Error: invalid campaign id.');
     return;
@@ -122,7 +122,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
         $scope.liveChat=true;
 
         $('.operator').html('<img class="avatar" src="' + $scope.operator_data.profile_pic + '">' +
-          '<div class="message">You are chatting with<br>' + $scope.operator_data.name + '</div>');
+          '<div class="message">' + $scope.translation.CHAT_CHATTING_WITH +  '<br>' + $scope.operator_data.name + '</div>');
         var pusher = new Pusher('249ce47158b276f4d32b');
         pusher.subscribe('visitor_' + $rootScope.visitor_data.uid);
         var channel_chat = pusher.subscribe('chat_'+chat_data.chat_uid);
@@ -136,7 +136,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                   growth_challenge_visible=true;
                   $('body').scrollTop($('body')[0].scrollHeight);
                   $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
-                          '<div class="message">Growth Challenge visible</div>' +
+                          '<div class="message">' + $scope.translation.CHAT_GC_VISIBLE +  '</div>' +
                           '</div>');
                   $('.body').scrollTop($('.body')[0].scrollHeight);
                   clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
@@ -233,7 +233,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           });
 
           $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
-                  '<div class="message">Logged in with Facebook</div>' +
+                  '<div class="message">' + $scope.translation.CHAT_FB_LOGIN + '</div>' +
                   '</div>');
           $('.body').scrollTop($('.body')[0].scrollHeight);
 
@@ -258,7 +258,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
   $scope.updateVisitorName = function(){
     $scope.visitor_data.name = $scope.visitor_data.tmp_name;
     $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
-      '<div class="message">Name set to: ' + $rootScope.visitor_data.name + '</div>' +
+      '<div class="message">'+ $scope.translation.CHAT_NAME_SET + $rootScope.visitor_data.name + '</div>' +
       '</div>');
     $('.body').scrollTop($('.body')[0].scrollHeight);
 

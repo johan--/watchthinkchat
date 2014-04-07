@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('chatApp')
     .service('Crypt', function () {
         var key = "SXdpkoWLZPDOKFIVUHJYTQBifuvjhtybqmGNMACERxswgzlncare";

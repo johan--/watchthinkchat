@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route, $location, Crypt) {
+angular.module('chatApp').controller('ChallengeFriendController', function ($scope, $http, $route, $location, $sce, campaign_data, Crypt, translationService) {
+  translationService.getTranslation($scope, campaign_data.language);
+  $scope.campaign_data_vid_url = $sce.trustAsResourceUrl('//www.youtube.com/embed/' + campaign_data.video_id + '?rel=0');
+
   $('body').css('background',' #58504A');
   window.document.title = 'WatchThinkChat Growth Challenge';
   $('.after-chat-information').show();

@@ -21,6 +21,7 @@ angular.module('chatApp')
             }else{
               $scope.friend_url = 'http://www.watchthinkchat.com/challenge/friend?v=' + $rootScope.visitor_data.uid +
                 '&button_id='+button_id +
+                '&c=' + encodeURIComponent($scope.campaign_data.uid) +
                 '&refer=' + encodeURIComponent(Crypt.encodeStr($scope.visitor_email)) +
                 '&n=' + encodeURIComponent(Crypt.encodeStr($rootScope.visitor_data.first_name));
             }
@@ -86,11 +87,7 @@ angular.module('chatApp')
             $scope.growthChallengeStep=10;
             clicky.goal($scope.campaign_data.permalink + ': Invited friend and completed Growth Challenge via Facebook');
           }else if(how=='email'){
-            $scope.email_message='I just watched a Christian film called #FallingPlates and decided to accept the "Growth Challenge" that was offered. I got to pick one friend to help me grow spiritually and I chose you!\n\n' +
-              'Would you be willing to help by looking at the email content we would get, and then discussing it with me? This means 4 emails, 4 conversations over 4 weeks. That\'s it.\n\n' +
-              'Let\'s take the challenge together!\n\n' +
-              'You can click here to get started, or to get more information:\n' +
-              $scope.friend_url;
+            $scope.email_message=$scope.translation.GC_FORM_MESSAGE_1 + $scope.friend_url;
             $('#growth-challenge-invite-friend').modal({backdrop: true, show: true});
           }else if(how=='sendemail'){
             if(!$scope.visitor_name){
@@ -113,7 +110,7 @@ angular.module('chatApp')
               to: $scope.friend_email,
               from: $scope.visitor_email,
               from_name: $scope.visitor_name,
-              subject: 'Take the "Growth Challenge" with '+$scope.visitor_name,
+              subject: $scope.translation.GC_EMAIL_SUBJECT + ' ' + $scope.visitor_name,
               message: '=== [' + $scope.visitor_name + '\'s Comments] ===\n\n' +
                 $scope.friend_name + ', ' + $scope.email_message +
                 '\n\n === [Note from WatchThinkChat] ===\n\n'+
@@ -143,8 +140,8 @@ angular.module('chatApp')
               to: $scope.christianFriendEmail,
               from: $scope.visitor_email,
               from_name: $scope.visitor_name,
-              subject: 'Your friend has accepted your "Growth Challenge"!',
-              message: $rootScope.visitor_data.name + '(' + $scope.visitor_email + ') has accepted to take the Growth Challenge with you!'
+              subject: $scope.translation.GC_ACCEPTED_EMAIL_SUBJECT,
+              message: $rootScope.visitor_data.name + '(' + $scope.visitor_email + ') ' + $scope.translation.GC_ACCEPTED_EMAIL_MESSAGE
             };
             $http({method: 'POST', url: '/api/emails', data: post_data});
           }

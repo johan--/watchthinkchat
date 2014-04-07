@@ -2,77 +2,77 @@
   <div class="after-chat-information" ng-show="growthChallengeStep===1" ng-bind-html="button_clicked.message_visible">
   </div>
   <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
-    <h1>Take the Growth Challenge!</h1>
+    <h1>{{translation.GC_TITLE}}</h1>
     <p>{{button_clicked.message_growth_challenge}}</p>
     <h2>{{button_clicked.message_friend_title}}</h2>
     <p>{{button_clicked.message_friend}}</p>
   </div>
   <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
-    <h1>Take the Growth Challenge!</h1>
-    <p>Your friend, {{christianFriendName}} ({{christianFriendEmail}})  had one person they could invite to take the Growth Challenge and they chose YOU! It’s simple and it’s free! Sign up with your email and over the next four weeks and get a new thought-provoking video about what it means to follow Jesus.</p>
-    <h2>What’s involved?</h2>
-    <p>{{christianFriendName}} ({{christianFriendEmail}}) really wants to do this with you. This means 4 emails, 4 conversations over 4 weeks talking about this. Click Accept and you and your friend can get started today.</p>
+    <h1>{{translation.GC_TITLE}}</h1>
+    <p>{{translation.GC_YOUR_FRIEND}} {{christianFriendName}} ({{christianFriendEmail}}) {{translation.GC_YOUR_FRIEND_2}}</p>
+    <h2>{{translation.GC_WHATS_INVOLVED}}</h2>
+    <p>{{christianFriendName}} ({{christianFriendEmail}}) {{translation.GC_YOUR_FRIEND_3}}</p>
   </div>
   <div ng-show="growthChallengeStep===9">
-    <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
-    <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+    <p>{{translation.GC_COMPLETE_GO_IT_ALONE}}</p>
+    <p ng-bind-html="translation.GC_COMPLETE_SIGNATURE"></p>
   </div>
   <div ng-show="growthChallengeStep===10" ng-bind-html="button_clicked.message_finished">
   </div>
   <div ng-show="growthChallengeStep===99">
-    <p>We are sorry to see you go, please tell us why you left.</p>
-    <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
+    <p>{{translation.GC_EXIT}}</p>
+    <p ng-bind-html="translation.GC_COMPLETE_SIGNATURE"></p>
   </div>
 </div>
 <div class="col-md-6 col-lg-6 content-column">
   <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
     <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-click="growthChallengeNextStep(2)">
-      <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
+      <h1>{{translation.GC_HEADING}}</h1>
     </div>
   </div>
   <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
     <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
       <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
         <div class="forward-button"></div>
-        Learn More
+        {{translation.GC_LEARN_MORE}}
       </div>
     </a>
   </div>
 
   <div class="row" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
     <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-      <h2>Get Started!</h2>
+      <h2>{{translation.GC_GET_STARTED}}</h2>
     </div>
   </div>
   <div class="row" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
     <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
-      <h2>Step 1: Video Series</h2>
-      <p>Enter your email</p>
+      <h2>{{translation.GC_STEP1}}</h2>
+      <p>{{translation.GC_STEP1}}</p>
       <form class="form-inline">
         <div class="form-group input">
-          <input class="form-control" type="email" placeholder="Email" data-ng-model="visitor_email">
-          <a href="#" class="btn btn-danger" data-ng-click="facebookLogin();" ng-show="visitor_data.fb_id===''" title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
-          <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">Submit</button>
+          <input class="form-control" type="email" placeholder="Email" ng-model="visitor_email">
+          <a href="#" class="btn btn-danger" ng-click="facebookLogin();" ng-show="visitor_data.fb_id===''" ng-attr-title="{{translation.GC_STEP1_FB_PRIVACY}}"><i class="fa fa-facebook-square"></i></a>
+          <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">{{translation.GC_STEP1_SUBMIT}}</button>
         </div>
       </form>
-      <small>Privacy Policy: Don’t worry we won’t sell or torture your personal data.</small>
+      <small>{{translation.GC_STEP1_PRIVACY}}</small>
     </div>
   </div>
   <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
     <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-      <h2>Step 2: Add Friend</h2>
-      <p>Invite your Christian Friend</p>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
+      <h2>{{translation.GC_STEP2}}</h2>
+      <p>{{translation.GC_STEP2_SUBTITLE}}</p>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> {{translation.GC_STEP2_FB}}</a>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> {{translation.GC_STEP2_EMAIL}}</a>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> {{translation.GC_STEP2_ALONE}}</a>
     </div>
   </div>
   <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
     <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-      <h2>Step 2: The Challenge</h2>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Accept their invite</a>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite a different friend</a>
-      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9"><i class="fa fa-frown-o"></i> Go it alone</a>
+      <h2>{{translation.GC_STEP2_2}}</h2>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> {{translation.GC_STEP2_ACCEPT}}</a>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> {{translation.GC_STEP2_INVITE}}</a>
+      <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9"><i class="fa fa-frown-o"></i> {{translation.GC_STEP2_ALONE}}</a>
     </div>
   </div>
   <div class="row" ng-show="growthChallengeStep===9 || growthChallengeStep===10">
@@ -83,7 +83,7 @@
   </div>
   <div class="row" ng-show="growthChallengeStep===100">
     <div class="col-md-12 col-lg-offset-4 col-lg-8">
-      <p>Feedback sent, thank you!</p>
+      <p>{{translation.GC_FEEDBACK}}</p>
     </div>
   </div>
 </div>
@@ -96,31 +96,31 @@
       <div class="modal-body">
         <form class="form" role="form">
           <div class="form-group">
-            <label>Your Name</label>
+            <label>{{translation.GC_FORM_YOUR_NAME}}</label>
             <input type="text" class="form-control" data-ng-model="visitor_name" required>
           </div>
           <div class="form-group">
-            <label>Your Email</label>
+            <label>{{translation.GC_FORM_YOUR_EMAIL}}</label>
             <input type="email" class="form-control" data-ng-model="visitor_email">
           </div>
           <div class="form-group">
-            <label>Friend's Name</label>
+            <label>{{translation.GC_FORM_FRIENDS_NAME}}</label>
             <input type="text" class="form-control" data-ng-model="friend_name">
           </div>
           <div class="form-group">
-            <label>Friend's Email</label>
+            <label>{{translation.GC_FORM_FRIENDS_EMAIL}}</label>
             <input type="email" class="form-control" data-ng-model="friend_email">
           </div>
           <div class="form-group">
-            <label>Message</label>
+            <label>{{translation.GC_FORM_MESSAGE}}</label>
             <textarea class="form-control" rows="10" data-ng-model="email_message"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <p style="display:none;">Sending...</p>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-ng-click="growthChallengeInviteFriend('sendemail')">Send</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{translation.GC_FORM_CLOSE}}</button>
+        <button type="button" class="btn btn-success" data-ng-click="growthChallengeInviteFriend('sendemail')">{{translation.GC_FORM_SEND}}</button>
       </div>
     </div>
   </div>

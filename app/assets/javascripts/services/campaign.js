@@ -4,7 +4,7 @@ angular.module('chatApp')
       var defer = $q.defer();
 
       $http({method: 'GET', url: '/api/campaigns/' + campaignID}).
-        success(function (data, status, headers, config) {
+        success(function (data) {
           data.video_start = 0;
           data.video_end = 235;
           data.followup_buttons.push({
