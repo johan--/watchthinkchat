@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout, $sce, timeUpdate) {
+angular.module('chatApp').controller('OperatorController', function ($scope, $rootScope, $location, $route, $http, $filter, $timeout, $sce, timeUpdate, audioNotify) {
   var operator_data = {
     uid: $route.current.params.operatorId,
     profile_pic: '<%= asset_path("avatar.png") %>'
@@ -209,7 +207,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
 
         //new chat session notification
         if (window_focus === false) {
-          $('#newMsgAlert')[0].play();
+          audioNotify.play();
           desktopNotify('Incoming Chat Session', newchat_data.visitor_name, newchat_data.chat_uid);
         }
 
@@ -339,7 +337,7 @@ angular.module('chatApp').controller('OperatorController', function ($scope, $ro
                   element.animate({marginTop: '-=' + distance}, speed)
                           .animate({marginTop: '+=' + distance}, speed);
                 }
-                $('#newMsgAlert')[0].play();
+                audioNotify.play();
                 desktopNotify('New Message', $scope.active_sessions[index].visitor_name+': ' + $("<div/>").html(data.message).text(), newchat_data.chat_uid);
               }
             }

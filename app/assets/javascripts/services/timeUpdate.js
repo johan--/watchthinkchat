@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('chatApp')
     .service('timeUpdate', function ($filter) {
         var timeUpdate = setInterval(function () {

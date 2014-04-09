@@ -1,4 +1,4 @@
-angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data, visitorActivity, visitorInfo, translationService) {
+angular.module('chatApp').controller('ChatController', function ($scope, $rootScope, $route, $http, $location, $timeout, $sce, Crypt, timeUpdate, campaign_data, visitorActivity, visitorInfo, translationService, audioNotify) {
   translationService.getTranslation($scope, campaign_data.language);
 
   if(campaign_data === null){
@@ -151,7 +151,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                 $scope.mobileMinChat=false;
               });
               if (!window_focus) {
-                $('#newMsgAlert')[0].play();
+                audioNotify.play();
               }
             }
           }
