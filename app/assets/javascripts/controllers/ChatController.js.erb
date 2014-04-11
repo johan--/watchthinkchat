@@ -77,7 +77,6 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
       if(campaign_data.preemptive_chat && visitorInfo.isMobile() === 'No'){
         $scope.startChat('');
       }
-    }).error(function (data, status, headers, config) {
     });
 
   $scope.postMessage = function (blur) {
@@ -91,7 +90,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $('.body').append('<div class="content"><img class="avatar" src="' + $rootScope.visitor_data.profile_pic + '"><div class="message">' + $scope.chatMessage + '</div>' +
         '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>You</div>' +
         '</div>');
-    $('.body').scrollTop($('.body')[0].scrollHeight);
+    chatScrollBottom();
     visitorActivity.queueMessage($scope.chatMessage, 'user');
     $scope.chatMessage = '';
   };
@@ -134,11 +133,10 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
                   $('.after-chat-challenge').fadeIn();
                   visitorActivity.queueMessage('Growth Challenge visible');
                   growth_challenge_visible=true;
-                  $('body').scrollTop($('body')[0].scrollHeight);
                   $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
                           '<div class="message">' + $scope.translation.CHAT_GC_VISIBLE +  '</div>' +
                           '</div>');
-                  $('.body').scrollTop($('.body')[0].scrollHeight);
+                  chatScrollBottom();
                   clicky.goal(campaign_data.permalink + ': Growth Challenge visible');
                 }
               }
@@ -146,7 +144,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
               $('.body').append('<div class="content odd"><img class="avatar" src="' + $scope.operator_data.profile_pic + '"><div class="message">' + data.message + '</div>' +
                       '<div class="name muted"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' + $scope.operator_data.name + '</div>' +
                       '</div>');
-              $('.body').scrollTop($('.body')[0].scrollHeight);
+              chatScrollBottom();
               $scope.$apply(function(){
                 $scope.mobileMinChat=false;
               });
@@ -235,7 +233,7 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
           $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
                   '<div class="message">' + $scope.translation.CHAT_FB_LOGIN + '</div>' +
                   '</div>');
-          $('.body').scrollTop($('.body')[0].scrollHeight);
+          chatScrollBottom();
 
           visitorActivity.queueMessage('Visitor has logged in with Facebook.');
           visitorActivity.queueMessage(response.name, 'fbName');
@@ -260,9 +258,13 @@ angular.module('chatApp').controller('ChatController', function ($scope, $rootSc
     $('.body').append('<div class="system"><div class="date timestamp-refresh" timestamp="' + Math.round(+new Date()).toString() + '">Just Now</div>' +
       '<div class="message">'+ $scope.translation.CHAT_NAME_SET + $rootScope.visitor_data.name + '</div>' +
       '</div>');
-    $('.body').scrollTop($('.body')[0].scrollHeight);
+    chatScrollBottom();
 
     visitorActivity.queueMessage($rootScope.visitor_data.name, 'fbName');
+  };
+
+  var chatScrollBottom = function(){
+    jQuery('.body').scrollTop(jQuery('.body')[0].scrollHeight);
   };
 
   $scope.$watch('growthChallengeStep', function(newValue, oldValue) {
