@@ -4,8 +4,7 @@ class FollowupButton < ActiveRecord::Base
   def as_json(options = {})
     {
       :text => btn_text,
-      :action => btn_action,
-      :value => btn_value,
+      :id => btn_id,
       :message_active_chat => message_active_chat,
       :message_no_chat => message_no_chat
     }
