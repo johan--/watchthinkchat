@@ -77,6 +77,9 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl'
   gem 'assert_difference'
+  gem 'byebug'
+  gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :development do
@@ -85,9 +88,6 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.9'
   gem 'quiet_assets'
   gem 'seed_dump'
-  gem 'byebug'
-  gem 'pry'
-  gem 'pry-debugger'
 end
 
 group :production do

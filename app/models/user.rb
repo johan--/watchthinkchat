@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
   scope :operators, Proc.new { where(operator: true) }
 
+  def admin_campaigns
+    Campaign.where("admin1_id = ? OR admin2_id = ? OR admin3_id = ?", id, id, id)
+  end
+
   def is_superadmin?
     self.admin ||
       %w(aandrewroth@gmail.com).include?(email) ||

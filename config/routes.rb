@@ -18,7 +18,9 @@ Godchat::Application.routes.draw do
   get ':path/:subpath' => 'templates#index'
 
   # API
+  get  "/api/campaigns", to: "api/campaigns#index"
   get  "/api/campaigns/:uid", to: "api/campaigns#show"
+  put  "/api/campaigns/:uid", to: "api/campaigns#update"
   post "/api/campaigns/:uid/password", to: "api/campaigns#password"
   post "/api/visitors", to: "api/visitors#create"
   put "/api/visitors/:uid", to: "api/visitors#update"

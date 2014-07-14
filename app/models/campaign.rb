@@ -33,6 +33,7 @@ class Campaign < ActiveRecord::Base
   def as_json(options = {})
     #super({ :only => [ :title, :type, :permalink ] }.merge(options))
     { 
+      :chat_start => self.chat_start,
       :title => self.name, 
       :type => self.campaign_type, 
       :permalink => self.permalink, 
@@ -77,6 +78,10 @@ class Campaign < ActiveRecord::Base
     return unless new_password.present?
     @password = Password.create(new_password)
     self.password_hash = @password
+  end
+
+  def is_admin?(user)
+    [ admin1, admin2, admin3 ].compact.include?(user)
   end
 
   protected

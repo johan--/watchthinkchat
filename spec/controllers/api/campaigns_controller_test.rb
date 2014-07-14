@@ -3,7 +3,11 @@ require 'spec_helper'
 describe Api::CampaignsController do
   let(:create_user) { create(:user); }
   let(:create_operator) { create(:user, :operator => true, "operator_uid" => "ouid" ); }
-  let(:create_campaign) { create(:campaign, :campaign_type => "youtube", :video_id => "12345", :permalink => "test", :password => "password"); }
+  #let(:create_campaign) { create(:campaign, :campaign_type => "youtube", :video_id => "12345", :permalink => "test", :password => "password"); }
+
+  def create_campaign(atts = {})
+    create(:campaign, {campaign_type: "youtube", video_id: "12345", permalink: "test", password: "password"}.merge(atts));
+  end
 
   describe "#show" do
     it "should work" do
@@ -19,6 +23,97 @@ describe Api::CampaignsController do
       campaign = create_campaign
       get :show, :uid => "bob"
       assert_response 404
+    end
+  end
+
+  describe "#index" do
+    it "should work" do
+      @user = create_user
+      @user2 = create_user
+      campaign = create(:campaign, :admin1 => @user, :campaign_type => "youtube", :video_id => "12345", :permalink => "test", :password => "password");
+      campaign2 = create_campaign
+      sign_in @user
+      get :index
+      json_response.class.should == Array
+      json_response.first['title'].should == campaign.name
+      json_response.first['type'].should == "youtube"
+      json_response.first['permalink'].should == "test"
+      json_response.first['video_id'].should == "12345"
+    end
+
+    it "should give a 404 if no campaign found" do
+      campaign = create_campaign
+      get :show, :uid => "bob"
+      assert_response 404
+    end
+  end
+
+  describe "#update" do
+    it "should require permission" do
+      campaign = create_campaign
+      operator = create_operator
+      sign_in operator
+
+      new_params = {
+        followup_buttons: [ {
+        } ]
+      }
+      put :update, new_params.merge(uid: campaign.uid)
+      json_response["error"].should == "User is not admin"
+    end
+
+    it "should give an error on invalid followup buttons" do
+      operator = create_operator
+      campaign = create_campaign(:admin1 => operator)
+      sign_in operator
+
+      new_params = {
+        followup_buttons: [ {
+        } ]
+      }
+      put :update, new_params.merge(uid: campaign.uid)
+      json_response["error"].should == [{"followup_buttons_0"=>{"btn_text"=>["can't be blank"]}}]
+    end
+
+    it "should work" do
+      operator = create_operator
+      campaign = create_campaign(:admin1 => operator)
+      sign_in operator
+
+      new_params = {
+        title: "#FALLINGPLATES",
+        type: "youtube",
+        video_id: "KGlx11BxF24",
+        permalink: "fallingplates",
+        max_chats: 3,
+        chat_start: "video_end",
+        owner: "426542435",
+        description: "Falling plates campaign for Big Break week 3",
+        language: "en",
+        status: "opened",
+        preemptive_chat: true,
+        growth_challenge: "operator",
+        followup_buttons: [ {
+            text: "No",
+          }, {
+            text: "I follow another religion",
+            message_active_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->",
+            message_no_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :)"
+          }
+        ]
+      }
+
+      put :update, new_params.merge(uid: campaign.uid)
+      # response has the message_*_chat params as nils
+      new_params[:followup_buttons].first["message_active_chat"] = nil
+      new_params[:followup_buttons].first["message_no_chat"] = nil
+      # response adds ids
+      new_params[:followup_buttons].first["id"] = 1
+      new_params[:followup_buttons].second["id"] = 2
+      # json_response puts keys to strings
+      new_params[:followup_buttons][0] = Hash[new_params[:followup_buttons].first.collect{ |k,v| [k.to_s, v]}]
+      new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
+      json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => campaign.uid)
     end
   end
 
