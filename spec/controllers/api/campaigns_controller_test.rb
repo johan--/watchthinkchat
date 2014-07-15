@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe Api::CampaignsController do
   let(:create_user) { create(:user); }
-  let(:create_operator) { create(:user, :operator => true, "operator_uid" => "ouid" ); }
-  #let(:create_campaign) { create(:campaign, :campaign_type => "youtube", :video_id => "12345", :permalink => "test", :password => "password"); }
+
+  def create_operator(params = {})
+    create(:operator, params.merge(:status => "online"))
+  end
 
   def create_campaign(atts = {})
     create(:campaign, {campaign_type: "youtube", video_id: "12345", permalink: "test", password: "password"}.merge(atts));
@@ -45,6 +47,47 @@ describe Api::CampaignsController do
       campaign = create_campaign
       get :show, :uid => "bob"
       assert_response 404
+    end
+  end
+
+  describe "#create" do
+    it "should work" do
+      operator = create_operator
+      sign_in operator
+      new_params = {
+        title: "#FALLINGPLATES",
+        type: "youtube",
+        video_id: "KGlx11BxF24",
+        permalink: "fallingplates",
+        max_chats: 3,
+        chat_start: "video_end",
+        owner: "426542435",
+        description: "Falling plates campaign for Big Break week 3",
+        language: "en",
+        status: "opened",
+        preemptive_chat: true,
+        growth_challenge: "operator",
+        followup_buttons: [ {
+            text: "No",
+          }, {
+            text: "I follow another religion",
+            message_active_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->",
+            message_no_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :)"
+          }
+        ]
+      }
+
+      post :create, new_params
+      # response has the message_*_chat params as nils
+      new_params[:followup_buttons].first["message_active_chat"] = nil
+      new_params[:followup_buttons].first["message_no_chat"] = nil
+      # response adds ids
+      new_params[:followup_buttons].first["id"] = 1
+      new_params[:followup_buttons].second["id"] = 2
+      # json_response puts keys to strings
+      new_params[:followup_buttons][0] = Hash[new_params[:followup_buttons].first.collect{ |k,v| [k.to_s, v]}]
+      new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
+      json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => Campaign.first.uid)
     end
   end
 
@@ -152,6 +195,29 @@ describe Api::CampaignsController do
         json_response["share_url"].should == share_url
       }.should change(UserOperator, :count).by(1)
       assert_response 201
+    end
+  end
+
+  describe "#stats" do
+    it "should work" do
+      FactoryGirl.reload
+      load "spec/support/factories.rb"
+      @campaign = create_campaign
+      operators = []
+      10.times do
+        operators << create_operator(operating_campaigns: [@campaign])
+      end
+      operators.first(5).each do |o|
+        create(:chat, operator: o, campaign: @campaign, visitor: create(:visitor), :status => "open")
+      end
+      operators.first(2).each do |o|
+        create(:chat, operator: o, campaign: @campaign, visitor: create(:visitor), :status => "open")
+      end
+      operators.last(2).each do |o|
+        create(:chat, operator: o, campaign: @campaign, visitor: create(:visitor), :status => "closed")
+      end
+      get :stats, :uid => @campaign.uid
+      json_response.should == {"headers"=>["operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat"], "operators"=>operators.collect{ |o| [ o.operator_uid, o.fullname, o.email, o.missionhub_id, o.status, o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid), o.count_operator_chats_for(@campaign), @campaign.max_chats ? o.count_operator_open_chats_for(@campaign) < @campaign.max_chats : true ]}}
     end
   end
 end

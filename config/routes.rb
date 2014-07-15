@@ -18,10 +18,24 @@ Godchat::Application.routes.draw do
   get ':path/:subpath' => 'templates#index'
 
   # API
+=begin
   get  "/api/campaigns", to: "api/campaigns#index"
+  post "/api/campaigns", to: "api/campaigns#create"
   get  "/api/campaigns/:uid", to: "api/campaigns#show"
   put  "/api/campaigns/:uid", to: "api/campaigns#update"
   post "/api/campaigns/:uid/password", to: "api/campaigns#password"
+=end
+  namespace "api" do
+    resource :campaigns, param: :uid do
+      collection do
+        get :index
+      end
+      member do
+        post :password
+        get :stats
+      end
+    end
+  end
   post "/api/visitors", to: "api/visitors#create"
   put "/api/visitors/:uid", to: "api/visitors#update"
   post "/api/operators", to: "api/operators#create"
