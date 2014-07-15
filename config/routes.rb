@@ -12,6 +12,7 @@ Godchat::Application.routes.draw do
   root 'site#index'
 
   get '/s/:uid' => 'url_fwds#show', :constraints => { :uid => /[0-9a-zA-Z]*/ }, :as => :url_fwd
+  get '/manage' => 'manage#index'
   get '/operator/:operator_uid' => 'operators#show'
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   get ':path' => 'templates#index'
