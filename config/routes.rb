@@ -11,8 +11,21 @@ Godchat::Application.routes.draw do
 
   root 'site#index'
 
+  namespace "api" do
+    resource :campaigns, param: :uid do
+      collection do
+        get :index
+      end
+      member do
+        post :password
+        get :stats
+      end
+    end
+  end
+
   get '/s/:uid' => 'url_fwds#show', :constraints => { :uid => /[0-9a-zA-Z]*/ }, :as => :url_fwd
   get '/manage' => 'manage#index'
+  get '/manage/:a' => 'manage#index'
   get '/operator/:operator_uid' => 'operators#show'
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   get ':path' => 'templates#index'
@@ -26,17 +39,6 @@ Godchat::Application.routes.draw do
   put  "/api/campaigns/:uid", to: "api/campaigns#update"
   post "/api/campaigns/:uid/password", to: "api/campaigns#password"
 =end
-  namespace "api" do
-    resource :campaigns, param: :uid do
-      collection do
-        get :index
-      end
-      member do
-        post :password
-        get :stats
-      end
-    end
-  end
   post "/api/visitors", to: "api/visitors#create"
   put "/api/visitors/:uid", to: "api/visitors#update"
   post "/api/operators", to: "api/operators#create"
