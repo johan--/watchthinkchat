@@ -12,10 +12,7 @@ Godchat::Application.routes.draw do
   root 'site#index'
 
   namespace "api" do
-    resource :campaigns, param: :uid do
-      collection do
-        get :index
-      end
+    resources :campaigns, param: :uid do
       member do
         post :password
         get :stats
