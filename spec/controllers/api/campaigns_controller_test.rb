@@ -158,6 +158,32 @@ describe Api::CampaignsController do
       new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
       json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => campaign.uid)
     end
+
+    it "should work with the query Adam gave me" do
+      operator = create_operator
+      campaign = create_campaign(:admin1 => operator)
+      sign_in operator
+
+      new_params = {
+        "chat_start" => nil,
+        "title" => "My First Campaign 2",
+        "type" => nil,
+        "permalink" => "adam",
+        "video_id" => "r0dHgtF6qnU",
+        "uid" => "32651y6254y5",
+        "max_chats" => 5,
+        "owner" => nil,
+        "description" => nil,
+        "language" => "en",
+        "status" => "active",
+        "followup_buttons" => [],
+        "preemptive_chat" => nil,
+        "growth_challenge" => "operator"
+      }
+
+      put :update, new_params.merge(uid: campaign.uid)
+      json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => campaign.uid)
+    end
   end
 
   describe "#password" do

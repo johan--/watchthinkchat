@@ -100,7 +100,9 @@ class Api::CampaignsController < ApplicationController
     else
       # At this point, the campaign update is valid and all new followup buttons are valid.  Delete all old buttons and make new ones.
       @campaign.followup_buttons.delete_all
-      new_buttons.collect{ |b| b.campaign = @campaign; b.save! }
+      if new_buttons.present?
+        new_buttons.collect{ |b| b.campaign = @campaign; b.save! }
+      end
       @campaign.reload
       render json: @campaign, status: 201
     end
