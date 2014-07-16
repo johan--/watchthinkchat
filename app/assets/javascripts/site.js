@@ -34,6 +34,15 @@ angular.module('chatApp', ['ngRoute'])
     }).when('/operator/:operatorId', {
       templateUrl: '/templates/operator.html',
       controller: 'OperatorController as ctrl'
+    }).when('/manage', {
+      templateUrl: '/templates/manage/index.html',
+      controller: 'ManageController as ctrl'
+    }).when('/manage/new', {
+      templateUrl: '/templates/manage/new.html',
+      controller: 'ManageEditController as ctrl'
+    }).when('/manage/:campaignId', {
+      templateUrl: '/templates/manage/edit.html',
+      controller: 'ManageEditController as ctrl'
     }).otherwise({
       redirectTo: '/'
     });

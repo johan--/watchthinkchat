@@ -1,0 +1,7 @@
+<h5><strong>My Campaigns</strong></h5>
+<ul class="nav nav-sidebar">
+    <li ng-class="{active: activeCampaign.uid === c.uid}" ng-repeat="c in myCampaigns"><a href="/manage/{{c.uid}}" ng-bind="c.title"></a></li>
+</ul>
+<ul class="nav nav-sidebar">
+    <li><a href="/manage/new">Create new campaign</a></li>
+</ul>

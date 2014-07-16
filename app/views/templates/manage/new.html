@@ -1,0 +1,20 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-include="'/templates/manage/inc_nav.html'">
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" ng-include="'/templates/manage/inc_sidebar.html'">
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">Create Campaign</h2>
+            <p class="bg-success notify">Campaign created</p>
+            <form class="form-horizontal" role="form">
+                <div ng-include="'/templates/manage/inc_campaign_form.html'"></div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" ng-click="createCampaign()">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
