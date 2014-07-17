@@ -20,7 +20,7 @@ class Api::CampaignsController < ApplicationController
     @campaign = Campaign.where(:uid => params[:uid]).first
 
     unless @campaign.is_admin?(current_user)
-      render :json => { :error => "User is not admin" }, :status => 404
+      render :json => { :error => "User is not admin" }, :status => 403
       return
     end
 
@@ -73,6 +73,7 @@ class Api::CampaignsController < ApplicationController
   def create_or_update_campaign
     params[:name] = params.delete(:title)
     params[:campaign_type] = params.delete(:type)
+    params[:followup_buttons] ||= []
     campaign_params = params.permit(:uid, :followup_buttons, :name, :cname, :created_at, :updated_at, :missionhub_token, :permalink, :video_id, :campaign_type, :uid, :max_chats, :chat_start, :owner, :user_id, :description, :language, :status, :password_hash, :admin1_id, :admin2_id, :admin3_id, :preemptive_chat, :growth_challenge)
 
     # handle new buttons

@@ -19,7 +19,11 @@ class User < ActiveRecord::Base
   scope :operators, Proc.new { where(operator: true) }
 
   def admin_campaigns
-    Campaign.where("admin1_id = ? OR admin2_id = ? OR admin3_id = ?", id, id, id)
+    if is_superadmin?
+      Campaign.all
+    else
+      Campaign.where("admin1_id = ? OR admin2_id = ? OR admin3_id = ?", id, id, id)
+    end
   end
 
   def is_superadmin?

@@ -81,7 +81,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def is_admin?(user)
-    [ admin1, admin2, admin3 ].compact.include?(user)
+    user.is_superadmin? || [ admin1, admin2, admin3 ].compact.include?(user)
   end
 
   protected
