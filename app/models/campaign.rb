@@ -18,6 +18,8 @@ class Campaign < ActiveRecord::Base
 
   accepts_nested_attributes_for :followup_buttons, :allow_destroy => true
 
+  validates_uniqueness_of :permalink, :allow_nil => false, :allow_blank => false
+
   def display_name
     "#{name} (#{permalink})"
   end

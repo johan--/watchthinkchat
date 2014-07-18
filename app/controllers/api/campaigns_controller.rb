@@ -74,7 +74,8 @@ class Api::CampaignsController < ApplicationController
     params[:name] = params.delete(:title)
     params[:campaign_type] = params.delete(:type)
     params[:followup_buttons] ||= []
-    campaign_params = params.permit(:uid, :followup_buttons, :name, :cname, :created_at, :updated_at, :missionhub_token, :permalink, :video_id, :campaign_type, :uid, :max_chats, :chat_start, :owner, :user_id, :description, :language, :status, :password_hash, :admin1_id, :admin2_id, :admin3_id, :preemptive_chat, :growth_challenge)
+    campaign_params = params.permit(:uid, :followup_buttons, :name, :cname, :created_at, :updated_at, :missionhub_token, :permalink, :video_id, :campaign_type, :uid, :max_chats, :chat_start, :owner, :user_id, :description, :language, :status, :password, :admin1_id, :admin2_id, :admin3_id, :preemptive_chat, :growth_challenge)
+    params.delete(:password) unless params[:password].present?
 
     # handle new buttons
     if params[:followup_buttons].present?

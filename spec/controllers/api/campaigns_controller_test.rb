@@ -3,12 +3,18 @@ require 'spec_helper'
 describe Api::CampaignsController do
   let(:create_user) { create(:user); }
 
+=begin
+  before(:each) do
+    Campaign.delete_all
+  end
+=end
+
   def create_operator(params = {})
     create(:operator, params.merge(:status => "online"))
   end
 
   def create_campaign(atts = {})
-    create(:campaign, {campaign_type: "youtube", video_id: "12345", permalink: "test", password: "password"}.merge(atts));
+    create(:campaign, {campaign_type: "youtube", video_id: "12345", password: "password"}.merge(atts));
   end
 
   describe "#show" do
@@ -17,7 +23,7 @@ describe Api::CampaignsController do
       get :show, :uid => campaign.uid
       json_response['title'].should == campaign.name
       json_response['type'].should == "youtube"
-      json_response['permalink'].should == "test"
+      json_response['permalink'].should == campaign.permalink
       json_response['video_id'].should == "12345"
     end
 
@@ -32,14 +38,14 @@ describe Api::CampaignsController do
     it "should work" do
       @user = create_user
       @user2 = create_user
-      campaign = create(:campaign, :admin1 => @user, :campaign_type => "youtube", :video_id => "12345", :permalink => "test", :password => "password");
+      campaign = create(:campaign, :admin1 => @user, :campaign_type => "youtube", :video_id => "12345", :password => "password");
       campaign2 = create_campaign
       sign_in @user
       get :index
       json_response.class.should == Array
       json_response.first['title'].should == campaign.name
       json_response.first['type'].should == "youtube"
-      json_response.first['permalink'].should == "test"
+      json_response.first['permalink'].should == campaign.permalink
       json_response.first['video_id'].should == "12345"
     end
 
@@ -136,6 +142,7 @@ describe Api::CampaignsController do
         status: "opened",
         preemptive_chat: true,
         growth_challenge: "operator",
+        password: "newpassword",
         followup_buttons: [ {
             text: "No",
           }, {
@@ -146,6 +153,7 @@ describe Api::CampaignsController do
         ]
       }
 
+      password_hash_before = campaign.password_hash
       put :update, new_params.merge(uid: campaign.uid)
       # response has the message_*_chat params as nils
       new_params[:followup_buttons].first["message_active_chat"] = nil
@@ -156,7 +164,10 @@ describe Api::CampaignsController do
       # json_response puts keys to strings
       new_params[:followup_buttons][0] = Hash[new_params[:followup_buttons].first.collect{ |k,v| [k.to_s, v]}]
       new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
+      # password is not passed back
+      new_params.delete(:password)
       json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => campaign.uid)
+      campaign.reload.password_hash.should_not == password_hash_before
     end
 
     it "should work with the query Adam gave me" do
@@ -181,8 +192,10 @@ describe Api::CampaignsController do
         "growth_challenge" => "operator"
       }
 
+      password_before = Campaign.last.password_hash
       put :update, new_params.merge(uid: campaign.uid)
       json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => campaign.uid)
+      Campaign.last.password_hash.should == password_before
     end
   end
 
