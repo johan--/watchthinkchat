@@ -256,7 +256,7 @@ describe Api::CampaignsController do
         create(:chat, operator: o, campaign: @campaign, visitor: create(:visitor), :status => "closed")
       end
       get :stats, :uid => @campaign.uid
-      json_response.should == {"headers"=>["operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat"], "operators"=>operators.collect{ |o| [ o.operator_uid, o.fullname, o.email, o.missionhub_id, o.status, o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid), o.count_operator_chats_for(@campaign), @campaign.max_chats ? o.count_operator_open_chats_for(@campaign) < @campaign.max_chats : true ]}}
+      json_response.should == [["operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat"]] + operators.collect{ |o| [ o.operator_uid, o.fullname, o.email, o.missionhub_id, o.status, o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid), o.count_operator_chats_for(@campaign), @campaign.max_chats ? o.count_operator_open_chats_for(@campaign) < @campaign.max_chats : true ] }
     end
   end
 end

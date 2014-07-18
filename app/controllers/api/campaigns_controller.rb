@@ -65,7 +65,7 @@ class Api::CampaignsController < ApplicationController
     rows = @campaign.operators.collect do |o|
       [ o.operator_uid, o.fullname, o.email, o.missionhub_id, o.status, o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid), o.count_operator_chats_for(@campaign), @campaign.max_chats ? o.count_operator_open_chats_for(@campaign) < @campaign.max_chats : true ]
     end
-    render :json => { :headers => [ "operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat" ], :operators => rows }
+    render :json => [[ "operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat" ]] + rows
   end
 
   private
