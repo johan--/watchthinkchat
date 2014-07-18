@@ -5,6 +5,7 @@ class Campaign < ActiveRecord::Base
   has_many :followup_buttons
   has_many :user_operators
   has_many :operators, :through => :user_operators, :source => :user
+  has_many :users
   belongs_to :user
   belongs_to :admin1, :class_name => "User"
   belongs_to :admin2, :class_name => "User"

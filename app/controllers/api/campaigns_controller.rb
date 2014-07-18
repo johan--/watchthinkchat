@@ -62,10 +62,38 @@ class Api::CampaignsController < ApplicationController
 
   def stats
     @campaign = Campaign.where(:uid => params[:uid]).first
-    rows = @campaign.operators.collect do |o|
-      [ o.operator_uid, o.fullname, o.email, o.missionhub_id, o.status, o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid), o.count_operator_chats_for(@campaign), @campaign.max_chats ? o.count_operator_open_chats_for(@campaign) < @campaign.max_chats : true ]
+    total_live_chats = 0
+    total_alltime_chats = 0
+    total_challenge_subscribe_self = 0
+    total_challenge_subscribe_friend = 0
+    total_challenge_friend_accepted = 0
+    rows = @campaign.operators.collect { |o|
+      live_chats = o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid)
+      # count chats
+      live_chats_count = live_chats.count
+      alltime_chats_count = o.count_operator_chats_for(@campaign)
+      # totals
+      total_live_chats += live_chats_count
+      total_alltime_chats += alltime_chats_count
+
+      # build row for the collect
+      o.stats_row(@campaign)
+    }
+    @campaign.users.each do |u|
+      total_challenge_subscribe_self += 1 if u.challenge_subscribe_self
+      total_challenge_subscribe_friend += 1 if u.challenge_subscribe_friend
+      total_challenge_friend_accepted += 1 if u.challenge_friend_accepted
     end
-    render :json => [[ "operator_uid", "fullname", "email", "status", "live_chats", "alltime_chats", "available_for_chat" ]] + rows
+
+    totals = {
+      "total_live_chats" => total_live_chats,
+      "total_alltime_chats" => total_alltime_chats,
+      "total_challenge_subscribe_self" => total_challenge_subscribe_self,
+      "total_challenge_subscribe_friend" => total_challenge_subscribe_friend,
+      "total_challenge_friend_accepted" => total_challenge_friend_accepted
+    }
+
+    render :json => { "operators" => rows, "totals" => totals }
   end
 
   private

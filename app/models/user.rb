@@ -18,6 +18,21 @@ class User < ActiveRecord::Base
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
   scope :operators, Proc.new { where(operator: true) }
 
+  def stats_row(campaign)
+    {
+      "operator_id" => operator_uid,
+      "fullname" => fullname,
+      "email" => email,
+      "missionhub_id" => missionhub_id,
+      "status" => status,
+      "live_chats" => operator_chats.where(campaign: @campaign, status: "open").collect(&:uid),
+      "alltime_chats" => count_operator_chats_for(campaign),  
+      "available_for_chat" => (campaign.max_chats ? count_operator_open_chats_for(campaign) < campaign.max_chats : true),
+      "last_sign_in_at" => last_sign_in_at,
+      "profile_pic" => profile_pic
+    } 
+  end
+
   def admin_campaigns
     if is_superadmin?
       Campaign.all
