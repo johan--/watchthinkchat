@@ -109,3 +109,10 @@ body {
 .notify{
     padding: 12px;
 }
+
+.dashboard-stat > div{
+    height:180px; width: 180px; vertical-align: middle; border-radius: 50%; margin: auto; padding-top:20px;
+}
+.dashboard-stat > div > h1{
+    font-size:600%;
+}

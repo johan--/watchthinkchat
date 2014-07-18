@@ -6,161 +6,72 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="pull-right"><a href="http://www.watchthinkchat.com/c/{{activeCampaign.uid}}" target="_blank">http://www.watchthinkchat.com/c/{{activeCampaign.uid}}</a></div>
-            <h1 class="page-header">Stats</h1>
+            <h1 class="page-header" ng-bind="activeCampaign.title"></h1>
 
             <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
+                <div class="col-xs-6 col-sm-3 placeholder dashboard-stat">
+                    <div class="bg-info">
+                        <h1 ng-bind="campaignStats.operators.length"></h1>
+                    </div>
+                    <h4>Operators</h4>
                 </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
+                <div class="col-xs-6 col-sm-3 placeholder dashboard-stat">
+                    <div class="bg-success">
+                        <h1>-</h1>
+                    </div>
+                    <h4>Online Operators</h4>
                 </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
+                <div class="col-xs-6 col-sm-3 placeholder dashboard-stat">
+                    <div class="bg-info">
+                        <h1 ng-bind="campaignStats.totals.total_alltime_chats"></h1>
+                    </div>
+                    <h4>Total Chats</h4>
                 </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
+                <div class="col-xs-6 col-sm-3 placeholder dashboard-stat">
+                    <div class="bg-success">
+                        <h1 ng-bind="campaignStats.totals.total_live_chats"></h1>
+                    </div>
+                    <h4>Current Chats</h4>
                 </div>
             </div>
 
             <h2 class="page-header">Operators</h2>
+            <div class="row">
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="operator-filter" placeholder="Filter" ng-model="operatorFilter">
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span class="text-muted">Last update: {{statsUpdateTime | date:'mediumTime'}}</span>
+                    <button class="btn btn-default" ng-click="refreshStats()"><i class="fa fa-refresh"></i> Refresh</button>
+                </div>
+            </div>
             <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Current Chats</th>
-                    <th>Total Chats</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
-                </tr>
-                <tr>
-                    <td>1,002</td>
-                    <td>amet</td>
-                    <td>consectetur</td>
-                    <td>adipiscing</td>
-                    <td>elit</td>
-                </tr>
-                <tr>
-                    <td>1,003</td>
-                    <td>Integer</td>
-                    <td>nec</td>
-                    <td>odio</td>
-                    <td>Praesent</td>
-                </tr>
-                <tr>
-                    <td>1,003</td>
-                    <td>libero</td>
-                    <td>Sed</td>
-                    <td>cursus</td>
-                    <td>ante</td>
-                </tr>
-                <tr>
-                    <td>1,004</td>
-                    <td>dapibus</td>
-                    <td>diam</td>
-                    <td>Sed</td>
-                    <td>nisi</td>
-                </tr>
-                <tr>
-                    <td>1,005</td>
-                    <td>Nulla</td>
-                    <td>quis</td>
-                    <td>sem</td>
-                    <td>at</td>
-                </tr>
-                <tr>
-                    <td>1,006</td>
-                    <td>nibh</td>
-                    <td>elementum</td>
-                    <td>imperdiet</td>
-                    <td>Duis</td>
-                </tr>
-                <tr>
-                    <td>1,007</td>
-                    <td>sagittis</td>
-                    <td>ipsum</td>
-                    <td>Praesent</td>
-                    <td>mauris</td>
-                </tr>
-                <tr>
-                    <td>1,008</td>
-                    <td>Fusce</td>
-                    <td>nec</td>
-                    <td>tellus</td>
-                    <td>sed</td>
-                </tr>
-                <tr>
-                    <td>1,009</td>
-                    <td>augue</td>
-                    <td>semper</td>
-                    <td>porta</td>
-                    <td>Mauris</td>
-                </tr>
-                <tr>
-                    <td>1,010</td>
-                    <td>massa</td>
-                    <td>Vestibulum</td>
-                    <td>lacinia</td>
-                    <td>arcu</td>
-                </tr>
-                <tr>
-                    <td>1,011</td>
-                    <td>eget</td>
-                    <td>nulla</td>
-                    <td>Class</td>
-                    <td>aptent</td>
-                </tr>
-                <tr>
-                    <td>1,012</td>
-                    <td>taciti</td>
-                    <td>sociosqu</td>
-                    <td>ad</td>
-                    <td>litora</td>
-                </tr>
-                <tr>
-                    <td>1,013</td>
-                    <td>torquent</td>
-                    <td>per</td>
-                    <td>conubia</td>
-                    <td>nostra</td>
-                </tr>
-                <tr>
-                    <td>1,014</td>
-                    <td>per</td>
-                    <td>inceptos</td>
-                    <td>himenaeos</td>
-                    <td>Curabitur</td>
-                </tr>
-                <tr>
-                    <td>1,015</td>
-                    <td>sodales</td>
-                    <td>ligula</td>
-                    <td>in</td>
-                    <td>libero</td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Online</th>
+                        <th>Current Chats</th>
+                        <th>Total Chats</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="o in campaignStats.operators | orderBy: ['!status', 'fullname'] | filter: operatorFilter">
+                        <td>
+                            <img ng-src="{{o.profile_pic}}" class="pull-left" style="padding-right:8px;">
+                            <strong>{{o.fullname}}</strong><br>
+                            {{o.email}}
+                        </td>
+                        <td><i class="fa fa-check" ng-show="o.status === 'online'"></i></td>
+                        <td ng-bind="o.live_chats.length"></td>
+                        <td ng-bind="o.alltime_chats"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
             <h2 class="sub-header">Settings</h2>
+            <p class="notify" ng-class="notify.class" ng-show="notify.message" ng-bind="notify.message"></p>
             <form class="form-horizontal" role="form">
                 <div ng-include="'/templates/manage/inc_campaign_form.html'"></div>
                 <div class="form-group">
