@@ -80,6 +80,7 @@ group :test, :development do
   gem 'byebug'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'pry-remote'
 end
 
 group :development do
