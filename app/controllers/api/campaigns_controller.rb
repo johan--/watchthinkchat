@@ -4,10 +4,12 @@ class Api::CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.where(:uid => params[:uid]).first
-    if @campaign
-      render json: @campaign, :status => @campaign.valid? ? 201 : 406
+    if !@campaign
+      render :json => { error: "No campaign found with that uid" }, status: 404
+    elsif !@campaign.valid?
+      render json: { error: @campaign.errors.to_a, status: 406 }
     else
-      render :json => { :error => "No campaign found with that uid" }, :status => 404
+      render json: @campaign, status: 201
     end
   end
 
@@ -20,14 +22,14 @@ class Api::CampaignsController < ApplicationController
     @campaign = Campaign.where(:uid => params[:uid]).first
 
     unless @campaign.is_admin?(current_user)
-      render :json => { :error => "User is not admin" }, :status => 403
+      render :json => { error: "User is not admin" }, status: 403
       return
     end
 
     if @campaign
       create_or_update_campaign
     else
-      render :json => { :error => "No campaign found with that uid" }, :status => 404
+      render :json => { error: "No campaign found with that uid" }, status: 404
     end
   end
 
@@ -40,7 +42,7 @@ class Api::CampaignsController < ApplicationController
   def password
     @campaign = Campaign.where(:uid => params[:uid]).first
     unless @campaign.opened?
-      render :json => { :error => "Sorry, campaign is closed" }, :status => 403
+      render :json => { error: "Sorry, campaign is closed" }, status: 403
       return
     end
     if params[:password].present? && @campaign.try(:password) == params[:password]
@@ -50,13 +52,13 @@ class Api::CampaignsController < ApplicationController
         short_url = current_user.mark_as_operator!(@campaign)
         render :json => { :valid => true, :share_url => short_url }, status: 201
       rescue RestClient::Unauthorized => e
-        render :json => { :error => "Invalid missionhub token" }, :status => 500
+        render :json => { error: "Invalid missionhub token" }, status: 500
         return
       end
     elsif @campaign
-      render :json => { :error => "Password not valid" }, :status => 401
+      render :json => { error: "Password not valid" }, status: 401
     else
-      render :json => { :error => "No campaign found with that uid" }, :status => 404
+      render :json => { error: "No campaign found with that uid" }, status: 404
     end
   end
 
@@ -114,19 +116,19 @@ class Api::CampaignsController < ApplicationController
         new_button.campaign = @campaign
         new_buttons << new_button
         unless new_button.valid?
-          errors << { "followup_buttons_#{i}" => new_button.errors.messages }
+          errors += new_button.errors.to_a.collect{ |err| "Followup button #{i+1}: #{err}" }
         end
       end
       # don't save anything unless all buttons passed in are valid
       if errors.present?
-        render json: { :error => errors }, status: 406
+        render json: { error: errors }, status: 406
         return
       end
     end
 
     @campaign.update(campaign_params)
     unless @campaign.valid?
-      render json: { :error => @campaign.errors.messages }, status: 406
+      render json: { error: @campaign.errors.to_a }, status: 406
     else
       # At this point, the campaign update is valid and all new followup buttons are valid.  Delete all old buttons and make new ones.
       @campaign.followup_buttons.delete_all

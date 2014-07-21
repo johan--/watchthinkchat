@@ -153,7 +153,7 @@ describe Api::CampaignsController do
         } ]
       }
       put :update, new_params.merge(uid: campaign.uid)
-      json_response["error"].should == [{"followup_buttons_0"=>{"btn_text"=>["can't be blank"]}}]
+      json_response["error"].should == ["Followup button 1: Btn text can't be blank"]
     end
 
     it "should work" do
