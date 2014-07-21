@@ -95,6 +95,38 @@ describe Api::CampaignsController do
       new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
       json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => Campaign.first.uid)
     end
+
+    it "should give an error with an invalid create" do
+      operator = create_operator
+      sign_in operator
+      new_params = {
+        title: "#FALLINGPLATES",
+        type: "youtube",
+        video_id: "KGlx11BxF24",
+        permalink: "fallingplates",
+        max_chats: 3,
+        chat_start: "video_end",
+        owner: "426542435",
+        description: "Falling plates campaign for Big Break week 3",
+        language: "en",
+        status: "opened",
+        preemptive_chat: true,
+        growth_challenge: "operator",
+        followup_buttons: [ {
+            text: "No",
+          }, {
+            text: "I follow another religion",
+            message_active_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->",
+            message_no_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :)"
+          }
+        ]
+      }
+
+      post :create, new_params
+      post :create, new_params
+      # second post should give an error because permalink is already taken
+      response.code.should == "406"
+    end
   end
 
   describe "#update" do

@@ -5,7 +5,7 @@ class Api::CampaignsController < ApplicationController
   def show
     @campaign = Campaign.where(:uid => params[:uid]).first
     if @campaign
-      render json: @campaign, status: 201
+      render json: @campaign, :status => @campaign.valid? ? 201 : 406
     else
       render :json => { :error => "No campaign found with that uid" }, :status => 404
     end
@@ -119,14 +119,14 @@ class Api::CampaignsController < ApplicationController
       end
       # don't save anything unless all buttons passed in are valid
       if errors.present?
-        render json: { :error => errors }, status: 201
+        render json: { :error => errors }, status: 406
         return
       end
     end
 
     @campaign.update(campaign_params)
     unless @campaign.valid?
-      render json: { :error => @campaign.errors.messages }, status: 201
+      render json: { :error => @campaign.errors.messages }, status: 406
     else
       # At this point, the campaign update is valid and all new followup buttons are valid.  Delete all old buttons and make new ones.
       @campaign.followup_buttons.delete_all
