@@ -1,4 +1,13 @@
 angular.module('chatApp').controller('ManageEditController', function ($scope, $routeParams, $timeout, manageApi) {
+
+  $scope.refreshStats = function () {
+    $scope.statsUpdateTime = '-';
+    manageApi.call('get', 'campaigns/' + $routeParams.campaignId + '/stats', {}, function(data){
+      $scope.campaignStats = data;
+      $scope.statsUpdateTime = new Date();
+    });
+  };
+
   var activeCampaignIndex;
   manageApi.call('get', 'campaigns', {}, function(data){
     $scope.myCampaigns = data;
@@ -18,14 +27,6 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       };
     }
   }, null, true);
-
-  $scope.refreshStats = function () {
-    $scope.statsUpdateTime = '-';
-    manageApi.call('get', 'campaigns/' + $routeParams.campaignId + '/stats', {}, function(data){
-      $scope.campaignStats = data;
-      $scope.statsUpdateTime = new Date();
-    });
-  };
 
   $scope.saveCampaign = function () {
     $scope.notify = {
@@ -56,7 +57,7 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       message: 'Saving...',
       class: 'bg-warning'
     };
-    manageApi.call('post', 'campaigns', $scope.activeCampaign, function(data){
+    manageApi.call('post', 'campaigns', $scope.activeCampaign, function(data) {
       $scope.myCampaigns.push(data);
 
       $scope.notify = {
@@ -65,10 +66,18 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       };
     }, function(data){
       $scope.notify = {
-        message: 'Error: ' + data,
+        message: 'Error: ' + data.error[0],
         class: 'bg-danger'
       };
     });
+  };
+
+  $scope.onlineOperatorCount = function() {
+    if(angular.isDefined($scope.campaignStats)) {
+      return _.filter($scope.campaignStats.operators, { status: 'online' }).length;
+    }else{
+      return '-';
+    }
   };
 
   $scope.languages = [
