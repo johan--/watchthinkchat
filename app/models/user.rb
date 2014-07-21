@@ -19,13 +19,14 @@ class User < ActiveRecord::Base
   scope :operators, Proc.new { where(operator: true) }
 
   def stats_row(campaign)
+    #binding.remote_pry
     {
       "operator_id" => operator_uid,
       "fullname" => fullname,
       "email" => email,
       "missionhub_id" => missionhub_id,
       "status" => status,
-      "live_chats" => operator_chats.where(campaign: @campaign, status: "open").collect(&:uid),
+      "live_chats" => operator_chats.where(campaign: campaign, status: "open").collect(&:uid),
       "alltime_chats" => count_operator_chats_for(campaign),  
       "available_for_chat" => (campaign.max_chats ? count_operator_open_chats_for(campaign) < campaign.max_chats : true),
       "last_sign_in_at" => last_sign_in_at,
