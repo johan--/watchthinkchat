@@ -13,13 +13,12 @@ class Campaign < ActiveRecord::Base
 
   validates :name, :missionhub_token, presence: true
   validates :growth_challenge, allow_blank: true, format: { with: /operator|auto/ }
+  validates :permalink, presence: true, uniqueness: true
 
   before_create :generate_uid
   before_create :set_status_closed
 
   accepts_nested_attributes_for :followup_buttons, :allow_destroy => true
-
-  validates_uniqueness_of :permalink, :allow_nil => false, :allow_blank => false
 
   def display_name
     "#{name} (#{permalink})"

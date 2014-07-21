@@ -126,6 +126,7 @@ describe Api::CampaignsController do
       post :create, new_params
       # second post should give an error because permalink is already taken
       response.code.should == "406"
+      json_response["error"].should == [ "Permalink has already been taken" ]
     end
   end
 
@@ -141,6 +142,18 @@ describe Api::CampaignsController do
       }
       put :update, new_params.merge(uid: campaign.uid)
       json_response["error"].should == "User is not admin"
+    end
+
+    it "should validate no empty permalink" do
+      operator = create_operator
+      campaign = create_campaign(:admin1 => operator)
+      sign_in operator
+
+      new_params = {
+        permalink: ""
+      }
+      post :create, new_params
+      json_response["error"].should == ["Name can't be blank", "Permalink can't be blank"]
     end
 
     it "should give an error on invalid followup buttons" do
