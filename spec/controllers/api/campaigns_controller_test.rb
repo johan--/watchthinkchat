@@ -256,7 +256,7 @@ describe Api::CampaignsController do
         create(:chat, operator: o, campaign: @campaign, visitor: create(:visitor), :status => "closed")
       end
       get :stats, :uid => @campaign.uid
-      json_response.should == {"operators"=>operators.collect{ |o| o.stats_row(@campaign) }, "totals"=>{"total_live_chats"=>7, "total_alltime_chats"=>9, "total_challenge_subscribe_self"=>0, "total_challenge_subscribe_friend"=>0, "total_challenge_friend_accepted"=>0}}
+      json_response.should == {"operators"=>operators.collect{ |o| o.stats_row(@campaign).merge("live_chats" => o.operator_chats.where(campaign: @campaign, status: "open").collect(&:uid)) }, "totals"=>{"total_live_chats"=>7, "total_alltime_chats"=>9, "total_challenge_subscribe_self"=>0, "total_challenge_subscribe_friend"=>0, "total_challenge_friend_accepted"=>0}}
     end
   end
 end
