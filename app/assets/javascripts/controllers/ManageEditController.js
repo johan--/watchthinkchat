@@ -1,4 +1,5 @@
 angular.module('chatApp').controller('ManageEditController', function ($scope, $routeParams, $timeout, manageApi) {
+  $scope.wizardTab = 'campaign';
 
   $scope.refreshStats = function () {
     $scope.statsUpdateTime = '-';
@@ -46,7 +47,7 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       }, 3500);
     }, function(data){
       $scope.notify = {
-        message: 'Error: ' + data,
+        message: 'Error: ' + data.error[0],
         class: 'bg-danger'
       };
     });
@@ -90,4 +91,8 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       name: 'Spanish / Español'
     }
   ];
+
+  $scope.changeWizardTab = function(tab){
+    $scope.wizardTab = tab;
+  };
 });
