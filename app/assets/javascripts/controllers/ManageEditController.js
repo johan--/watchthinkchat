@@ -1,6 +1,4 @@
 angular.module('chatApp').controller('ManageEditController', function ($scope, $routeParams, $timeout, manageApi) {
-  $scope.wizardTab = 'campaign';
-
   $scope.refreshStats = function () {
     $scope.statsUpdateTime = '-';
     manageApi.call('get', 'campaigns/' + $routeParams.campaignId + '/stats', {}, function(data){
@@ -17,15 +15,18 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       activeCampaignIndex = _.findIndex(data, { 'uid': $routeParams.campaignId });
 
       $scope.refreshStats();
+      $scope.wizardTab = 'campaign';
     }else{
       //new campaign defaults
       $scope.activeCampaign = {
         growth_challenge: 'auto',
         type: 'youtube',
-        max_chats: 4,
+        max_chats: 2,
         language: 'en',
-        status: 'opened'
+        status: 'opened',
+        preemptive_chat: 'false'
       };
+      $scope.wizardTab = '1';
     }
   }, null, true);
 
@@ -93,6 +94,13 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
   ];
 
   $scope.changeWizardTab = function(tab){
+    if(tab === '2'){
+        if(_.isEmpty($scope.activeCampaign.title)){
+            alert('Please enter a campaign title.');
+            tab = '1';
+        }
+        $scope.activeCampaign.permalink = encodeURIComponent($scope.activeCampaign.title);
+    }
     $scope.wizardTab = tab;
   };
 });
