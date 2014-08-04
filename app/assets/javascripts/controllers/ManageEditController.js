@@ -1,4 +1,4 @@
-angular.module('chatApp').controller('ManageEditController', function ($scope, $routeParams, $timeout, manageApi) {
+angular.module('chatApp').controller('ManageEditController', function ($scope, $routeParams, $timeout, $location, manageApi) {
   $scope.refreshStats = function () {
     $scope.statsUpdateTime = '-';
     manageApi.call('get', 'campaigns/' + $routeParams.campaignId + '/stats', {}, function(data){
@@ -66,6 +66,8 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
         message: 'Campaign created.',
         class: 'bg-success'
       };
+
+      $location.path('/manage/' + data.uid);
     }, function(data){
       $scope.notify = {
         message: 'Error: ' + data.error[0],
