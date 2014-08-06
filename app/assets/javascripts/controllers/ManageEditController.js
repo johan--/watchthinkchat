@@ -18,6 +18,7 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
       $scope.wizardTab = 'campaign';
     }else{
       //new campaign defaults
+      $scope.inviteEmails = '';
       $scope.activeCampaign = {
         growth_challenge: 'auto',
         type: 'youtube',
