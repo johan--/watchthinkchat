@@ -11,7 +11,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :admin2, :class_name => "User"
   belongs_to :admin3, :class_name => "User"
 
-  validates :name, :missionhub_token, presence: true
+  validates :name, presence: true
   validates :growth_challenge, allow_blank: true, format: { with: /operator|auto/ }
   validates :permalink, presence: true, uniqueness: true
 

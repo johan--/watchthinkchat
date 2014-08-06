@@ -76,13 +76,16 @@ describe Api::CampaignsController do
         followup_buttons: [ {
             text: "No",
           }, {
-            text: "I follow another religion",
-            message_active_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->",
-            message_no_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :)"
+            text: "Yes",
+            message_active_chat: "message_active_chat",
+            message_no_chat: "message_no_chat"
           }
         ]
       }
 
+      Rails.application.secrets.missionhub_token = "token"
+      Rails.application.secrets.missionhub_parent = 1234
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizations.json?secret=#{Rails.application.secrets.missionhub_token}&organization[name]=#{new_params[:title]}&organization[terminology]=Organization&organization[show_sub_orgs]=true&organization[status]=active&organization[parent_id]=#{Rails.application.secrets.missionhub_parent}&include=token").and_return({"organization" => {"id" => 9747,"name" => "FALLINGPLATES","terminology" => "Organization","ancestry" => "8349","show_sub_orgs" => true,"status" => "active","created_at" => "2014-08-06T10:53:21-05:00","updated_at" => "2014-08-06T10:53:21-05:00","token" => "mhtoken"}})
       post :create, new_params
       # response has the message_*_chat params as nils
       new_params[:followup_buttons].first["message_active_chat"] = nil
@@ -94,6 +97,7 @@ describe Api::CampaignsController do
       new_params[:followup_buttons][0] = Hash[new_params[:followup_buttons].first.collect{ |k,v| [k.to_s, v]}]
       new_params[:followup_buttons][1] = Hash[new_params[:followup_buttons].second.collect{ |k,v| [k.to_s, v]}]
       json_response.should == Hash[new_params.collect{ |k,v| [k.to_s, v]}].merge("uid" => Campaign.first.uid)
+      Campaign.first.missionhub_token.should == "mhtoken"
     end
 
     it "should give an error with an invalid create" do
@@ -115,18 +119,23 @@ describe Api::CampaignsController do
         followup_buttons: [ {
             text: "No",
           }, {
-            text: "I follow another religion",
-            message_active_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To desire to start following Jesus is a significant step! Its awesome to see you have that desire! Tell us a bit about what’s up? Luv to chat with ya about this stuff in the chat panel on the right :)   ----->",
-            message_no_chat: "Thanks for taking time to watch #FallingPlates and for considering Jesus’s call to follow Him. To want to begin to start following Jesus is a significant step. We have a growth adventure that can help u grow after u have asked Christ to come into your life. Heres the place for u to get connected with a friend to grow :)"
+            text: "Yes",
+            message_active_chat: "message_active_chat",
+            message_no_chat: "message_no_chat"
           }
         ]
       }
 
+      Rails.application.secrets.missionhub_token = "token"
+      Rails.application.secrets.missionhub_parent = 1234
+      Rest.should_receive(:post).with("https://www.missionhub.com/apis/v3/organizations.json?secret=#{Rails.application.secrets.missionhub_token}&organization[name]=#{new_params[:title]}&organization[terminology]=Organization&organization[show_sub_orgs]=true&organization[status]=active&organization[parent_id]=#{Rails.application.secrets.missionhub_parent}&include=token").and_return({"organization" => {"id" => 9747,"name" => "FALLINGPLATES","terminology" => "Organization","ancestry" => "8349","show_sub_orgs" => true,"status" => "active","created_at" => "2014-08-06T10:53:21-05:00","updated_at" => "2014-08-06T10:53:21-05:00","token" => "mhtoken"}})
       post :create, new_params
+
+      # second post here should give an error because permalink is already taken
       post :create, new_params
-      # second post should give an error because permalink is already taken
+
       response.code.should == "406"
-      json_response["error"].should == [ "Permalink has already been taken" ]
+      json_response["error"].should == [ "Operator Link has already been taken" ]
     end
   end
 
@@ -153,7 +162,7 @@ describe Api::CampaignsController do
         permalink: ""
       }
       post :create, new_params
-      json_response["error"].should == ["Name can't be blank", "Permalink can't be blank"]
+      json_response["error"].should == ["Name can't be blank", "Operator Link can't be blank"]
     end
 
     it "should give an error on invalid followup buttons" do

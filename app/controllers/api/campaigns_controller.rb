@@ -35,8 +35,13 @@ class Api::CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new
-    @campaign.missionhub_token = "TODO"
     create_or_update_campaign
+    unless @campaign.errors.present?
+      r = Rest.post("https://www.missionhub.com/apis/v3/organizations.json?secret=#{Rails.application.secrets.missionhub_token}&organization[name]=#{@campaign.name}&organization[terminology]=Organization&organization[show_sub_orgs]=true&organization[status]=active&organization[parent_id]=#{Rails.application.secrets.missionhub_parent}&include=token")
+      # example return: {"organization":{"id":9747,"name":"New Org","terminology":"Organization","ancestry":"8349","show_sub_orgs":true,"status":"active","created_at":"2014-08-06T10:53:21-05:00","updated_at":"2014-08-06T10:53:21-05:00","token":"12345"}}
+      @campaign.update_column(:missionhub_token, r["organization"]["token"])
+    end
+    logger.info('7')
   end
 
   def password
