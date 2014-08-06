@@ -116,3 +116,22 @@ body {
 .dashboard-stat > div > h1{
     font-size:600%;
 }
+
+.btn-gcgreen, .btn-gcgreen:hover{
+    color: white;
+    background-color: #9DB63B;
+    margin-right: 8px;
+}
+.wizard-progress{
+    width: 100%;
+    background: #64B3DF;
+    height:40px;
+}
+.wizard-progress>div{
+    text-align:center;
+    font-size:26px;
+    width: 200px;
+    height: 100%;
+    background: #2E84B9;
+    color: white;
+}

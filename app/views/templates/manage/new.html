@@ -8,13 +8,117 @@
             <h2 class="sub-header">Create Campaign</h2>
             <p class="notify" ng-class="notify.class" ng-show="notify.message" ng-bind="notify.message"></p>
             <form class="form-horizontal" role="form">
-                <div ng-include="'/templates/manage/inc_campaign_form.html'"></div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" ng-click="createCampaign()">Create</button>
+
+
+                <div ng-show="wizardTab === '1'">
+                    <h3>Hi! We are excited we can join you on this faith adventure. Let's get started.</h3>
+
+                    <h3>What do you want to call this outreach?</h3>
+                    <span class="help-block">This will be the name that you invite your friends too.</span>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" ng-model="activeCampaign.title" placeholder="Outreach Name">
+                        </div>
+                    </div>
+
+                    <h3>Tell us a little about your plans for this outreach?</h3>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <textarea class="form-control" ng-model="activeCampaign.description" placeholder="Tell us who are you trying to reach and who is sponsoring it"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-gcgreen pull-right" ng-click="changeWizardTab('2')">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="wizardTab === '2'">
+
+                    <h3>What language will your campaign be in?</h3>
+                    <span class="help-block">You will chose the default language, but your friends can always change it to their preference.</span>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <select class="form-control" ng-options="i.id as i.name for i in languages" ng-model="activeCampaign.language">
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Do you want to chat with friends right away or wait until they watch the film?</h3>
+                    <span class="help-block">Waiting to chat allows your friend to focus on the film and leads to more focused conversations. We recomend waiting, but it is your choice.</span>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="activeCampaign.preemptive_chat" value="true">
+                                    Right Away
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="activeCampaign.preemptive_chat" value="false">
+                                    Wait
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>What is the maximum number of chats people can have?</h3>
+                    <span class="help-block">These are important conversations. We recommend 2 at a time.</span>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <select class="form-control" ng-options="i as i for i in [1, 2, 3, 4, 5, 6, 7, 8]" ng-model="activeCampaign.max_chats">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-gcgreen pull-right" ng-click="changeWizardTab('3')">Next</button>
+                            <button type="submit" class="btn btn-gcgreen pull-right" ng-click="changeWizardTab('1')">Back</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="wizardTab === '3'">
+                    <h3>Your outreach will be hosted at</h3>
+                    <h2 style="text-align: center;">www.godchat.tv/{{activeCampaign.permalink}}</h2>
+
+
+                    <h3>Please create a password for your outreach</h3>
+                    <span class="help-block">Must be at least 10 characters and include at least 1 number.</span>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" ng-model="activeCampaign.password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" placeholder="Password Again">
+                        </div>
+                    </div>
+
+                    <h3>Who is joinging </h3>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <textarea class="form-control" ng-model="inviteEmails" placeholder="Enter email addresses, seperate multiple emails with a comma"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-gcgreen pull-right" ng-click="createCampaign()">Create</button>
+                            <button type="submit" class="btn btn-gcgreen pull-right" ng-click="changeWizardTab('2')">Back</button>
+                        </div>
                     </div>
                 </div>
             </form>
+            <div class="wizard-progress">
+                <div>{{wizardTab}} of 3</div>
+            </div>
         </div>
     </div>
 </div>
