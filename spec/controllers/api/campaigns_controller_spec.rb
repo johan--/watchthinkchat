@@ -125,10 +125,7 @@ describe Api::CampaignsController do
           }
         ]
       }
-
-      Rails.application.secrets.missionhub_token = "token"
-      Rails.application.secrets.missionhub_parent = 1234
-      expect(Rest).to receive(:post).with("https://www.missionhub.com/apis/v3/organizations.json?secret=#{Rails.application.secrets.missionhub_token}&organization[name]=#{new_params[:title]}&organization[terminology]=Organization&organization[show_sub_orgs]=true&organization[status]=active&organization[parent_id]=#{Rails.application.secrets.missionhub_parent}&include=token").and_return({"organization" => {"id" => 9747,"name" => "FALLINGPLATES","terminology" => "Organization","ancestry" => "8349","show_sub_orgs" => true,"status" => "active","created_at" => "2014-08-06T10:53:21-05:00","updated_at" => "2014-08-06T10:53:21-05:00","token" => "mhtoken"}})
+      expect(Rest).to receive(:post).with("https://www.missionhub.com/apis/v3/organizations.json?secret=&organization[name]=#{new_params[:title]}&organization[terminology]=Organization&organization[show_sub_orgs]=true&organization[status]=active&organization[parent_id]=&include=token").and_return({"organization" => {"id" => 9747,"name" => "FALLINGPLATES","terminology" => "Organization","ancestry" => "8349","show_sub_orgs" => true,"status" => "active","created_at" => "2014-08-06T10:53:21-05:00","updated_at" => "2014-08-06T10:53:21-05:00","token" => "mhtoken"}})
       post :create, new_params
 
       # second post here should give an error because permalink is already taken
