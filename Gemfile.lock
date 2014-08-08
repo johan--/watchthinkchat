@@ -347,6 +347,10 @@ GEM
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
+    rspec_junit_formatter (0.2.0)
+      builder (< 4)
+      rspec (>= 2, < 4)
+      rspec-core (!= 2.12.0)
     sass (3.2.14)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -461,6 +465,7 @@ DEPENDENCIES
   rest-client
   rspec
   rspec-rails
+  rspec_junit_formatter
   sass-rails
   seed_dump
   sprockets-rails (= 2.0.0)
