@@ -8,8 +8,8 @@ describe Api::VisitorsController do
     expect(json_response).to have_key('name')
     expect(json_response).to have_key('uid')
     expect(json_response['name']).to eq('Bob')
-    expect(json_response['uid']).to be_nil
-    expect(json_response['uid']).to eq('')
+    expect(json_response['uid']).not_to be_nil
+    expect(json_response['uid']).not_to eq('')
   end
 
   it "should update a visitor" do
