@@ -20,4 +20,3 @@ vendor/ruby
 database.yml
 *.swp
 .env
-config/secrets.yml
