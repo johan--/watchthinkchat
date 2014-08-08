@@ -53,7 +53,6 @@ gem 'jquery-ui-rails'
 gem 'angularjs-rails'
 gem 'angular-ui-rails'
 gem 'angular-ui-bootstrap-rails'
-gem 'therubyracer'
 
 # Assets HTML
 gem 'haml'
