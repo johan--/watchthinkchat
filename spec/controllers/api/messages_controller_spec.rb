@@ -12,13 +12,14 @@ describe Api::MessagesController do
       chat = create(:chat, :campaign_id => campaign.id, :visitor_id => visitor.id, :operator_id => operator.id)
 
       mock_client = double('client')
-      Pusher.stub(:[]).with("chat_#{chat.uid}").and_return(mock_client)
-      mock_client.should_receive(:trigger).with('event', { :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing" })
+
+      allow(Pusher).to receive(:[]).with("chat_#{chat.uid}") { mock_client }
+      expect(mock_client).to receive(:trigger).with('event', { :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing" })
 
       post :create, :chat_uid => chat.uid, :user_uid => visitor.visitor_uid, :message_type => "user", :message => "Testing"
-      json_response['success'].should == true
+      expect(json_response['success']).to be true
       chat.reload
-      chat.visitor_active.should == true
+      expect(chat.visitor_active).to be true
     end
   end
 end
