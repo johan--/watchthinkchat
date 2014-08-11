@@ -25,7 +25,9 @@ angular.module('chatApp').controller('ManageEditController', function ($scope, $
         max_chats: 2,
         language: 'en',
         status: 'opened',
-        preemptive_chat: 'false'
+        preemptive_chat: 'false',
+        //default video #FallingPlates
+        video_id: 'KGlx11BxF24'
       };
       $scope.wizardTab = '1';
     }
