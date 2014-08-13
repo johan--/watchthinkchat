@@ -1,15 +1,15 @@
 Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
-  get '/users/sign_up', to: redirect('/')
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  constraints DomainConstraint.new(ENV['dashboard_url']) do
+    root to: 'manage#index'
+    devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  devise_scope :user do
-     delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-     get 'sign_out', :to => 'devise/sessions#destroy' # so that we can just put /sign_out in the url
+    devise_scope :user do
+       delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+       get 'sign_out', :to => 'devise/sessions#destroy' # so that we can just put /sign_out in the url
+    end
   end
-
-  root 'site#index'
 
   namespace "api" do
     resources :campaigns, param: :uid do
@@ -21,8 +21,7 @@ Godchat::Application.routes.draw do
   end
 
   get '/s/:uid' => 'url_fwds#show', :constraints => { :uid => /[0-9a-zA-Z]*/ }, :as => :url_fwd
-  get '/manage' => 'manage#index'
-  get '/manage/:a' => 'manage#index'
+
   get '/operator/:operator_uid' => 'operators#show'
   get '/templates/:path.html' => 'templates#template', :constraints => { :path => /.+/  }
   get ':path' => 'templates#index'
