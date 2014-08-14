@@ -118,6 +118,7 @@ describe Api::CampaignsController do
         Hash[new_params[:followup_buttons].first.map { |k, v| [k.to_s, v] }]
       new_params[:followup_buttons][1] =
         Hash[new_params[:followup_buttons].second.map { |k, v| [k.to_s, v] }]
+
       expect(json_response).to eq(
           Hash[new_params.map { |k, v| [k.to_s, v] }].
                           merge('uid' => Campaign.first.uid))
@@ -388,8 +389,6 @@ describe Api::CampaignsController do
 
   describe '#stats' do
     it 'should work' do
-      FactoryGirl.reload
-      load 'spec/support/factories.rb'
       @campaign = create_campaign
       operators = []
       10.times do
