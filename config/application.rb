@@ -33,5 +33,13 @@ module Godchat
 
     config.assets.paths << "#{Rails.root}/app/assets/audio"
     config.assets.paths << "#{Rails.root}/app/assets/translations"
+
+    config.to_prepare do
+      Devise::SessionsController.layout "devise"
+      Devise::RegistrationsController.layout "devise"
+      Devise::ConfirmationsController.layout "devise"
+      Devise::UnlocksController.layout "devise"
+      Devise::PasswordsController.layout "devise"
+    end
   end
 end

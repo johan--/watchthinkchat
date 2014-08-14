@@ -1,0 +1,28 @@
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-signin'}) do |f| %>
+  <h2 class="form-signin-heading"><%= image_tag 'wtclogo.png' %></h2>
+
+  <div class="login-wrap">
+    <div class="user-login-info">
+      <%= devise_error_messages! %>
+      <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: 'form-control' %>
+      <%= f.text_field :last_name, placeholder: "Last Name", class: 'form-control' %>
+      <%= f.text_field :email, placeholder: "Email", class: 'form-control' %>
+      <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: 'form-control' %>
+      <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password", class: 'form-control' %>
+    </div>
+    <%= f.submit "Sign up", class:"btn btn-lg btn-login btn-block" %>
+    <%- if devise_mapping.omniauthable? %>
+      <div class="user-login-info omniauth">
+        <%- resource_class.omniauth_providers.each do |provider| %>
+          <a href="<%= omniauth_authorize_path(resource_name, provider)%>" class="btn btn-lg btn-login btn-block btn-<%= provider.to_s %>">
+            <%= fa_icon provider.to_s, text: "Sign up with #{provider.to_s.titleize}" %>
+          </a>
+        <% end -%>
+      </div>
+    <% end -%>
+    <div class="registration">
+      <div class="pull-right"><%= link_to "Sign In", new_user_session_path %></div>
+      <a href="http://www.watchthinkchat.com/" title="Are you lost?">← Back to WatchThinkChat</a>
+    </div>
+  </div>
+<% end -%>

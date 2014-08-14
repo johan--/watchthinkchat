@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140606214459) do
+ActiveRecord::Schema.define(version: 20140814004555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20140606214459) do
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "cname"
+    t.string   "youtube_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "missionhub_token"
@@ -67,14 +68,10 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.string   "topic"
     t.integer  "operator_id"
     t.integer  "visitor_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "uid"
     t.integer  "campaign_id"
-    t.string   "chat_start"
-    t.string   "owner"
-    t.string   "description"
-    t.string   "language"
     t.string   "status"
     t.integer  "operator_whose_link_id"
     t.text     "mh_comment"
@@ -89,8 +86,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.integer  "outsider_id"
     t.integer  "operator_id"
     t.text     "body"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "comments", ["operator_id"], name: "index_comments_on_operator_id", using: :btree
@@ -106,8 +103,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
@@ -136,8 +133,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
   create_table "languages", force: true do |t|
     t.string   "name"
     t.string   "locale"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "log_entries", force: true do |t|
@@ -157,8 +154,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.boolean  "valid"
     t.boolean  "admin"
     t.boolean  "owner"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
@@ -168,8 +165,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.text     "body"
     t.integer  "user_id"
     t.integer  "chat_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
     t.string   "message_type"
   end
@@ -179,8 +176,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sessions", force: true do |t|
@@ -216,8 +213,8 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "provider"
     t.string   "operator_uid"
     t.string   "first_name"
@@ -228,7 +225,6 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.string   "ip"
     t.string   "referrer"
     t.string   "authentication_token"
-    t.integer  "roles_mask"
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "fb_uid"
@@ -247,6 +243,10 @@ ActiveRecord::Schema.define(version: 20140606214459) do
     t.integer  "assigned_operator1_id"
     t.integer  "assigned_operator2_id"
     t.string   "challenge_friend_accepted"
+    t.string   "encrypted_password",         default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
   end
 
   create_table "users_languages", force: true do |t|

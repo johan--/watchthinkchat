@@ -1,0 +1,17 @@
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {class: 'form-signin', method: :post}) do |f| %>
+  <h2 class="form-signin-heading"><%= image_tag 'wtclogo.png' %></h2>
+
+  <div class="login-wrap">
+    <div class="user-login-info">
+      <%= devise_error_messages! %>
+      <h5>Forgot your password?</h5>
+      <p>Enter your e-mail address below to reset your password.</p>
+      <%= f.text_field :email, placeholder: "Email", class: 'form-control' %>
+    </div>
+    <%= f.submit "Reset my password", class:"btn btn-lg btn-login btn-block" %><br>
+    <div class="registration">
+      <div class="pull-right"><%= link_to "Sign In", new_user_session_path %></div>
+      <a href="http://www.watchthinkchat.com/" title="Are you lost?">← Back to WatchThinkChat</a>
+    </div>
+  </div>
+<% end -%>

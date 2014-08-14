@@ -4,15 +4,19 @@ class User < ActiveRecord::Base
 
   before_create :generate_visitor_uid
 
-  devise :registerable, :trackable
+  devise :registerable, :trackable, :database_authenticatable, :rememberable, :recoverable
   devise :omniauthable, :omniauth_providers => [:facebook]
 
+  has_many :campaigns
   has_many :operator_chats, :foreign_key => :operator_id, :class_name => "Chat"
   has_many :visitor_chats, :foreign_key => :visitor_id, :class_name => "Chat"
   has_many :user_operators
   has_many :operating_campaigns, :through => :user_operators, :class_name => "Campaign", :source => :campaign
   belongs_to :assigned_operator1, :class_name => "User"
   belongs_to :assigned_operator2, :class_name => "User"
+
+  validates_presence_of :first_name, :last_name, :email
+  validates_uniqueness_of :email
 
   scope :online, Proc.new { where(:status => "online") }
   scope :has_operator_uid, Proc.new { where("operator_uid is not null") }
@@ -27,11 +31,11 @@ class User < ActiveRecord::Base
       "missionhub_id" => missionhub_id,
       "status" => status,
       "live_chats" => operator_chats.where(campaign: campaign, status: "open").collect(&:uid),
-      "alltime_chats" => count_operator_chats_for(campaign),  
+      "alltime_chats" => count_operator_chats_for(campaign),
       "available_for_chat" => (campaign.max_chats ? count_operator_open_chats_for(campaign) < campaign.max_chats : true),
       "last_sign_in_at" => last_sign_in_at,
       "profile_pic" => profile_pic
-    } 
+    }
   end
 
   def admin_campaigns

@@ -2,14 +2,14 @@ Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   constraints DomainConstraint.new(ENV['dashboard_url']) do
-    devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+    devise_for :users, :controllers => { registrations: 'registrations', :omniauth_callbacks => "users/omniauth_callbacks" }
 
     authenticated :user do
       scope module: "dashboard" do
         root to: "index#index", as: :authenticated_root
         resources :campaigns
+      end
     end
-  end
     root to: redirect('users/sign_in')
   end
 
