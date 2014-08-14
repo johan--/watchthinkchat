@@ -1,9 +1,9 @@
 AllCops:
   # Include gemspec and Rakefile
   Exclude:
-    - 'db/schema.rb'
-    - 'db/migrate/*'
+    - 'db/*'
     - 'bin/*'
+    - 'script/*'
 
 AccessorMethodName:
   Enabled: false

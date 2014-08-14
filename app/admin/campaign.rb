@@ -11,27 +11,27 @@ ActiveAdmin.register Campaign do
 
   filter :name
   filter :permalink
-  filter :status, :as => :select, :collection => [ "open", "closed" ]
+  filter :status, as: :select, collection: ['open', 'closed']
 
   show do
-    panel "Campaign" do
+    panel 'Campaign' do
       attributes_table_for campaign do
-        [ :name, :uid, :permalink, :max_chats, :status ].each do |column|
+        [:name, :uid, :permalink, :max_chats, :status].each do |column|
           row column
         end
       end
     end
-    panel "Buttons" do
+    panel 'Buttons' do
       table_for campaign.followup_buttons do
         column :btn_text
         column :btn_id
       end
     end
-    panel "Operators" do
+    panel 'Operators' do
       if campaign.closed?
-        "Campaign is not open"
+        'Campaign is not open'
       elsif campaign.opened? && campaign.operators.empty?
-        "Campaign is open, but there are no operators set"
+        'Campaign is open, but there are no operators set'
       elsif campaign.opened?
         table_for campaign.operators do
           column :fullname do |operator|
@@ -40,27 +40,37 @@ ActiveAdmin.register Campaign do
           column :email
           column :missionhub_id do |operator|
             if operator.missionhub_id
-              link_to(operator.missionhub_id, "https://www.missionhub.com/profile/#{operator.missionhub_id}", :target => "_blank")
+              link_to(operator.missionhub_id,
+                      'https://www.missionhub.com/profile/'\
+                      "#{operator.missionhub_id}",
+                      target: '_blank')
             end
           end
           column :status do |operator|
-            operator.status == "online" ? "online" : ""
+            operator.status == 'online' ? 'online' : ''
           end
           column :live_chats do |operator|
             r = []
-            operator.operator_chats.where(:campaign => campaign, :status => "open").each_with_index do |chat, i|
-              r << link_to(i+1, admin_chat_path(chat))
+            operator.operator_chats.
+                     where(campaign: campaign, status: 'open').
+                     each_with_index do |chat, i|
+              r << link_to(i + 1, admin_chat_path(chat))
             end
-            r.join(", ").html_safe
+            r.join(', ').html_safe
           end
           column :alltime_chats do |operator|
             operator.count_operator_chats_for(campaign)
           end
           column :available_for_chat do |operator|
-            if operator.status == "online"
-              campaign.max_chats ? operator.count_operator_open_chats_for(campaign) < campaign.max_chats : true
+            if operator.status == 'online'
+              if campaign.max_chats
+                operator.count_operator_open_chats_for(campaign) <
+                  campaign.max_chats
+              else
+                true
+              end
             else
-              ""
+              ''
             end
           end
         end
@@ -69,28 +79,34 @@ ActiveAdmin.register Campaign do
   end
 
   form do |f|
-    f.inputs "Details" do
+    f.inputs 'Details' do
       f.input :name
       f.input :password
       f.input :cname
-      f.input :missionhub_token, :hint => %|Get the missionhub token from <A HREF="http://www.missionhub.com/organizations/api" target="_BLANK">http://www.missionhub.com/organizations/api (opens in a new tab)</A>|.html_safe
+      f.input :missionhub_token,
+              hint: 'Get the missionhub token from '\
+                    '<A HREF="http://www.missionhub.com/organizations/api"'\
+                    ' target="_BLANK">http://www.missionhub.com/'\
+                    'organizations/api (opens in a new tab)</A>'.html_safe
       f.input :permalink
       f.input :campaign_type
       f.input :video_id
       f.input :max_chats
-      f.input :description, :as => :text
+      f.input :description, as: :text
       f.input :language
-      f.input :status, :as => :select, :collection => [ "opened", "closed" ]
+      f.input :status, as: :select, collection: ['opened', 'closed']
       f.input :preemptive_chat
-      f.input :growth_challenge, :as => :select, :collection => [ "operator", "auto" ]
+      f.input :growth_challenge, as: :select, collection: ['operator', 'auto']
     end
-    f.inputs "Admins" do
-      f.input :admin1, :as => :select, :collection => User.has_operator_uid
-      f.input :admin2, :as => :select, :collection => User.has_operator_uid
-      f.input :admin3, :as => :select, :collection => User.has_operator_uid
+    f.inputs 'Admins' do
+      f.input :admin1, as: :select, collection: User.has_operator_uid
+      f.input :admin2, as: :select, collection: User.has_operator_uid
+      f.input :admin3, as: :select, collection: User.has_operator_uid
     end
     f.inputs do
-      f.has_many :followup_buttons, :allow_destroy => true, :allow_create => true do |fb|
+      f.has_many :followup_buttons,
+                 allow_destroy: true,
+                 allow_create: true do |fb|
         fb.input :btn_text
         fb.input :btn_id
         fb.input :message_active_chat

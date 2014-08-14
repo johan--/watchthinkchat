@@ -1,3 +1,4 @@
-class Dashboard::CampaignsController < Dashboard::BaseController
-
+module Dashboard
+  class CampaignsController < Dashboard::BaseController
+  end
 end

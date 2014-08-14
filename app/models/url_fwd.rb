@@ -8,7 +8,7 @@ class UrlFwd < ActiveRecord::Base
 
   def generate_visitor_uid
     generate_one_visitor_uid
-    while UrlFwd.where(:uid => self.uid).count > 0
+    while UrlFwd.where(uid: uid).count > 0
       generate_one_visitor_uid
     end
   end
@@ -17,8 +17,8 @@ class UrlFwd < ActiveRecord::Base
     # 0-9 stay
     # 10-35 a-z
     # 36-61 A-Z
-    r = ""
-    (1..4).each do |digit|
+    r = ''
+    (1..4).each do
       i = SecureRandom.random_number(62)
       if i >= 0 && i <= 9
         v = i.to_s
@@ -33,9 +33,10 @@ class UrlFwd < ActiveRecord::Base
   end
 
   def set_short_url
-    # https://github.com/rails/rails/issues/12178 causing missing required keys: [:uid]
-    #url_fwd_path(:uid => self.uid)
-    #self.short_url = "http://#{ENV['visitor_app_url']}/s/#{self.uid}"
-    self.short_url = "/s/#{self.uid}"
+    # https://github.com/rails/rails/issues/12178
+    # causing missing required keys: [:uid]
+    # url_fwd_path(uid: self.uid)
+    # self.short_url = "http://#{ENV['visitor_app_url']}/s/#{self.uid}"
+    self.short_url = "/s/#{uid}"
   end
 end
