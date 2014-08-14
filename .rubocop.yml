@@ -1,9 +1,9 @@
 AllCops:
   # Include gemspec and Rakefile
   Exclude:
-    - 'db/*'
-    - 'bin/*'
-    - 'script/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'script/**/*'
 
 AccessorMethodName:
   Enabled: false
