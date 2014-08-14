@@ -82,7 +82,7 @@ group :test, :development do
   gem 'minitest'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
   gem 'assert_difference'
   gem 'byebug'
   gem 'pry'
