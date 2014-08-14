@@ -5,13 +5,13 @@
     <div class="leftside-navigation">
       <ul class="sidebar-menu" id="nav-accordion">
         <li>
-          <a href="<%= root_path %>">
+          <a href="<%= root_path %>" class="<%= 'active' if current_page?(:controller => 'index') %>">
             <i class="fa fa-dashboard"></i>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="<%= campaigns_path %>">
+          <a href="<%= campaigns_path %>" class="<%= 'active' if current_page?(:controller => 'campaigns') %>">
             <i class="fa fa-laptop"></i>
             <span>Campaigns</span>
           </a>
