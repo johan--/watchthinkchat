@@ -1,0 +1,31 @@
+<div class="col-md-12">
+  <section class="panel">
+    <div class="wdgt-row">
+      <%= image_tag 'weather_image.jpg', height: 243 %>
+      <div class="wdt-head">
+        Campaigns
+      </div>
+    </div>
+    <div class="panel-body">
+      <%- if @campaigns.empty? %>
+        <a class="btn" disabled>
+          <%= fa_icon "warning" %>
+          You haven't created a campaign yet.
+        </a>
+      <% else %>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td ng-bind="c.title"></td>
+              <td class="text-center"><a href="/manage/{{c.uid}}">Manage</a></td>
+            </tr>
+          </tbody>
+        </table>
+      <% end -%>
+      <a class="pull-right btn btn-default btn-primary" href="<%= new_campaign_path %>">
+        <%= fa_icon "plus-circle" %>
+        Create New Campaign
+      </a>
+    </div>
+  </section>
+</div>
