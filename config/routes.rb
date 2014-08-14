@@ -2,13 +2,15 @@ Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   constraints DomainConstraint.new(ENV['dashboard_url']) do
-    root to: 'manage#index'
     devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-    devise_scope :user do
-       delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-       get 'sign_out', :to => 'devise/sessions#destroy' # so that we can just put /sign_out in the url
+    authenticated :user do
+      scope module: "dashboard" do
+        root to: "index#index", as: :authenticated_root
+        resources :campaigns
     end
+  end
+    root to: redirect('users/sign_in')
   end
 
   namespace "api" do
