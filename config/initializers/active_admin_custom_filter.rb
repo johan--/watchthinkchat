@@ -7,9 +7,11 @@ module ActiveAdmin
 
       def to_html
         input_wrapping do
-          id = input_html_options[:id].split("q_").second
-          value = self.builder.template.controller.params[:q].try(:[], id)
-          label_html << builder.text_field(input_name, input_html_options.merge("value" => value))
+          id = input_html_options[:id].split('q_').second
+          value = builder.template.controller.params[:q].try(:[], id)
+          label_html << builder.text_field(input_name,
+                                           input_html_options.
+                                            merge('value' => value))
         end
       end
 

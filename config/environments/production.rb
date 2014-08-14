@@ -1,5 +1,6 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  # Settings specified here will take precedence over those in
+  # config/application.rb.
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -16,7 +17,8 @@ Rails.application.configure do
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
+  # For large-scale production use, consider using a caching reverse
+  # proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
@@ -39,7 +41,8 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # Force all access to the app over SSL, use Strict-Transport-Security,
+  # and use secure cookies.
   # config.force_ssl = true
 
   # Prepend all log lines with the following tags.
@@ -55,11 +58,11 @@ Rails.application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-   config.assets.precompile += ['visitor_chat.css', 'manage_panel.css']
+  config.assets.precompile += ['visitor_chat.css', 'manage_panel.css']
 
   # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # Set this to true and configure the email server for immediate
+  # delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -72,24 +75,27 @@ Rails.application.configure do
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
-  config.cache_store = :dalli_store, ENV["MEMCACHEDCLOUD_SERVERS"].split(','), { :username => ENV["MEMCACHEDCLOUD_USERNAME"], :password => ENV["MEMCACHEDCLOUD_PASSWORD"] }
+  config.cache_store = :dalli_store,
+                       ENV['MEMCACHEDCLOUD_SERVERS'].split(','),
+                       { username: ENV['MEMCACHEDCLOUD_USERNAME'],
+                         password: ENV['MEMCACHEDCLOUD_PASSWORD'] }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
   # Heroku requires logging to go to stdout
-  #config.logger = Logger.new(STDOUT) 
+  # config.logger = Logger.new(STDOUT)
   STDOUT.sync
   config.log_level = :debug
-  #config.logger.level = Logger::DEBUG
+  # config.logger.level = Logger::DEBUG
 
   # smtp
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: ENV["smtp_user_name"],
-    password: ENV["smtp_password"],
-    address: "email-smtp.us-east-1.amazonaws.com",
-    authentication: "plain",
+    user_name: ENV['smtp_user_name'],
+    password: ENV['smtp_password'],
+    address: 'email-smtp.us-east-1.amazonaws.com',
+    authentication: 'plain',
     enable_starttls_auto: true,
     port: 587
   }

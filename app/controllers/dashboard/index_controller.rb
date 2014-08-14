@@ -1,4 +1,6 @@
-class Dashboard::IndexController < Dashboard::BaseController
-  def index
+module Dashboard
+  class IndexController < Dashboard::BaseController
+    def index
+    end
   end
 end

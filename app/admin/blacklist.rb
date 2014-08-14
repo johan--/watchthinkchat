@@ -1,5 +1,5 @@
 ActiveAdmin.register Blacklist do
-  menu label: "Blacklist"
+  menu label: 'Blacklist'
 
   index do
     column :id

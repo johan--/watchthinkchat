@@ -3,4 +3,7 @@
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
-Godchat::Application.config.session_store :active_record_store, :namespace => 'sessions', :key => '_gc_session', :expire_after => 2.days
+Godchat::Application.config.session_store :active_record_store,
+                                          namespace: 'sessions',
+                                          key: '_gc_session',
+                                          expire_after: 2.days

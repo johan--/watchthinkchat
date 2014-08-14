@@ -97,6 +97,16 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.9'
   gem 'quiet_assets'
   gem 'seed_dump'
+  gem 'guard'
+  gem 'guard-rspec', require: false
+  gem 'guard-rubocop'
+  gem 'guard-rails'
+  gem 'guard-bundler'
+  gem 'guard-cucumber'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'rb-fsevent' if `uname` =~ /Darwin/
+  gem 'fuubar'
 end
 
 group :production do
