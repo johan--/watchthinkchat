@@ -106,6 +106,7 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
+  gem 'fuubar'
 end
 
 group :production do
