@@ -1,0 +1,24 @@
+<%= render 'progress' %>
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign Wizard
+    </header>
+    <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
+      <div class="panel-body">
+      <%= f.semantic_errors :name %>
+        <div class="form-group">
+          <%=  f.label :name, class: 'col-lg-2 control-label' %>
+          <div class="col-lg-8">
+            <%=  f.text_field :name, class: 'form-control', placeholder: 'Campaign Name' %>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <%= f.submit "Next", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>

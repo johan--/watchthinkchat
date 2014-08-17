@@ -1,0 +1,52 @@
+<div class="wizard">
+  <ul class="anchor">
+    <li>
+      <a href="<%= wizard_path(:basic) %>" class="<%= if wizard_path == wizard_path(:basic) then "selected" else "done" end %>">
+        <div class="stepNumber">
+          1
+        </div>
+        <span class="stepDesc">
+          Getting Started
+          <br>
+          <small>Basic Campaign Info</small>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#step-2" class="<%= if wizard_path == wizard_path(:engagement_player) then "selected" elsif past_step?(:engagement_player) then "done" end %>">
+        <div class="stepNumber">
+          2
+        </div>
+        <span class="stepDesc">
+          Engagement Player
+          <br>
+          <small>Media &amp; Onboarding</small>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#step-3" class="<%= if wizard_path == wizard_path(:finish) then "done" else "disabled" end %>" isdone="0" rel="3">
+        <div class="stepNumber">
+          3
+        </div>
+        <span class="stepDesc">
+          Finish
+          <br>
+          <small>Go Live</small>
+        </span>
+      </a>
+    </li>
+    <!--li>
+      <a href="#step-4" class="disabled" isdone="0" rel="4">
+        <div class="stepNumber">
+          4
+        </div>
+        <span class="stepDesc">
+          Step 4
+          <br>
+          <small>Step 4 description</small>
+        </span>
+      </a>
+    </li-->
+  </ul>
+</div>

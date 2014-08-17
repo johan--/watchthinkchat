@@ -1,0 +1,27 @@
+<%= render 'progress' %>
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign Wizard
+    </header>
+    <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
+      <div class="panel-body">
+        <div class="form-group">
+          <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
+          <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
+          <div class="col-lg-8">
+            <%=  ep.text_field :media_link, class: 'form-control', placeholder: 'Youtube Link' %>
+            <%=  ep.hidden_field :id %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
+          <%= f.submit "Next", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>

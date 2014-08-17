@@ -1,0 +1,19 @@
+<%= render 'progress' %>
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign Wizard
+    </header>
+      <div class="panel-body text-center">
+      <h1 class="big-circle"><%= fa_stacked_icon "bolt inverse", base: "circle" %></h1>
+      <h2> All Done Here</h2>
+      <h5>Your campaign is in the go queue and will be ready shortly.</h5>
+      </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
+          <a href="<%= campaign_path(@campaign) %>" class="btn btn-primary">Go to Campaign Dashboard</a>
+        </div>
+      </div>
+  </section>
+</div>
