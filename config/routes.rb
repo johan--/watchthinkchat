@@ -9,7 +9,9 @@ Godchat::Application.routes.draw do
     authenticated :user do
       scope module: 'dashboard' do
         root to: 'index#index', as: :authenticated_root
-        resources :campaigns
+        resources :campaigns do
+          resources :build, controller: 'campaigns/build'
+        end
       end
     end
     root to: redirect('users/sign_in')

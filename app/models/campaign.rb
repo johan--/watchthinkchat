@@ -6,6 +6,13 @@ class Campaign < ActiveRecord::Base
   has_many :user_operators
   has_many :operators, through: :user_operators, source: :user
   has_many :users
+
+  has_one :engagement_player
+  has_one :god_chat
+  has_one :growth_space
+
+  accepts_nested_attributes_for :engagement_player
+
   belongs_to :user
   belongs_to :admin1, class_name: 'User'
   belongs_to :admin2, class_name: 'User'
@@ -15,6 +22,7 @@ class Campaign < ActiveRecord::Base
   validates :growth_challenge,
             allow_blank: true,
             format: { with: /operator|auto/ }
+  validates :name, presence: true, unless: :setup?
   validates :permalink, presence: true, uniqueness: true
 
   before_create :generate_uid
