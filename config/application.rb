@@ -21,6 +21,7 @@ module Godchat
     # -- all .rb files in that directory are automatically loaded.
 
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
 
     # Set Time.zone default to the specified zone and make Active Record
     # auto-convert to this zone.

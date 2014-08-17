@@ -1,5 +1,5 @@
 class FollowupButton < ActiveRecord::Base
-  belongs_to :campaign
+  belongs_to :engagement_player
 
   validates :btn_text, presence: true
 
