@@ -68,6 +68,7 @@ gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 
 # Rails Frameworks
 gem 'wicked'
+gem 'acts_as_list'
 
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'
