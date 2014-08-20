@@ -113,6 +113,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts_as_list (0.4.0)
+      activerecord (>= 3.0)
     airbrake (3.1.15)
       builder
       multi_json
@@ -470,6 +472,7 @@ DEPENDENCIES
   activeadmin!
   activerecord-session_store!
   activeresource
+  acts_as_list
   airbrake
   angular-ui-bootstrap-rails
   angular-ui-rails
