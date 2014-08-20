@@ -26,7 +26,8 @@ class Campaign < ActiveRecord::Base
                 :closed,
                 :opened,
                 :basic,
-                :engagement_player]
+                :engagement_player,
+                :engagement_player_survey]
 
   def display_name
     "#{name} (#{permalink.blank?})"
