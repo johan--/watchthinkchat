@@ -373,6 +373,7 @@ GEM
       vegas (~> 0.1.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    role_model (0.8.1)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
@@ -530,6 +531,7 @@ DEPENDENCIES
   redis
   resque
   rest-client
+  role_model
   rspec
   rspec-rails
   rspec_junit_formatter

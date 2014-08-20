@@ -1,7 +1,9 @@
 class Campaign < ActiveRecord::Base
   # users.password_hash in the database is a :string
   include BCrypt
-  has_many :users
+
+  has_many :permissions, as: :resource, dependent: :destroy
+  has_many :users, through: :permissions
 
   has_one :engagement_player
   has_one :god_chat

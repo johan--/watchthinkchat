@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   VISITOR_PERMISSION = 2
   LEADER_PERMISSION  = 4
+  include RoleModel
 
   before_create :generate_visitor_uid
 
@@ -11,7 +12,11 @@ class User < ActiveRecord::Base
          :recoverable
   devise :omniauthable, omniauth_providers: [:facebook]
 
-  has_many :campaigns
+  has_many :permissions, dependent: :destroy
+  has_many :campaigns,
+           through: :permissions,
+           source: :resource,
+           source_type: 'Campaign'
   has_many :operator_chats, foreign_key: :operator_id, class_name: 'Chat'
   has_many :visitor_chats, foreign_key: :visitor_id, class_name: 'Chat'
   has_many :user_operators
@@ -19,6 +24,7 @@ class User < ActiveRecord::Base
            through: :user_operators,
            class_name: 'Campaign',
            source: :campaign
+
   belongs_to :assigned_operator1, class_name: 'User'
   belongs_to :assigned_operator2, class_name: 'User'
 
@@ -28,6 +34,8 @@ class User < ActiveRecord::Base
   scope :online, Proc.new { where(status: 'online') }
   scope :has_operator_uid, Proc.new { where('operator_uid is not null') }
   scope :operators, Proc.new { where(operator: true) }
+
+  roles :nobody, :superadmin, :admin, :manager, :translator, :operator
 
   def stats_row(campaign)
     # binding.remote_pry
@@ -58,13 +66,6 @@ class User < ActiveRecord::Base
       Campaign.where('admin1_id = ? OR admin2_id = ? OR admin3_id = ?',
                      id, id, id)
     end
-  end
-
-  def superadmin?
-    admin ||
-      %w(aandrewroth@gmail.com).include?(email) ||
-      %w(100000523830165 682423688 122607328 1615307648 835310561).
-        include?(fb_uid)
   end
 
   def as_json(options = {})

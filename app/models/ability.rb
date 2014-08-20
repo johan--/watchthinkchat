@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     can :read, ActiveAdmin::Page, name: 'Dashboard'
-    can :manage, :all if user && user.is_superadmin?
+    can :manage, :all if user && user.superadmin?
     can :create, Campaign
     return unless user
     can :manage, Campaign, user_id: user.id

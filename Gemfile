@@ -25,6 +25,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'cancan', github: 'admin-mdterra/cancan'
 gem 'bcrypt', :require => 'bcrypt'
+gem 'role_model'
 
 # Public API
 gem 'activeresource', require: 'active_resource'
