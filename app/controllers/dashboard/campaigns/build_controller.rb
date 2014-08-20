@@ -20,7 +20,7 @@ module Dashboard
       def update
         @campaign = Campaign.find(params[:campaign_id])
         @campaign.status = step
-        @campaign.update_attributes(campaign_params)
+        @campaign.update_attributes!(campaign_params)
         render_wizard @campaign
       end
 

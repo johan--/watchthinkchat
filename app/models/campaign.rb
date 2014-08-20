@@ -9,7 +9,8 @@ class Campaign < ActiveRecord::Base
   has_one :god_chat
   has_one :growth_space
 
-  accepts_nested_attributes_for :engagement_player
+  accepts_nested_attributes_for :engagement_player, update_only: true
+  validates_associated :engagement_player
 
   belongs_to :user
 
