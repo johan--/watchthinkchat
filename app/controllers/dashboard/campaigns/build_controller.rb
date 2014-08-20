@@ -3,7 +3,10 @@ module Dashboard
     class BuildController < Dashboard::BaseController
       include Wicked::Wizard
 
-      steps :basic, :engagement_player, :finish
+      steps :basic,
+            :engagement_player,
+            :engagement_player_survey,
+            :finish
 
       def show
         @campaign = Campaign.find(params[:campaign_id])
