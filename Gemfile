@@ -68,6 +68,7 @@ gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 
 # Rails Frameworks
 gem 'wicked'
+gem 'fe', github: 'CruGlobal/qe', branch: 'fe'
 
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'
