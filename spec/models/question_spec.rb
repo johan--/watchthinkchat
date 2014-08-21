@@ -7,6 +7,9 @@ RSpec.describe Question, type: :model do
   it 'is invalid without survey' do
     expect(build(:question, survey: nil)).not_to be_valid
   end
+  it 'is invalid without title' do
+    expect(build(:question, title: nil)).not_to be_valid
+  end
   it 'is destroyed when survey is destroyed' do
     @question = create(:question)
     @question.survey.destroy!
