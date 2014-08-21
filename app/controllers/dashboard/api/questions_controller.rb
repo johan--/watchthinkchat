@@ -11,6 +11,10 @@ module Dashboard
                      engagement_player.
                      survey
       end
+
+      def permitted_params
+        params.permit(question: [:title, :help_text, :position])
+      end
     end
   end
 end

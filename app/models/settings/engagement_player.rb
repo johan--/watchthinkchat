@@ -10,6 +10,6 @@ class EngagementPlayer < ActiveRecord::Base
   protected
 
   def generate_survey
-    build_survey
+    create_survey
   end
 end

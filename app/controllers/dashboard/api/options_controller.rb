@@ -13,6 +13,10 @@ module Dashboard
                      questions.
                      find(params[:question_id])
       end
+
+      def permitted_params
+        params.permit(option: [:title, :conditional])
+      end
     end
   end
 end
