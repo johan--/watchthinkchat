@@ -6,6 +6,7 @@ class Option < ActiveRecord::Base
   validates_presence_of :conditional_question,
                         if: proc { self.skip? }
   before_validation :generate_code, on: :create
+  default_scope { order('created_at DESC') }
 
   protected
 

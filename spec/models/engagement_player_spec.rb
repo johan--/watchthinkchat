@@ -10,7 +10,9 @@ RSpec.describe EngagementPlayer, type: :model do
   it 'is invalid without a campaign' do
     expect(build(:engagement_player, campaign: nil)).not_to be_valid
   end
-  it 'is invalid without a survey' do
-    expect(build(:engagement_player, survey: nil)).not_to be_valid
+  it 'is invalid without a survey on update' do
+    @engagement_player = create(:engagement_player)
+    @engagement_player.survey = nil
+    expect(@engagement_player).not_to be_valid
   end
 end
