@@ -12,9 +12,9 @@ Godchat::Application.routes.draw do
         resources :campaigns do
           resources :build, controller: 'campaigns/build' do
             collection do
-              namespace :api do
+              namespace :api, defaults: { format: :json } do
                 resources :questions do
-                  resource :options
+                  resources :options
                 end
               end
             end
