@@ -14,27 +14,32 @@ Godchat::Application.routes.draw do
         end
       end
     end
-    root to: redirect('users/sign_in')
+    root to: redirect('users/sign_in'), as: :unauthenticated_root
   end
 
   namespace 'api' do
-    resources :campaigns, param: :uid do
-      member do
-        post :password
-        get :stats
-      end
-    end
+    post 'visitors', to: 'visitors#create'
+    put 'visitors/:uid', to: 'visitors#update'
+    post 'operators', to: 'operators#create'
+    get 'operators/:uid', to: 'operators#show'
+    post 'chats', to: 'chats#create'
+    post 'chats/:chat_uid/messages', to: 'messages#create'
+    post 'chats/:uid/collect_stats', to: 'chats#collect_stats'
+    get 'chats/:uid', to: 'chats#show'
+    delete 'chats/:uid', to: 'chats#destroy'
+    post 'emails', to: 'emails#create'
+    post 'url_fwds', to: 'url_fwds#create'
   end
 
-  get '/s/:uid' => 'url_fwds#show',
-      constraints: { uid: /[0-9a-zA-Z]*/ },
-      as: :url_fwd
+  # get '/s/:uid' => 'url_fwds#show',
+  #     constraints: { uid: /[0-9a-zA-Z]*/ },
+  #     as: :url_fwd
 
-  get '/operator/:operator_uid' => 'operators#show'
-  get '/templates/:path.html' => 'templates#template',
-      constraints: { path: /.+/ }
-  get ':path' => 'templates#index'
-  get ':path/:subpath' => 'templates#index'
+  # get '/operator/:operator_uid' => 'operators#show'
+  # get '/templates/:path.html' => 'templates#template',
+  #     constraints: { path: /.+/ }
+  # get ':path' => 'templates#index'
+  # get ':path/:subpath' => 'templates#index'
 
   # API
   # get  '/api/campaigns', to: 'api/campaigns#index'
@@ -43,19 +48,10 @@ Godchat::Application.routes.draw do
   # put  '/api/campaigns/:uid', to: 'api/campaigns#update'
   # post '/api/campaigns/:uid/password', to: 'api/campaigns#password'
 
-  post '/api/visitors', to: 'api/visitors#create'
-  put '/api/visitors/:uid', to: 'api/visitors#update'
-  post '/api/operators', to: 'api/operators#create'
-  get '/api/operators/:uid', to: 'api/operators#show'
-  post '/api/chats', to: 'api/chats#create'
-  post '/api/chats/:chat_uid/messages', to: 'api/messages#create'
-  post '/api/chats/:uid/collect_stats', to: 'api/chats#collect_stats'
-  get '/api/chats/:uid', to: 'api/chats#show'
-  delete '/api/chats/:uid', to: 'api/chats#destroy'
-  post '/api/emails', to: 'api/emails#create'
-  post '/api/url_fwds', to: 'api/url_fwds#create'
-
   # Pusher
   post '/pusher/existence'
   post '/pusher/presence'
+
+  get '*path', to: 'site#index'
+  root 'site#index'
 end
