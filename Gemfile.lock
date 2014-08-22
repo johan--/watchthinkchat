@@ -222,6 +222,11 @@ GEM
     guard-cucumber (1.4.1)
       cucumber (>= 1.2.0)
       guard (>= 1.1.0)
+    guard-puma (0.2.4)
+      guard (>= 1.0.1)
+      libnotify
+      puma
+      rb-inotify
     guard-rails (0.5.3)
       guard (~> 2.0)
     guard-rspec (4.3.1)
@@ -448,10 +453,6 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicorn (4.8.2)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     useragent (0.10.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -498,6 +499,7 @@ DEPENDENCIES
   guard
   guard-bundler
   guard-cucumber
+  guard-puma
   guard-rails
   guard-rspec
   guard-rubocop
@@ -543,6 +545,5 @@ DEPENDENCIES
   tabletastic
   therubyracer
   uglifier (>= 1.3.0)
-  unicorn
   useragent
   wicked

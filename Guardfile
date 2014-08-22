@@ -7,11 +7,6 @@ guard :bundler do
   # watch(/^.+\.gemspec/)
 end
 
-guard 'rails' do
-  watch('Gemfile.lock')
-  watch(%r{^(config|lib)/.*})
-end
-
 guard :rspec, cmd: 'bundle exec rspec --format Fuubar --color spec' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
@@ -37,4 +32,9 @@ end
 guard :rubocop do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
+
+guard 'puma', port: 5000 do
+  watch('Gemfile.lock')
+  watch(%r{^config|lib|api/.*})
 end
