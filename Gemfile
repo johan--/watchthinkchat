@@ -4,7 +4,7 @@ ruby "2.1.2"
 # Core
 gem 'rails', '4.1.0.rc1'
 gem 'rake'
-gem 'sprockets-rails', '2.0.0' #  github: "rails/sprockets-rails"
+gem 'sprockets-rails' #  github: "rails/sprockets-rails"
 gem 'puma'
 
 # Data Storage
@@ -43,9 +43,8 @@ gem 'binding_of_caller'
 # Testing
 
 # Assets CSS
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.3'
 gem 'font-awesome-rails'
-gem 'compass'
 gem 'bootstrap-sass', '~> 3.1.1.0'
 
 # Assets Javascript
