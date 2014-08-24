@@ -4,5 +4,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require 'application/site'
-//= require_tree
+//= require application/main
+//= require_tree .

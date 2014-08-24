@@ -105,6 +105,7 @@ group :development do
   gem 'guard-rails'
   gem 'guard-bundler'
   gem 'guard-cucumber'
+  gem 'guard-puma'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
@@ -112,7 +113,6 @@ group :development do
 end
 
 group :production do
-  gem 'unicorn'
   gem 'rails_12factor'
   gem 'rails_serve_static_assets'
 end
