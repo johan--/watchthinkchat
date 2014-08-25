@@ -1,5 +1,4 @@
-'use strict';
-
+/*
 angular.module('chatApp').directive('ngAutogrow', function () {
   return {
     restrict: 'A',
@@ -63,4 +62,4 @@ angular.module('chatApp').directive('ngAutogrow', function () {
       $(element).autogrow();
     }
   }
-});
+});*/
