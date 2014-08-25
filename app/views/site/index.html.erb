@@ -34,27 +34,12 @@
 
     <!-- Content Columns Begin -->
     <div ng-view class="col-md-9 col-lg-9 col-sm-8 col-xs-12"></div>
-<!--    <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 content" ng-show="growthChallengeStep>=0">
-      <div class="row">
-        <div class="col-md-12 text-center options" ng-show="growthChallengeStep===0">
-          <h1 ng-bind-html="translation.QUESTION"></h1>
-          <div class="row">
-            <div class="col-lg-offset-2 col-lg-4 col-md-6 col-sm-6 col-xs-12">
-              <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 3">{{button.text}}</a>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-              <a href="#" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(button)" data-ng-repeat="button in campaign_data.followup_buttons | limitTo: 6 | limitTo: -3">{{button.text}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
     <!-- Content Columns End -->
   </div>
 
   <!-- Controls Begin -->
-<!--  <a href="#" class="back-button" ng-show="growthChallengeStep>=1 && growthChallengeStep<9" ng-click="growthChallengePrevStep()"></a>
-  <a href="#" class="close-button" ng-show="growthChallengeStep>=0 && growthChallengeStep<9" ng-click="growthChallengeStep=99"></a>-->
+  <a href="" class="back-button" ng-click="navigateBack()"></a>
+  <a href="#/complete" class="close-button"></a>
   <!-- Content Column End -->
 
   <!-- Footer Begin -->

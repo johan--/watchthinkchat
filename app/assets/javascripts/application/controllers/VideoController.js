@@ -1,4 +1,4 @@
-angular.module('chatApp').controller('VideoController', function ($scope, $rootScope, $window) {
+angular.module('chatApp').controller('VideoController', function ($scope, $rootScope, $location) {
   console.log($rootScope.campaign);
 
   $scope.playerVars = {
@@ -11,6 +11,6 @@ angular.module('chatApp').controller('VideoController', function ($scope, $rootS
   };
 
   $scope.$on('youtube.player.ended', function ($event, player) {
-    console.log('video has ended');
+    $location.path('/q/' + $rootScope.campaign.engagement_player.questions[0].id);
   });
 });
