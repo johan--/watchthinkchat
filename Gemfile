@@ -13,7 +13,6 @@ gem 'resque'
 gem 'pg'
 gem 'dalli'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
-gem 'inherited_resources'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

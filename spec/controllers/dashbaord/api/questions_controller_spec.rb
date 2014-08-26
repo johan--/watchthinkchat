@@ -69,7 +69,8 @@ describe Dashboard::Api::QuestionsController do
                id: @old_question.id,
                format: :json
         expect(response).to be_success
-        expect(@old_question).to_not be(@survey.questions.first)
+        expect(json_response).
+          to eq(JSON.parse(@old_question.to_json))
       end
     end
   end
