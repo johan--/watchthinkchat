@@ -20,5 +20,9 @@ RSpec.describe Option, type: :model do
     @option.question.destroy!
     expect { @option.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
-  it 'generates a unique code'
+  it 'generates a unique code' do
+    @option = create(:option)
+    expect(@option.code).to eq(Base62.encode(@option.id))
+  end
+
 end
