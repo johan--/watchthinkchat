@@ -81,7 +81,8 @@ describe Dashboard::Api::OptionsController do
                id: @old_option.id,
                format: :json
         expect(response).to be_success
-        expect(@old_option).to_not be(@question.options.first)
+        expect(json_response).
+          to eq(JSON.parse(@old_option.to_json))
       end
     end
   end
