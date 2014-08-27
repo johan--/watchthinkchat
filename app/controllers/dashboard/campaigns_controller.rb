@@ -22,20 +22,11 @@ module Dashboard
 
     def build_campaign
       @campaign ||= campaign_scope.build
-      @campaign.attributes = campaign_params
+      campaign_scope << @campaign
     end
 
     def save_campaign
       @campaign.save
-    end
-
-    def campaign_params
-      campaign_params = params[:campaign]
-      if campaign_params
-        campaign_params.permit(:title, :conditional)
-      else
-        {}
-      end
     end
   end
 end

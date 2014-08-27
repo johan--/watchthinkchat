@@ -9,7 +9,7 @@ module Dashboard
             :finish
 
       def show
-        @campaign = Campaign.find(params[:campaign_id])
+        load_campaign
         case step
         when :finish
           @campaign.opened!
@@ -18,17 +18,41 @@ module Dashboard
       end
 
       def update
-        @campaign = Campaign.find(params[:campaign_id])
-        @campaign.status = step
-        @campaign.update_attributes(campaign_params)
+        load_campaign
+        build_campaign
+        save_campaign
         render_wizard @campaign
       end
 
-      private
+      protected
+
+      def load_campaign
+        @campaign ||= campaign_scope.find(params[:campaign_id])
+      end
+
+      def build_campaign
+        @campaign ||= campaign_scope.build
+        @campaign.attributes = campaign_params
+        @campaign.status = step
+      end
+
+      def campaign_scope
+        current_user.campaigns
+      end
+
+      def save_campaign
+        @campaign.save
+      end
 
       def campaign_params
-        params.require(:campaign)
-          .permit(:name, engagement_player_attributes: [:id, :media_link])
+        campaign_params = params[:campaign]
+        if campaign_params
+          campaign_params.permit(:name,
+                                 engagement_player_attributes: [:id,
+                                                                :media_link])
+        else
+          {}
+        end
       end
     end
   end
