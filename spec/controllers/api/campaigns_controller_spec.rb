@@ -79,7 +79,7 @@ describe Api::CampaignsController do
         followup_buttons:
           [
             {
-              text: 'No',
+              text: 'No'
             }, {
               text: 'Yes',
               message_active_chat: 'message_active_chat',
@@ -87,16 +87,16 @@ describe Api::CampaignsController do
             }
           ]
       }
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/organizations.json'\
-             "?secret=#{ENV['missionhub_token']}&"\
-             "organization[name]=#{new_params[:title]}"\
-             '&organization[terminology]=Organization'\
-             '&organization[show_sub_orgs]=true'\
-             '&organization[status]=active'\
-             "&organization[parent_id]=#{ENV['missionhub_parent']}"\
-             '&include=token').
-        and_return(
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/organizations.json'\
+              "?secret=#{ENV['missionhub_token']}&"\
+              "organization[name]=#{new_params[:title]}"\
+              '&organization[terminology]=Organization'\
+              '&organization[show_sub_orgs]=true'\
+              '&organization[status]=active'\
+              "&organization[parent_id]=#{ENV['missionhub_parent']}"\
+              '&include=token')
+        .and_return(
           'organization' => { 'id' => 9747,
                               'name' => 'FALLINGPLATES',
                               'terminology' => 'Organization',
@@ -120,8 +120,8 @@ describe Api::CampaignsController do
         Hash[new_params[:followup_buttons].second.map { |k, v| [k.to_s, v] }]
 
       expect(json_response).to eq(
-          Hash[new_params.map { |k, v| [k.to_s, v] }].
-                          merge('uid' => Campaign.first.uid))
+          Hash[new_params.map { |k, v| [k.to_s, v] }]
+                          .merge('uid' => Campaign.first.uid))
       expect(Campaign.first.missionhub_token).to eq('mhtoken')
     end
 
@@ -144,7 +144,7 @@ describe Api::CampaignsController do
         followup_buttons:
         [
           {
-            text: 'No',
+            text: 'No'
           }, {
             text: 'Yes',
             message_active_chat: 'message_active_chat',
@@ -152,16 +152,16 @@ describe Api::CampaignsController do
           }
         ]
       }
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/organizations.json'\
-             "?secret=#{ENV['missionhub_token']}"\
-             "&organization[name]=#{new_params[:title]}"\
-             '&organization[terminology]=Organization'\
-             '&organization[show_sub_orgs]=true'\
-             '&organization[status]=active'\
-             "&organization[parent_id]=#{ENV['missionhub_parent']}"\
-             '&include=token').
-        and_return(
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/organizations.json'\
+              "?secret=#{ENV['missionhub_token']}"\
+              "&organization[name]=#{new_params[:title]}"\
+              '&organization[terminology]=Organization'\
+              '&organization[show_sub_orgs]=true'\
+              '&organization[status]=active'\
+              "&organization[parent_id]=#{ENV['missionhub_parent']}"\
+              '&include=token')
+        .and_return(
           'organization' => { 'id' => 9747,
                               'name' => 'FALLINGPLATES',
                               'terminology' => 'Organization',
@@ -243,7 +243,7 @@ describe Api::CampaignsController do
         followup_buttons:
           [
             {
-              text: 'No',
+              text: 'No'
             }, {
               text: 'I follow another religion',
               message_active_chat: 'Thanks for taking time to watch '\
@@ -285,8 +285,8 @@ describe Api::CampaignsController do
       # password is not passed back
       new_params.delete(:password)
       expect(json_response).to eq(
-        Hash[new_params.map { |k, v| [k.to_s, v] }].
-                        merge('uid' => campaign.uid))
+        Hash[new_params.map { |k, v| [k.to_s, v] }]
+                        .merge('uid' => campaign.uid))
       expect(campaign.reload.password_hash).not_to eq(password_hash_before)
     end
 
@@ -315,8 +315,8 @@ describe Api::CampaignsController do
       password_before = Campaign.last.password_hash
       put :update, new_params.merge(uid: campaign.uid)
       expect(json_response).to eq(
-        Hash[new_params.map { |k, v| [k.to_s, v] }].
-                        merge('uid' => campaign.uid))
+        Hash[new_params.map { |k, v| [k.to_s, v] }]
+                        .merge('uid' => campaign.uid))
       expect(Campaign.last.password_hash).to eq(password_before)
     end
   end
@@ -341,40 +341,40 @@ describe Api::CampaignsController do
       campaign = create_campaign
       operator = create_operator
       sign_in operator
-      expect(Rest).to receive(:get).
-        with('https://www.missionhub.com/apis/v3/'\
-             'labels?secret=missionhub_token').
-        and_return('labels' => [{ 'name' => 'Leader', 'id' => 1 }])
-      expect(Rest).to receive(:get).
-        with('https://www.missionhub.com/apis/v3/'\
-             'labels?secret=missionhub_token').
-        and_return('labels' => [{ 'name' => 'Leader', 'id' => 1 }])
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/'\
-             'people?secret=missionhub_token&permissions=4'\
-             "&person[first_name]=#{operator.first_name}"\
-             "&person[email]=#{operator.email}").
-        and_return('person' => { 'id' => 1 })
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/'\
-             'people?secret=missionhub_token&permissions=4'\
-             "&person[first_name]=#{operator.first_name}"\
-             "&person[email]=#{operator.email}").
-        and_return('person' => { 'id' => 1 })
-      allow(Rest).to receive(:get).
-        with('https://www.missionhub.com/apis/v3/'\
-             'people/1?secret=missionhub_token&include=organizational_labels')\
-             { { 'person' => { 'organizational_labels' => [] } } }
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/'\
-             'organizational_labels?secret=missionhub_token'\
-             '&organizational_label[person_id]=1'\
-             '&organizational_label[label_id]=1')
-      expect(Rest).to receive(:post).
-        with('https://www.missionhub.com/apis/v3/'\
-             'organizational_labels?secret=missionhub_token'\
-             '&organizational_label[person_id]=1'\
-             '&organizational_label[label_id]=1')
+      expect(Rest).to receive(:get)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'labels?secret=missionhub_token')
+        .and_return('labels' => [{ 'name' => 'Leader', 'id' => 1 }])
+      expect(Rest).to receive(:get)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'labels?secret=missionhub_token')
+        .and_return('labels' => [{ 'name' => 'Leader', 'id' => 1 }])
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'people?secret=missionhub_token&permissions=4'\
+              "&person[first_name]=#{operator.first_name}"\
+              "&person[email]=#{operator.email}")
+        .and_return('person' => { 'id' => 1 })
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'people?secret=missionhub_token&permissions=4'\
+              "&person[first_name]=#{operator.first_name}"\
+              "&person[email]=#{operator.email}")
+        .and_return('person' => { 'id' => 1 })
+      allow(Rest).to receive(:get)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'people/1?secret=missionhub_token&include=organizational_labels')\
+              { { 'person' => { 'organizational_labels' => [] } } }
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'organizational_labels?secret=missionhub_token'\
+              '&organizational_label[person_id]=1'\
+              '&organizational_label[label_id]=1')
+      expect(Rest).to receive(:post)
+        .with('https://www.missionhub.com/apis/v3/'\
+              'organizational_labels?secret=missionhub_token'\
+              '&organizational_label[person_id]=1'\
+              '&organizational_label[label_id]=1')
       (expect do
         post :password, uid: campaign.uid, password: 'password'
         share_url = json_response['share_url']
@@ -419,11 +419,11 @@ describe Api::CampaignsController do
       expect(json_response).to eq(
         'operators' =>
             (operators.map do |o|
-              o.stats_row(@campaign).
-                merge('live_chats' => o.operator_chats.
-                                        where(campaign: @campaign,
-                                              status: 'open').
-                                        map(&:uid)
+              o.stats_row(@campaign)
+                .merge('live_chats' => o.operator_chats
+                                        .where(campaign: @campaign,
+                                               status: 'open')
+                                        .map(&:uid)
                       )
             end),
         'totals' => { 'total_live_chats' => 7,

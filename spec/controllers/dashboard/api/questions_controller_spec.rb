@@ -17,10 +17,10 @@ describe Dashboard::Api::QuestionsController do
             campaign_id: @campaign.id,
             format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@survey.
-                           questions.
-                           to_json(include: :options_attributes)))
+        expect(json_response)
+          .to eq(JSON.parse(@survey
+                           .questions
+                           .to_json(include: :options_attributes)))
       end
     end
 
@@ -31,11 +31,11 @@ describe Dashboard::Api::QuestionsController do
             id: @survey.questions.first.id,
             format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@survey.
-                           questions.
-                           first.
-                           to_json(include: :options_attributes)))
+        expect(json_response)
+          .to eq(JSON.parse(@survey
+                           .questions
+                           .first
+                           .to_json(include: :options_attributes)))
       end
     end
 
@@ -47,11 +47,11 @@ describe Dashboard::Api::QuestionsController do
              question: @question,
              format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@survey.
-                           questions.
-                           find(json_response['id']).
-                           to_json(include: :options_attributes)))
+        expect(json_response)
+          .to eq(JSON.parse(@survey
+                           .questions
+                           .find(json_response['id'])
+                           .to_json(include: :options_attributes)))
       end
     end
 
@@ -77,8 +77,8 @@ describe Dashboard::Api::QuestionsController do
                id: @old_question.id,
                format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@old_question.to_json))
+        expect(json_response)
+          .to eq(JSON.parse(@old_question.to_json))
       end
     end
   end

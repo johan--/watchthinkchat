@@ -53,11 +53,11 @@ module Dashboard
       end
 
       def question_scope
-        current_user.campaigns.
-                     find(params[:campaign_id]).
-                     engagement_player.
-                     survey.
-                     questions
+        current_user.campaigns
+                     .find(params[:campaign_id])
+                     .engagement_player
+                     .survey
+                     .questions
       end
 
       def question_params
@@ -67,12 +67,8 @@ module Dashboard
             question_params[:options_attributes] = params[:options_attributes]
           end
           question_params.permit(
-            :title,
-            :help_text,
-            :position,
-            options_attributes: [:id,
-                                 :title,
-                                 :conditional,
+            :title, :help_text, :position,
+            options_attributes: [:id, :title, :conditional,
                                  :conditional_question_id,
                                  :_destroy])
         else

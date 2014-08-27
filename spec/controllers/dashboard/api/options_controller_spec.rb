@@ -25,8 +25,8 @@ describe Dashboard::Api::OptionsController do
             question_id: @question.id,
             format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@question.options.to_json))
+        expect(json_response)
+          .to eq(JSON.parse(@question.options.to_json))
       end
     end
 
@@ -38,8 +38,8 @@ describe Dashboard::Api::OptionsController do
             id: @option.id,
             format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@option.to_json))
+        expect(json_response)
+          .to eq(JSON.parse(@option.to_json))
       end
     end
 
@@ -52,8 +52,8 @@ describe Dashboard::Api::OptionsController do
              option: @option,
              format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@question.options.find(json_response['id']).to_json))
+        expect(json_response)
+          .to eq(JSON.parse(@question.options.find(json_response['id']).to_json))
       end
     end
 
@@ -81,8 +81,8 @@ describe Dashboard::Api::OptionsController do
                id: @old_option.id,
                format: :json
         expect(response).to be_success
-        expect(json_response).
-          to eq(JSON.parse(@old_option.to_json))
+        expect(json_response)
+          .to eq(JSON.parse(@old_option.to_json))
       end
     end
   end
