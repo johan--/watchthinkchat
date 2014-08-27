@@ -15,4 +15,8 @@ RSpec.describe Question, type: :model do
     @question.survey.destroy!
     expect { @question.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
+  it 'generates a unique code' do
+    @question = create(:question)
+    expect(@question.code).to eq(Base62.encode(@question.id))
+  end
 end
