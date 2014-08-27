@@ -2,16 +2,20 @@ angular.module('chatApp').controller('QuestionController', function ($scope, $lo
   $scope.question = question;
 
   $scope.buttonClick = function(option){
-    if(option.conditional === 0){
-      if(angular.isDefined(nextQuestion)){
-        $location.path('/q/' + nextQuestion.id);
-      }else{
+    switch (option.conditional) {
+      case 0:
+        if(angular.isDefined(nextQuestion)){
+          $location.path('/q/' + nextQuestion.id);
+        }else{
+          $location.path('/complete');
+        }
+        break;
+      case 1:
+        $location.path('/q/' + option.conditional_question_id);
+        break;
+      case 2:
         $location.path('/complete');
-      }
-    }else if(option.conditional === 1){
-      $location.path('/q/' + option.conditional_question_id);
-    }else if(option.conditional === 2){
-      $location.path('/complete');
+        break;
     }
   };
 });
