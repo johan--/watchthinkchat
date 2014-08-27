@@ -43,8 +43,8 @@ describe Api::ChatsController do
           operator = create_operator
 
           mock_client = double('client')
-          allow(Pusher).to receive(:[]).
-            with("operator_#{operator.operator_uid}") { mock_client }
+          allow(Pusher).to receive(:[])
+            .with("operator_#{operator.operator_uid}") { mock_client }
           expect(mock_client).to receive(:trigger)
 
           post :create,
@@ -79,8 +79,8 @@ describe Api::ChatsController do
 
           # operator 3 should be chosen
           mock_client = double('client')
-          allow(Pusher).to receive(:[]).
-            with("operator_#{operator3.operator_uid}") { mock_client }
+          allow(Pusher).to receive(:[])
+            .with("operator_#{operator3.operator_uid}") { mock_client }
           expect(mock_client).to receive(:trigger)
 
           post :create,
@@ -178,8 +178,8 @@ describe Api::ChatsController do
 
           # operator 6 should be chosen
           mock_client = double('client')
-          allow(Pusher).to receive(:[]).
-            with("operator_#{operator3.operator_uid}") { mock_client }
+          allow(Pusher).to receive(:[])
+            .with("operator_#{operator3.operator_uid}") { mock_client }
           expect(mock_client).to receive(:trigger)
 
           post :create,
@@ -239,29 +239,29 @@ describe Api::ChatsController do
                      visitor_email: 'new@email.com',
                      calltoaction: 'something',
                      notes: 'notes here' }
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/people'\
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/people'\
               '?secret=missionhub_token&permissions=2'\
               "&person[first_name]=#{chat.visitor.first_name}"\
-              '&person[email]=new@email.com').
-            and_return('person' => { 'id' => mh_id })
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/contact_assignments'\
+              '&person[email]=new@email.com')
+            .and_return('person' => { 'id' => mh_id })
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/contact_assignments'\
               "?secret=missionhub_token&contact_assignment[person_id]=#{mh_id}"\
               '&contact_assignment[assigned_to_id]'\
               "=#{chat.operator.missionhub_id}")
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/contact_assignments'\
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/contact_assignments'\
               "?secret=missionhub_token&contact_assignment[person_id]=#{mh_id}"\
               '&contact_assignment[assigned_to_id]='\
               "#{chat.operator_whose_link.missionhub_id}")
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/followup_comments',
-                 secret: chat.campaign.missionhub_token,
-                 followup_comment: { contact_id: chat.visitor.missionhub_id,
-                                     commenter_id: chat.operator.missionhub_id,
-                                     comment: chat.build_comment(params) }).
-            and_return('followup_comment' => [{ 'id' => 1 }])
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/followup_comments',
+                  secret: chat.campaign.missionhub_token,
+                  followup_comment: { contact_id: chat.visitor.missionhub_id,
+                                      commenter_id: chat.operator.missionhub_id,
+                                      comment: chat.build_comment(params) })
+            .and_return('followup_comment' => [{ 'id' => 1 }])
           post :collect_stats, params
           expect(chat.visitor.reload.email).to eq('new@email.com')
         end
@@ -276,29 +276,29 @@ describe Api::ChatsController do
                                     '=&gt;&quot;fbemail&quot;}',
                      calltoaction: 'something',
                      notes: 'notes here' }
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/people'\
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/people'\
               '?secret=missionhub_token&permissions=2'\
               "&person[first_name]=#{chat.visitor.first_name}"\
-              "&person[email]=#{chat.visitor.email}").
-            and_return('person' => { 'id' => mh_id })
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/contact_assignments'\
+              "&person[email]=#{chat.visitor.email}")
+            .and_return('person' => { 'id' => mh_id })
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/contact_assignments'\
               '?secret=missionhub_token&contact_assignment[person_id]'\
               "=#{mh_id}&contact_assignment[assigned_to_id]"\
               "=#{chat.operator.missionhub_id}")
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/contact_assignments'\
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/contact_assignments'\
               '?secret=missionhub_token&contact_assignment[person_id]'\
               "=#{mh_id}&contact_assignment[assigned_to_id]"\
               "=#{chat.operator_whose_link.missionhub_id}")
-          expect(Rest).to receive(:post).
-            with('https://www.missionhub.com/apis/v3/followup_comments',
-                 secret: chat.campaign.missionhub_token,
-                 followup_comment: { contact_id: chat.visitor.missionhub_id,
-                                     commenter_id: chat.operator.missionhub_id,
-                                     comment: chat.build_comment(params) }).
-            and_return('followup_comment' => [{ 'id' => 1 }])
+          expect(Rest).to receive(:post)
+            .with('https://www.missionhub.com/apis/v3/followup_comments',
+                  secret: chat.campaign.missionhub_token,
+                  followup_comment: { contact_id: chat.visitor.missionhub_id,
+                                      commenter_id: chat.operator.missionhub_id,
+                                      comment: chat.build_comment(params) })
+            .and_return('followup_comment' => [{ 'id' => 1 }])
           post :collect_stats, params
         end
       end

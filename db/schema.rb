@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815024455) do
+ActiveRecord::Schema.define(version: 20140820030242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,8 +182,36 @@ ActiveRecord::Schema.define(version: 20140815024455) do
   add_index "messages", ["chat_id"], name: "index_messages_on_chat_id", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
+  create_table "options", force: true do |t|
+    t.string   "title"
+    t.integer  "conditional",             default: 0
+    t.string   "code"
+    t.integer  "question_id"
+    t.integer  "conditional_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organizations", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "permissions", force: true do |t|
+    t.integer  "resource_id"
+    t.integer  "user_id"
+    t.integer  "state",         default: 0, null: false
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questions", force: true do |t|
+    t.integer  "survey_id"
+    t.string   "title"
+    t.string   "help_text"
+    t.integer  "position",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -197,6 +225,12 @@ ActiveRecord::Schema.define(version: 20140815024455) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "surveys", force: true do |t|
+    t.integer  "engagement_player_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "url_fwds", force: true do |t|
     t.string   "short_url"

@@ -1,0 +1,169 @@
+<%= render 'progress' %>
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign Wizard
+    </header>
+    <div ng-app="survey_generator" ng-controller="SurveyController" ng-init="init()" class="survey_generator">
+      <ul id="question_list" ui-sortable="questionSortable" ng-model="questions">
+        <li ng-repeat="question in questions | orderBy:'question.position'" ng-class="{active: active_question==question}" class="clearfix">
+          <div class="draghandle"></div>
+          <div class="pull-right button-row">
+            <a class="btn btn-default btn-sm" ng-click="toggleQuestion(question)" ng-class="{active: active_question==question}"><%= fa_icon 'pencil' %></a>
+            <a class="btn btn-default btn-sm" ng-click="deleteQuestion(question)" ><%= fa_icon 'trash-o' %></a>
+          </div>
+          <div class="description row">
+            <div class="col-md-offset-2 col-md-8">
+              <h3>{{question.title}}</h3>
+              <h5>{{question.help_text}}</h5>
+              <div ng-repeat="option in question.options_attributes" ng-hide="option._destroy == 1">
+                <div class="input-group">
+                  <input type="radio" disabled>
+                  <label>{{option.title}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="form-horizontal" ng-submit="updateQuestion(question)" novalidate>
+            <div class="form-group row">
+              <label class="col-md-2 control-label" for="question_title">Question</label>
+              <div class="col-md-8">
+                <input name="question_title" class="form-control" type="text" ng-model="question.title" required />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 control-label" for="question_help_text">Help Text</label>
+              <div class="col-md-8">
+                <input name="question_help_text"class="form-control" type="text" ng-model="question.help_text" />
+              </div>
+            </div>
+            <div class="form-group row options">
+              <label class="col-md-2 control-label" for="options">Options</label>
+              <div class="col-md-9">
+                <div class="row" ng-repeat="option in question.options_attributes" ng-hide="option._destroy == 1">
+                  <div class="col-sm-5">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="radio" disabled>
+                      </span>
+                      <input name="option_text" class="form-control" type="text" value="{{option.title}}" required ng-model="option.title" />
+                    </div>
+                  </div>
+                  <div class="col-sm-4 no-pad">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <select class="form-control" ng-model="option.conditional" required>
+                          <option value="next">Continue</option>
+                          <option value="skip">Skip to</option>
+                          <option value="finish">Finish</option>
+                        </select>
+                      </div>
+                      <div class="row col-sm-6">
+                        <select class="form-control" ng-model="option.conditional_question_id" ng-required="option.conditional == 'skip'" ng-show="option.conditional == 'skip'">
+                          <option ng-repeat="question in questions" value="{{question.id}}">Q{{questions.indexOf(question)}} ({{question.title | characters:15: false}})</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2" ng-class="{hidden: question.options_attributes.length <= 1}">
+                    <a class="btn btn-default btn-sm" ng-click="removeOptionFromQuestion(question, option)"><%= fa_icon 'times' %></a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                  <div class="input-group add_option" ng-click="addOptionToQuestion(question)">
+                    <span class="input-group-addon">
+                      <input type="radio" disabled>
+                    </span>
+                    <input name="option_text" class="form-control" type="text" value="Click to add option" disabled />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 text-right">
+                <input class="btn btn-primary" name="commit" type="submit" value="Save Question">
+              </div>
+            </div>
+          </form>
+        </li>
+      </ul>
+      <form id="question_form" name="questionForm" class="form-horizontal"  ng-submit="questionForm.$valid && addQuestion(question_attributes)" novalidate>
+        <div class="form-group row">
+          <label class="col-md-2 control-label" for="question_title">Question</label>
+          <div class="col-md-8">
+            <input name="question_title" class="form-control" type="text" ng-model="question_attributes.title" required />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-2 control-label" for="question_help_text">Help Text</label>
+          <div class="col-md-8">
+            <input name="question_help_text"class="form-control" type="text" ng-model="question_attributes.help_text" />
+          </div>
+        </div>
+        <div class="form-group row options">
+          <label class="col-md-2 control-label" for="options">Options</label>
+          <div class="col-md-9">
+            <div class="row" ng-repeat="option in question_attributes.options_attributes">
+              <div class="col-sm-5">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <input type="radio" disabled>
+                  </span>
+                  <input name="option_text" class="form-control" type="text" value="{{option.title}}" required ng-model="option.title" />
+                </div>
+              </div>
+              <div class="col-sm-4 no-pad">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <select class="form-control" ng-model="option.conditional" required>
+                      <option value="next">Continue</option>
+                      <option value="skip">Skip to</option>
+                      <option value="finish">Finish</option>
+                    </select>
+                  </div>
+                  <div class="row col-sm-6">
+                    <select class="form-control" ng-model="option.conditional_question_id" ng-required="option.conditional == 'skip'" ng-show="option.conditional == 'skip'" ng-change="option.conditional_question_id=parseInt(option.conditional_question_id)">
+                      <option ng-repeat="question in questions" value="{{question.id}}">Q{{questions.indexOf(question)}} ({{question.title | characters:15: false}})</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2" ng-class="{hidden: question_attributes.options_attributes.length <= 1}">
+                <a class="btn btn-default btn-sm" ng-click="removeOptionFromNew(option)"><%= fa_icon 'times' %></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5">
+              <div class="input-group add_option" ng-click="addOptionToNew()">
+                <span class="input-group-addon">
+                  <input type="radio" disabled>
+                </span>
+                <input name="option_text" class="form-control" type="text" value="Click to add option" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 text-right">
+            <input class="btn btn-primary" name="commit" type="submit" value="Add Question">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="panel-footer clearfix">
+      <div class="pull-right">
+        <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
+        <a href="<%= next_wizard_path %>" class="btn btn-primary" >Next</a>
+      </div>
+    </div>
+  </section>
+</div>
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    //<![CDATA[
+      var campaign_id = <%= @campaign.id %>;
+    //]]>
+  </script>
+  <%= javascript_include_tag 'dashboard/survey/application' %>
+<% end %>

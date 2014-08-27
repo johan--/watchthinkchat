@@ -4,7 +4,7 @@ ruby "2.1.2"
 # Core
 gem 'rails', '4.1.0.rc1'
 gem 'rake'
-gem 'sprockets-rails', '2.0.0' #  github: "rails/sprockets-rails"
+gem 'sprockets-rails' #  github: "rails/sprockets-rails"
 gem 'puma'
 
 # Data Storage
@@ -13,7 +13,6 @@ gem 'resque'
 gem 'pg'
 gem 'dalli'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
-gem 'inherited_resources'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -43,9 +42,8 @@ gem 'binding_of_caller'
 # Testing
 
 # Assets CSS
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.3'
 gem 'font-awesome-rails'
-gem 'compass'
 gem 'bootstrap-sass', '~> 3.1.1.0'
 
 # Assets Javascript
@@ -68,6 +66,7 @@ gem 'polyamorous', github: 'activerecord-hackery/polyamorous'
 
 # Rails Frameworks
 gem 'wicked'
+gem 'acts_as_list'
 
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'

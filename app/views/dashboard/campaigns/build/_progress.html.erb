@@ -25,9 +25,21 @@
       </a>
     </li>
     <li>
-      <a href="#step-3" class="<%= if wizard_path == wizard_path(:finish) then "done" else "disabled" end %>" isdone="0" rel="3">
+      <a href="#step-3" class="<%= if wizard_path == wizard_path(:engagement_player_survey) then "selected" elsif past_step?(:engagement_player_survey) then "done" end %>">
         <div class="stepNumber">
           3
+        </div>
+        <span class="stepDesc">
+          Survey
+          <br>
+          <small>Questions &amp; Options</small>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#step-3" class="<%= if wizard_path == wizard_path(:finish) then "done" else "disabled" end %>" isdone="0" rel="3">
+        <div class="stepNumber">
+          4
         </div>
         <span class="stepDesc">
           Finish
