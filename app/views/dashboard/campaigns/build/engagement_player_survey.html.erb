@@ -4,7 +4,7 @@
     <header class="panel-heading">
       Campaign Wizard
     </header>
-    <div ng-app="survey_generator" ng-controller="SurveyController" ng-init="init()">
+    <div ng-app="survey_generator" ng-controller="SurveyController" ng-init="init()" class="survey_generator">
       <ul id="question_list" ui-sortable="questionSortable" ng-model="questions">
         <li ng-repeat="question in questions | orderBy:'question.position'" ng-class="{active: active_question==question}" class="clearfix">
           <div class="draghandle"></div>
@@ -16,9 +16,15 @@
             <div class="col-md-offset-2 col-md-8">
               <h3>{{question.title}}</h3>
               <h5>{{question.help_text}}</h5>
+              <div ng-repeat="option in question.options_attributes" ng-hide="option._destroy == 1">
+                <div class="input-group">
+                  <input type="radio" disabled>
+                  <label>{{option.title}}</label>
+                </div>
+              </div>
             </div>
           </div>
-          <form class="form-horizontal" ng-submit="question.$update()" novalidate>
+          <form class="form-horizontal" ng-submit="updateQuestion(question)" novalidate>
             <div class="form-group row">
               <label class="col-md-2 control-label" for="question_title">Question</label>
               <div class="col-md-8">
@@ -29,6 +35,49 @@
               <label class="col-md-2 control-label" for="question_help_text">Help Text</label>
               <div class="col-md-8">
                 <input name="question_help_text"class="form-control" type="text" ng-model="question.help_text" />
+              </div>
+            </div>
+            <div class="form-group row options">
+              <label class="col-md-2 control-label" for="options">Options</label>
+              <div class="col-md-9">
+                <div class="row" ng-repeat="option in question.options_attributes" ng-hide="option._destroy == 1">
+                  <div class="col-sm-5">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="radio" disabled>
+                      </span>
+                      <input name="option_text" class="form-control" type="text" value="{{option.title}}" required ng-model="option.title" />
+                    </div>
+                  </div>
+                  <div class="col-sm-4 no-pad">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <select class="form-control" ng-model="option.conditional" required>
+                          <option value="next">Continue</option>
+                          <option value="skip">Skip to</option>
+                          <option value="finish">Finish</option>
+                        </select>
+                      </div>
+                      <div class="row col-sm-6">
+                        <select class="form-control" ng-model="option.conditional_question_id" ng-required="option.conditional == 'skip'" ng-show="option.conditional == 'skip'">
+                          <option ng-repeat="question in questions" value="{{question.id}}">Q{{questions.indexOf(question)}} ({{question.title | characters:15: false}})</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2" ng-class="{hidden: question.options_attributes.length <= 1}">
+                    <a class="btn btn-default btn-sm" ng-click="removeOptionFromQuestion(question, option)"><%= fa_icon 'times' %></a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                  <div class="input-group add_option" ng-click="addOptionToQuestion(question)">
+                    <span class="input-group-addon">
+                      <input type="radio" disabled>
+                    </span>
+                    <input name="option_text" class="form-control" type="text" value="Click to add option" disabled />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -54,8 +103,8 @@
         </div>
         <div class="form-group row options">
           <label class="col-md-2 control-label" for="options">Options</label>
-          <div class="col-md-8">
-            <div class="row" ng-repeat="option in question_attributes.options">
+          <div class="col-md-9">
+            <div class="row" ng-repeat="option in question_attributes.options_attributes">
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">
@@ -65,13 +114,22 @@
                 </div>
               </div>
               <div class="col-sm-4 no-pad">
-                <select class="form-control" ng-model="option.flow" required>
-                  <option selected value="next">Continue to next question</option>
-                  <option ng-repeat="question in questions" value="{{question.id}}">Go to question {{questions.indexOf(question)}} ({{question.title | characters:15: false}})</option>
-                  <option value="finish">Finish</option>
-                </select>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <select class="form-control" ng-model="option.conditional" required>
+                      <option value="next">Continue</option>
+                      <option value="skip">Skip to</option>
+                      <option value="finish">Finish</option>
+                    </select>
+                  </div>
+                  <div class="row col-sm-6">
+                    <select class="form-control" ng-model="option.conditional_question_id" ng-required="option.conditional == 'skip'" ng-show="option.conditional == 'skip'" ng-change="option.conditional_question_id=parseInt(option.conditional_question_id)">
+                      <option ng-repeat="question in questions" value="{{question.id}}">Q{{questions.indexOf(question)}} ({{question.title | characters:15: false}})</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div class="col-sm-2" ng-class="{hidden: question_attributes.options.length <= 1}">
+              <div class="col-sm-2" ng-class="{hidden: question_attributes.options_attributes.length <= 1}">
                 <a class="btn btn-default btn-sm" ng-click="removeOptionFromNew(option)"><%= fa_icon 'times' %></a>
               </div>
             </div>
@@ -96,7 +154,7 @@
     <div class="panel-footer clearfix">
       <div class="pull-right">
         <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
-        <a class="btn btn-primary">Next</a>
+        <a href="<%= next_wizard_path %>" class="btn btn-primary" >Next</a>
       </div>
     </div>
   </section>
