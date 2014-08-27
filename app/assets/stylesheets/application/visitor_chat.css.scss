@@ -3,6 +3,7 @@
  * Copyright 2014 Cru.org
  * Licensed under MIT
  */
+@import url(//fonts.googleapis.com/css?family=Titillium+Web);
 
 html,body{
   height: 100%;
@@ -168,7 +169,10 @@ h1, h2, h3, h4, h5 {
 }
 
 .options h1 {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+}
+.options h4 {
+  margin-bottom: 40px;
 }
 footer {
   position: fixed;
@@ -278,17 +282,17 @@ footer .sep {
 }
 
 .video footer {
-    display: none;
+  display: none;
 }
 
 .video #player {
-    padding: 0;
-    right: 0;
+  padding: 0;
+  right: 0;
 }
 
 .video .chat-column {
-    box-shadow: none;
-    border-right: 1px solid #444;
+  box-shadow: none;
+  border-right: 1px solid #444;
 }
 
 @media (max-width: 768px) {

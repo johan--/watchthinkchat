@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12 text-center options">
+    <h1 ng-bind="question.title"></h1>
+    <h4 ng-bind="question.help_text"></h4>
+    <div class="row">
+      <div class="col-lg-offset-2 col-md-8 col-xs-12">
+        <a href="" class="btn btn-danger btn-lg btn-block" ng-click="buttonClick(o)" ng-repeat="o in question.options">{{o.title}}</a>
+      </div>
+    </div>
+  </div>
+</div>
