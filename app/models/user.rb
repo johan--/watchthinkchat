@@ -28,12 +28,12 @@ class User < ActiveRecord::Base
   belongs_to :assigned_operator1, class_name: 'User'
   belongs_to :assigned_operator2, class_name: 'User'
 
-  validates_presence_of :first_name
-  validates_uniqueness_of :email
+  validates :first_name, presence: true
+  validates :email, uniqueness: true
 
-  scope :online, Proc.new { where(status: 'online') }
-  scope :has_operator_uid, Proc.new { where('operator_uid is not null') }
-  scope :operators, Proc.new { where(operator: true) }
+  scope :online, proc { where(status: 'online') }
+  scope :has_operator_uid, proc { where('operator_uid is not null') }
+  scope :operators, proc { where(operator: true) }
 
   roles :nobody, :superadmin, :admin, :manager, :translator, :operator
 
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
 
   def self.new_with_session(params, session)
     super.tap do |user|
-      if data = session['devise.facebook_data'] &&
+      if data == session['devise.facebook_data'] &&
         session['devise.facebook_data']['extra']['raw_info']
         user.email = data['email'] if user.email.blank?
       end
@@ -129,15 +129,11 @@ class User < ActiveRecord::Base
     status == 'online'
   end
 
-  def set_status(status)
-    self.status = status
-    save
-  end
-
   def generate_visitor_uid
-    begin
+    loop do
       self.visitor_uid = SecureRandom.hex(3)
-    end while User.exists?(visitor_uid: visitor_uid)
+      break unless User.exists?(visitor_uid: visitor_uid)
+    end
   end
 
   def extra_omniauth_info(omniauth_info)

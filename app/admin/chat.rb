@@ -1,7 +1,7 @@
 ActiveAdmin.register Chat do
   filter :id, as: :numeric_range
   filter :uid
-  filter :status, as: :select, collection: ['open', 'closed']
+  filter :status, as: :select, collection: %w(open closed)
   filter :campaign,
          collection: proc { Campaign.all.order('name asc, permalink asc') }
   filter :operator,
@@ -40,8 +40,8 @@ ActiveAdmin.register Chat do
       concat('<tr><td>Number of Chats</td>'\
              "<td>#{base.count}</td></tr>".html_safe)
       concat('<tr><td>Average Messages per Chat</td>'\
-             "<td>#{base.average(:user_messages_count).round(2)}</td></tr>".
-             html_safe)
+             "<td>#{base.average(:user_messages_count).round(2)}</td></tr>"
+             .html_safe)
     end
 
     html
@@ -67,7 +67,7 @@ ActiveAdmin.register Chat do
 
   form do |f|
     f.inputs 'Status' do
-      f.input :status, as: :select, collection: ['open', 'closed']
+      f.input :status, as: :select, collection: %w(open closed)
     end
     f.actions
   end

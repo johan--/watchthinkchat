@@ -54,9 +54,10 @@ class Campaign < ActiveRecord::Base
   protected
 
   def generate_uid
-    begin
+    loop do
       self.uid = SecureRandom.hex(3)
-    end while Campaign.exists?(uid: uid)
+      break unless Campaign.exists?(uid: uid)
+    end
     return unless permalink.blank?
     self.permalink = uid
   end

@@ -10,5 +10,7 @@ class Permission < ActiveRecord::Base
     :owner
   ]
 
-  validates_presence_of :user, :resource, :state
+  validates :user, presence: true
+  validates :resource, presence: true
+  validates :state, presence: true
 end

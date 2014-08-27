@@ -5,9 +5,9 @@ class Visitor < ActiveRecord::Base
              class_name: 'Campaign',
              foreign_key: 'last_campaign_id'
 
-  before_create :get_fb_profile, :create_missionhub_contact
+  before_create :fb_profile, :create_missionhub_contact
 
-  def get_fb_profile
+  def fb_profile
     profile = JSON.parse(
       RestClient.get("https://graph.facebook.com?id=#{fb_uid}"))
     self.first_name = profile['first_name']

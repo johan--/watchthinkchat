@@ -2,7 +2,7 @@ ActiveAdmin.register User do
   filter :first_name
   filter :last_name
 
-  menu if: Proc.new { current_user && current_user.superadmin? }
+  menu if: proc { current_user && current_user.superadmin? }
 
   index do
     selectable_column
@@ -18,10 +18,8 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs 'User Details' do
       f.input :email
-      f.input :status, as: :select, collection: ['online', 'offline']
-      if user.admin?
-        f.input :admin
-      end
+      f.input :status, as: :select, collection: %w(online offline)
+      f.input :admin if user.admin?
     end
     f.actions
   end

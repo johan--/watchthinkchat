@@ -42,7 +42,7 @@ class SiteController < ApplicationController
                 conditional: 0
               }
             ]
-          },
+          }
         ]
       }
     )

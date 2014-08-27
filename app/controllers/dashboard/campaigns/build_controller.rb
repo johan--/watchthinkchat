@@ -24,8 +24,8 @@ module Dashboard
       private
 
       def campaign_params
-        params.require(:campaign).
-          permit(:name, engagement_player_attributes: [:id, :media_link])
+        params.require(:campaign)
+          .permit(:name, engagement_player_attributes: [:id, :media_link])
       end
     end
   end
