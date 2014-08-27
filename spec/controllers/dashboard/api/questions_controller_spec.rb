@@ -57,7 +57,7 @@ describe Dashboard::Api::QuestionsController do
 
     describe '#update' do
       it 'is successful' do
-        @question = attributes_for(:question)
+        @question = attributes_for(:question_with_options)
         @old_question = @survey.questions.first
         put :update,
             campaign_id: @campaign.id,

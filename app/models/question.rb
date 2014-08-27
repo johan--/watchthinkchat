@@ -6,6 +6,11 @@ class Question < ActiveRecord::Base
   default_scope { order('position ASC') }
   after_save :generate_code, on: :create
   validates_presence_of :code, on: :update
+  accepts_nested_attributes_for :options, allow_destroy: true
+
+  def options_attributes
+    options
+  end
 
   protected
 

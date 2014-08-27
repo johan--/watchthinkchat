@@ -4,15 +4,15 @@ module Dashboard
       respond_to :json
 
       def index
-        respond_with load_questions
+        respond_with load_questions, include: :options_attributes
       end
 
       def show
-        respond_with load_question
+        respond_with load_question, include: :options_attributes
       end
 
       def new
-        respond_with build_question
+        respond_with build_question, include: :options_attributes
       end
 
       def create
@@ -48,8 +48,8 @@ module Dashboard
       end
 
       def save_question
-        return unless @question.save
-        render json: @question
+        return unless @question.save!
+        render json: @question.to_json(include: :options_attributes)
       end
 
       def question_scope
@@ -63,7 +63,18 @@ module Dashboard
       def question_params
         question_params = params[:question]
         if question_params
-          question_params.permit(:title, :help_text, :position)
+          if params[:options_attributes]
+            question_params[:options_attributes] = params[:options_attributes]
+          end
+          question_params.permit(
+            :title,
+            :help_text,
+            :position,
+            options_attributes: [:id,
+                                 :title,
+                                 :conditional,
+                                 :conditional_question_id,
+                                 :_destroy])
         else
           {}
         end
