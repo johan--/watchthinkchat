@@ -35,3 +35,6 @@ Semicolon:
 MethodLength:
   Severity: warning
   Max: 15
+
+CyclomaticComplexity:
+  Enabled: false

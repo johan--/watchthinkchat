@@ -22,11 +22,11 @@ describe Api::MessagesController do
       mock_client = double('client')
 
       allow(Pusher).to receive(:[]).with("chat_#{chat.uid}") { mock_client }
-      expect(mock_client).to receive(:trigger).
-        with('event',
-             user_uid: visitor.visitor_uid,
-             message_type: 'user',
-             message: 'Testing')
+      expect(mock_client).to receive(:trigger)
+        .with('event',
+              user_uid: visitor.visitor_uid,
+              message_type: 'user',
+              message: 'Testing')
 
       post :create,
            chat_uid: chat.uid,

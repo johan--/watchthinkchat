@@ -1,6 +1,6 @@
 module Api
   class OperatorsController < ApplicationController
-    before_filter :authenticate_user!, except: :show
+    before_action :authenticate_user!, except: :show
     protect_from_forgery except: :auth
 
     def show
@@ -15,8 +15,8 @@ module Api
 
     def auth
       if user_signed_in?
-        response = Pusher[params[:channel_name]].
-          authenticate(
+        response = Pusher[params[:channel_name]]
+          .authenticate(
             params[:socket_id],
             user_id: current_user.id,
             user_info: { name: current_user.name,

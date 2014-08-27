@@ -1,7 +1,7 @@
 module Api
   class CampaignsController < ApplicationController
     # before_filter :ensure_operator_json, only: :password
-    before_filter :authenticate_user!, only: :password
+    before_action :authenticate_user!, only: :password
 
     def show
       @campaign = Campaign.where(uid: params[:uid]).first
@@ -138,9 +138,9 @@ module Api
           new_button = FollowupButton.new fb.permit(:message_active_chat,
                                                     :message_no_chat,
                                                     :btn_id,
-                                                    :btn_text).
-            slice(:message_active_chat, :message_no_chat).
-            merge(btn_text: fb[:text], btn_id: fb[:id])
+                                                    :btn_text)
+            .slice(:message_active_chat, :message_no_chat)
+            .merge(btn_text: fb[:text], btn_id: fb[:id])
           new_button.campaign = @campaign
           new_buttons << new_button
           next if new_button.valid?

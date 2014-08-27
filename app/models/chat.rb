@@ -3,19 +3,19 @@ class Chat < ActiveRecord::Base
   belongs_to :visitor, class_name: 'User'
   belongs_to :campaign
   belongs_to :operator_whose_link, class_name: 'User'
-  has_many :messages, lambda { order('created_at asc') }
+  has_many :messages, -> { order('created_at asc') }
 
   before_validation :set_uid
 
   validates :uid, :visitor_id, presence: true
 
-  scope :open, lambda { where(status: 'open') }
+  scope :open, -> { where(status: 'open') }
   scope :message_with_regex,
         ->(regex) { joins(:messages).where('body ~* ?', regex) }
-  scope :message_without_regex, ->(regex) do
+  scope :message_without_regex, lambda { |regex|
     where.not(
       id: Chat.unscoped.message_with_regex(regex).select(:id).map(&:id))
-  end
+  }
 
   def update_visitor_active!
     update_attribute :visitor_active,

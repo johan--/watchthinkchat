@@ -11,11 +11,11 @@ module Api
                               body: params[:message].to_s,
                               name: user.fullname,
                               message_type: params[:message_type])
-        Pusher["chat_#{chat.uid}"].
-          trigger('event',
-                  user_uid: params['user_uid'],
-                  message_type: params['message_type'],
-                  message: ERB::Util.html_escape(params['message']))
+        Pusher["chat_#{chat.uid}"]
+          .trigger('event',
+                   user_uid: params['user_uid'],
+                   message_type: params['message_type'],
+                   message: ERB::Util.html_escape(params['message']))
         render json: { success: true }, status: 201
       elsif !chat
         render json: { error: 'Chat not found' }, status: 500

@@ -7,7 +7,7 @@ class GodChat < ActiveRecord::Base
   belongs_to :admin2, class_name: 'User'
   belongs_to :admin3, class_name: 'User'
 
-  def get_available_operator
+  def available_operator
     if max_chats
       operators = operators.online.select do |o|
         o.count_operator_open_chats_for(self) < max_chats

@@ -15,7 +15,7 @@ describe Api::EmailsController do
       assert_equal 'to@email.com', email.header['To'].to_s
       assert_equal 'from_name <noreply@cru.org>', email.header['From'].to_s
       assert_equal 'subject', email.subject
-      assert_match /message/, email.body.to_s
+      assert_match(/message/, email.body.to_s)
       assert_equal 'from_name <from@email.com>', email.header['Reply-To'].to_s
     end
   end

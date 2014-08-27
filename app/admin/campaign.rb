@@ -11,7 +11,7 @@ ActiveAdmin.register Campaign do
 
   filter :name
   filter :permalink
-  filter :status, as: :select, collection: ['open', 'closed']
+  filter :status, as: :select, collection: %w(open closed)
 
   show do
     panel 'Campaign' do
@@ -51,9 +51,9 @@ ActiveAdmin.register Campaign do
           end
           column :live_chats do |operator|
             r = []
-            operator.operator_chats.
-                     where(campaign: campaign, status: 'open').
-                     each_with_index do |chat, i|
+            operator.operator_chats
+                     .where(campaign: campaign, status: 'open')
+                     .each_with_index do |chat, i|
               r << link_to(i + 1, admin_chat_path(chat))
             end
             r.join(', ').html_safe
@@ -94,9 +94,9 @@ ActiveAdmin.register Campaign do
       f.input :max_chats
       f.input :description, as: :text
       f.input :language
-      f.input :status, as: :select, collection: ['opened', 'closed']
+      f.input :status, as: :select, collection: %w(opened closed)
       f.input :preemptive_chat
-      f.input :growth_challenge, as: :select, collection: ['operator', 'auto']
+      f.input :growth_challenge, as: :select, collection: %w(operator auto)
     end
     f.inputs 'Admins' do
       f.input :admin1, as: :select, collection: User.has_operator_uid

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :check_blacklist_and_log
+  before_action :check_blacklist_and_log
 
   def current_visitor
     @visitor ||= Visitor.find(session[:visitor_id]) if session[:visitor_id]

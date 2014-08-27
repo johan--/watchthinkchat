@@ -4,12 +4,12 @@ class FollowupButton < ActiveRecord::Base
   validates :btn_text, presence: true
 
   before_save do |record|
-    record.btn_id ||= record.
-      campaign.
-      followup_buttons.
-      reload.
-      map(&:btn_id).
-      max.to_i + 1
+    record.btn_id ||= record
+      .campaign
+      .followup_buttons
+      .reload
+      .map(&:btn_id)
+      .max.to_i + 1
   end
 
   def as_json(_options = {})

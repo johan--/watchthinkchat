@@ -8,9 +8,7 @@ class UrlFwd < ActiveRecord::Base
 
   def generate_visitor_uid
     generate_one_visitor_uid
-    while UrlFwd.where(uid: uid).count > 0
-      generate_one_visitor_uid
-    end
+    generate_one_visitor_uid while UrlFwd.where(uid: uid).count > 0
   end
 
   def generate_one_visitor_uid

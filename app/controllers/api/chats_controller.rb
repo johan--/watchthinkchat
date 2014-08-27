@@ -1,6 +1,6 @@
 module Api
   class ChatsController < ApplicationController
-    before_filter :ensure_operator, only: [:destroy, :collect_stats]
+    before_action :ensure_operator, only: [:destroy, :collect_stats]
 
     def show
       chat = Chat.where(uid: params[:uid], operator_id: current_user.id).first
@@ -27,8 +27,8 @@ module Api
       requested_operator = User.where(operator_uid: params[:operator_uid]).first
       if (campaign.max_chats &&
           operator &&
-          operator.
-            count_operator_open_chats_for(campaign) >= campaign.max_chats) ||
+          operator
+            .count_operator_open_chats_for(campaign) >= campaign.max_chats) ||
         !operator ||
         !operator.online?
 
@@ -41,13 +41,13 @@ module Api
                             visitor_id: visitor.id,
                             operator_id: operator.id,
                             operator_whose_link_id: requested_operator.try(:id))
-        Pusher["operator_#{operator.operator_uid}"].
-          trigger('newchat',
-                  chat_uid: chat.uid,
-                  visitor_uid: visitor.visitor_uid,
-                  visitor_name: visitor.fullname,
-                  visitor_profile: '',
-                  requested_operator: requested_operator.try(:operator_uid).to_s
+        Pusher["operator_#{operator.operator_uid}"]
+          .trigger('newchat',
+                   chat_uid: chat.uid,
+                   visitor_uid: visitor.visitor_uid,
+                   visitor_name: visitor.fullname,
+                   visitor_profile: '',
+                   requested_operator: requested_operator.try(:operator_uid).to_s
                   )
         render json: { chat_uid: chat.uid,
                        operator: operator.as_json(as: :operator) },
