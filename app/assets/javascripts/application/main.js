@@ -8,11 +8,19 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
         controller: 'QuestionController',
         resolve: {
           question: ['$rootScope', '$route', function ($rootScope, $route) {
-            return _.find($rootScope.campaign.engagement_player.questions, { 'id': parseInt($route.current.params.questionId) });
+            return _.find($rootScope.campaign.engagement_player.questions, { 'code': $route.current.params.questionId });
           }],
           nextQuestion: ['$rootScope', '$route', function ($rootScope, $route) {
-            var questionIndex = _.findIndex($rootScope.campaign.engagement_player.questions, { 'id': parseInt($route.current.params.questionId) });
+            var questionIndex = _.findIndex($rootScope.campaign.engagement_player.questions, { 'code': $route.current.params.questionId });
             return $rootScope.campaign.engagement_player.questions[questionIndex + 1];
+          }]
+        }
+      }).when('/jumpTo/:jumpId', {
+        template: '',
+        controller: 'JumpToController',
+        resolve: {
+          option: ['$rootScope', '$route', function ($rootScope, $route) {
+            return _.find(_.flatten($rootScope.campaign.engagement_player.questions, 'options'), { 'code': $route.current.params.jumpId });
           }]
         }
       }).when('/complete', {
