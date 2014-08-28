@@ -48,6 +48,8 @@ module Dashboard
         campaign_params = params[:campaign]
         if campaign_params
           campaign_params.permit(:name,
+                                 :locale_id,
+                                 locale_ids: [],
                                  engagement_player_attributes: [:id,
                                                                 :media_link])
         else
