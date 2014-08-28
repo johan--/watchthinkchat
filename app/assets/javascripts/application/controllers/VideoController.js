@@ -11,6 +11,6 @@ angular.module('chatApp').controller('VideoController', function ($scope, $rootS
   };
 
   $scope.$on('youtube.player.ended', function ($event, player) {
-    $location.path('/q/' + $rootScope.campaign.engagement_player.questions[0].id);
+    $location.path('/q/' + $rootScope.campaign.engagement_player.questions[0].code);
   });
 });
