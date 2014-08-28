@@ -24,5 +24,10 @@ RSpec.describe Option, type: :model do
     @option = create(:option)
     expect(@option.code).to eq(Base62.encode(@option.id))
   end
-
+  it 'creates a translation object when title is set' do
+    @option = create(:option)
+    expect(@option.translations.where(field: :title,
+                                      content: @option.title)
+      ).to exist
+  end
 end
