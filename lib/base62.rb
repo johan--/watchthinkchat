@@ -2,7 +2,8 @@ module Base62
   SIXTYTWO = ('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a
 
   def encode(numeric)
-    raise ArgumentError, 'must pass in a number' unless Numeric == numeric
+    raise ArgumentError,
+          'must pass in a number' unless numeric.is_a?(Numeric)
 
     return '0' if numeric == 0
     s = ''

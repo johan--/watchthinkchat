@@ -10,7 +10,7 @@
           <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
           <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
           <div class="col-lg-8">
-            <%=  ep.text_field :media_link, class: 'form-control', placeholder: 'Youtube Link' %>
+            <%=  ep.input :media_link, input_html: {class: 'form-control', placeholder: 'Youtube Link'}, label: false %>
             <%=  ep.hidden_field :id %>
           </div>
           <% end %>

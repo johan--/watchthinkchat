@@ -5,5 +5,6 @@ FactoryGirl.define do
     missionhub_token 'missionhub_token'
     status 'opened'
     max_chats 2
+    locale
   end
 end

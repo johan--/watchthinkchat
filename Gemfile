@@ -54,6 +54,7 @@ gem 'angularjs-rails'
 gem 'angular-ui-rails'
 gem 'angular-ui-bootstrap-rails'
 gem 'therubyracer'
+gem 'select2-rails'
 
 # Assets HTML
 gem 'haml'
