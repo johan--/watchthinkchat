@@ -7,6 +7,7 @@ FactoryGirl.define do
     field 'title'
     campaign
     locale
+    base { false }
     factory :campaign_translation do
       association :resource, factory: :campaign
     end
