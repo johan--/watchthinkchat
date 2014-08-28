@@ -2,27 +2,31 @@ class Campaign < ActiveRecord::Base
   # users.password_hash in the database is a :string
   include BCrypt
 
+  # associations
   has_many :permissions, as: :resource, dependent: :destroy
   has_many :users, through: :permissions
-
   has_one :engagement_player
   has_one :god_chat
   has_one :growth_space
-
-  accepts_nested_attributes_for :engagement_player, update_only: true
-  validates_associated :engagement_player
-
   belongs_to :user
+  belongs_to :locale
+  has_many :available_locales, dependent: :destroy
+  has_many :locales, through: :available_locales
 
-  validates :name, presence: true, unless: :setup?
-  validates :permalink, presence: true, uniqueness: true
-
+  # callbacks
   before_validation :generate_uid
-
   before_create do
-    self.status = :setup
+    self.status ||= :setup
   end
 
+  # validations
+  accepts_nested_attributes_for :engagement_player, update_only: true
+  validates_associated :engagement_player
+  validates :name, presence: true, unless: :setup?
+  validates :permalink, presence: true, uniqueness: true
+  validates :locale, presence: true, unless: :setup?
+
+  # definitions
   enum status: [:setup,
                 :closed,
                 :opened,
