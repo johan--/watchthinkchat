@@ -1,19 +1,35 @@
 class Option < ActiveRecord::Base
-  enum conditional: [:next, :skip, :finish]
+  extend Translatable
+  # associations
   belongs_to :question
   has_one :conditional_question, class: 'Question'
-  validates :title, presence: true
+  has_many :translations, as: :resource, dependent: :destroy
+  # callbacks
+  after_save :generate_code, on: :create
+  before_destroy :destroy_translations
+
+  # validations
   validates :conditional, presence: true
+  validates :title, presence: true
   validates :question, presence: true, on: :update
   validates :conditional_question_id,
             presence: true,
             if: proc { self.skip? }
-  after_save :generate_code, on: :create
+
+  # definitions
+  enum conditional: [:next, :skip, :finish]
   default_scope { order('created_at ASC') }
+  translatable :title
+
+  delegate :campaign, to: :question
 
   protected
 
   def generate_code
     update_column(:code, Base62.encode(id))
+  end
+
+  def destroy_translations
+    Translation.where(resource_id: id).destroy_all
   end
 end

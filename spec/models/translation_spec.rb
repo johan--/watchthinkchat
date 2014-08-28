@@ -7,14 +7,14 @@ RSpec.describe Translation, type: :model do
   it 'is invalid without resource' do
     expect(build(:translation, resource: nil)).not_to be_valid
   end
-  it 'is invalid without campaign' do
-    expect(build(:translation, campaign: nil)).not_to be_valid
+  it 'is invalid without locale when base is false' do
+    expect(build(:translation, locale: nil, base: false)).not_to be_valid
   end
   it 'is invalid without locale' do
     expect(build(:translation, locale: nil)).not_to be_valid
   end
-  it 'is invalid without content' do
-    expect(build(:translation, content: nil)).not_to be_valid
+  it 'is not invalid without locale when base is true' do
+    expect(build(:translation, locale: nil, base: true)).to be_valid
   end
   describe 'is destroyed when' do
     it 'campaign is destroyed' do

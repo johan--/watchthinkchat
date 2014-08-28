@@ -1,16 +1,31 @@
 class EngagementPlayer < ActiveRecord::Base
+  extend Translatable
+  # associations
   belongs_to :campaign
   has_one :survey, dependent: :destroy
-  after_save :generate_survey, on: :create
   has_many :followup_buttons
+  has_many :translations, as: :resource, dependent: :destroy
   accepts_nested_attributes_for :followup_buttons, allow_destroy: true
+
+  # callbacks
+  after_save :generate_survey, on: :create
+  before_destroy :destroy_translations
+
+  # validations
   validates :media_link, presence: true
   validates :campaign, presence: true
   validates :survey, presence: true, on: :update, unless: proc { created_at.nil? }
+
+  # definitions
+  translatable :media_link
 
   protected
 
   def generate_survey
     create_survey
+  end
+
+  def destroy_translations
+    Translation.where(resource_id: id).destroy_all
   end
 end
