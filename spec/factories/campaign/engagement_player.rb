@@ -1,7 +1,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :engagement_player do
+  factory :engagement_player, class: Campaign::EngagementPlayer do
     campaign
     media_link { Faker::Internet.url('youtube.com') }
   end

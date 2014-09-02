@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Campaign::EngagementPlayer::Question < ActiveRecord::Base
   extend Translatable
   # associations
   belongs_to :survey

@@ -1,4 +1,4 @@
-class Option < ActiveRecord::Base
+class Campaign::EngagementPlayer::Option < ActiveRecord::Base
   extend Translatable
   # associations
   belongs_to :question

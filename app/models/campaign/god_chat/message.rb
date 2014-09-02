@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Campaign::GodChat::Message < ActiveRecord::Base
   belongs_to :user
   belongs_to :conversation
   belongs_to :chat

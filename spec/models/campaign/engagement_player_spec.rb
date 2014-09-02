@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe EngagementPlayer, type: :model do
+RSpec.describe Campaign::EngagementPlayer, type: :model do
   it 'has a valid factory' do
     expect(create(:engagement_player)).to be_valid
   end

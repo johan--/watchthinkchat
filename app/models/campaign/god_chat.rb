@@ -1,4 +1,4 @@
-class GodChat < ActiveRecord::Base
+class Campaign::GodChat < ActiveRecord::Base
   belongs_to :campaign
 
   has_many :user_operators

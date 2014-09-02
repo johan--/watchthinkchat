@@ -1,4 +1,4 @@
-ActiveAdmin.register Chat do
+ActiveAdmin.register Campaign::GodChat::Chat do
   filter :id, as: :numeric_range
   filter :uid
   filter :status, as: :select, collection: %w(open closed)

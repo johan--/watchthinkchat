@@ -1,4 +1,4 @@
-class Chat < ActiveRecord::Base
+class Campaign::GodChat::Chat < ActiveRecord::Base
   belongs_to :operator, class_name: 'User'
   belongs_to :visitor, class_name: 'User'
   belongs_to :campaign
@@ -33,7 +33,7 @@ class Chat < ActiveRecord::Base
 
     loop do
       self.uid = SecureRandom.hex(10)
-      break uid unless Chat.find_by(uid: uid)
+      break uid unless self.class.find_by(uid: uid)
     end
   end
 
