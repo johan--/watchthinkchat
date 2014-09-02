@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Dashboard::Api::OptionsController do
-  let(:user) { create(:user) }
+  let(:manager) { create(:manager) }
   before do
-    sign_in(user)
+    sign_in(manager)
     @campaign = create(:campaign)
-    user.campaigns << @campaign
+    manager.campaigns << @campaign
     @survey = create(:engagement_player, campaign: @campaign).survey
     (0..10).each do
       question = create(:question, survey: @survey)

@@ -51,13 +51,13 @@ class Dashboard::Api::OptionsController < Dashboard::BaseController
   end
 
   def option_scope
-    current_user.campaigns
-                 .find(params[:campaign_id])
-                 .engagement_player
-                 .survey
-                 .questions
-                 .find(params[:question_id])
-                 .options
+    current_manager.campaigns
+                   .find(params[:campaign_id])
+                   .engagement_player
+                   .survey
+                   .questions
+                   .find(params[:question_id])
+                   .options
   end
 
   def option_params

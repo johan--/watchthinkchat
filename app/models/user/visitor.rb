@@ -1,4 +1,9 @@
-class Visitor < ActiveRecord::Base
+class User::Visitor < ActiveType::Record[User]
+  belongs_to :assigned_operator1, class_name: 'User'
+  belongs_to :assigned_operator2, class_name: 'User'
+
+  before_create :generate_visitor_uid
+
   has_many :conversations
   has_many :operators, through: :conversations
   belongs_to :last_campaign,
@@ -30,5 +35,14 @@ class Visitor < ActiveRecord::Base
 
   def name
     [first_name, last_name].join(' ')
+  end
+
+  protected
+
+  def generate_visitor_uid
+    loop do
+      self.visitor_uid = SecureRandom.hex(3)
+      break unless User.exists?(visitor_uid: visitor_uid)
+    end
   end
 end

@@ -51,11 +51,11 @@ class Dashboard::Api::QuestionsController < Dashboard::BaseController
   end
 
   def question_scope
-    current_user.campaigns
-                 .find(params[:campaign_id])
-                 .engagement_player
-                 .survey
-                 .questions
+    current_manager.campaigns
+                   .find(params[:campaign_id])
+                   .engagement_player
+                   .survey
+                   .questions
   end
 
   def question_params

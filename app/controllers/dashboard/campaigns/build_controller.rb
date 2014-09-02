@@ -1,4 +1,4 @@
-class Dashbaord::Campaigns::BuildController < Dashboard::BaseController
+class Dashboard::Campaigns::BuildController < Dashboard::BaseController
   include Wicked::Wizard
 
   steps :basic,
@@ -35,7 +35,7 @@ class Dashbaord::Campaigns::BuildController < Dashboard::BaseController
   end
 
   def campaign_scope
-    current_user.campaigns
+    current_manager.campaigns
   end
 
   def save_campaign
