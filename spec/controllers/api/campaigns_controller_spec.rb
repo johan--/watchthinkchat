@@ -252,7 +252,7 @@
 #                                    'call to follow Him. To desire to start '\
 #                                    'following Jesus is a significant step! '\
 #                                    'Its awesome to see you have that desire! '\
-#                                    'Tell us a bit about what’s up? '\
+#                                    'Tell us a bit about what\'s up? '\
 #                                    'Luv to chat '\
 #                                    'with ya about this stuff in the chat '\
 #                                    'panel on the right :)   ----->',
