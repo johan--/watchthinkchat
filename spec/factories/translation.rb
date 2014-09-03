@@ -5,6 +5,9 @@ FactoryGirl.define do
     field 'title'
     campaign
     base { true }
+    factory :campaign_translation do
+      association :resource, factory: :campaign
+    end
     factory :question_translation do
       association :resource, factory: :question
     end
