@@ -23,11 +23,10 @@ class Campaign::EngagementPlayer < ActiveRecord::Base
   protected
 
   def generate_survey
-    create_survey
+    self.survey ||= create_survey
   end
 
   def destroy_associations
     Translation.where(resource_id: id).destroy_all
-    survey.destroy!
   end
 end
