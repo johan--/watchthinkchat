@@ -7,9 +7,9 @@ describe Dashboard::Api::OptionsController do
     @campaign = create(:campaign)
     manager.campaigns << @campaign
     @survey = create(:engagement_player, campaign: @campaign).survey
-    (0..10).each do
+    (0..1).each do
       question = create(:question, survey: @survey)
-      (0..10).each do
+      (0..1).each do
         create(:option, question: question)
       end
     end

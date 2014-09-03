@@ -7,7 +7,7 @@ describe Dashboard::Api::QuestionsController do
     @campaign = create(:campaign)
     manager.campaigns << @campaign
     @survey = create(:engagement_player, campaign: @campaign).survey
-    (0..10).each { |_n| create(:question, survey: @survey) }
+    (0..1).each { |_n| create(:question, survey: @survey) }
   end
 
   context 'with specific campaign' do
