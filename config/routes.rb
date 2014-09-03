@@ -7,8 +7,8 @@ Godchat::Application.routes.draw do
                               omniauth_callbacks: 'users/omniauth_callbacks' }
 
     authenticated :user do
+      root to: 'dashboard#index', as: :authenticated_root
       scope module: 'dashboard' do
-        root to: 'index#index', as: :authenticated_root
         resources :campaigns do
           resources :build, controller: 'campaigns/build' do
             collection do
