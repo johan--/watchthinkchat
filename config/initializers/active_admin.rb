@@ -1,3 +1,5 @@
+require 'active_admin/cancan_adapter'
+
 ActiveAdmin.setup do |config|
   config.site_title = 'Godchat'
   config.authentication_method = :authenticate_admin_user!

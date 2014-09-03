@@ -26,10 +26,10 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
 
   def load_campaign
     @campaign ||= campaign_scope.find(params[:campaign_id])
+    authorize! :read, @campaign
   end
 
   def build_campaign
-    @campaign ||= campaign_scope.build
     @campaign.attributes = campaign_params
     @campaign.status = step
   end
@@ -39,6 +39,7 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
   end
 
   def save_campaign
+    authorize! :update, @campaign
     @campaign.save
   end
 
