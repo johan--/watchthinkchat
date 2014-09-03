@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe AvailableLocale, type: :model do
-  it 'has a valid factory' do
-    expect(create(:available_locale)).to be_valid
-  end
   it 'is invalid without a campaign' do
     expect(build(:available_locale, campaign: nil)).not_to be_valid
   end

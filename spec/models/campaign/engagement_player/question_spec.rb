@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Campaign::EngagementPlayer::Question, type: :model do
-  it 'has a valid factory' do
-    expect(create(:question)).to be_valid
-  end
   it 'is invalid without survey' do
     expect(build(:question, survey: nil)).not_to be_valid
   end

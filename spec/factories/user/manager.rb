@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :manager, class: User::Manager do
     sequence(:email) { |_n| Faker::Internet.email }

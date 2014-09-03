@@ -1,17 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe Translation, type: :model do
-  it 'has a valid factory' do
-    expect(create(:translation)).to be_valid
-  end
   it 'is invalid without resource' do
     expect(build(:translation, resource: nil)).not_to be_valid
   end
   it 'is invalid without locale when base is false' do
     expect(build(:translation, locale: nil, base: false)).not_to be_valid
-  end
-  it 'is invalid without locale' do
-    expect(build(:translation, locale: nil)).not_to be_valid
   end
   it 'is not invalid without locale when base is true' do
     expect(build(:translation, locale: nil, base: true)).to be_valid
@@ -43,7 +37,7 @@ RSpec.describe Translation, type: :model do
       expect { @translation.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
     it 'locale is destroyed' do
-      @translation = create(:translation)
+      @translation = create(:locale_translation)
       @translation.locale.destroy!
       expect { @translation.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end

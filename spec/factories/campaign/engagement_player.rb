@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :engagement_player, class: Campaign::EngagementPlayer do
     campaign

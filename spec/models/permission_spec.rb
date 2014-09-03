@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Permission, type: :model do
-  it 'has a valid factory' do
-    expect(create(:permission)).to be_valid
-  end
   it 'is invalid without a resource' do
     expect(build(:permission, resource: nil)).not_to be_valid
   end

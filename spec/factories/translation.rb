@@ -1,16 +1,10 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :translation do
     content { Faker::Lorem.sentence }
-    association :resource, factory: :campaign
+    association :resource, factory: :option
     field 'title'
     campaign
-    locale
-    base { false }
-    factory :campaign_translation do
-      association :resource, factory: :campaign
-    end
+    base { true }
     factory :question_translation do
       association :resource, factory: :question
     end
@@ -19,6 +13,10 @@ FactoryGirl.define do
     end
     factory :engagement_player_translation do
       association :resource, factory: :engagement_player
+    end
+    factory :locale_translation do
+      locale
+      base { false }
     end
   end
 end

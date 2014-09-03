@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Campaign::EngagementPlayer::Option, type: :model do
-  it 'has a valid factory' do
-    expect(create(:option)).to be_valid
-  end
-  it 'is invalid without a title' do
-    expect(build(:option, title: nil)).not_to be_valid
-  end
   it 'is invalid without a conditional' do
     expect(build(:option, conditional: nil)).not_to be_valid
   end
