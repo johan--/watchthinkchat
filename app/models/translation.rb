@@ -5,10 +5,11 @@ class Translation < ActiveRecord::Base
   validates :resource, presence: true
   validates :locale, presence: true, unless: :base?
   after_create :add_campaign
+  scope :base, -> { where(base: true) }
 
   protected
 
   def add_campaign
-    update_attributes(campaign: resource.campaign)
+    update(campaign: resource.campaign)
   end
 end

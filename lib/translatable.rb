@@ -4,12 +4,11 @@ module Translatable
       # setter
       define_method "#{method_name}=" do |value|
         super(value)
-        t = Translation.find_or_initialize_by(field: method_name,
-                                              resource: self,
-                                              base: true)
-        translations << t unless t.persisted?
+        t = translations.base.find_or_initialize_by(field: method_name,
+                                                    resource: self)
+        translations << t unless persisted?
         t.content = value
-        t.save if t.persisted?
+        t.save if persisted?
       end
     end
   end
