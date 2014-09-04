@@ -10,6 +10,11 @@ RSpec.describe Permission, type: :model do
   it 'is invalid without a state' do
     expect(build(:permission, state: nil)).not_to be_valid
   end
+  it 'is invalid without a locale if state is translator' do
+    expect(build(:permission,
+                 state: Permission.states[:translator],
+                 locale: nil)).not_to be_valid
+  end
   it 'is destroyed when user is destroyed' do
     @permission = create(:permission)
     @permission.user.destroy!
