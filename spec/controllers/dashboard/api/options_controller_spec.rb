@@ -6,6 +6,7 @@ describe Dashboard::Api::OptionsController do
     sign_in(manager)
     @campaign = create(:campaign)
     manager.campaigns << @campaign
+    manager.permissions.where(resource: @campaign).first.owner!
     @survey = create(:engagement_player, campaign: @campaign).survey
     (0..1).each do
       question = create(:question, survey: @survey)

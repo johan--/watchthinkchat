@@ -26,6 +26,7 @@ class Dashboard::Api::QuestionsController < Dashboard::BaseController
 
   def destroy
     load_question
+    authorize! :destroy, @question.campaign
     @question.destroy
     render json: @question
   end
@@ -38,6 +39,8 @@ class Dashboard::Api::QuestionsController < Dashboard::BaseController
 
   def load_question
     @question ||= question_scope.find(params[:id])
+    authorize! :read, @question.campaign
+    @question
   end
 
   def build_question
@@ -46,6 +49,7 @@ class Dashboard::Api::QuestionsController < Dashboard::BaseController
   end
 
   def save_question
+    authorize! :update, @question.campaign
     return unless @question.save!
     render json: @question.to_json(include: :options_attributes)
   end

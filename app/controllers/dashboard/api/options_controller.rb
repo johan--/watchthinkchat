@@ -26,6 +26,7 @@ class Dashboard::Api::OptionsController < Dashboard::BaseController
 
   def destroy
     load_option
+    authorize! :destroy, @option.campaign
     @option.destroy
     render json: @option
   end
@@ -38,6 +39,8 @@ class Dashboard::Api::OptionsController < Dashboard::BaseController
 
   def load_option
     @option ||= option_scope.find(params[:id])
+    authorize! :read, @option.campaign
+    @option
   end
 
   def build_option
@@ -46,6 +49,7 @@ class Dashboard::Api::OptionsController < Dashboard::BaseController
   end
 
   def save_option
+    authorize! :update, @option.campaign
     return unless @option.save
     render json: @option
   end

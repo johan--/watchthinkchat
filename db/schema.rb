@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820030242) do
+ActiveRecord::Schema.define(version: 20140904001351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,12 +31,95 @@ ActiveRecord::Schema.define(version: 20140820030242) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
+  create_table "available_locales", force: true do |t|
+    t.integer  "campaign_id"
+    t.integer  "locale_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "blacklists", force: true do |t|
     t.string   "ip"
     t.integer  "blocked_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "campaign_engagement_player_options", force: true do |t|
+    t.string   "title"
+    t.integer  "conditional",             default: 0
+    t.string   "code"
+    t.integer  "question_id"
+    t.integer  "conditional_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaign_engagement_player_questions", force: true do |t|
+    t.integer  "survey_id"
+    t.string   "title"
+    t.string   "help_text"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "code"
+  end
+
+  create_table "campaign_engagement_player_surveys", force: true do |t|
+    t.integer  "engagement_player_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaign_engagement_players", force: true do |t|
+    t.boolean  "enabled"
+    t.string   "media_link"
+    t.integer  "campaign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaign_god_chat_chats", force: true do |t|
+    t.string   "topic"
+    t.integer  "operator_id"
+    t.integer  "visitor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "uid"
+    t.integer  "campaign_id"
+    t.string   "status"
+    t.integer  "operator_whose_link_id"
+    t.text     "mh_comment"
+    t.boolean  "visitor_active",         default: false
+    t.integer  "user_messages_count",    default: 0
+  end
+
+  add_index "campaign_god_chat_chats", ["operator_id"], name: "index_campaign_god_chat_chats_on_operator_id", using: :btree
+  add_index "campaign_god_chat_chats", ["visitor_id"], name: "index_campaign_god_chat_chats_on_visitor_id", using: :btree
+
+  create_table "campaign_god_chat_comments", force: true do |t|
+    t.integer  "outsider_id"
+    t.integer  "operator_id"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "campaign_god_chat_comments", ["operator_id"], name: "index_campaign_god_chat_comments_on_operator_id", using: :btree
+  add_index "campaign_god_chat_comments", ["outsider_id"], name: "index_campaign_god_chat_comments_on_outsider_id", using: :btree
+
+  create_table "campaign_god_chat_messages", force: true do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "chat_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "message_type"
+  end
+
+  add_index "campaign_god_chat_messages", ["chat_id"], name: "index_campaign_god_chat_messages_on_chat_id", using: :btree
+  add_index "campaign_god_chat_messages", ["user_id"], name: "index_campaign_god_chat_messages_on_user_id", using: :btree
 
   create_table "campaigns", force: true do |t|
     t.string   "name"
@@ -62,36 +145,10 @@ ActiveRecord::Schema.define(version: 20140820030242) do
     t.boolean  "preemptive_chat"
     t.string   "growth_challenge", default: "operator"
     t.integer  "status",           default: 0,          null: false
+    t.integer  "locale_id"
   end
 
-  create_table "chats", force: true do |t|
-    t.string   "topic"
-    t.integer  "operator_id"
-    t.integer  "visitor_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "uid"
-    t.integer  "campaign_id"
-    t.string   "status"
-    t.integer  "operator_whose_link_id"
-    t.text     "mh_comment"
-    t.boolean  "visitor_active",         default: false
-    t.integer  "user_messages_count",    default: 0
-  end
-
-  add_index "chats", ["operator_id"], name: "index_chats_on_operator_id", using: :btree
-  add_index "chats", ["visitor_id"], name: "index_chats_on_visitor_id", using: :btree
-
-  create_table "comments", force: true do |t|
-    t.integer  "outsider_id"
-    t.integer  "operator_id"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "comments", ["operator_id"], name: "index_comments_on_operator_id", using: :btree
-  add_index "comments", ["outsider_id"], name: "index_comments_on_outsider_id", using: :btree
+  add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -118,14 +175,6 @@ ActiveRecord::Schema.define(version: 20140820030242) do
     t.datetime "updated_at"
   end
 
-  create_table "engagement_players", force: true do |t|
-    t.boolean  "enabled"
-    t.string   "media_link"
-    t.integer  "campaign_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "followup_buttons", force: true do |t|
     t.string   "btn_text"
     t.string   "btn_action"
@@ -141,6 +190,15 @@ ActiveRecord::Schema.define(version: 20140820030242) do
   create_table "languages", force: true do |t|
     t.string   "name"
     t.string   "locale"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "locales", force: true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "flag"
+    t.boolean  "rtl",        default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -169,29 +227,6 @@ ActiveRecord::Schema.define(version: 20140820030242) do
   add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
   add_index "memberships", ["users_id"], name: "index_memberships_on_users_id", using: :btree
 
-  create_table "messages", force: true do |t|
-    t.text     "body"
-    t.integer  "user_id"
-    t.integer  "chat_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.string   "message_type"
-  end
-
-  add_index "messages", ["chat_id"], name: "index_messages_on_chat_id", using: :btree
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
-
-  create_table "options", force: true do |t|
-    t.string   "title"
-    t.integer  "conditional",             default: 0
-    t.string   "code"
-    t.integer  "question_id"
-    t.integer  "conditional_question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "organizations", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -199,22 +234,14 @@ ActiveRecord::Schema.define(version: 20140820030242) do
   end
 
   create_table "permissions", force: true do |t|
-    t.integer  "resource_id"
-    t.integer  "user_id"
-    t.integer  "state",         default: 0, null: false
-    t.string   "resource_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "user_id"
+    t.integer "resource_id"
+    t.string  "resource_type"
+    t.integer "state",         default: 0
   end
 
-  create_table "questions", force: true do |t|
-    t.integer  "survey_id"
-    t.string   "title"
-    t.string   "help_text"
-    t.integer  "position",   default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "permissions", ["resource_id"], name: "index_permissions_on_resource_id", using: :btree
+  add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
@@ -226,11 +253,22 @@ ActiveRecord::Schema.define(version: 20140820030242) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "surveys", force: true do |t|
-    t.integer  "engagement_player_id"
+  create_table "translations", force: true do |t|
+    t.string   "content"
+    t.integer  "resource_id"
+    t.integer  "campaign_id"
+    t.integer  "locale_id"
+    t.string   "field"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "resource_type"
+    t.boolean  "base",          default: false
   end
+
+  add_index "translations", ["campaign_id"], name: "index_translations_on_campaign_id", using: :btree
+  add_index "translations", ["field"], name: "index_translations_on_field", using: :btree
+  add_index "translations", ["locale_id"], name: "index_translations_on_locale_id", using: :btree
+  add_index "translations", ["resource_id"], name: "index_translations_on_resource_id", using: :btree
 
   create_table "url_fwds", force: true do |t|
     t.string   "short_url"
@@ -238,6 +276,11 @@ ActiveRecord::Schema.define(version: 20140820030242) do
     t.string   "full_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "user_languages", force: true do |t|
+    t.integer "user_id"
+    t.integer "language_id"
   end
 
   create_table "user_operators", force: true do |t|
@@ -289,11 +332,7 @@ ActiveRecord::Schema.define(version: 20140820030242) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-  end
-
-  create_table "users_languages", force: true do |t|
-    t.integer "user_id"
-    t.integer "language_id"
+    t.integer  "roles_mask"
   end
 
 end
