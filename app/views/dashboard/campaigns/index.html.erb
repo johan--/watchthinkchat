@@ -1,31 +1,64 @@
 <div class="col-md-12">
-  <section class="panel">
-    <div class="wdgt-row">
-      <%= image_tag 'weather_image.jpg', height: 243 %>
-      <div class="wdt-head">
-        Campaigns
-      </div>
-    </div>
-    <div class="panel-body">
-      <%- if @campaigns.empty? %>
-        <a class="btn" disabled>
-          <%= fa_icon "warning" %>
-          You haven't created a campaign yet.
-        </a>
-      <% else %>
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <td ng-bind="c.title"></td>
-              <td class="text-center"><a href="/manage/{{c.uid}}">Manage</a></td>
-            </tr>
-          </tbody>
-        </table>
-      <% end -%>
-      <a class="pull-right btn btn-default btn-primary" href="<%= new_campaign_path %>">
+  <%- if @campaigns.empty? %>
+  <div class="row">
+    <div class="col-md-offset-4 col-md-4 empty-state text-center">
+      <h2>Start Creating</h2>
+      <p>Good to have you onboard! Get started by creating your first campaign below. Go on, give it a try!</p>
+      <br />
+      <a class="sbtn btn-default btn-primary btn-lg" href="<%= new_campaign_path %>">
         <%= fa_icon "plus-circle" %>
         Create New Campaign
       </a>
     </div>
+  </div>
+  <% else %>
+  <section class="panel">
+    <header class="panel-heading">
+      Campaigns
+    </header>
+    <div class="panel-body panel-index-body">
+      <table class="table table-striped index-table">
+        <tbody>
+          <% @campaigns.each do |campaign| %>
+            <tr>
+              <td style="background-image: url(//img.youtube.com/vi/<%= campaign.engagement_player.youtube_video_id %>/maxresdefault.jpg)">
+                <div class="button-row">
+                  <a href="<%= campaign_path(campaign) %>" class="btn btn-primary">
+                    <%= fa_icon "search" %>
+                  </a>
+                  <a href="<%= edit_campaign_path(campaign) %>" class="btn btn-primary">
+                    <%= fa_icon "pencil" %>
+                  </a>
+                  <a href="<%= %>" class="btn btn-danger">
+                    <%= fa_icon "trash-o" %>
+                  </a>
+                </div>
+                <div class="pull-left cover">
+                  <h3><%= campaign.name %></h3>
+                  <small class="text-muted">
+                    Created on <%= campaign.created_at.strftime("%m/%d/%Y") %>
+                    &middot;
+                    Last updated <%= time_ago_in_words campaign.updated_at %> ago
+                  </small>
+                  <br />
+                  <%- unless campaign.engagement_player.blank? %>
+                    <span class="label label-primary">engagement player</span>
+                  <% end -%>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel-footer clearfix">
+      <div class="pull-right">
+        <a class="btn btn-default btn-primary" href="<%= new_campaign_path %>">
+          <%= fa_icon "plus-circle" %>
+          Create New Campaign
+        </a>
+      </div>
+    </div>
   </section>
+  <% end -%>
 </div>

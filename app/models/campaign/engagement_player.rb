@@ -20,6 +20,14 @@ class Campaign::EngagementPlayer < ActiveRecord::Base
   # definitions
   translatable :media_link
 
+  def youtube_video_id
+    if media_link[/youtu\.be\/([^\?]*)/]
+      return Regexp.last_match[1]
+    elsif media_link[/^.*((v%r)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+      return Regexp.last_match[5]
+    end
+  end
+
   protected
 
   def generate_survey
