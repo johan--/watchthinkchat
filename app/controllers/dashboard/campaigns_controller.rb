@@ -9,10 +9,27 @@ class Dashboard::CampaignsController < Dashboard::BaseController
     redirect_to campaign_build_path(id: :basic, campaign_id: @campaign.id)
   end
 
+  def show
+    load_campaign
+  end
+
+  def destroy
+    load_campaign
+    authorize! :destroy, @campaign
+    @campaign.destroy
+    redirect_to campaigns_path
+  end
+
   protected
 
   def load_campaigns
     @campaigns ||= campaign_scope
+  end
+
+  def load_campaign
+    @campaign ||= campaign_scope.find(params[:id])
+    authorize! :read, @campaign
+    @campaign
   end
 
   def campaign_scope

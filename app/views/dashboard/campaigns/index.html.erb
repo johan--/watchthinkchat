@@ -21,17 +21,18 @@
         <tbody>
           <% @campaigns.each do |campaign| %>
             <tr>
-              <td style="background-image: url(//img.youtube.com/vi/<%= campaign.engagement_player.youtube_video_id %>/maxresdefault.jpg)">
+              <td style="background-image: url(//img.youtube.com/vi/<%= campaign.engagement_player.try(:youtube_video_id) %>/maxresdefault.jpg)">
                 <div class="button-row">
                   <a href="<%= campaign_path(campaign) %>" class="btn btn-primary">
                     <%= fa_icon "search" %>
                   </a>
-                  <a href="<%= edit_campaign_path(campaign) %>" class="btn btn-primary">
+                  <a href="<%= campaign_build_path(id: :basic, campaign_id: campaign.id) %>" class="btn btn-primary">
                     <%= fa_icon "pencil" %>
                   </a>
-                  <a href="<%= %>" class="btn btn-danger">
-                    <%= fa_icon "trash-o" %>
+                  <a href="<%= %>" class="">
+                    <%=  %>
                   </a>
+                  <%= link_to fa_icon("trash-o"), campaign, confirm: 'Are you sure you want to delete this campaign?', method: :delete, class: 'btn btn-danger' %>
                 </div>
                 <div class="pull-left cover">
                   <h3><%= campaign.name %></h3>
