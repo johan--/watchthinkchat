@@ -9,7 +9,7 @@ Godchat::Application.routes.draw do
     authenticated :user do
       root to: 'dashboard#index', as: :authenticated_root
       scope module: 'dashboard' do
-        resources :campaigns do
+        resources :campaigns, only: [:index, :new, :show, :destroy] do
           resources :build, controller: 'campaigns/build' do
             collection do
               namespace :api, defaults: { format: :json } do
