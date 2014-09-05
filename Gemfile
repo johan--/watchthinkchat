@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-ruby "2.1.2"
+ruby '2.1.2'
 
 # Core
 gem 'rails', '4.1.0.rc1'
 gem 'rake'
-gem 'sprockets-rails' #  github: "rails/sprockets-rails"
+gem 'sprockets-rails' #  github: 'rails/sprockets-rails'
 gem 'puma'
 
 # Data Storage
@@ -19,7 +19,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 
 # Authentication
-gem "devise", github: "plataformatec/devise"
+gem 'devise', github: 'plataformatec/devise'
+gem 'devise_invitable'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'cancancan'
@@ -28,7 +29,7 @@ gem 'role_model'
 
 # Public API
 gem 'activeresource', require: 'active_resource'
-gem 'MissionHub', github: "twinge/missionhub-gem"
+gem 'MissionHub', github: 'twinge/missionhub-gem'
 gem 'pusher'
 gem 'rest-client'
 
@@ -58,7 +59,7 @@ gem 'select2-rails'
 
 # Assets HTML
 gem 'haml'
-gem "formtastic", github: "justinfrench/formtastic"
+gem 'formtastic', github: 'justinfrench/formtastic'
 gem 'formtastic-bootstrap', :git => 'https://github.com/nickl-/formtastic-bootstrap3'
 gem 'tabletastic'
 gem 'kaminari', '~> 0.15'
@@ -72,7 +73,7 @@ gem 'active_type'
 
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'
-gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
+gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
 
 group :test do
   gem 'database_cleaner'

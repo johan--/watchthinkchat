@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include RoleModel
 
-  devise :registerable,
+  devise :invitable, :registerable,
          :trackable,
          :database_authenticatable,
          :rememberable,
@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, omniauth_providers: [:facebook]
 
   validates :first_name, presence: true
-  validates :email, uniqueness: true
+  validates :email, uniqueness: true, email: true
 
   roles_attribute :roles_mask
   roles :nobody, :manager, :translator, :operator, :visitor
@@ -39,8 +39,8 @@ class User < ActiveRecord::Base
 
   def self.new_with_session(params, session)
     super.tap do |user|
-      if data == session['devise.facebook_data'] &&
-        session['devise.facebook_data']['extra']['raw_info']
+      data = session['devise.facebook_data']
+      if data && session['devise.facebook_data']['extra']['raw_info']
         user.email = data['email'] if user.email.blank?
       end
     end
