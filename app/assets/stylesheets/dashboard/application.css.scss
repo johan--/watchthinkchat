@@ -7160,4 +7160,31 @@ div.tagsinput span.tag {
   height: 100%;
   position: absolute;
 }
+.iframe {
+  .modal-body {
+    padding: 0;
+    iframe {
+      border: 0;
+      width: 100%;
+      min-height: 500px;
+    }
+  }
+}
+.modal-iframe {
+  background: transparent;
+  position: relative;
+  .form-horizontal {
+    padding-top: 15px;
+  }
+  .form-group {
+    margin: 0 0 15px 0;
+  }
+  .modal-footer {
+    background-color: #fff;
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
+  }
+}
 

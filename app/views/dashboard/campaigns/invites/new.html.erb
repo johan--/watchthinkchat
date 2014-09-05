@@ -1,0 +1,34 @@
+<%= semantic_form_for [@invite.campaign, @invite], html: {class: 'form-horizontal'} do |f| %>
+  <div class="form-group">
+    <%=  f.label :first_name, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-8">
+      <%=  f.input :first_name, input_html: {class: 'form-control', placeholder: 'First Name'}, label: false %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%=  f.label :last_name, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-8">
+      <%=  f.input :last_name, input_html: {class: 'form-control', placeholder: 'Last Name'}, label: false %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%=  f.label :email, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-8">
+      <%=  f.input :email, input_html: {class: 'form-control', placeholder: 'Email'}, label: false %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%=  f.label :locale, 'Base Locale', class: 'col-lg-2 control-label' %>
+    <div class="col-lg-6">
+      <%=  f.input :locale, input_html: { class: 'form-control select2'}, collection: @invite.campaign.locales, label: false %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-6">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit 'Invite Translator', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+

@@ -45,6 +45,9 @@
                   <%- unless campaign.engagement_player.blank? %>
                     <span class="label label-primary">engagement player</span>
                   <% end -%>
+                  <%- unless campaign.available_locales.empty? %>
+                    <span class="label label-primary">translation</span>
+                  <% end -%>
                 </div>
               </td>
             </tr>

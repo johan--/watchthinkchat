@@ -30,6 +30,9 @@
                 <%- unless @campaign.engagement_player.blank? %>
                   <span class="label label-primary">engagement player</span>
                 <% end -%>
+                <%- unless @campaign.available_locales.empty? %>
+                  <span class="label label-primary">translation</span>
+                <% end -%>
               </div>
             </td>
           </tr>
@@ -56,71 +59,13 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div class="tab-pane active" id="statistics">
-            Cool Graphs and Stuff
+            <%= render partial: 'dashboard/campaigns/tabs/statistics' %>
           </div>
           <%- unless @campaign.engagement_player.blank? %>
-          <div class="tab-pane" id="engagement_player">
-            <div class="row">
-              <div class="col-md-8">
-                <h3><%= fa_icon "angle-double-right" %> Media</h3>
-                <div class="js-video widescreen">
-                  <iframe width="560" height="315" src="http://www.youtube.com/embed/<%= @campaign.engagement_player.try(:youtube_video_id) %>?modestbranding=1&amp;rel=0&amp;showinfo=0&amp;theme=light&amp;color=white&amp;autohide=0" frameborder="0"></iframe>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <h3><%= fa_icon "angle-double-right" %> Survey</h3>
-
-                <table class="table table-striped">
-                  <tbody>
-                    <% @campaign.engagement_player.survey.questions.each do |question| %>
-                      <tr>
-                        <td>
-                          <h4><%= question.title %></h4>
-                          <h5><%= question.help_text %></h5>
-                          <ul>
-                          <% question.options.each do |option| %>
-                            <li>
-                              <a href="#">
-                                <%= fa_icon "link" %>
-                                <%= option.title %>
-                              </a>
-                            </li>
-                          <% end %>
-                          </ul>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+            <%= render partial: 'dashboard/campaigns/tabs/engagement_player' %>
           <% end -%>
           <%- unless @campaign.available_locales.empty? %>
-            <div class="tab-pane" id="translation">
-            <h3><%= fa_icon "angle-double-right" %> <span class="text-muted">Base Locale:</span> <%= @campaign.locale.name %></h3>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Field</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% Translation.base.where(campaign: @campaign).order(:created_at).each do |translation| %>
-                    <tr>
-                      <td><%= translation.resource_type %></td>
-                      <td><%= translation.field.titleize %></td>
-                      <td><%= translation.content %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-              <% @campaign.available_locales.each do |campaign_locale| %>
-                <h3><%= campaign_locale.locale.name %></h3>
-              <% end %>
-            </div>
+            <%= render partial: 'dashboard/campaigns/tabs/translation' %>
           <% end -%>
         </div>
       </div>
@@ -130,7 +75,7 @@
         <a href="<%= campaigns_path %>" class="btn">Back</a>&nbsp;
         <a class="btn btn-default btn-primary" href="<%= new_campaign_path %>">
           <%= fa_icon "plus-circle" %>
-          Create New campaign
+          Create New Campaign
         </a>
       </div>
     </div>
