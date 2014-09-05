@@ -11,8 +11,8 @@ class User::Translator::Invite < ActiveType::Object
   belongs_to :locale
   belongs_to :invited_user, class_name: 'User'
 
-  validates :campaign_id, presence: true
-  validates :locale_id, presence: true
+  validates :campaign, presence: true
+  validates :locale, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, email: true
