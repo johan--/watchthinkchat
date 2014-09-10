@@ -37,6 +37,12 @@ class Campaign < ActiveRecord::Base
                 :engagement_player,
                 :engagement_player_survey]
   translatable :name
+  scope :owner, (lambda do
+    where('permissions.state = ?', Permission.states[:owner].to_i)
+  end)
+  scope :translator, (lambda do
+    where('permissions.state = ?', Permission.states[:translator].to_i)
+  end)
 
   def display_name
     "#{name} (#{permalink.blank?})"
