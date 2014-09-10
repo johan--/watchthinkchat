@@ -5,17 +5,33 @@
       Campaign Wizard
     </header>
     <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
-      <div class="panel-body">
-        <div class="form-group">
-          <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
-          <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
-          <div class="col-lg-8">
-            <%=  ep.input :media_link, input_html: {class: 'form-control', placeholder: 'Youtube Link'}, label: false %>
-            <%=  ep.hidden_field :id %>
+
+      <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-8">
+              <%=  ep.input :media_link, input_html: {class: 'form-control', placeholder: 'Youtube Link'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
           </div>
-          <% end %>
+          <div class="form-group">
+            <%= ep.label :media_start, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-2">
+              <%=  ep.input :media_start, input_html: {class: 'form-control', placeholder: 'Start ms'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= ep.label :media_stop, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-2">
+              <%=  ep.input :media_stop, input_html: {class: 'form-control', placeholder: 'Stop ms'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <% end %>
       <div class="panel-footer clearfix">
         <div class="pull-right">
           <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
