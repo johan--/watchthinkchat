@@ -38,7 +38,7 @@ class Dashboard::CampaignsController < Dashboard::BaseController
 
   def build_campaign
     @campaign ||= campaign_scope.build
-    campaign_scope << @campaign
+    current_manager.campaigns << @campaign
     current_manager.permissions.find_by(resource: @campaign).owner!
   end
 
