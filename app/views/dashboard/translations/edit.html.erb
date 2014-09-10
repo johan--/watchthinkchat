@@ -1,0 +1,39 @@
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Translation
+    </header>
+    <div class="panel-body panel-index-body">
+      <table class="table table-striped index-table">
+        <tbody>
+          <tr>
+            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:youtube_video_id) %>/maxresdefault.jpg)">
+              <div class="button-row">
+                <a href="<%= translations_path %>" class="btn btn-default">
+                  <%= fa_icon "chevron-left" %>
+                </a>
+              </div>
+              <div class="pull-left cover">
+                <h3><%= @campaign.name %></h3>
+                <div><span class="label label-primary"><%= @translation_permission.locale.name %></span></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-content">
+        <div ng-app="translations_edit">
+
+        </div>
+      </div>
+  </section>
+</div>
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    //<![CDATA[
+      var locale_id = <%= @translation_permission.locale.id %>;
+      var base_translations = <%= Translation.where(campaign: @campaign).base.all.to_json.html_safe %>;
+    //]]>
+  </script>
+  <%= javascript_include_tag 'dashboard/translations/edit/application' %>
+<% end %>

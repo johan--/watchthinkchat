@@ -7,4 +7,8 @@ class Dashboard::BaseController < ApplicationController
   def current_manager
     current_user.as :manager
   end
+
+  def current_translator
+    current_user.as :translator
+  end
 end

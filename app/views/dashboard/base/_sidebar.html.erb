@@ -6,16 +6,26 @@
       <ul class="sidebar-menu" id="nav-accordion">
         <li>
           <a href="<%= root_path %>" class="<%= 'active' if current_page?(root_path) %>">
-            <i class="fa fa-dashboard"></i>
+            <%= fa_icon 'dashboard' %>
             <span>Dashboard</span>
           </a>
         </li>
+        <% if current_user.has_role? :manager %>
         <li>
-          <a href="<%= campaigns_path %>" class="<%= 'active' if current_page?(campaigns_path) %>">
-            <i class="fa fa-laptop"></i>
+          <a href="<%= campaigns_path %>" class="<%= 'active' if request.path.match(/campaigns/) %>">
+            <%= fa_icon 'laptop' %>
             <span>Campaigns</span>
           </a>
         </li>
+        <% end %>
+        <% if current_user.has_role? :translator %>
+        <li>
+          <a href="<%= translations_path %>" class="<%= 'active' if request.path.match(/translations/) %>">
+            <%= fa_icon 'comment' %>
+            <span>Translations</span>
+          </a>
+        </li>
+        <% end %>
       </ul>
     </div>
     <!-- sidebar menu end-->

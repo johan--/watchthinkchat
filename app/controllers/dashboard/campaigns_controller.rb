@@ -33,7 +33,7 @@ class Dashboard::CampaignsController < Dashboard::BaseController
   end
 
   def campaign_scope
-    current_manager.campaigns
+    current_manager.campaigns.owner
   end
 
   def build_campaign

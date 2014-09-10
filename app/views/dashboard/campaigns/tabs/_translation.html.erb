@@ -1,8 +1,13 @@
 <div class="tab-pane" id="translation">
 <!-- Button trigger modal -->
-<button class="pull-right btn btn-primary btn-sm" data-toggle="modal" data-target="#invite_translators">
-  Invite New Translators
-</button>
+
+<div class="row">
+  <div class="col-md-12">
+    <button class="pull-right btn btn-primary btn-sm" data-toggle="modal" data-target="#invite_translators">
+      Invite New Translators
+    </button>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade iframe" id="invite_translators" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -20,48 +25,60 @@
   </div>
 </div>
 <!-- Modal -->
-<h3><%= fa_icon "angle-double-right" %> <span class="text-muted">Base Locale:</span> <%= @campaign.locale.name %></h3>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Field</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Translation.base.where(campaign: @campaign).order(:created_at).each do |translation| %>
-        <tr>
-          <td><%= translation.resource_type %></td>
-          <td><%= translation.field.titleize %></td>
-          <td><%= translation.content %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% @campaign.available_locales.each do |campaign_locale| %>
-    <h3><%= campaign_locale.locale.name %></h3>
+
+<div class="row">
+  <div class="col-md-6">
+    <h3><%= fa_icon "angle-double-right" %> <span class="text-muted">Base Locale:</span> <%= @campaign.locale.name %></h3>
     <table class="table table-striped">
-    <tbody>
-    <tr>
-      <th class="text-right" style="width:10%">Translators</th>
-      <td>
-      <% campaign_locale.permissions.each do |permission| %>
-        <span class="label label-primary"><%= permission.user.name %> <%= link_to fa_icon('times'), campaign_permission_path(@campaign, permission), method: :delete, class:"text-danger" %></span>
-      <% end %>
-      </td>
-    </tr>
-    <tr>
-      <th class="text-right" style="width:10%">Progress</th>
-      <td>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="<%= campaign_locale.completion %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= campaign_locale.completion %>%;">
-            <%= campaign_locale.completion %>%
-          </div>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <% end %>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Translation.base.where(campaign: @campaign).order(:created_at).each do |translation| %>
+          <tr>
+            <td><%= translation.resource_type %></td>
+            <td><%= translation.field.titleize %></td>
+            <td><%= translation.content %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h3><%= fa_icon "angle-double-right" %> Available Locales</h3>
+    <% @campaign.available_locales.each do |campaign_locale| %>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th class="text-right">Locale</th>
+          <td><%= campaign_locale.locale.name %></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th class="text-right" style="width:10%">Translators</th>
+          <td>
+          <% campaign_locale.permissions.each do |permission| %>
+            <span class="label label-primary"><%= permission.user.name %> <%= link_to fa_icon('times'), campaign_permission_path(@campaign, permission), method: :delete, class:"text-danger" %></span>
+          <% end %>
+          </td>
+        </tr>
+        <tr>
+          <th class="text-right" style="width:10%">Progress</th>
+          <td>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="<%= campaign_locale.completion %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= campaign_locale.completion %>%;">
+                <%= campaign_locale.completion %>%
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
 </div>
