@@ -108,7 +108,7 @@ group :development do
   gem 'guard-puma'
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'rb-fsevent' if `uname` =~ /Darwin/
+  gem 'rb-fsevent', require: false
   gem 'fuubar'
 end
 
