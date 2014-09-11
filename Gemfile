@@ -76,7 +76,7 @@ gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
 group :test do
   gem 'database_cleaner'
   gem 'cucumber-rails', :require => false
-  gem 'rspec_junit_formatter'
+  gem 'codeclimate-test-reporter', group: :test, require: nil
   gem 'faker'
 end
 
