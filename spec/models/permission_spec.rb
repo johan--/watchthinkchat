@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Permission, type: :model do
-  it 'has a valid factory' do
-    expect(create(:permission)).to be_valid
-  end
   it 'is invalid without a resource' do
     expect(build(:permission, resource: nil)).not_to be_valid
   end
@@ -12,6 +9,11 @@ RSpec.describe Permission, type: :model do
   end
   it 'is invalid without a state' do
     expect(build(:permission, state: nil)).not_to be_valid
+  end
+  it 'is invalid without a locale if state is translator' do
+    expect(build(:permission,
+                 state: Permission.states[:translator],
+                 locale: nil)).not_to be_valid
   end
   it 'is destroyed when user is destroyed' do
     @permission = create(:permission)

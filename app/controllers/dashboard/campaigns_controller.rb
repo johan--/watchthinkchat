@@ -1,32 +1,48 @@
-module Dashboard
-  class CampaignsController < Dashboard::BaseController
-    def index
-      load_campaigns
-    end
+class Dashboard::CampaignsController < Dashboard::BaseController
+  def index
+    load_campaigns
+  end
 
-    def new
-      build_campaign
-      save_campaign
-      redirect_to campaign_build_path(id: :basic, campaign_id: @campaign.id)
-    end
+  def new
+    build_campaign
+    save_campaign
+    redirect_to campaign_build_path(id: :basic, campaign_id: @campaign.id)
+  end
 
-    protected
+  def show
+    load_campaign
+  end
 
-    def load_campaigns
-      @campaigns ||= campaign_scope
-    end
+  def destroy
+    load_campaign
+    authorize! :destroy, @campaign
+    @campaign.destroy
+    redirect_to campaigns_path
+  end
 
-    def campaign_scope
-      current_user.campaigns
-    end
+  protected
 
-    def build_campaign
-      @campaign ||= campaign_scope.build
-      campaign_scope << @campaign
-    end
+  def load_campaigns
+    @campaigns ||= campaign_scope
+  end
 
-    def save_campaign
-      @campaign.save
-    end
+  def load_campaign
+    @campaign ||= campaign_scope.find(params[:id])
+    authorize! :read, @campaign
+    @campaign
+  end
+
+  def campaign_scope
+    current_manager.campaigns.owner
+  end
+
+  def build_campaign
+    @campaign ||= campaign_scope.build
+    current_manager.campaigns << @campaign
+    current_manager.permissions.find_by(resource: @campaign).owner!
+  end
+
+  def save_campaign
+    @campaign.save
   end
 end

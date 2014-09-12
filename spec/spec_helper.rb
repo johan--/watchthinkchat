@@ -39,7 +39,12 @@ RSpec.configure do |config|
 
   # Use Database Cleaner instead
   config.before(:suite) do
-    FactoryGirl.lint
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
     DatabaseCleaner.clean_with(:truncation)
   end
 

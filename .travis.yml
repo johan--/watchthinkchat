@@ -10,7 +10,7 @@ env:
   - dashboard_url=dev.watchthinkchat.com
   - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
 install:
-- script/cached-bundle install --deployment --without development
+- travis_retry script/cached-bundle install --deployment --without development
 before_script:
 - psql -c 'create database watchthinkchat_test;' -U postgres
 - cp config/database.yml.travis config/database.yml

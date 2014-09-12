@@ -62,12 +62,6 @@ GIT
       railties (>= 4.0.0, < 5)
 
 GIT
-  remote: git://github.com/twinge/missionhub-gem.git
-  revision: 254510dc853c061704ce6538bd2fe831b0e1e392
-  specs:
-    MissionHub (2.0.0)
-
-GIT
   remote: https://github.com/nickl-/formtastic-bootstrap3
   revision: 95fed68e39fe2fc4b55256b077dd8fb5b36471f3
   specs:
@@ -90,6 +84,8 @@ GEM
       activesupport (= 4.1.0.rc1)
       builder (~> 3.1)
       erubis (~> 2.7.0)
+    active_type (0.2.1)
+      activerecord (>= 3.2)
     activemodel (4.1.0.rc1)
       activesupport (= 4.1.0.rc1)
       builder (~> 3.1)
@@ -175,6 +171,9 @@ GEM
     database_cleaner (1.3.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
+    devise_invitable (1.3.6)
+      actionmailer (>= 3.2.6, < 5)
+      devise (>= 3.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
     dotenv (0.10.0)
@@ -463,7 +462,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  MissionHub!
+  active_type
   activeadmin!
   activerecord-session_store!
   activeresource
@@ -485,6 +484,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   devise!
+  devise_invitable
   dotenv-rails
   factory_girl_rails
   faker
