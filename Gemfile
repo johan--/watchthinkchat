@@ -92,6 +92,7 @@ group :test, :development do
   gem 'pry-byebug'
   gem 'pry-remote'
   gem 'dotenv-rails'
+  gem 'fuubar'
 end
 
 group :development do
@@ -110,7 +111,6 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'rb-fsevent', require: false
-  gem 'fuubar'
 end
 
 group :production do
