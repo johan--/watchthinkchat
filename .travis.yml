@@ -6,9 +6,9 @@ env:
   global:
   - AMAZON_S3_BUCKET=cruglobal_bundle_cache
   - AMAZON_ACCESS_KEY_ID=AKIAJMC5POUXHVSOZ4X
+  - secure: "B95omo/R1Jddftpp1aFxTjJuFwjJCuZ0qSuKFleRn+GKpNuOk1tze7wPp2cslLhDug7ff+ps1ELh+qjWDqSEbAZKq9mpMWu1tY1HCMEM/1AhUlk+kAXxd/arTt8bO2OjIDaylCItf8ZmhX5K/FOqV0BQMLzDR+Hx/UOyhpeHAJ8="
   - dashboard_url=dev.watchthinkchat.com
   - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
-  - secure: cxHUcfIWoU1Ygpk3K1xMeJBIxV43+b/qAsqWshDpgdXJ0E4MjehGHwZ+/zag0BvbsNA9GpdcninwL9HbsDfftMlCqs9smeqHSjW4gzgmwl9e2oTupl8NPy8PiM2QPy7uo7O/iQrvupNOZXYacVS+tcWHej/Fu9a6Pn5ZAB8Z3Tc=
 install:
 - script/cached-bundle install --deployment --without development
 before_script:
