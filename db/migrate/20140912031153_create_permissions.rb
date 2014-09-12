@@ -1,6 +1,6 @@
 class CreatePermissions < ActiveRecord::Migration
   def change
-    return if ActiveRecord::Base.connection.table_exists? 'users'
+    return if ActiveRecord::Base.connection.table_exists? 'permissions'
 
     create_table 'permissions', force: true do |t|
       t.integer 'resource_id'
