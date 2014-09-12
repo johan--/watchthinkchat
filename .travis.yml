@@ -29,7 +29,7 @@ deploy:
   - restart
   - rake cleanup
   on:
-    repo: cruglobal/watchthinkchat
+    repo: CruGlobal/watchthinkchat
 addons:
   code_climate:
     repo_token:
