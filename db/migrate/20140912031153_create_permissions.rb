@@ -1,6 +1,6 @@
 class CreatePermissions < ActiveRecord::Migration
   def change
-    return unless ActiveRecord::Base.connection.table_exists? 'users'
+    return if ActiveRecord::Base.connection.table_exists? 'users'
 
     create_table 'permissions', force: true do |t|
       t.integer 'resource_id'
@@ -13,7 +13,7 @@ class CreatePermissions < ActiveRecord::Migration
       t.datetime 'updated_at'
     end
 
-    add_index :resource_id
-    add_index :user_id
+    add_index :permissions, :resource_id
+    add_index :permissions, :user_id
   end
 end
