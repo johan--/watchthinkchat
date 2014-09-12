@@ -62,12 +62,6 @@ GIT
       railties (>= 4.0.0, < 5)
 
 GIT
-  remote: git://github.com/twinge/missionhub-gem.git
-  revision: 254510dc853c061704ce6538bd2fe831b0e1e392
-  specs:
-    MissionHub (2.0.0)
-
-GIT
   remote: https://github.com/nickl-/formtastic-bootstrap3
   revision: 95fed68e39fe2fc4b55256b077dd8fb5b36471f3
   specs:
@@ -468,7 +462,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  MissionHub!
   active_type
   activeadmin!
   activerecord-session_store!

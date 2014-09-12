@@ -29,7 +29,6 @@ gem 'role_model'
 
 # Public API
 gem 'activeresource', require: 'active_resource'
-gem 'MissionHub', github: 'twinge/missionhub-gem'
 gem 'pusher'
 gem 'rest-client'
 
