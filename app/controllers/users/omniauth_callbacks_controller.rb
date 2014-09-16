@@ -1,20 +1,14 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     # You need to implement the method below in your model
-    @user = User.find_for_facebook_oauth(request.env['omniauth.auth'],
-                                         current_user)
+    @user =
+      User::AsOmniauth.find_omniauth_user(request.env['omniauth.auth'],
+                                          request.host)
     sign_in @user
-    @user.extra_omniauth_info(request.env['omniauth.auth']['info'])
-    if session[:campaign]
-      redirect_to '/operator/'\
-                  "#{@user.operator_uid}?campaign=#{session[:campaign]}"
-    else
-      redirect_to session[:return_to] || '/'
-      session[:return_to] = nil
-    end
     set_flash_message(:notice,
                       :success,
                       kind: 'Facebook') if is_navigational_format?
+    redirect_to root_path
   end
 
   def failure
