@@ -33,6 +33,7 @@ Semicolon:
   Enabled: false
 
 MethodLength:
+  Enabled: false
   Severity: warning
   Max: 15
 
