@@ -79,6 +79,8 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'codeclimate-test-reporter', group: :test, require: nil
   gem 'faker'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :test, :development do

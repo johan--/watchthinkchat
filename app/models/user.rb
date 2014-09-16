@@ -6,10 +6,12 @@ class User < ActiveRecord::Base
          :database_authenticatable,
          :rememberable,
          :recoverable
+
   devise :omniauthable, omniauth_providers: [:facebook]
 
   validates :first_name, presence: true
   validates :email, uniqueness: true, email: true
+  validates :password, presence: true, confirmation: true, on: :create
 
   roles_attribute :roles_mask
   roles :nobody, :manager, :translator, :operator, :visitor
