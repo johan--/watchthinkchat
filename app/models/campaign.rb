@@ -1,6 +1,4 @@
 class Campaign < ActiveRecord::Base
-  # users.password_hash in the database is a :string
-  include BCrypt
   extend Translatable
 
   # associations
