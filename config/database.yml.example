@@ -1,0 +1,10 @@
+development:
+  adapter: postgresql
+  database: watchthinkchat_dev
+  username: your_username
+  host: localhost
+test:
+  adapter: postgresql
+  database: watchthinkchat_test
+  username: your_username
+  host: localhost

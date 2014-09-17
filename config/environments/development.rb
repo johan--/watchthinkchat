@@ -37,6 +37,8 @@ Rails.application.configure do
   config.action_mailer.default_url_options =
     { host: "#{ENV['dashboard_url']}:5000" }
 
+  config.cache_store = :dalli_store
+
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
     :port           => '587',

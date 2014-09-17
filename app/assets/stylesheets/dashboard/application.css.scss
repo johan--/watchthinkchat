@@ -3,6 +3,7 @@
 @import 'select2-bootstrap';
 @import 'font-awesome';
 @import 'lib/bootstrap-reset';
+@import 'application-responsive';
 
 html {
   text-rendering: optimizeLegibility !important;
@@ -94,6 +95,12 @@ a {
     color: #b6b6b6;
     font-weight: 300;
     font-family: 'fira-sans',sans-serif;
+    input[type=checkbox] {
+      margin-left: 0;
+    }
+    label {
+      padding-left: 5px;
+    }
   }
   .form-control {
     position: relative;

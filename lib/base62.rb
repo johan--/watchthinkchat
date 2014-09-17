@@ -3,7 +3,7 @@ module Base62
 
   def encode(numeric)
     raise ArgumentError,
-          'must pass in a number' unless numeric.class.ancestors.include? Numeric
+          'must pass in a number' unless numeric.is_a?(Numeric)
 
     return '0' if numeric == 0
     s = ''

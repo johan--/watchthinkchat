@@ -15,7 +15,7 @@ class AvailableLocale < ActiveRecord::Base
 
   def completion
     ((Translation.where(campaign: campaign,
-                      locale: locale)
+                        locale: locale)
     .count.to_d /
     Translation.where(campaign: campaign,
                       base: true).count.to_d) * 100).to_i

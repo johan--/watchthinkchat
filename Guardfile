@@ -7,7 +7,7 @@ guard :bundler do
   # watch(/^.+\.gemspec/)
 end
 
-guard :rspec, cmd: 'spring rspec' do
+guard :rspec, cmd: 'spring rspec', all_on_start: true do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
@@ -34,7 +34,7 @@ guard :rubocop do
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
-guard 'puma', port: 5000, threads: '2:3' do
+guard 'puma', port: 5000, config: 'config/puma.rb' do
   watch('Gemfile.lock')
   watch(%r{^config|lib|api/.*})
 end

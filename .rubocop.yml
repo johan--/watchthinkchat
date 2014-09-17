@@ -33,10 +33,13 @@ Semicolon:
   Enabled: false
 
 MethodLength:
-  Severity: warning
-  Max: 15
+  Enabled: false
 
 CyclomaticComplexity:
   Enabled: false
+
+PerceivedComplexity:
+  Enabled: false
+
 ClassAndModuleChildren:
   EnforcedStyle: compact
