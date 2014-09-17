@@ -11,6 +11,7 @@ env:
   - secure: "B95omo/R1Jddftpp1aFxTjJuFwjJCuZ0qSuKFleRn+GKpNuOk1tze7wPp2cslLhDug7ff+ps1ELh+qjWDqSEbAZKq9mpMWu1tY1HCMEM/1AhUlk+kAXxd/arTt8bO2OjIDaylCItf8ZmhX5K/FOqV0BQMLzDR+Hx/UOyhpeHAJ8="
   - dashboard_url=dev.watchthinkchat.com
   - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
+  - RAILS_ENV=test
 install:
 - travis_retry script/cached-bundle install --deployment --without development
 before_script:
@@ -18,7 +19,8 @@ before_script:
 - cp config/database.yml.travis config/database.yml
 - bundle exec rake db:migrate RAILS_ENV=test
 script:
-- RAILS_ENV=test bundle exec rake
+- bundle exec rake
+- bundle exec rubocop -R
 deploy:
   provider: heroku
   strategy: git
