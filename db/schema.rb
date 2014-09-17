@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917054515) do
+ActiveRecord::Schema.define(version: 20140917205056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,27 +77,11 @@ ActiveRecord::Schema.define(version: 20140917054515) do
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "cname"
-    t.string   "youtube_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "missionhub_token"
-    t.string   "permalink"
-    t.string   "video_id"
     t.string   "campaign_type"
-    t.string   "uid"
-    t.integer  "max_chats"
-    t.string   "chat_start"
-    t.string   "owner"
-    t.integer  "user_id"
-    t.text     "description"
-    t.string   "language"
-    t.string   "password_hash"
-    t.integer  "admin1_id"
-    t.integer  "admin2_id"
-    t.integer  "admin3_id"
-    t.boolean  "preemptive_chat"
-    t.string   "growth_challenge", default: "operator"
-    t.integer  "status",           default: 0,          null: false
+    t.integer  "status",           default: 0, null: false
     t.integer  "locale_id"
   end
 
