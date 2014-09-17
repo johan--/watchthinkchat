@@ -6,6 +6,7 @@ gem 'rails', '4.1.5'
 
 # Data Storage
 gem 'pg'
+gem 'redis-rails'
 gem 'dalli'
 gem 'kgio'
 
