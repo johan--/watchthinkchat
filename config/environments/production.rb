@@ -75,10 +75,12 @@ Rails.application.configure do
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
-  config.cache_store = :dalli_store,
-                       ENV['MEMCACHEDCLOUD_SERVERS'].split(','),
-                       { username: ENV['MEMCACHEDCLOUD_USERNAME'],
-                         password: ENV['MEMCACHEDCLOUD_PASSWORD'] }
+  if ENV['MEMCACHEDCLOUD_SERVERS']
+    config.cache_store = :dalli_store,
+                         ENV['MEMCACHEDCLOUD_SERVERS'].split(','),
+                         { username: ENV['MEMCACHEDCLOUD_USERNAME'],
+                           password: ENV['MEMCACHEDCLOUD_PASSWORD'] }
+  end
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
