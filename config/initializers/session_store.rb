@@ -1,2 +1,3 @@
-Rails.application.config.session_store :redis_store,
-                                       expire_after: 2.days
+Rails.application.config.session_store(
+  ActionDispatch::Session::CacheStore, expire_after: 20.minutes
+)
