@@ -36,6 +36,7 @@ gem 'angular-ui-bootstrap-rails'
 gem 'select2-rails'
 gem 'coffee-rails'
 gem 'uglifier', '>= 1.3.0'
+gem 'lodash-rails'
 
 # HTML
 gem 'formtastic'
@@ -73,6 +74,7 @@ group :test, :development do
   gem 'pry-remote'
   gem 'dotenv-rails'
   gem 'fuubar'
+  gem 'rubocop'
 end
 
 group :development do
