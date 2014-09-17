@@ -22,8 +22,28 @@
         </tbody>
       </table>
       <div class="panel-content">
-        <div ng-app="translations_edit">
-
+        <div ng-app="translations_edit" ng-controller="translateCtrl">
+          <div class="row">
+            <div class="col-md-5">
+              <strong>Term</strong>
+            </div>
+            <div class="col-md-5">
+              <strong>Translation</strong>
+            </div>
+          </div>
+          <div class="row" ng-repeat="t in terms">
+            <div class="col-md-5">
+              {{t.content}}
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <input type="text" class="form-control" ng-model="transTerm[t.id]">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button class="btn" ng-click="clearVal(t.id)">Clear</button>
+            </div>
+          </div>
         </div>
       </div>
   </section>
