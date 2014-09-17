@@ -11,31 +11,7 @@ AllCops:
 
   RunRailsCops: true
 
-SignalException:
-  EnforcedStyle: only_raise
-
-CollectionMethods:
-  Enabled: false
-
-ClassLength:
-  Enabled: false
-
-LineLength:
-  Enabled: false
-
 Documentation:
-  Enabled: false
-
-RaiseArgs:
-  Enabled: false
-
-Semicolon:
-  Enabled: false
-
-MethodLength:
-  Enabled: false
-
-CyclomaticComplexity:
   Enabled: false
 
 ClassAndModuleChildren:

@@ -15,7 +15,10 @@ class Campaign::EngagementPlayer < ActiveRecord::Base
   # validations
   validates :media_link, presence: true
   validates :campaign, presence: true
-  validates :survey, presence: true, on: :update, unless: proc { created_at.nil? }
+  validates :survey,
+            presence: true,
+            on: :update,
+            unless: proc { created_at.nil? }
 
   # definitions
   translatable :media_link

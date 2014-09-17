@@ -38,7 +38,8 @@ describe Dashboard::Api::TranslationsController do
         expect(json_response)
           .to eq(JSON.parse(Translation.find_by(resource: @campaign,
                                                 locale: @locale,
-                                                field: translation.field).to_json))
+                                                field: translation.field)
+                                       .to_json))
       end
     end
     context 'translation exists' do

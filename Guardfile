@@ -29,7 +29,7 @@ guard :rspec, cmd: 'spring rspec', all_on_start: true do
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
 end
 
-guard :rubocop do
+guard :rubocop, cli: '--rails' do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end

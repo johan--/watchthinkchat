@@ -30,6 +30,6 @@ class User < ActiveRecord::Base
 
   def as(role)
     return becomes "User::#{role.to_s.camelize}".constantize if self.is? role
-    raise ActiveRecordError
+    fail ActiveRecordError
   end
 end

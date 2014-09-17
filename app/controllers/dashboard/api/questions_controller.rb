@@ -64,17 +64,14 @@ class Dashboard::Api::QuestionsController < Dashboard::BaseController
 
   def question_params
     question_params = params[:question]
-    if question_params
-      if params[:options_attributes]
-        question_params[:options_attributes] = params[:options_attributes]
-      end
-      question_params.permit(
-        :title, :help_text, :position,
-        options_attributes: [:id, :title, :conditional,
-                             :conditional_question_id,
-                             :_destroy])
-    else
-      {}
+    return {} unless question_params
+    if params[:options_attributes]
+      question_params[:options_attributes] = params[:options_attributes]
     end
+    question_params.permit(
+      :title, :help_text, :position,
+      options_attributes: [:id, :title, :conditional,
+                           :conditional_question_id,
+                           :_destroy])
   end
 end
