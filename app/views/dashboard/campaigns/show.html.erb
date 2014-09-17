@@ -1,0 +1,83 @@
+<div class="col-md-12">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign
+    </header>
+    <div class="panel-body panel-index-body">
+    <table class="table table-striped index-table">
+        <tbody>
+          <tr>
+            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:youtube_video_id) %>/maxresdefault.jpg)">
+              <div class="button-row">
+                <a href="<%= campaigns_path %>" class="btn btn-default">
+                  <%= fa_icon "chevron-left" %>
+                </a>
+                <a href="<%= campaign_build_path(id: :basic, campaign_id: @campaign.id) %>" class="btn btn-primary">
+                  <%= fa_icon "pencil" %>
+                </a>
+                <a href="<%= %>" class="btn btn-danger">
+                  <%= fa_icon "trash-o" %>
+                </a>
+              </div>
+              <div class="pull-left cover">
+                <h3><%= @campaign.name %></h3>
+                <small class="text-muted">
+                  Created on <%= @campaign.created_at.strftime("%m/%d/%Y") %>
+                  &middot;
+                  Last updated <%= time_ago_in_words @campaign.updated_at %> ago
+                </small>
+                <br />
+                <%- unless @campaign.engagement_player.blank? %>
+                  <span class="label label-primary">engagement player</span>
+                <% end -%>
+                <%- unless @campaign.available_locales.empty? %>
+                  <span class="label label-primary">translation</span>
+                <% end -%>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-content">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active">
+            <a href="#statistics" role="tab" data-toggle="tab">Statistics</a>
+          </li>
+          <%- unless @campaign.engagement_player.blank? %>
+            <li>
+              <a href="#engagement_player" role="tab" data-toggle="tab">Engagement Player</a>
+            </li>
+          <% end -%>
+          <%- unless @campaign.available_locales.empty? %>
+          <li>
+            <a href="#translation" role="tab" data-toggle="tab">Translation</a>
+          </li>
+          <% end -%>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="statistics">
+            <%= render partial: 'dashboard/campaigns/tabs/statistics' %>
+          </div>
+          <%- unless @campaign.engagement_player.blank? %>
+            <%= render partial: 'dashboard/campaigns/tabs/engagement_player' %>
+          <% end -%>
+          <%- unless @campaign.available_locales.empty? %>
+            <%= render partial: 'dashboard/campaigns/tabs/translation' %>
+          <% end -%>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer clearfix">
+      <div class="pull-right">
+        <a href="<%= campaigns_path %>" class="btn">Back</a>&nbsp;
+        <a class="btn btn-default btn-primary" href="<%= new_campaign_path %>">
+          <%= fa_icon "plus-circle" %>
+          Create New Campaign
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

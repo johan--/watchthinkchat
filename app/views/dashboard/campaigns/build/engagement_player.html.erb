@@ -5,17 +5,47 @@
       Campaign Wizard
     </header>
     <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
-      <div class="panel-body">
-        <div class="form-group">
-          <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
-          <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
-          <div class="col-lg-8">
-            <%=  ep.input :media_link, input_html: {class: 'form-control', placeholder: 'Youtube Link'}, label: false %>
-            <%=  ep.hidden_field :id %>
+
+      <%= f.semantic_fields_for :engagement_player, @campaign.engagement_player || @campaign.build_engagement_player do |ep| %>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= ep.label :media_link, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-8">
+              <%=  ep.input :media_link, input_html: {class: 'form-control', placeholder: 'Youtube Link', onBlur: 'onYouTubeIframeAPIReady()'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
           </div>
-          <% end %>
+
+          <div class="form-group">
+            <div class="col-lg-8 col-lg-offset-2">
+              <div id="ytPlayer">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <%= ep.label :media_start, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-2">
+              <%=  ep.input :media_start, input_html: {class: 'form-control', placeholder: 'Start ms'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
+            <div class="col-lg-2">
+              <button class="btn" onClick="setPosition('start'); return false;">Use Current</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= ep.label :media_stop, class: 'col-lg-2 control-label' %>
+            <div class="col-lg-2">
+              <%=  ep.input :media_stop, input_html: {class: 'form-control', placeholder: 'Stop ms'}, label: false %>
+              <%=  ep.hidden_field :id %>
+            </div>
+            <div class="col-lg-2">
+              <button class="btn" onClick="setPosition('stop'); return false;">Use Current</button>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <% end %>
       <div class="panel-footer clearfix">
         <div class="pull-right">
           <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
@@ -25,3 +55,41 @@
     <% end %>
   </section>
 </div>
+
+          <script>
+            var tag = document.createElement('script');
+
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+              var videourl = document.getElementById('campaign_engagement_player_attributes_media_link').value;
+              var videoid = videourl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+              if(videoid == null) {
+                return;
+              }
+              videoid = videoid[1];
+              console.log(videoid);
+
+              player = new YT.Player('ytPlayer', {
+                height: '290',
+                width: '448',
+                videoId: videoid,
+                playerVars: {
+                  modestbranding: 1,
+                  theme: 'light',
+                  color: 'white',
+                  showinfo: 0,
+                  rel: 0,
+                  autohide: 0
+                }
+              });
+            }
+
+            function setPosition(place){
+              var currentTime = parseInt(player.getCurrentTime());
+              jQuery('#campaign_engagement_player_attributes_media_'+place).val(currentTime);
+            }
+          </script>

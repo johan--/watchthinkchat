@@ -2,13 +2,15 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, ActiveAdmin::Page, name: 'Dashboard'
-    can :manage, :all if user && user.superadmin?
-    can :create, Campaign
-    return unless user
-    can :manage, Campaign, user_id: user.id
-    can :manage, Campaign, admin1_id: user.id
-    can :manage, Campaign, admin2_id: user.id
-    can :manage, Campaign, admin3_id: user.id
+    alias_action :manage, to: :owner
+    alias_action :read, :update, to: :editor
+    alias_action :read, to: :viewer
+    alias_action :read, to: :translator
+
+    can :manage, Dashboard if user.is? :manager
+    can :create, Campaign if user.is? :manager
+    user.permissions.each do |permission|
+      can permission.state.to_sym, permission.resource
+    end
   end
 end

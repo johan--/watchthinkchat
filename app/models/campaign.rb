@@ -1,6 +1,5 @@
 class Campaign < ActiveRecord::Base
-  # users.password_hash in the database is a :string
-  include BCrypt
+  extend Translatable
 
   # associations
   has_many :permissions, as: :resource, dependent: :destroy
@@ -8,6 +7,8 @@ class Campaign < ActiveRecord::Base
   has_one :engagement_player
   has_one :god_chat
   has_one :growth_space
+  has_many :translation_groups, class_name: 'Translation', dependent: :destroy
+  has_many :translations, as: :resource, dependent: :destroy
   belongs_to :user
   belongs_to :locale
   has_many :available_locales, dependent: :destroy
@@ -33,6 +34,13 @@ class Campaign < ActiveRecord::Base
                 :basic,
                 :engagement_player,
                 :engagement_player_survey]
+  translatable :name
+  scope :owner, (lambda do
+    where('permissions.state = ?', Permission.states[:owner].to_i)
+  end)
+  scope :translator, (lambda do
+    where('permissions.state = ?', Permission.states[:translator].to_i)
+  end)
 
   def display_name
     "#{name} (#{permalink.blank?})"
@@ -55,6 +63,10 @@ class Campaign < ActiveRecord::Base
       preemptive_chat: preemptive_chat,
       growth_challenge: growth_challenge
     }
+  end
+
+  def campaign
+    self
   end
 
   protected

@@ -1,2 +1,0 @@
-class Operator < User
-end

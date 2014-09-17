@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  database: watchthinkchat_dev
+  username: macuser
+test:
+  adapter: postgresql
+  database: watchthinkchat_test
+  username: macuser

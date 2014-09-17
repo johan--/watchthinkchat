@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe Dashboard::Api::QuestionsController do
-  let(:user) { create(:user) }
+  let(:manager) { create(:manager) }
   before do
-    sign_in(user)
+    sign_in(manager)
     @campaign = create(:campaign)
-    user.campaigns << @campaign
+    manager.campaigns << @campaign
+    manager.permissions.where(resource: @campaign).first.owner!
     @survey = create(:engagement_player, campaign: @campaign).survey
-    (0..10).each { |_n| create(:question, survey: @survey) }
+    (0..1).each { |_n| create(:question, survey: @survey) }
   end
 
   context 'with specific campaign' do

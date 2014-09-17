@@ -1,4 +1,2 @@
-module V1
-  class BasePresenter
-  end
+class V1::BasePresenter
 end

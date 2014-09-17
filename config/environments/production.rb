@@ -12,7 +12,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
@@ -75,10 +75,13 @@ Rails.application.configure do
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
-  config.cache_store = :dalli_store,
-                       ENV['MEMCACHEDCLOUD_SERVERS'].split(','),
-                       { username: ENV['MEMCACHEDCLOUD_USERNAME'],
-                         password: ENV['MEMCACHEDCLOUD_PASSWORD'] }
+  if ENV['MEMCACHEDCLOUD_SERVERS']
+    config.cache_store = :dalli_store,
+                         ENV['MEMCACHEDCLOUD_SERVERS'].split(','),
+                         { username: ENV['MEMCACHEDCLOUD_USERNAME'],
+                           password: ENV['MEMCACHEDCLOUD_PASSWORD'],
+                           pool_size: ENV['MAX_THREADS'] || 16 }
+  end
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
@@ -91,12 +94,17 @@ Rails.application.configure do
 
   # smtp
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name: ENV['smtp_user_name'],
-    password: ENV['smtp_password'],
-    address: 'email-smtp.us-east-1.amazonaws.com',
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    port: 587
+  config.action_mailer.default_url_options =
+    { host: "#{ENV['dashboard_url']}" }
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.sendgrid.net',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => ENV['SENDGRID_USERNAME'],
+    :password       => ENV['SENDGRID_PASSWORD'],
+    :domain         => 'heroku.com',
+    :enable_starttls_auto => true
   }
+
 end

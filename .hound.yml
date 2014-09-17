@@ -38,3 +38,6 @@ MethodLength:
 
 CyclomaticComplexity:
   Enabled: false
+
+ClassAndModuleChildren:
+  EnforcedStyle: compact

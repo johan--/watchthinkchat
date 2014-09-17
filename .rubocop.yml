@@ -33,8 +33,11 @@ Semicolon:
   Enabled: false
 
 MethodLength:
+  Enabled: false
   Severity: warning
   Max: 15
 
 CyclomaticComplexity:
   Enabled: false
+ClassAndModuleChildren:
+  EnforcedStyle: compact

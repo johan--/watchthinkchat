@@ -1,0 +1,42 @@
+language: ruby
+cache: bundler
+rvm:
+- 2.1.2
+services:
+    - memcached
+env:
+  global:
+  - AMAZON_S3_BUCKET=cruglobal_bundle_cache
+  - AMAZON_ACCESS_KEY_ID=AKIAJMC5POUXHVSOZ4XA
+  - secure: "B95omo/R1Jddftpp1aFxTjJuFwjJCuZ0qSuKFleRn+GKpNuOk1tze7wPp2cslLhDug7ff+ps1ELh+qjWDqSEbAZKq9mpMWu1tY1HCMEM/1AhUlk+kAXxd/arTt8bO2OjIDaylCItf8ZmhX5K/FOqV0BQMLzDR+Hx/UOyhpeHAJ8="
+  - dashboard_url=dev.watchthinkchat.com
+  - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
+install:
+- travis_retry script/cached-bundle install --deployment --without development
+before_script:
+- psql -c 'create database watchthinkchat_test;' -U postgres
+- cp config/database.yml.travis config/database.yml
+- bundle exec rake db:migrate RAILS_ENV=test
+script:
+- RAILS_ENV=test bundle exec rake
+deploy:
+  provider: heroku
+  strategy: git
+  api_key:
+    secure: G/82imsp6l8YiGUp4BCc/C1jVBkBN63sMC63HJpjK3y65DQ1PusLSmCVKW97z4gCFhX1z1IHPX8i8i03IgCT3HdFY7pEQzoCLEVcCrY9lXcF1nVu1bpaBgbLnVIm9QGIYPJjhG+QMdkzHV2jZ937T4DqujVtwWZUs9YOp0GM530=
+  app:
+    master: watchthinkchat-staging
+    production: watchthinkchat-production
+  run:
+  - rake db:migrate
+  - restart
+  - rake cleanup
+  on:
+    repo: CruGlobal/watchthinkchat
+addons:
+  code_climate:
+    repo_token:
+      secure: bhnsns5MbtkyeFp0L+H4QuwjiED4i65LOFriMqHVV3+ED6OKRuCrFCiGsv0UaWYDBb6ZaWIqaqjDtD3618RrrvHf13/guo9+68Uw6E6TZyL8+dJQ7RWWyzBko1Ep3JeyaeEbyBd6BChQKPRFvCZnUruAXe0yNntvT0O1AltZFEk=
+notifications:
+  flowdock:
+    secure: RoqS2OnNISeEhi2Hs2adhejdCLOhVy+3siuX9N5GvE3m76IJm5crh/26U1rSzMb8jAbvV22JqXTy4wfoeFEHfpPEZn0XCgvOyTJPvSHPDzi9itJyTQt4trEcuPTgixAvLz7ce+PWoTMJwpg4fNO1mX0+rNfOPW5jxukRfi+rUfM=
