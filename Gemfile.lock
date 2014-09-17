@@ -458,6 +458,7 @@ DEPENDENCIES
   role_model
   rspec
   rspec-rails
+  rubocop
   sass-rails (~> 4.0.3)
   select2-rails
   spring

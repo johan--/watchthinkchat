@@ -73,6 +73,7 @@ group :test, :development do
   gem 'pry-remote'
   gem 'dotenv-rails'
   gem 'fuubar'
+  gem 'rubocop'
 end
 
 group :development do
