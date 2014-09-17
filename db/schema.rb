@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910104559) do
+ActiveRecord::Schema.define(version: 20140917054515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,13 +34,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
   create_table "available_locales", force: true do |t|
     t.integer  "campaign_id"
     t.integer  "locale_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "blacklists", force: true do |t|
-    t.string   "ip"
-    t.integer  "blocked_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -80,48 +73,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
     t.integer  "media_start"
     t.integer  "media_stop"
   end
-
-  create_table "campaign_god_chat_chats", force: true do |t|
-    t.string   "topic"
-    t.integer  "operator_id"
-    t.integer  "visitor_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "uid"
-    t.integer  "campaign_id"
-    t.string   "status"
-    t.integer  "operator_whose_link_id"
-    t.text     "mh_comment"
-    t.boolean  "visitor_active",         default: false
-    t.integer  "user_messages_count",    default: 0
-  end
-
-  add_index "campaign_god_chat_chats", ["operator_id"], name: "index_campaign_god_chat_chats_on_operator_id", using: :btree
-  add_index "campaign_god_chat_chats", ["visitor_id"], name: "index_campaign_god_chat_chats_on_visitor_id", using: :btree
-
-  create_table "campaign_god_chat_comments", force: true do |t|
-    t.integer  "outsider_id"
-    t.integer  "operator_id"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "campaign_god_chat_comments", ["operator_id"], name: "index_campaign_god_chat_comments_on_operator_id", using: :btree
-  add_index "campaign_god_chat_comments", ["outsider_id"], name: "index_campaign_god_chat_comments_on_outsider_id", using: :btree
-
-  create_table "campaign_god_chat_messages", force: true do |t|
-    t.text     "body"
-    t.integer  "user_id"
-    t.integer  "chat_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.string   "message_type"
-  end
-
-  add_index "campaign_god_chat_messages", ["chat_id"], name: "index_campaign_god_chat_messages_on_chat_id", using: :btree
-  add_index "campaign_god_chat_messages", ["user_id"], name: "index_campaign_god_chat_messages_on_user_id", using: :btree
 
   create_table "campaigns", force: true do |t|
     t.string   "name"
@@ -168,27 +119,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "emails", force: true do |t|
-    t.string   "from"
-    t.string   "to"
-    t.string   "from_name"
-    t.text     "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "followup_buttons", force: true do |t|
-    t.string   "btn_text"
-    t.string   "btn_action"
-    t.string   "btn_value"
-    t.integer  "campaign_id"
-    t.text     "message_active_chat"
-    t.text     "message_no_chat"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "btn_id"
-  end
-
   create_table "languages", force: true do |t|
     t.string   "name"
     t.string   "locale"
@@ -201,17 +131,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
     t.string   "name"
     t.string   "flag"
     t.boolean  "rtl",        default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "log_entries", force: true do |t|
-    t.string   "ip"
-    t.string   "host"
-    t.string   "controller"
-    t.string   "action"
-    t.string   "path"
-    t.boolean  "blocked"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -229,12 +148,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
   add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
   add_index "memberships", ["users_id"], name: "index_memberships_on_users_id", using: :btree
 
-  create_table "organizations", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "permissions", force: true do |t|
     t.integer "user_id"
     t.integer "resource_id"
@@ -245,16 +158,6 @@ ActiveRecord::Schema.define(version: 20140910104559) do
 
   add_index "permissions", ["resource_id"], name: "index_permissions_on_resource_id", using: :btree
   add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
-
-  create_table "sessions", force: true do |t|
-    t.string   "session_id", null: false
-    t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "translations", force: true do |t|
     t.string   "content"
@@ -273,30 +176,14 @@ ActiveRecord::Schema.define(version: 20140910104559) do
   add_index "translations", ["locale_id"], name: "index_translations_on_locale_id", using: :btree
   add_index "translations", ["resource_id"], name: "index_translations_on_resource_id", using: :btree
 
-  create_table "url_fwds", force: true do |t|
-    t.string   "short_url"
-    t.string   "uid"
-    t.string   "full_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "user_languages", force: true do |t|
     t.integer "user_id"
     t.integer "language_id"
   end
 
-  create_table "user_operators", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "campaign_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "url_fwd_id"
-  end
-
   create_table "users", force: true do |t|
-    t.string   "email",                      default: ""
-    t.integer  "sign_in_count",              default: 0
+    t.string   "email",                  default: ""
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -307,31 +194,12 @@ ActiveRecord::Schema.define(version: 20140910104559) do
     t.string   "operator_uid"
     t.string   "first_name"
     t.string   "last_name"
-    t.text     "bio"
-    t.string   "status"
-    t.string   "location"
-    t.string   "ip"
-    t.string   "referrer"
     t.string   "authentication_token"
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "fb_uid"
-    t.string   "channel"
-    t.integer  "missionhub_id"
-    t.integer  "campaign_id"
-    t.string   "locale"
-    t.text     "answers"
-    t.string   "visitor_uid"
     t.string   "profile_pic"
-    t.boolean  "admin",                      default: false
-    t.boolean  "operator",                   default: false
-    t.boolean  "visitor",                    default: true
-    t.boolean  "challenge_subscribe_self"
-    t.string   "challenge_subscribe_friend"
-    t.integer  "assigned_operator1_id"
-    t.integer  "assigned_operator2_id"
-    t.string   "challenge_friend_accepted"
-    t.string   "encrypted_password",         default: ""
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -343,7 +211,7 @@ ActiveRecord::Schema.define(version: 20140910104559) do
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
-    t.integer  "invitations_count",          default: 0
+    t.integer  "invitations_count",      default: 0
   end
 
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
