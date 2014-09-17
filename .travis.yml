@@ -22,6 +22,7 @@ script:
 - RAILS_ENV=test bundle exec rake
 deploy:
   provider: heroku
+  strategy: git
   api_key:
     secure: G/82imsp6l8YiGUp4BCc/C1jVBkBN63sMC63HJpjK3y65DQ1PusLSmCVKW97z4gCFhX1z1IHPX8i8i03IgCT3HdFY7pEQzoCLEVcCrY9lXcF1nVu1bpaBgbLnVIm9QGIYPJjhG+QMdkzHV2jZ937T4DqujVtwWZUs9YOp0GM530=
   app:
