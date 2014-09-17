@@ -24,22 +24,19 @@ $ cd config
 $ cp database.yml.example database.yml
 ```
 
+Update your new .env and config/database.yml files
+
 ### Install Gems
 
 ```bash
 $ bundle install
 ```
 
-### Create databases
+### Setup databases
 
 ```bash
-$ bundle exec rake db:create:all
-```
-
-### Run migrations
-
-```bash
-$ bundle exec rake db:migrate
+$ bundle exec rake db:setup
+$ bundle exec rake db:schema:load RAILS_ENV=test
 ```
 
 ### Start Development Environment
