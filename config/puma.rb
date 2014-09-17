@@ -3,8 +3,7 @@ threads Integer(ENV['MIN_THREADS']  || 1), Integer(ENV['MAX_THREADS'] || 16)
 
 preload_app!
 
-rackup      DefaultRackup
-environment ENV['RACK_ENV'] || 'development'
+rackup DefaultRackup
 
 on_worker_boot do
   # worker specific setup
