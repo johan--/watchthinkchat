@@ -24,6 +24,13 @@
             <%=  f.input :locales, input_html: { class: 'form-control select2'}, collection: Locale.all, label: false %>
           </div>
         </div>
+        <div class="form-group">
+          <%=  f.label :url, 'URL', class: 'col-lg-2 control-label' %>
+          <div class="col-lg-6">
+            <%= f.input :url, label: false %>
+            <%= f.input :subdomain, as: :radio, collection: [['Subdomain', true], ['CNAME Address', false]], label: false %>
+          </div>
+        </div>
       </div>
       <div class="panel-footer clearfix">
         <div class="pull-right">
