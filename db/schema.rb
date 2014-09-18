@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917205056) do
+ActiveRecord::Schema.define(version: 20140918020300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,19 +118,6 @@ ActiveRecord::Schema.define(version: 20140917205056) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "memberships", force: true do |t|
-    t.integer  "users_id"
-    t.integer  "organizations_id"
-    t.boolean  "valid"
-    t.boolean  "admin"
-    t.boolean  "owner"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "memberships", ["organizations_id"], name: "index_memberships_on_organizations_id", using: :btree
-  add_index "memberships", ["users_id"], name: "index_memberships_on_users_id", using: :btree
 
   create_table "permissions", force: true do |t|
     t.integer "user_id"
