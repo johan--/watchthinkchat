@@ -23,14 +23,38 @@ RSpec.describe Campaign, type: :model do
     it 'is invalid without a locale' do
       expect(build(:campaign, locale: nil, status: :opened)).not_to be_valid
     end
-    it 'is invalid without a cname' do
-      expect(build(:campaign, cname: nil, status: :opened)).not_to be_valid
+    it 'is invalid without a url' do
+      expect(build(:campaign, url: nil, status: :opened)).not_to be_valid
     end
-    it 'is invalid when cname is not unique' do
+    it 'is invalid when url is not unique' do
       @campaign = create(:campaign)
       expect(build(:campaign,
-                   cname: @campaign.cname,
+                   url: @campaign.url,
                    status: :opened)).not_to be_valid
+    end
+  end
+  describe 'when url is a subdomain' do
+    before { subject.subdomain = true }
+    it { is_expected.to ensure_length_of(:url).is_at_most(63) }
+    it { is_expected.to_not allow_value('-gwtbesr-', '!@#$%').for(:url) }
+    it { is_expected.to_not allow_value('app').for(:url) }
+    it { is_expected.to allow_value('web', 'test', 'falling-plates').for(:url) }
+  end
+
+  describe 'when url is a cname' do
+    before { subject.subdomain = false }
+    it { is_expected.to ensure_length_of(:url).is_at_most(255) }
+    it do
+      is_expected.to_not allow_value('goober',
+                                     '-',
+                                     'http://google.com',
+                                     'google.com/path').for(:url)
+    end
+    it do
+      is_expected.to allow_value('goober.com',
+                                 'subdomain.example.com',
+                                 'mail.google.com',
+                                 'valid.domain.museum').for(:url)
     end
   end
 
