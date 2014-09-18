@@ -37,6 +37,8 @@ gem 'select2-rails'
 gem 'coffee-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'lodash-rails'
+gem 'rabl'
+gem 'oj'
 
 # HTML
 gem 'formtastic'
