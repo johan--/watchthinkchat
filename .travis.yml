@@ -9,7 +9,7 @@ env:
   - AMAZON_S3_BUCKET=cruglobal_bundle_cache
   - AMAZON_ACCESS_KEY_ID=AKIAJMC5POUXHVSOZ4XA
   - secure: "B95omo/R1Jddftpp1aFxTjJuFwjJCuZ0qSuKFleRn+GKpNuOk1tze7wPp2cslLhDug7ff+ps1ELh+qjWDqSEbAZKq9mpMWu1tY1HCMEM/1AhUlk+kAXxd/arTt8bO2OjIDaylCItf8ZmhX5K/FOqV0BQMLzDR+Hx/UOyhpeHAJ8="
-  - dashboard_url=dev.watchthinkchat.com
+  - base_url=watchthinkchat.com
   - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
   - RAILS_ENV=test
 install:

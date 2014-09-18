@@ -5,7 +5,7 @@ describe 'Campaign Builder', type: :feature do
 
   before do
     Warden.test_mode!
-    Capybara.app_host = "http://#{ENV['dashboard_url']}"
+    Capybara.app_host = "http://app.#{ENV['base_url']}"
     login_as(manager, scope: :user)
   end
 

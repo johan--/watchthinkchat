@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'User' do
   before do
-    Capybara.app_host = "http://#{ENV['dashboard_url']}"
+    Capybara.app_host = "http://app.#{ENV['base_url']}"
   end
   describe 'registration' do
     feature 'create a new user' do

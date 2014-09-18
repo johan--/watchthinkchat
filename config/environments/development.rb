@@ -35,7 +35,7 @@ Rails.application.configure do
   # smtp
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options =
-    { host: "#{ENV['dashboard_url']}:5000" }
+    { host: "#{ENV['base_url']}:5000" }
 
   config.cache_store = :dalli_store
 

@@ -6,7 +6,7 @@ class User::Omniauth < ActiveType::Record[User]
     user ||= where(email: auth.info.email).first
     unless user
       user = new
-      user.roles << :manager if url == ENV['dashboard_url']
+      user.roles << :manager if url == "app.#{ENV['base_url']}"
     end
     update_omniauth_attributes(user, auth)
     user
