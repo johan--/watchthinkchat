@@ -1,6 +1,16 @@
 class User < ActiveRecord::Base
   include RoleModel
 
+  # associations
+  has_many :permissions, dependent: :destroy
+
+  # validations
+  validates :first_name, presence: true
+  validates :email, presence: true, uniqueness: true, email: true
+  validates :password, presence: true
+  validates :password, confirmation: true, on: :create
+
+  # definintions
   devise :invitable, :registerable,
          :trackable,
          :database_authenticatable,
@@ -9,27 +19,15 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, omniauth_providers: [:facebook]
 
-  validates :first_name, presence: true
-  validates :email, uniqueness: true, email: true
-  validates :password, presence: true, confirmation: true, on: :create
-
   roles_attribute :roles_mask
-  roles :nobody, :manager, :translator, :operator, :visitor
-
-  has_many :permissions, dependent: :destroy
+  roles :nobody, :manager, :translator, :visitor
 
   def name
     "#{first_name} #{last_name}".strip
   end
 
-  alias_method :fullname, :name
-
-  def esc(s)
-    ERB::Util.url_encode(s)
-  end
-
   def as(role)
     return becomes "User::#{role.to_s.camelize}".constantize if self.is? role
-    fail ActiveRecordError
+    fail ActiveRecord::ActiveRecordError
   end
 end

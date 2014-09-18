@@ -1,7 +1,7 @@
-class User::AsOmniauth < ActiveType::Record[User]
+class User::Omniauth < ActiveType::Record[User]
   before_validation :generate_password, on: :create
 
-  def self.find_omniauth_user(auth, url)
+  def self.find(auth, url)
     user = where(provider: auth.provider, fb_uid: auth.uid).first
     user ||= where(email: auth.info.email).first
     unless user

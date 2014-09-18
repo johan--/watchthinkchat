@@ -1,24 +1,15 @@
 require 'spec_helper'
 
 RSpec.describe User::Translator::Invite, type: :model do
-  it 'is invalid without a campaign' do
-    expect(build(:invite, campaign: nil)).not_to be_valid
-  end
-  it 'is invalid without a locale' do
-    expect(build(:invite, locale: nil)).not_to be_valid
-  end
-  it 'is invalid without a first name' do
-    expect(build(:invite, first_name: nil)).not_to be_valid
-  end
-  it 'is invalid without a last name' do
-    expect(build(:invite, last_name: nil)).not_to be_valid
-  end
-  it 'is invalid without a email' do
-    expect(build(:invite, email: nil)).not_to be_valid
-  end
+  # validations
+  it { is_expected.to validate_presence_of :campaign }
+  it { is_expected.to validate_presence_of :locale }
+  it { is_expected.to validate_presence_of :first_name }
+  it { is_expected.to validate_presence_of :last_name }
   it 'is invalid with an erroneous email' do
     expect(build(:invite, email: Faker::Bitcoin.address)).not_to be_valid
   end
+
   context 'when a user does not exist' do
     let(:invite) { build(:invite) }
     it 'creates a new user object' do

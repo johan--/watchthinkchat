@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe Permission, type: :model do
+  # associations
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to belong_to(:resource) }
+  it { is_expected.to belong_to(:locale) }
+
+  # validations
   it 'is invalid without a resource' do
     expect(build(:permission, resource: nil)).not_to be_valid
   end
@@ -15,6 +21,8 @@ RSpec.describe Permission, type: :model do
                  state: Permission.states[:translator],
                  locale: nil)).not_to be_valid
   end
+
+  # parent objects
   it 'is destroyed when user is destroyed' do
     @permission = create(:permission)
     @permission.user.destroy!

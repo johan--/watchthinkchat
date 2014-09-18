@@ -7,6 +7,7 @@ class AvailableLocale < ActiveRecord::Base
   validates :campaign, presence: true
   validates :locale, presence: true
 
+  # definitions
   def permissions
     Permission.where(resource: campaign,
                      locale: locale,

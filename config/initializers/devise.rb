@@ -280,18 +280,6 @@ Devise.setup do |config|
                   provider_ignores_state: true
   # config.omniauth :twitter, "#{ENV["tw_app_id"]}", "#{ENV["tw_app_secret"]}"
 
-  # ==> Warden configuration
-  # If you want to use other strategies, that are not supported by Devise, or
-  # change the failure app, you can configure them inside config.warden.
-  #
-  config.warden do |manager|
-    # I want to send people just to godchat.tv when login fails
-    # http://stackoverflow.com/questions/5832631/devise-redirect-after-login-fail
-    manager.failure_app = CustomFailure
-
-    # manager.intercept_401 = false
-  end
-
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`,
   # and this engine

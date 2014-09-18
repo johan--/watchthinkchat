@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 # Core
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.6'
 
 # Data Storage
 gem 'pg'
@@ -25,7 +25,7 @@ gem 'rest-client'
 # Assets CSS
 gem 'sass-rails', '~> 4.0.3'
 gem 'font-awesome-rails'
-gem 'bootstrap-sass', '~> 3.1.1.0'
+gem 'bootstrap-sass'
 
 # Assets Javascript
 gem 'jquery-rails'
@@ -43,7 +43,7 @@ gem 'formtastic'
 gem 'formtastic-bootstrap'
 gem 'tabletastic'
 gem 'kaminari', '~> 0.15'
-gem 'paperclip', '~> 3.0'
+gem 'paperclip'
 
 # Rails Frameworks
 gem 'wicked'
@@ -56,8 +56,9 @@ gem 'ransack'
 
 group :test do
   gem 'database_cleaner'
-  gem 'cucumber-rails', require: false
-  gem 'codeclimate-test-reporter', group: :test, require: nil
+  gem 'codeclimate-test-reporter', require: nil
+  gem 'shoulda-matchers', require: false
+  gem 'simplecov'
   gem 'faker'
   gem 'capybara'
   gem 'launchy'
