@@ -2,11 +2,9 @@ class Campaign::EngagementPlayer < ActiveRecord::Base
   extend Translatable
   # associations
   belongs_to :campaign
-  has_one :survey,
-          dependent: :destroy
-  has_many :followup_buttons
+  has_one :survey, dependent: :destroy
+  has_many :questions, through: :survey
   has_many :translations, as: :resource, dependent: :destroy
-  accepts_nested_attributes_for :followup_buttons, allow_destroy: true
 
   # callbacks
   after_save :generate_survey, on: :create
