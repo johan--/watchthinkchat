@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918020514) do
+ActiveRecord::Schema.define(version: 20140918041003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,13 +76,14 @@ ActiveRecord::Schema.define(version: 20140918020514) do
 
   create_table "campaigns", force: true do |t|
     t.string   "name"
-    t.string   "cname"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "missionhub_token"
     t.string   "campaign_type"
-    t.integer  "status",           default: 0, null: false
+    t.integer  "status",           default: 0,    null: false
     t.integer  "locale_id"
+    t.boolean  "subdomain",        default: true
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
