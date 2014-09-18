@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918020300) do
+ActiveRecord::Schema.define(version: 20140918020514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,13 +103,6 @@ ActiveRecord::Schema.define(version: 20140918020300) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "languages", force: true do |t|
-    t.string   "name"
-    t.string   "locale"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "locales", force: true do |t|
     t.string   "code"
     t.string   "name"
@@ -146,11 +139,6 @@ ActiveRecord::Schema.define(version: 20140918020300) do
   add_index "translations", ["field"], name: "index_translations_on_field", using: :btree
   add_index "translations", ["locale_id"], name: "index_translations_on_locale_id", using: :btree
   add_index "translations", ["resource_id"], name: "index_translations_on_resource_id", using: :btree
-
-  create_table "user_languages", force: true do |t|
-    t.integer "user_id"
-    t.integer "language_id"
-  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: ""
