@@ -59,7 +59,7 @@
   <script src="//static.getclicky.com/js" type="text/javascript"></script>
   <script type="text/javascript">
     // <![CDATA[
-      var campaign = <%= @campaign.marshal_dump.to_json.html_safe %>;
+      var campaign = <%= Rabl::Renderer.json(@campaign, 'site/campaign', view_path: 'app/views').html_safe %>;
 
       // Clicky
       try{ clicky.init(100711607); }catch(e){}
