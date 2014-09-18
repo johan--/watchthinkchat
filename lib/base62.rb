@@ -17,16 +17,15 @@ module Base62
 
   def decode(base62)
     s = base62.to_s.reverse.split('')
-
     total = 0
     s.each_with_index do |char, index|
-      if ord == SIXTYTWO.index(char)
-        total += ord * (62**index)
+      if SIXTYTWO.index(char)
+        total += SIXTYTWO.index(char) * (62**index)
       else
         fail ArgumentError, "#{base62} has #{char} which is not valid"
       end
     end
-    total.to_s
+    total.to_i
   end
 
   module_function :encode, :decode

@@ -57,5 +57,15 @@ describe 'User' do
         expect(current_path).to eq(authenticated_root_path)
       end
     end
+    scenario 'show error message on invalid login' do
+      user_attributes = attributes_for(:user)
+
+      visit root_path
+      fill_in 'user[email]', with:  user_attributes[:email]
+      fill_in 'user[password]', with:  user_attributes[:password]
+      click_button 'Sign in'
+
+      expect(page).to have_content 'Invalid email or password.'
+    end
   end
 end

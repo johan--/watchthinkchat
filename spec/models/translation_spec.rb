@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe Translation, type: :model do
+  # associations
+  it { is_expected.to belong_to(:campaign) }
+  it { is_expected.to belong_to(:resource) }
+  it { is_expected.to belong_to(:locale) }
+
+  # validations
   it 'is invalid without resource' do
     expect(build(:translation, resource: nil)).not_to be_valid
   end
@@ -10,6 +16,8 @@ RSpec.describe Translation, type: :model do
   it 'is not invalid without locale when base is true' do
     expect(build(:translation, locale: nil, base: true)).to be_valid
   end
+
+  # parent objects
   describe 'is destroyed when' do
     it 'campaign is destroyed' do
       @translation = create(:translation)

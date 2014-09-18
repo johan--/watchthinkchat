@@ -57,6 +57,7 @@ gem 'ransack'
 group :test do
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'shoulda-matchers', require: false
   gem 'simplecov'
   gem 'faker'
   gem 'capybara'
