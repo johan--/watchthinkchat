@@ -1,9 +1,6 @@
-/*
- *= require 'bootstrap'
- *= require 'font-awesome'
- *= require 'application/visitor_chat'
- *= require_self
- */
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'application/visitor_chat';
 
 div[ng-view] {
   height: 100%;
