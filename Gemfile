@@ -67,6 +67,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'launchy'
+  gem 'vcr'
 end
 
 group :test, :development do
