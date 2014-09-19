@@ -12,6 +12,9 @@ env:
   - base_url=watchthinkchat.com
   - SECRET_KEY_BASE=gopgfkgokghojkghjp345jb6kjb45jkb
   - RAILS_ENV=test
+before_install:
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 install:
 - travis_retry script/cached-bundle install --deployment --without development
 before_script:

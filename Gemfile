@@ -63,6 +63,7 @@ group :test do
   gem 'simplecov'
   gem 'faker'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'launchy'
 end
 

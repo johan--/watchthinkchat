@@ -25,6 +25,9 @@ Dir['../../spec/factories/*.rb'].each { |file| require_relative file }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
+Capybara.javascript_driver = :webkit
+Capybara.server_port = 7171
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -86,5 +89,6 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include JsonApiHelpers, type: :controller
+  config.include IntegrationHelpers, type: :feature
   config.include Warden::Test::Helpers, type: :feature
 end
