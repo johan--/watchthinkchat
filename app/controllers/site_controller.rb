@@ -8,7 +8,8 @@ class SiteController < ApplicationController
 
   def load_campaign
     url = request.host
-    url.slice! ".#{ENV['base_url']}" if request.host.include? ENV['base_url']
+    url.slice! ".#{ENV['base_url']}"
+    url.slice! '.lvh.me' if Rails.env.test? # capybara-webkit bug
     @campaign = Campaign.opened.find_by(url: url)
   end
 end

@@ -6,5 +6,9 @@ FactoryGirl.define do
     url { Faker::Internet.domain_name }
     subdomain false
     locale
+    factory :subdomain_campaign do
+      url { Faker::Internet.domain_word }
+      subdomain true
+    end
   end
 end
