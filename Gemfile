@@ -21,6 +21,7 @@ gem 'role_model'
 # Public API
 gem 'pusher'
 gem 'rest-client'
+gem 'platform-api'
 
 # Assets CSS
 gem 'sass-rails', '~> 4.0.3'
