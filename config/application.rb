@@ -43,6 +43,8 @@ module Godchat
     config.assets.paths << "#{Rails.root}/app/assets/audio"
     config.assets.paths << "#{Rails.root}/app/assets/translations"
 
+    config.active_record.observers = :campaign_observer
+
     config.to_prepare do
       Devise::SessionsController.layout 'devise'
       Devise::RegistrationsController.layout 'devise'
