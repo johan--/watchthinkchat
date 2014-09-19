@@ -3,6 +3,7 @@ ruby '2.1.2'
 
 # Core
 gem 'rails', '4.1.6'
+gem 'rails-observers'
 
 # Data Storage
 gem 'pg'
