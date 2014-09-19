@@ -49,6 +49,7 @@ RSpec.configure do |config|
 
   # Use Database Cleaner instead
   config.before(:suite) do
+    ActiveRecord::Base.observers.disable :all
     begin
       DatabaseCleaner.start
       FactoryGirl.lint
