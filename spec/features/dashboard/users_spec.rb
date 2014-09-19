@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'User' do
+describe 'User', type: :feature do
   before do
     Capybara.app_host = "http://app.#{ENV['base_url']}"
   end
