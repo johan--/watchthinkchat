@@ -95,7 +95,7 @@ Rails.application.configure do
   # smtp
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options =
-    { host: "#{ENV['dashboard_url']}" }
+    { host: "#{ENV['base_url']}" }
 
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',

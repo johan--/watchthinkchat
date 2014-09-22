@@ -26,6 +26,12 @@ $ cp database.yml.example database.yml
 
 Update your new .env and config/database.yml files
 
+#### External Services (insert into .env)
+* Facebook (fb\_app\_id + fb\_app\_secret)
+* SendGrid (SENDGRID\_USERNAME + SENDGRID\_PASSWORD)
+* Heroku (heroku\_token + heroku\_name)
+* Errbit (errbit\_key)
+
 ### Install Gems
 
 ```bash

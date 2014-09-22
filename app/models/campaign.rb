@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
   extend Translatable
-
+  SUBDOMAIN = /\A((?!app)[a-z0-9][a-z0-9\-]*[a-z0-9]|[a-z0-9])\z/i
+  CNAME = /\A^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?\z/i
   # associations
   has_many :permissions, as: :resource, dependent: :destroy
   has_many :users, through: :permissions
@@ -16,8 +17,17 @@ class Campaign < ActiveRecord::Base
   validates_associated :engagement_player
   validates :name, presence: true, unless: :setup?
   validates :locale, presence: true, unless: :setup?
-  validates :cname, presence: true, uniqueness: true, unless: :setup?
-
+  validates :url, presence: true, uniqueness: true, unless: :setup?
+  validates :url, length: { maximum: 63 }, if: :subdomain?
+  validates :url, length: { maximum: 255 }, unless: :subdomain?
+  validates :url,
+            format: { with: SUBDOMAIN,
+                      if: :subdomain? },
+            allow_blank: true
+  validates :url,
+            format: { with: CNAME,
+                      unless: :subdomain? },
+            allow_blank: true
   # callbacks
   before_create do
     self.status ||= :setup

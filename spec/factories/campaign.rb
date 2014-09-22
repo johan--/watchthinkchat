@@ -3,7 +3,12 @@ FactoryGirl.define do
     sequence(:name) { |n| "campaign_#{n}" }
     missionhub_token 'missionhub_token'
     status 'opened'
-    cname { Faker::Internet.url }
+    url { Faker::Internet.domain_name }
+    subdomain false
     locale
+    factory :subdomain_campaign do
+      url { Faker::Internet.domain_word }
+      subdomain true
+    end
   end
 end

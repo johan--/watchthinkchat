@@ -33,7 +33,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :test
 
   config.action_mailer.default_url_options =
-    { host: "#{ENV['dashboard_url']}" }
+    { host: "app.#{ENV['base_url']}" }
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

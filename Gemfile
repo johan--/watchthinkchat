@@ -3,6 +3,7 @@ ruby '2.1.2'
 
 # Core
 gem 'rails', '4.1.6'
+gem 'rails-observers'
 
 # Data Storage
 gem 'pg'
@@ -21,6 +22,7 @@ gem 'role_model'
 # Public API
 gem 'pusher'
 gem 'rest-client'
+gem 'platform-api'
 
 # Assets CSS
 gem 'sass-rails', '~> 4.0.3'
@@ -37,6 +39,8 @@ gem 'select2-rails'
 gem 'coffee-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'lodash-rails'
+gem 'rabl'
+gem 'oj'
 
 # HTML
 gem 'formtastic'
@@ -61,7 +65,9 @@ group :test do
   gem 'simplecov'
   gem 'faker'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'launchy'
+  gem 'vcr'
 end
 
 group :test, :development do

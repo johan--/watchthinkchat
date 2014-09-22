@@ -1,0 +1,1417 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"2d0449d736b99d0ae4e684fb5ea297b8"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:28 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2394'
+      Request-Id:
+      - e3b76983-13e7-42b4-899f-b78882c43e4a
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.064100245'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:28 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"2d0449d736b99d0ae4e684fb5ea297b8"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:29 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2393'
+      Request-Id:
+      - 3d87a32d-8764-49d0-bb0b-eb92337fe513
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.058368072'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:29 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"2d0449d736b99d0ae4e684fb5ea297b8"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:30 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2392'
+      Request-Id:
+      - c8ae10ae-b13d-4e01-960a-d63d46271f05
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.046339539'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:31 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"2d0449d736b99d0ae4e684fb5ea297b8"'
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:33 GMT
+      ETag:
+      - '"b168f24346dfc990ba8da919fd130b50"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:32 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2390'
+      Request-Id:
+      - ea0549eb-9864-4c44-8421-8b9bacf4e5b6
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.068300643'
+      Content-Length:
+      - '147'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:32Z","hostname":"add-a-domain.com","id":"92fd96f2-b745-4b0c-954b-f1a5988856dc","updated_at":"2014-09-19T12:38:32Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:34 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"b168f24346dfc990ba8da919fd130b50"'
+  response:
+    status:
+      code: 304
+      message:
+    headers:
+      Date:
+      - Fri, 19 Sep 2014 12:38:35 GMT
+      ETag:
+      - '"b168f24346dfc990ba8da919fd130b50"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:32 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2388'
+      Request-Id:
+      - 1d8e573d-678b-4383-8ca2-5bb23d88bba7
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 304 Not Modified
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.052688016'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:35 GMT
+- request:
+    method: delete
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/add-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:36 GMT
+      ETag:
+      - '"b168f24346dfc990ba8da919fd130b50"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:32 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2387'
+      Request-Id:
+      - fc69a82b-91df-41da-b0f0-5369789d52f7
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.096553375'
+      Content-Length:
+      - '147'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:32Z","hostname":"add-a-domain.com","id":"92fd96f2-b745-4b0c-954b-f1a5988856dc","updated_at":"2014-09-19T12:38:32Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:36 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-create-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"24604f95bdc8b0d2d90e918acc2aedfc"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:37 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2386'
+      Request-Id:
+      - e7e44cee-2623-4b29-9bfc-8ff26b243e2c
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.05863141'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:37 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-create-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"24604f95bdc8b0d2d90e918acc2aedfc"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:38 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2385'
+      Request-Id:
+      - 6938604a-cc89-4dca-9a32-9c598c71ac74
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.061314741'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:39 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-create-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"24604f95bdc8b0d2d90e918acc2aedfc"'
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:41 GMT
+      ETag:
+      - '"031a16f79121c58b873290d2e7fd1ce1"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:40 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2398'
+      Request-Id:
+      - c9142ea3-183a-43be-be0f-ee4cd167c9ef
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.063517232'
+      Content-Length:
+      - '159'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:40Z","hostname":"campaign-create-callback.com","id":"c518219e-79e5-45f9-aa6e-f7d11abbd967","updated_at":"2014-09-19T12:38:40Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:41 GMT
+- request:
+    method: delete
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-create-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:42 GMT
+      ETag:
+      - '"031a16f79121c58b873290d2e7fd1ce1"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:40 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2397'
+      Request-Id:
+      - 9e7cc943-b212-4980-a847-ad3208cb3c1a
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.098978193'
+      Content-Length:
+      - '159'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:40Z","hostname":"campaign-create-callback.com","id":"c518219e-79e5-45f9-aa6e-f7d11abbd967","updated_at":"2014-09-19T12:38:40Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:42 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"aee2ed60448dcad8d85dfabe17a3db45"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:43 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2396'
+      Request-Id:
+      - 81e3fb76-80eb-4f37-b4f8-f9f5f356fea0
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.051214235'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:43 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"aee2ed60448dcad8d85dfabe17a3db45"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:44 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2395'
+      Request-Id:
+      - 7c887f37-8904-47ac-b21e-f3cba142dca4
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.05828267'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:45 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"aee2ed60448dcad8d85dfabe17a3db45"'
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:47 GMT
+      ETag:
+      - '"da3d4fd9909406311f9520b082e76b4b"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:46 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2393'
+      Request-Id:
+      - 972268cf-44f4-4c3a-8b71-69c2a78508eb
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.060564829'
+      Content-Length:
+      - '150'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:46Z","hostname":"remove-a-domain.com","id":"37e48a52-b133-491c-80bf-11d97f5452c0","updated_at":"2014-09-19T12:38:46Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:47 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"da3d4fd9909406311f9520b082e76b4b"'
+  response:
+    status:
+      code: 304
+      message:
+    headers:
+      Date:
+      - Fri, 19 Sep 2014 12:38:48 GMT
+      ETag:
+      - '"da3d4fd9909406311f9520b082e76b4b"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:46 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2392'
+      Request-Id:
+      - da513c11-967f-494b-802a-e8e1b2a462ba
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 304 Not Modified
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.059153345'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:48 GMT
+- request:
+    method: delete
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:49 GMT
+      ETag:
+      - '"da3d4fd9909406311f9520b082e76b4b"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:46 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2391'
+      Request-Id:
+      - 2bc40d0a-4da8-48a8-ada0-a1f12af2aef0
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.099531099'
+      Content-Length:
+      - '150'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:46Z","hostname":"remove-a-domain.com","id":"37e48a52-b133-491c-80bf-11d97f5452c0","updated_at":"2014-09-19T12:38:46Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:50 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/remove-a-domain.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"da3d4fd9909406311f9520b082e76b4b"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:51 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2390'
+      Request-Id:
+      - 3bb4ca95-fe76-463a-95f9-153b234ffa17
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.056353104'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:51 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-destroy-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"a78935350e3b25d14279d0ed122cd8ee"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:52 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2389'
+      Request-Id:
+      - b00cf535-417e-4cd3-a346-27adbb28f507
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.051235379'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:52 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-destroy-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"a78935350e3b25d14279d0ed122cd8ee"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:53 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2388'
+      Request-Id:
+      - 7c39424a-79d4-487d-939b-71767a239705
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.059197206'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:53 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-destroy-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"a78935350e3b25d14279d0ed122cd8ee"'
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:56 GMT
+      ETag:
+      - '"af88bfb2087e479a5d48be3860813e61"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:54 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2386'
+      Request-Id:
+      - bec191a9-130c-4e66-9958-1445f34e3158
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.060437438'
+      Content-Length:
+      - '160'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:54Z","hostname":"campaign-destroy-callback.com","id":"294db4eb-9051-446d-af50-b5e5ba515ff1","updated_at":"2014-09-19T12:38:54Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:56 GMT
+- request:
+    method: delete
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-destroy-callback.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:57 GMT
+      ETag:
+      - '"af88bfb2087e479a5d48be3860813e61"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:38:54 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2385'
+      Request-Id:
+      - 78946fa2-5f02-47ed-b3fb-d6b451ed4d7d
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.100734539'
+      Content-Length:
+      - '160'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:38:54Z","hostname":"campaign-destroy-callback.com","id":"294db4eb-9051-446d-af50-b5e5ba515ff1","updated_at":"2014-09-19T12:38:54Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:57 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"4602d8645cdb07f8ed28f4a6988f6abc"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:58 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2384'
+      Request-Id:
+      - 9fac39b3-e334-45c9-9fd3-4b8b9a0d847f
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.059030374'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:58 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"4602d8645cdb07f8ed28f4a6988f6abc"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:38:59 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2383'
+      Request-Id:
+      - cf05f7ca-38e7-4b91-9f24-0e90d8d57480
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.057465675'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:38:59 GMT
+- request:
+    method: post
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains
+    body:
+      encoding: UTF-8
+      string: '{"hostname":"campaign-validation-error.com"}'
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:39:01 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2382'
+      Request-Id:
+      - 4264d1f7-6560-4ed6-81be-69e2b2e1c591
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 201 Created
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.116328796'
+      Content-Length:
+      - '160'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:39:01Z","hostname":"campaign-validation-error.com","id":"c3595497-b8ae-4503-8853-32fc6f9f57c7","updated_at":"2014-09-19T12:39:01Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:39:01 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"4602d8645cdb07f8ed28f4a6988f6abc"'
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:39:02 GMT
+      ETag:
+      - '"9f337c576b5e759013f5237400c419b6"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:39:01 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2381'
+      Request-Id:
+      - 8702a97c-8ac0-4ff1-a989-6e18c83d3e37
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.059124691'
+      Content-Length:
+      - '160'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:39:01Z","hostname":"campaign-validation-error.com","id":"c3595497-b8ae-4503-8853-32fc6f9f57c7","updated_at":"2014-09-19T12:39:01Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:39:02 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"9f337c576b5e759013f5237400c419b6"'
+  response:
+    status:
+      code: 304
+      message:
+    headers:
+      Date:
+      - Fri, 19 Sep 2014 12:39:03 GMT
+      ETag:
+      - '"9f337c576b5e759013f5237400c419b6"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:39:01 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2380'
+      Request-Id:
+      - c6d28782-e520-42a2-9a4c-ba2d67c13e02
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 304 Not Modified
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.055973866'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:39:04 GMT
+- request:
+    method: delete
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:39:05 GMT
+      ETag:
+      - '"9f337c576b5e759013f5237400c419b6"'
+      Last-Modified:
+      - Fri, 19 Sep 2014 12:39:01 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global write write-protected
+      RateLimit-Remaining:
+      - '2379'
+      Request-Id:
+      - 6227a60f-f02b-4397-9970-8cfd1d3b8d7f
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.10522202'
+      Content-Length:
+      - '160'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"2014-09-19T12:39:01Z","hostname":"campaign-validation-error.com","id":"c3595497-b8ae-4503-8853-32fc6f9f57c7","updated_at":"2014-09-19T12:39:01Z"}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:39:05 GMT
+- request:
+    method: get
+    uri: https://api.heroku.com/apps/watchthinkchat-test/domains/campaign-validation-error.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.39.5
+      Authorization:
+      - Basic dXNlcjoxMjM0
+      Accept:
+      - application/vnd.heroku+json; version=3
+      If-None-Match:
+      - '"9f337c576b5e759013f5237400c419b6"'
+  response:
+    status:
+      code: 404
+      message:
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 19 Sep 2014 12:39:06 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      RateLimit-Remaining:
+      - '2378'
+      Request-Id:
+      - bd9839f5-aebd-4492-a5e4-a953a0fb8339
+      Server:
+      - nginx/1.4.7
+      Status:
+      - 404 Not Found
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.058380538'
+      Content-Length:
+      - '87'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"resource":"domain_name","id":"not_found","message":"Couldn''t find
+        that domain name."}'
+    http_version:
+  recorded_at: Fri, 19 Sep 2014 12:39:06 GMT
+recorded_with: VCR 2.9.3
