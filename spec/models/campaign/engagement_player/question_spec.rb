@@ -28,4 +28,9 @@ RSpec.describe Campaign::EngagementPlayer::Question, type: :model do
                                         content: @question.help_text)
       ).to exist
   end
+  it 'returns a permalink' do
+    @question = create(:question)
+    expect(@question.permalink
+      ).to eq("#{@question.campaign.permalink}/#/q/#{@question.code}")
+  end
 end

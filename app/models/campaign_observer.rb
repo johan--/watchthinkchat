@@ -39,7 +39,7 @@ class CampaignObserver < ActiveRecord::Observer
   end
 
   def remove_domain_by_url(url)
-    return unless url
+    return if url.blank?
     return unless domain_exists?(url)
     heroku.domain.delete(ENV['heroku_name'], url)
   end

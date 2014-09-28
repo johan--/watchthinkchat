@@ -23,6 +23,10 @@ class Campaign::EngagementPlayer::Option < ActiveRecord::Base
 
   delegate :campaign, to: :question
 
+  def permalink
+    "#{campaign.permalink}/#/o/#{code}"
+  end
+
   protected
 
   def generate_code

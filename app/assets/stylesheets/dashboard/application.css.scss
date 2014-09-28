@@ -200,124 +200,28 @@ a {
   }
 }
 
-/*wizard*/
-.wizard {
-  > ul {
-    display: table;
-    list-style: none;
-    margin: 0 0 20px 0;
-    padding: 0;
-    position: relative;
-    width: 100%;
+/* wizard */
+.wizard-progress {
+  h4 {
+    font-size: 14px;
     font-weight: bold;
-    li {
-      display: table-cell;
-      text-align: center;
-      width: 1%;
-      > a:before {
-        border-top: 4px solid #CED1D6;
-        content: "";
-        display: block;
-        font-size: 0;
-        height: 1px;
-        overflow: hidden;
-        position: relative;
-        top: 21px;
-        width: 100%;
-        z-index: 1;
-      }
-      &:first-child > a:before {
-        left: 50%;
-        max-width: 51%;
-      }
-      &:last-child > a:before {
-        max-width: 50%;
-        width: 50%;
-      }
-      > a.selected:before {
-        border-color: #3494c7;
-      }
-    }
+    margin: 10px 0 0 0;
   }
-  li > a.done:before {
-    border-color: #3494c7;
-  }
-  > ul {
-    .stepNumber {
-      background-color: #FFFFFF;
-      border: 5px solid #CED1D6;
-      border-radius: 100% 100% 100% 100%;
-      color: #546474;
-      display: inline-block;
-      font-size: 15px;
-      height: 40px;
-      line-height: 30px;
-      position: relative;
-      text-align: center;
-      width: 40px;
-      z-index: 2;
-    }
-    li > a.selected .stepNumber {
-      border-color: #3494c7;
-    }
-  }
-  ul li > a.done {
-    .stepNumber {
-      border-color: #3494c7;
+  a.list-group-item {
+    padding: 5px 15px;
+    &.active {
       background-color: #3494c7;
-      color: #fff;
-      text-indent: -9999px;
-      &:before {
-        content: "\f00c";
-        display: inline;
-        float: right;
-        font-family: FontAwesome;
-        font-weight: 300;
-        height: auto;
-        text-shadow: none;
-        margin-right: 7px;
-        text-indent: 0;
-      }
+      border-color: #3494c7;
     }
-    &.wait .stepNumber {
-      background-color: #F6F6F6 !important;
-      color: #CCCCCC !important;
-      text-indent: 0px !important;
-      &:before {
-        content: "" !important;
-      }
-    }
-  }
-  > ul li {
-    .stepDesc {
-      color: #949EA7;
-      display: block;
-      font-size: 14px;
-      margin-top: 4px;
-      max-width: 100%;
-      table-layout: fixed;
-      text-align: center;
-      word-wrap: break-word;
-      z-index: 104;
-    }
-    > a.selected .stepDesc {
-      color: #3494c7;
-    }
-  }
-  li > a.done .stepDesc {
-    color: #3494c7;
-  }
-  > ul li > a {
-    &:hover {
-      text-decoration: none;
-    }
-    &.disabled {
-      cursor: default;
+    i.fa {
+      line-height: 50px;
+      font-size: 30px;
     }
   }
 }
 
-/*sidebar navigation*/
+
+/* sidebar navigation*/
 
 #sidebar {
   width: 240px;

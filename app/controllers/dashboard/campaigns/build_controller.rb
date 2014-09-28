@@ -4,13 +4,16 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
   steps :basic,
         :engagement_player,
         :engagement_player_survey,
-        :finish
+        :opened
 
   def show
     load_campaign
-    case step
-    when :finish
-      @campaign.opened!
+    unless @campaign.opened? ||
+           @campaign.status.to_sym == step ||
+           future_step?(@campaign.status.to_sym)
+      redirect_to campaign_build_path(campaign_id: @campaign.id,
+                                      id: @campaign.status)
+      return
     end
     render_wizard
   end
@@ -31,7 +34,7 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
 
   def build_campaign
     @campaign.attributes = campaign_params
-    @campaign.status = step
+    @campaign.status = next_step if @campaign.valid?
   end
 
   def campaign_scope
