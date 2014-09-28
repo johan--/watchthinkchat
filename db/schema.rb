@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918210853) do
+ActiveRecord::Schema.define(version: 20140928233112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 20140918210853) do
   create_table "available_locales", force: true do |t|
     t.integer  "campaign_id"
     t.integer  "locale_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaign_communities", force: true do |t|
+    t.integer  "campaign_id"
+    t.string   "url"
+    t.text     "description"
+    t.boolean  "other_campaign"
+    t.integer  "child_campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,7 +96,7 @@ ActiveRecord::Schema.define(version: 20140918210853) do
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
-  add_index "campaigns", ["url"], name: "index_campaigns_on_url", using: :btree
+  add_index "campaigns", ["url", "subdomain"], name: "index_campaigns_on_url_and_subdomain", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0

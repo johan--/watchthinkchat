@@ -9,7 +9,8 @@ class Campaign < ActiveRecord::Base
   has_many :translations, as: :resource, dependent: :destroy
   has_many :available_locales, dependent: :destroy
   has_many :locales, through: :available_locales
-  has_one :engagement_player
+  has_one :engagement_player, dependent: :destroy
+  has_one :community, dependent: :destroy
   belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
 
