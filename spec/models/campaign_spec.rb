@@ -16,7 +16,7 @@ RSpec.describe Campaign, type: :model do
   it { is_expected.to accept_nested_attributes_for :engagement_player }
 
   # validations
-  context 'when status is not setup' do
+  context 'when status is opened' do
     it 'is invalid without a name' do
       expect(build(:campaign, name: nil, status: :opened)).not_to be_valid
     end
@@ -61,8 +61,8 @@ RSpec.describe Campaign, type: :model do
   # callbacks
   context 'after create' do
     let(:campaign) { create(:campaign, status: nil) }
-    it 'after create sets status to setup' do
-      expect(campaign.setup?).to eq(true)
+    it 'after create sets status to basic' do
+      expect(campaign.basic?).to eq(true)
     end
   end
 

@@ -14,12 +14,15 @@
           <% @campaign.engagement_player.survey.questions.each do |question| %>
             <tr>
               <td>
-                <h4><%= question.title %></h4>
+                <a href="<%= question.permalink %>" target="_blank">
+                  <h4><%= fa_icon "link" %>
+                  <%= question.title %></h4>
+                </a>
                 <h5><%= question.help_text %></h5>
                 <ul>
                 <% question.options.each do |option| %>
                   <li>
-                    <a href="#">
+                    <a href="<%= option.permalink %>" target="_blank">
                       <%= fa_icon "link" %>
                       <%= option.title %>
                     </a>

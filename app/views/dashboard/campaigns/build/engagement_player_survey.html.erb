@@ -1,5 +1,5 @@
 <%= render 'progress' %>
-<div class="col-md-12">
+<div class="col-md-9">
   <section class="panel">
     <header class="panel-heading">
       Campaign Wizard
@@ -152,10 +152,12 @@
       </form>
     </div>
     <div class="panel-footer clearfix">
-      <div class="pull-right">
-        <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
-        <a href="<%= next_wizard_path %>" class="btn btn-primary" >Next</a>
-      </div>
+      <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
+        <div class="pull-right">
+          <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
+          <%= f.submit "Next", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
     </div>
   </section>
 </div>

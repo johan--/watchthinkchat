@@ -15,9 +15,9 @@ class Campaign < ActiveRecord::Base
 
   # validations
   validates_associated :engagement_player
-  validates :name, presence: true, unless: :setup?
-  validates :locale, presence: true, unless: :setup?
-  validates :url, presence: true, uniqueness: true, unless: :setup?
+  validates :name, presence: true, unless: :basic?
+  validates :locale, presence: true, unless: :basic?
+  validates :url, presence: true, uniqueness: true, unless: :basic?
   validates :url, length: { maximum: 63 }, if: :subdomain?
   validates :url, length: { maximum: 255 }, unless: :subdomain?
   validates :url,
@@ -30,14 +30,13 @@ class Campaign < ActiveRecord::Base
             allow_blank: true
   # callbacks
   before_create do
-    self.status ||= :setup
+    self.status ||= :basic
   end
 
   # definitions
-  enum status: [:setup,
+  enum status: [:basic,
                 :closed,
                 :opened,
-                :basic,
                 :engagement_player,
                 :engagement_player_survey]
   translatable :name
