@@ -49,6 +49,7 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
     @campaign.save
   end
 
+  # rubocop:disable Metrics/MethodLength
   def campaign_params
     campaign_params = params[:campaign]
     return {} unless campaign_params
@@ -70,4 +71,5 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
          :enabled]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 end

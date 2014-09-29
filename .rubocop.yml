@@ -16,7 +16,3 @@ Documentation:
 
 ClassAndModuleChildren:
   EnforcedStyle: compact
-
-MethodLength:
-  Enabled: false
-  Severity: warning
