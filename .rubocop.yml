@@ -13,9 +13,3 @@ AllCops:
 
 Documentation:
   Enabled: false
-
-ClassAndModuleChildren:
-  EnforcedStyle: compact
-
-MethodLength:
-  Severity: warning

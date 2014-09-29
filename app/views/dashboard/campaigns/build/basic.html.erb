@@ -6,29 +6,21 @@
     </header>
     <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
       <div class="panel-body">
-        <div class="form-group">
-          <%=  f.label :name, class: 'col-lg-2 control-label' %>
-          <div class="col-lg-8">
-            <%=  f.input :name, input_html: {class: 'form-control', placeholder: 'Campaign Name'}, label: false %>
-          </div>
-        </div>
-        <div class="form-group">
-          <%=  f.label :locale, 'Base Locale', class: 'col-lg-2 control-label' %>
-          <div class="col-lg-6">
-            <%=  f.input :locale, input_html: { class: 'form-control select2'}, collection: Locale.all, label: false %>
-          </div>
-        </div>
-        <div class="form-group">
-          <%=  f.label :locales, 'Available Locales', class: 'col-lg-2 control-label' %>
-          <div class="col-lg-6">
-            <%=  f.input :locales, input_html: { class: 'form-control select2'}, collection: Locale.all, label: false %>
-          </div>
-        </div>
-        <div class="form-group">
-          <%=  f.label :url, 'URL', class: 'col-lg-2 control-label' %>
-          <div class="col-lg-6">
-            <%= f.input :url, label: false %>
-            <%= f.input :subdomain, as: :radio, collection: [['Subdomain', true], ['CNAME Address', false]], label: false %>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <%=  f.input :name, input_html: {class: 'form-control', placeholder: 'Campaign Name'}  %>
+            </div>
+            <div class="col-md-12">
+              <%=  f.input :locale, input_html: { class: 'form-control select2'}, collection: Locale.all, label: 'Base Locale' %>
+            </div>
+            <div class="col-md-12">
+              <%=  f.input :locales, input_html: { class: 'form-control select2'}, collection: Locale.all %>
+            </div>
+            <div class="col-md-12">
+              <%= f.input :url %>
+              <%= f.input :subdomain, as: :radio, collection: [['Subdomain', true], ['CNAME Address', false]], label: false %>
+            </div>
           </div>
         </div>
       </div>

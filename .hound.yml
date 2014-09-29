@@ -13,6 +13,3 @@ AllCops:
 
 Documentation:
   Enabled: false
-
-ClassAndModuleChildren:
-  EnforcedStyle: compact

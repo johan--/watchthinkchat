@@ -21,6 +21,13 @@
       <h4>Survey</h4>
       <small>Questions and Options</small>
     </a>
+    <a href="<%= wizard_path :community %>" class="<%= step_class :community %>">
+      <%- if @campaign.status.to_sym == :community %>
+        <div class="pull-right"><%= fa_icon 'angle-right' %></div>
+      <% end -%>
+      <h4>Community</h4>
+      <small>Connect with Visitors</small>
+    </a>
     <a href="<%= wizard_path :opened %>" class="<%= step_class :opened %>">
       <h4>Finish</h4>
       <small>Go Live</small>

@@ -1,2 +1,4 @@
-class User::Translator < User::DashboardUser
+class User
+  class Translator < User::DashboardUser
+  end
 end

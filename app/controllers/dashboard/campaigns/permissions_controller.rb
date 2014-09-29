@@ -1,22 +1,26 @@
-class Dashboard::Campaigns::PermissionsController < Dashboard::BaseController
-  def destroy
-    load_permission
-    authorize! :manage, @permission.resource
-    @permission.destroy
-    redirect_to campaign_path(@permission.resource)
-  end
+module Dashboard
+  module Campaigns
+    class PermissionsController < Dashboard::BaseController
+      def destroy
+        load_permission
+        authorize! :manage, @permission.resource
+        @permission.destroy
+        redirect_to campaign_path(@permission.resource)
+      end
 
-  protected
+      protected
 
-  def load_permission
-    @permission ||= permission_scope.find(params[:id])
-    authorize! :manage, @permission.resource
-    @permission
-  end
+      def load_permission
+        @permission ||= permission_scope.find(params[:id])
+        authorize! :manage, @permission.resource
+        @permission
+      end
 
-  def permission_scope
-    current_manager.campaigns
-                   .find(params[:campaign_id])
-                   .permissions
+      def permission_scope
+        current_manager.campaigns
+                       .find(params[:campaign_id])
+                       .permissions
+      end
+    end
   end
 end

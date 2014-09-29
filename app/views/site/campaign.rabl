@@ -8,3 +8,12 @@ child(:engagement_player, unless: lambda { |campaign| campaign.engagement_player
     }
   }
 }
+child(:community, unless: lambda { |campaign| campaign.community.nil? }) {
+  attributes :enabled
+  if @campaign.community.enabled?
+    attributes :other_campaign, :permalink
+    unless @campaign.community.other_campaign?
+      attributes :title, :description
+    end
+  end
+}
