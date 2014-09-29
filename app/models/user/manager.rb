@@ -1,2 +1,4 @@
-class User::Manager < User::DashboardUser
+class User
+  class Manager < User::DashboardUser
+  end
 end

@@ -1,8 +1,10 @@
-class User::DashboardUser < ActiveType::Record[User]
-  self.abstract_class = true
+class User
+  class DashboardUser < ActiveType::Record[User]
+    self.abstract_class = true
 
-  has_many :campaigns,
-           through: :permissions,
-           source: :resource,
-           source_type: 'Campaign'
+    has_many :campaigns,
+             through: :permissions,
+             source: :resource,
+             source_type: 'Campaign'
+  end
 end
