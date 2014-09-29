@@ -62,6 +62,7 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
         [:id, :media_link],
       community_attributes:
         [:id,
+         :title,
          :url,
          :other_campaign,
          :child_campaign_id,
