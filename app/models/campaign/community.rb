@@ -5,6 +5,8 @@ class Campaign::Community < ActiveRecord::Base
   belongs_to :child_campaign, class_name: '::Campaign'
   has_many :translations, as: :resource, dependent: :destroy
 
+  delegate :permalink, to: :child_campaign
+
   # validations
   validates :campaign, presence: true
   validates :enabled, inclusion: [true, false]
