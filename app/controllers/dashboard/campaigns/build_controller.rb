@@ -4,7 +4,10 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
   steps :basic,
         :engagement_player,
         :engagement_player_survey,
+        :community,
         :opened
+
+  helper_method :campaign_scope
 
   def show
     load_campaign
@@ -49,11 +52,21 @@ class Dashboard::Campaigns::BuildController < Dashboard::BaseController
   def campaign_params
     campaign_params = params[:campaign]
     return {} unless campaign_params
-    campaign_params.permit(:name,
-                           :locale_id,
-                           :url,
-                           :subdomain,
-                           locale_ids: [],
-                           engagement_player_attributes: [:id, :media_link])
+    campaign_params.permit(
+      :name,
+      :locale_id,
+      :url,
+      :subdomain,
+      locale_ids: [],
+      engagement_player_attributes:
+        [:id, :media_link],
+      community_attributes:
+        [:id,
+         :url,
+         :other_campaign,
+         :child_campaign_id,
+         :description,
+         :enabled]
+    )
   end
 end
