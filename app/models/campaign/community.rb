@@ -35,4 +35,9 @@ class Campaign::Community < ActiveRecord::Base
     return child_campaign.permalink if other_campaign?
     url
   end
+
+  def display_title
+    return child_campaign.name if other_campaign?
+    title
+  end
 end
