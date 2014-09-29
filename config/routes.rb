@@ -37,6 +37,6 @@ Godchat::Application.routes.draw do
     root to: redirect('users/sign_in'), as: :unauthenticated_root
   end
 
-  get '*path', to: 'site#index'
   root 'site#index'
+  get '*path', to: redirect('/')
 end
