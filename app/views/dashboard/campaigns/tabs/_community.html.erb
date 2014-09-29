@@ -1,0 +1,13 @@
+<div class="tab-pane" id="community">
+  <div class="row">
+      <div class="col-md-12">
+        <h3><%= fa_icon "angle-double-right" %> <%= @campaign.community.display_title %></h3>
+        <a href="<%= @campaign.community.permalink %>" target="_blank"><h5><%= fa_icon "link" %> <%= @campaign.community.permalink %></h5></a>
+        <%- if @campaign.community.other_campaign? %>
+          <a href="<%= campaign_path @campaign.community.child_campaign %>" class="btn btn-primary">Go To <%= @campaign.community.display_title %> Campaign</a>
+        <% else %>
+          <%= @campaign.community.description %>
+        <% end -%>
+      </div>
+  </div>
+</div>
