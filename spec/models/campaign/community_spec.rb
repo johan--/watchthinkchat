@@ -5,6 +5,12 @@ RSpec.describe Campaign::Community, type: :model do
   it 'is invalid without a campaign' do
     expect(build(:community, campaign: nil)).not_to be_valid
   end
+  it 'is invalid without an enabled' do
+    expect(build(:community, enabled: nil)).not_to be_valid
+  end
+  it 'is invalid without an other_campaign' do
+    expect(build(:community, other_campaign: nil)).not_to be_valid
+  end
   describe 'when other_campaign' do
     context 'is true' do
       it 'is invalid without child_campaign' do
@@ -19,12 +25,36 @@ RSpec.describe Campaign::Community, type: :model do
                      url: nil,
                      other_campaign: false)).not_to be_valid
       end
+      it { is_expected.to ensure_length_of(:url).is_at_most(255) }
+      it do
+        is_expected.to_not allow_value('goober',
+                                       '-',
+                                       'google.com/path').for(:url)
+      end
+      it do
+        is_expected.to allow_value('http://www.goober.com',
+                                   'http://subdomain.example.com/rails',
+                                   'https://mail.google.com/12/23/4/79?q=t',
+                                   'http://valid.domain.museum/greg').for(:url)
+      end
       it 'is invalid without a description' do
         expect(build(:community,
                      description: nil,
                      other_campaign: false)).not_to be_valid
       end
+      it 'is invalid without a title' do
+        expect(build(:community,
+                     title: nil,
+                     other_campaign: false)).not_to be_valid
+      end
     end
+  end
+  it 'creates a translation object when title is set' do
+    @community = create(:community)
+    expect(
+      @community.translations.where(field: :title,
+                                    content: @community.title)
+    ).to exist
   end
   it 'creates a translation object when url is set' do
     @community = create(:community)
@@ -39,10 +69,5 @@ RSpec.describe Campaign::Community, type: :model do
       @community.translations.where(field: :description,
                                     content: @community.description)
     ).to exist
-  end
-  it 'is destroyed when campaign is destroyed' do
-    @community = create(:community)
-    @community.campaign.destroy!
-    expect { @community.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end

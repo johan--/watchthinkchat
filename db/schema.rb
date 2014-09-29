@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928233112) do
+ActiveRecord::Schema.define(version: 20140929015200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 20140928233112) do
     t.integer  "child_campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "title"
+    t.boolean  "enabled",           default: true
   end
 
   create_table "campaign_engagement_player_options", force: true do |t|

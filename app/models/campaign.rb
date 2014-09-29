@@ -13,9 +13,11 @@ class Campaign < ActiveRecord::Base
   has_one :community, dependent: :destroy
   belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
+  accepts_nested_attributes_for :community, update_only: true
 
   # validations
   validates_associated :engagement_player
+  validates_associated :community
   validates :name, presence: true, unless: :basic?
   validates :locale, presence: true, unless: :basic?
   validates :url, presence: true, uniqueness: true, unless: :basic?
@@ -39,7 +41,8 @@ class Campaign < ActiveRecord::Base
                 :closed,
                 :opened,
                 :engagement_player,
-                :engagement_player_survey]
+                :engagement_player_survey,
+                :community]
   translatable :name
   scope :owner, (lambda do
     where('permissions.state = ?', Permission.states[:owner].to_i)
