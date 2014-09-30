@@ -15,6 +15,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
   accepts_nested_attributes_for :community, update_only: true
+  accepts_nested_attributes_for :guided_pair, update_only: true
 
   # validations
   validates_associated :engagement_player
