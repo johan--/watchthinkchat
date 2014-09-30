@@ -64,7 +64,9 @@ module Dashboard
           locale_ids: [],
           engagement_player_attributes:
             [:id,
-             :media_link],
+             :media_link,
+             :media_start,
+             :media_stop],
           guided_pair_attributes:
             [:id,
              :title,
