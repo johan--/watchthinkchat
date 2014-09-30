@@ -11,6 +11,7 @@ class Campaign < ActiveRecord::Base
   has_many :locales, through: :available_locales
   has_one :engagement_player, dependent: :destroy
   has_one :community, dependent: :destroy
+  has_one :guided_pair, dependent: :destroy
   belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
   accepts_nested_attributes_for :community, update_only: true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929015200) do
+ActiveRecord::Schema.define(version: 20140930040013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,15 @@ ActiveRecord::Schema.define(version: 20140929015200) do
     t.datetime "updated_at"
     t.integer  "media_start"
     t.integer  "media_stop"
+  end
+
+  create_table "campaign_guided_pairs", force: true do |t|
+    t.boolean  "enabled",     default: true
+    t.string   "title"
+    t.text     "description"
+    t.integer  "campaign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "campaigns", force: true do |t|

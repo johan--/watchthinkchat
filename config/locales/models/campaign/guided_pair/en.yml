@@ -1,0 +1,6 @@
+en:
+  models:
+    campaign:
+      guided_pair:
+        title: "Guided Pairs"
+        description: "Default Instruction"
