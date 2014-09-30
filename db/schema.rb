@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20140930040013) do
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
-  add_index "campaigns", ["url", "subdomain"], name: "index_campaigns_on_url_and_subdomain", using: :btree
+  add_index "campaigns", ["url"], name: "index_campaigns_on_url", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
