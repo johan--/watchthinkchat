@@ -30,6 +30,9 @@
                 <%- unless @campaign.engagement_player.blank? %>
                   <span class="label label-primary">engagement player</span>
                 <% end -%>
+                <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled?%>
+                  <span class="label label-primary">guided pair</span>
+                <% end -%>
                 <%- unless @campaign.community.blank? || !@campaign.community.enabled?%>
                   <span class="label label-primary">community</span>
                 <% end -%>
@@ -52,6 +55,11 @@
               <a href="#engagement_player" role="tab" data-toggle="tab">Engagement Player</a>
             </li>
           <% end -%>
+          <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled? %>
+            <li>
+              <a href="#guided_pair" role="tab" data-toggle="tab">Guided Pair</a>
+            </li>
+          <% end -%>
           <%- unless @campaign.community.blank? || !@campaign.community.enabled? %>
             <li>
               <a href="#community" role="tab" data-toggle="tab">Community</a>
@@ -71,6 +79,9 @@
           </div>
           <%- unless @campaign.engagement_player.blank? %>
             <%= render partial: 'dashboard/campaigns/tabs/engagement_player' %>
+          <% end -%>
+          <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled? %>
+            <%= render partial: 'dashboard/campaigns/tabs/guided_pair' %>
           <% end -%>
           <%- unless @campaign.community.blank? || !@campaign.community.enabled? %>
             <%= render partial: 'dashboard/campaigns/tabs/community' %>

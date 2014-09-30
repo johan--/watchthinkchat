@@ -1,0 +1,52 @@
+<%= render 'progress' %>
+<div class="col-md-9">
+  <section class="panel">
+    <header class="panel-heading">
+      Campaign Wizard
+    </header>
+    <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
+      <%= f.semantic_fields_for :guided_pair, @campaign.guided_pair || @campaign.build_guided_pair do |c| %>
+        <%=  c.hidden_field :id %>
+        <div class="panel-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <%= c.input :enabled, as: :radio, collection: [['On', true], ['Off', false]], label: 'Guided Pair' %>
+              </div>
+              <div class="enabled_fields">
+                <div class="col-md-12">
+                  <%=  c.input :title, input_html: { value: c.object.title } %>
+                </div>
+                <div class="col-md-12">
+                  <%=  c.input :description, input_html: { value: c.object.description } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <a href="<%= previous_wizard_path %>" class="btn">Previous</a>&nbsp;
+          <%= f.submit "Next", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+<%- content_for :javascript do %>
+  <script type="text/javascript">
+  $('.enabled_fields').hide();
+
+  if ($("input:radio[name='campaign[guided_pair_attributes][enabled]']:checked").val() == "true" )
+    $('.enabled_fields').show();
+
+  $('#campaign_guided_pair_attributes_enabled_input input').change(function () {
+    if ($(this).val() == "true") {
+      $('.enabled_fields').show();
+    } else {
+      $('.enabled_fields').hide();
+    }
+  });
+  </script>
+<% end -%>

@@ -45,6 +45,7 @@ class Campaign < ActiveRecord::Base
                 :opened,
                 :engagement_player,
                 :engagement_player_survey,
+                :guided_pair,
                 :community]
   translatable :name
   scope :owner, (lambda do

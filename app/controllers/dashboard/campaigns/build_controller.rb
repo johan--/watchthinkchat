@@ -6,6 +6,7 @@ module Dashboard
       steps :basic,
             :engagement_player,
             :engagement_player_survey,
+            :guided_pair,
             :community,
             :opened
 
@@ -62,7 +63,13 @@ module Dashboard
           :subdomain,
           locale_ids: [],
           engagement_player_attributes:
-            [:id, :media_link],
+            [:id,
+             :media_link],
+          guided_pair_attributes:
+            [:id,
+             :title,
+             :description,
+             :enabled],
           community_attributes:
             [:id,
              :title,
