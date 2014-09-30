@@ -19,6 +19,7 @@ class Campaign < ActiveRecord::Base
   # validations
   validates_associated :engagement_player
   validates_associated :community
+  validates_associated :guided_pair
   validates :name, presence: true, unless: :basic?
   validates :locale, presence: true, unless: :basic?
   validates :url, presence: true, uniqueness: true, unless: :basic?
