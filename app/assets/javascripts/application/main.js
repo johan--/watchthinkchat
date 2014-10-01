@@ -24,7 +24,8 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
           }]
         }
       }).when('/complete', {
-        templateUrl: '/templates/complete.html'
+        templateUrl: '/templates/complete.html',
+        controller: 'CompleteController'
       }).otherwise({
         redirectTo: '/'
       });
