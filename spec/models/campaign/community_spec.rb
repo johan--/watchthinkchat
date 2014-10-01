@@ -18,14 +18,6 @@ RSpec.describe Campaign::Community, type: :model do
                      child_campaign: nil,
                      other_campaign: true)).not_to be_valid
       end
-      it 'retrieves child_camapaign as permalink' do
-        @community = create(:community_other_campaign)
-        expect(@community.permalink).to eq(@community.child_campaign.permalink)
-      end
-      it 'retrieves display_title as campaign.name' do
-        @community = create(:community_other_campaign)
-        expect(@community.display_title).to eq(@community.child_campaign.name)
-      end
     end
     context 'is false' do
       it 'is invalid without a url' do
@@ -54,14 +46,6 @@ RSpec.describe Campaign::Community, type: :model do
         expect(build(:community,
                      title: nil,
                      other_campaign: false)).not_to be_valid
-      end
-      it 'retrieves url as permalink' do
-        @community = create(:community)
-        expect(@community.permalink).to eq(@community.url)
-      end
-      it 'retrieves display_title as title' do
-        @community = create(:community)
-        expect(@community.display_title).to eq(@community.title)
       end
     end
   end

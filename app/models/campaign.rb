@@ -64,9 +64,4 @@ class Campaign < ActiveRecord::Base
   def campaign
     self
   end
-
-  def permalink
-    return "http://#{url}.#{ENV['base_url']}" if subdomain?
-    "http://#{url}"
-  end
 end

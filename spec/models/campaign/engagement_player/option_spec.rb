@@ -24,9 +24,4 @@ RSpec.describe Campaign::EngagementPlayer::Option, type: :model do
                                       content: @option.title)
       ).to exist
   end
-  it 'returns a permalink' do
-    @option = create(:option)
-    expect(@option.permalink
-      ).to eq("#{@option.campaign.permalink}/#/o/#{@option.code}")
-  end
 end
