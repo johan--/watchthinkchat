@@ -45,6 +45,9 @@
                   <%- unless campaign.engagement_player.blank? %>
                     <span class="label label-primary">engagement player</span>
                   <% end -%>
+                  <%- unless campaign.guided_pair.blank? || !campaign.guided_pair.enabled? %>
+                    <span class="label label-primary">guided pair</span>
+                  <% end -%>
                   <%- unless campaign.community.blank? || !campaign.community.enabled? %>
                     <span class="label label-primary">community</span>
                   <% end -%>

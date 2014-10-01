@@ -9,15 +9,24 @@ class Campaign < ActiveRecord::Base
   has_many :translations, as: :resource, dependent: :destroy
   has_many :available_locales, dependent: :destroy
   has_many :locales, through: :available_locales
-  has_one :engagement_player, dependent: :destroy
-  has_one :community, dependent: :destroy
+  has_one :engagement_player,
+          dependent: :destroy,
+          class_name: 'Campaign::EngagementPlayer'
+  has_one :community,
+          dependent: :destroy,
+          class_name: 'Campaign::Community'
+  has_one :guided_pair,
+          dependent: :destroy,
+          class_name: 'Campaign::GuidedPair'
   belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
   accepts_nested_attributes_for :community, update_only: true
+  accepts_nested_attributes_for :guided_pair, update_only: true
 
   # validations
   validates_associated :engagement_player
   validates_associated :community
+  validates_associated :guided_pair
   validates :name, presence: true, unless: :basic?
   validates :locale, presence: true, unless: :basic?
   validates :url, presence: true, uniqueness: true, unless: :basic?
@@ -42,6 +51,7 @@ class Campaign < ActiveRecord::Base
                 :opened,
                 :engagement_player,
                 :engagement_player_survey,
+                :guided_pair,
                 :community]
   translatable :name
   scope :owner, (lambda do

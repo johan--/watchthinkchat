@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929015200) do
+ActiveRecord::Schema.define(version: 20140930040013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,15 @@ ActiveRecord::Schema.define(version: 20140929015200) do
     t.integer  "media_stop"
   end
 
+  create_table "campaign_guided_pairs", force: true do |t|
+    t.boolean  "enabled",     default: true
+    t.string   "title"
+    t.text     "description"
+    t.integer  "campaign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "url"
@@ -98,7 +107,7 @@ ActiveRecord::Schema.define(version: 20140929015200) do
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
-  add_index "campaigns", ["url", "subdomain"], name: "index_campaigns_on_url_and_subdomain", using: :btree
+  add_index "campaigns", ["url"], name: "index_campaigns_on_url", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
