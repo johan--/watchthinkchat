@@ -78,22 +78,4 @@ RSpec.describe Campaign, type: :model do
       expect(campaign.campaign).to eq(campaign)
     end
   end
-
-  describe '#permalink' do
-    context 'url is a cname' do
-      it 'returns a url' do
-        @campaign = create(:campaign)
-        expect(@campaign.permalink).to(
-          eq("http://#{@campaign.url}"))
-      end
-    end
-
-    context 'url is a subdomain' do
-      it 'returns a url' do
-        @campaign = create(:subdomain_campaign)
-        expect(@campaign.permalink).to(
-          eq("http://#{@campaign.url}.#{ENV['base_url']}"))
-      end
-    end
-  end
 end

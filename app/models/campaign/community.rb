@@ -31,15 +31,5 @@ class Campaign
 
     # definitions
     translatable :url, :description, :title
-
-    def permalink
-      return child_campaign.permalink if other_campaign?
-      url
-    end
-
-    def display_title
-      return child_campaign.name if other_campaign?
-      title
-    end
   end
 end

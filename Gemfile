@@ -53,6 +53,7 @@ gem 'paperclip'
 gem 'wicked'
 gem 'acts_as_list'
 gem 'active_type'
+gem 'draper'
 
 # Active Admin
 gem 'activeadmin', github: 'gregbell/active_admin'

@@ -18,7 +18,7 @@
         <h4 class="modal-title" id="myModalLabel">Invite New Translators</h4>
       </div>
       <div class="modal-body">
-        <iframe src="<%= new_campaign_user_translator_invite_path(@campaign) %>">
+        <iframe src="<%= new_campaign_user_translator_invite_path(campaign) %>">
         </iframe>
       </div>
     </div>
@@ -28,7 +28,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h3><%= fa_icon "angle-double-right" %> <span class="text-muted">Base Locale:</span> <%= @campaign.locale.name %></h3>
+    <h3><%= fa_icon "angle-double-right" %> <span class="text-muted">Base Locale:</span> <%= campaign.locale.name %></h3>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -38,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <% Translation.base.where(campaign: @campaign).order(:created_at).each do |translation| %>
+        <% Translation.base.where(campaign: campaign).order(:created_at).each do |translation| %>
           <tr>
             <td><%= translation.resource_type %></td>
             <td><%= translation.field.titleize %></td>
@@ -50,7 +50,7 @@
   </div>
   <div class="col-md-6">
     <h3><%= fa_icon "angle-double-right" %> Available Locales</h3>
-    <% @campaign.available_locales.each do |campaign_locale| %>
+    <% AvailableLocaleDecorator.decorate_collection(campaign.available_locales).each do |campaign_locale| %>
       <table class="table table-striped">
         <thead>
         <tr>
@@ -63,7 +63,7 @@
           <th class="text-right" style="width:10%">Translators</th>
           <td>
           <% campaign_locale.permissions.each do |permission| %>
-            <span class="label label-primary"><%= permission.user.name %> <%= link_to fa_icon('times'), campaign_permission_path(@campaign, permission), method: :delete, class:"text-danger" %></span>
+            <span class="label label-primary"><%= permission.user.name %> <%= link_to fa_icon('times'), campaign_permission_path(campaign, permission), method: :delete, class:"text-danger" %></span>
           <% end %>
           </td>
         </tr>

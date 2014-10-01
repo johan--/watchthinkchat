@@ -25,10 +25,6 @@ class Campaign
 
       delegate :campaign, to: :question
 
-      def permalink
-        "#{campaign.permalink}/#/o/#{code}"
-      end
-
       protected
 
       def generate_code

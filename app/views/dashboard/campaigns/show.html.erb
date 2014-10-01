@@ -7,12 +7,12 @@
     <table class="table table-striped index-table">
         <tbody>
           <tr>
-            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:youtube_video_id) %>/maxresdefault.jpg)">
+            <td style="background-image: url(//img.youtube.com/vi/<%= campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
               <div class="button-row">
                 <a href="<%= campaigns_path %>" class="btn btn-default">
                   <%= fa_icon "chevron-left" %>
                 </a>
-                <a href="<%= campaign_build_path(id: :basic, campaign_id: @campaign.id) %>" class="btn btn-primary">
+                <a href="<%= campaign_build_path(id: :basic, campaign_id: campaign.id) %>" class="btn btn-primary">
                   <%= fa_icon "pencil" %>
                 </a>
                 <a href="<%= %>" class="btn btn-danger">
@@ -20,23 +20,23 @@
                 </a>
               </div>
               <div class="pull-left cover">
-                <h3><%= @campaign.name %></h3>
+                <h3><%= campaign.name %></h3>
                 <small class="text-muted">
-                  Created on <%= @campaign.created_at.strftime("%m/%d/%Y") %>
+                  Created on <%= campaign.created_at.strftime("%m/%d/%Y") %>
                   &middot;
-                  Last updated <%= time_ago_in_words @campaign.updated_at %> ago
+                  Last updated <%= time_ago_in_words campaign.updated_at %> ago
                 </small>
                 <br />
-                <%- unless @campaign.engagement_player.blank? %>
+                <%- unless campaign.engagement_player.blank? %>
                   <span class="label label-primary">engagement player</span>
                 <% end -%>
-                <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled?%>
+                <%- unless campaign.guided_pair.blank? || !campaign.guided_pair.enabled?%>
                   <span class="label label-primary">guided pair</span>
                 <% end -%>
-                <%- unless @campaign.community.blank? || !@campaign.community.enabled?%>
+                <%- unless campaign.community.blank? || !campaign.community.enabled?%>
                   <span class="label label-primary">community</span>
                 <% end -%>
-                <%- unless @campaign.available_locales.empty? %>
+                <%- unless campaign.available_locales.empty? %>
                   <span class="label label-primary">translation</span>
                 <% end -%>
               </div>
@@ -50,22 +50,22 @@
           <li class="active">
             <a href="#statistics" role="tab" data-toggle="tab">Statistics</a>
           </li>
-          <%- unless @campaign.engagement_player.blank? %>
+          <%- unless campaign.engagement_player.blank? %>
             <li>
               <a href="#engagement_player" role="tab" data-toggle="tab">Engagement Player</a>
             </li>
           <% end -%>
-          <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled? %>
+          <%- unless campaign.guided_pair.blank? || !campaign.guided_pair.enabled? %>
             <li>
               <a href="#guided_pair" role="tab" data-toggle="tab">Guided Pair</a>
             </li>
           <% end -%>
-          <%- unless @campaign.community.blank? || !@campaign.community.enabled? %>
+          <%- unless campaign.community.blank? || !campaign.community.enabled? %>
             <li>
               <a href="#community" role="tab" data-toggle="tab">Community</a>
             </li>
           <% end -%>
-          <%- unless @campaign.available_locales.empty? %>
+          <%- unless campaign.available_locales.empty? %>
           <li>
             <a href="#translation" role="tab" data-toggle="tab">Translation</a>
           </li>
@@ -77,16 +77,16 @@
           <div class="tab-pane active" id="statistics">
             <%= render partial: 'dashboard/campaigns/tabs/statistics' %>
           </div>
-          <%- unless @campaign.engagement_player.blank? %>
+          <%- unless campaign.engagement_player.blank? %>
             <%= render partial: 'dashboard/campaigns/tabs/engagement_player' %>
           <% end -%>
-          <%- unless @campaign.guided_pair.blank? || !@campaign.guided_pair.enabled? %>
+          <%- unless campaign.guided_pair.blank? || !campaign.guided_pair.enabled? %>
             <%= render partial: 'dashboard/campaigns/tabs/guided_pair' %>
           <% end -%>
-          <%- unless @campaign.community.blank? || !@campaign.community.enabled? %>
+          <%- unless campaign.community.blank? || !campaign.community.enabled? %>
             <%= render partial: 'dashboard/campaigns/tabs/community' %>
           <% end -%>
-          <%- unless @campaign.available_locales.empty? %>
+          <%- unless campaign.available_locales.empty? %>
             <%= render partial: 'dashboard/campaigns/tabs/translation' %>
           <% end -%>
         </div>

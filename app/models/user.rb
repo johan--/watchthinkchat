@@ -22,10 +22,6 @@ class User < ActiveRecord::Base
   roles_attribute :roles_mask
   roles :nobody, :manager, :translator, :visitor
 
-  def name
-    "#{first_name} #{last_name}".strip
-  end
-
   def as(role)
     return becomes "User::#{role.to_s.camelize}".constantize if self.is? role
     fail ActiveRecord::ActiveRecordError

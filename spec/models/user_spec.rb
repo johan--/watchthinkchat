@@ -12,10 +12,6 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_confirmation_of(:password).on(:create) }
 
   # definitions
-  it '#name returns full name' do
-    user = create(:user)
-    expect(user.name).to eq("#{user.first_name} #{user.last_name}".strip)
-  end
   describe '#as' do
     let(:user) { create(:user) }
     context ':manager' do
