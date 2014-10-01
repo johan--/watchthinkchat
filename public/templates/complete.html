@@ -1,1 +1,6 @@
 <h1>Thank you!</h1>
+
+<div ng-show="communityObj" style="color: white; padding-top: 15px;">
+  <h2>Continue to: <a ng-href="{{communityObj.permalink}}" ng-bind="communityObj.title"></a></h2>
+  <p ng-bind="communityObj.description"></p>
+</div>
