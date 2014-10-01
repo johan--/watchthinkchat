@@ -1,7 +1,7 @@
 Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
-  constraints DomainConstraint.new("app.#{ENV['base_url']}") do
+  constraints DomainConstraint.new(["app.#{ENV['base_url']}", "app.#{ENV['base_url']}.lvh.me"]) do
     devise_for :users,
                controllers: { registrations: 'registrations',
                               omniauth_callbacks: 'users/omniauth_callbacks' }
