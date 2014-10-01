@@ -67,6 +67,8 @@ group :test do
   gem 'faker'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'capybara-screenshot'
+  gem 'capybara-angular'
   gem 'launchy'
   gem 'vcr'
 end

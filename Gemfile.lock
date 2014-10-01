@@ -86,6 +86,12 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-angular (0.0.4)
+      capybara
+    capybara-screenshot (1.0.3)
+      capybara (>= 1.0, < 3)
+      colored
+      launchy
     capybara-webkit (1.3.0)
       capybara (>= 2.0.2, < 2.5.0)
       json
@@ -105,6 +111,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    colored (1.2)
     columnize (0.8.9)
     connection_pool (2.0.0)
     cucumber (1.3.17)
@@ -428,6 +435,8 @@ DEPENDENCIES
   byebug
   cancancan
   capybara
+  capybara-angular
+  capybara-screenshot
   capybara-webkit
   codeclimate-test-reporter
   coffee-rails
