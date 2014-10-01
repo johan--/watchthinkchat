@@ -7,7 +7,7 @@ describe Dashboard::CampaignsController do
     sign_in(manager)
     @campaign = create(:campaign)
     manager.campaigns << @campaign
-    @survey = create(:engagement_player, campaign: @campaign).survey
+    @survey = create(:survey, campaign: @campaign)
     (0..1).each { |_n| create(:question, survey: @survey) }
   end
 

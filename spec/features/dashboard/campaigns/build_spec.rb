@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'Campaign Builder', type: :feature do
+describe 'Campaign Builder', type: :feature, js: true do
   let(:manager) { create(:manager) }
   let(:base_locale) { create(:locale, name: 'base') }
   let(:available_locale) { create(:locale, name: 'available') }
 
   before do
     Warden.test_mode!
-    Capybara.app_host = "http://app.#{ENV['base_url']}"
+    Capybara.app_host = "http://app.#{ENV['base_url']}.lvh.me:7171"
     login_as(manager, scope: :user)
     base_locale.save!
     available_locale.save!
@@ -41,6 +41,7 @@ describe 'Campaign Builder', type: :feature do
       campaign.engagement_player!
       engagement_player_attributes = attributes_for(:engagement_player)
       visit campaign_build_path(campaign, :engagement_player)
+      choose 'On'
       click_button 'Next'
       find '#campaign_engagement_player_attributes_media_link.error'
       fill_in 'campaign[engagement_player_attributes][media_link]',
@@ -51,11 +52,19 @@ describe 'Campaign Builder', type: :feature do
               with: '10'
       click_button 'Next'
       expect(current_path).to eq(campaign_build_path(campaign,
-                                                     :engagement_player_survey))
+                                                     :survey))
     end
     scenario 'survey page' do
-      campaign.engagement_player_survey!
-      visit campaign_build_path(campaign, :engagement_player_survey)
+      campaign.survey!
+      visit campaign_build_path(campaign, :survey)
+      expect do
+        wait_until_angular_ready
+        fill_in 'new_question_title', with: 'Will you follow me?'
+        fill_in 'new_option_text', with: 'Yes'
+        select 'Continue', from: 'new_conditional'
+        click_button 'Add Question'
+        page
+      end.to change(Campaign::Survey::Question, :count).by(1)
       click_button 'Next'
       expect(current_path).to eq(campaign_build_path(campaign,
                                                      :guided_pair))
@@ -64,6 +73,7 @@ describe 'Campaign Builder', type: :feature do
       campaign.guided_pair!
       guided_pair_attributes = attributes_for(:guided_pair)
       visit campaign_build_path(campaign, :guided_pair)
+      choose 'On'
       fill_in 'campaign[guided_pair_attributes][title]',
               with: guided_pair_attributes[:title]
       fill_in 'campaign[guided_pair_attributes][description]',
@@ -76,6 +86,7 @@ describe 'Campaign Builder', type: :feature do
       campaign.community!
       community_attributes = attributes_for(:community)
       visit campaign_build_path(campaign, :community)
+      choose 'On'
       click_button 'Next'
       find '#campaign_community_attributes_other_campaign_input.error'
       choose 'Campaign'

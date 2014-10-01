@@ -14,8 +14,8 @@
       <h4>Engagement Player</h4>
       <small>Media and Onboarding</small>
     </a>
-    <a href="<%= wizard_path :engagement_player_survey %>" class="<%= step_class :engagement_player_survey %>">
-      <%- if @campaign.status.to_sym == :engagement_player_survey %>
+    <a href="<%= wizard_path :survey %>" class="<%= step_class :survey %>">
+      <%- if @campaign.status.to_sym == :survey %>
         <div class="pull-right"><%= fa_icon 'angle-right' %></div>
       <% end -%>
       <h4>Survey</h4>
