@@ -7,7 +7,7 @@
       <table class="table table-striped index-table">
         <tbody>
           <tr>
-            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:youtube_video_id) %>/maxresdefault.jpg)">
+            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
               <div class="button-row">
                 <a href="<%= translations_path %>" class="btn btn-default">
                   <%= fa_icon "chevron-left" %>

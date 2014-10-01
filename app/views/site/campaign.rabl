@@ -1,5 +1,5 @@
 attribute :name
-child(:engagement_player, unless: lambda { |campaign| campaign.engagement_player.nil? }) {
+child(:engagement_player) {
   attributes :media_link, :media_start, :media_stop
   child(:questions, root: 'questions', object_root: false) {
     attributes :id, :title, :help_text
@@ -8,15 +8,15 @@ child(:engagement_player, unless: lambda { |campaign| campaign.engagement_player
     }
   }
 }
-child(:guided_pair, unless: lambda { |campaign| campaign.guided_pair.nil? }) {
+child(:guided_pair) {
   attributes :enabled
-  attributes :title, :description if @campaign.community.enabled?
+  attributes :title, :description if root_object.enabled?
 }
-child(:community, unless: lambda { |campaign| campaign.community.nil? }) {
+child(:community) {
   attributes :enabled
-  if @campaign.community.enabled?
+  if root_object.enabled?
     attributes :other_campaign, :permalink
-    unless @campaign.community.other_campaign?
+    unless root_object.other_campaign?
       attributes :title, :description
     end
   end

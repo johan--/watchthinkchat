@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
     session[:campaign] = nil
     redirect_to user_omniauth_authorize_path(:facebook)
   end
+
+  def current_user
+    super.decorate
+  end
 end

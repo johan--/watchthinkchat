@@ -1,5 +1,6 @@
 module Dashboard
   class CampaignsController < Dashboard::BaseController
+    decorates_assigned :campaign
     def index
       load_campaigns
     end

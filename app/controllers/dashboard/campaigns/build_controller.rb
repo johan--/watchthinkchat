@@ -21,6 +21,7 @@ module Dashboard
                                           id: @campaign.status)
           return
         end
+        present_campaign
         render_wizard
       end
 
@@ -41,6 +42,10 @@ module Dashboard
       def build_campaign
         @campaign.attributes = campaign_params
         @campaign.status = next_step if @campaign.valid?
+      end
+
+      def present_campaign
+        @campaign = @campaign.decorate
       end
 
       def campaign_scope

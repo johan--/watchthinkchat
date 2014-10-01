@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+  decorates_assigned :campaign
   def index
     load_campaign
     return render 'no_campaign' if @campaign.nil?

@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <h3><%= fa_icon "angle-double-right" %> Media</h3>
       <div class="js-video widescreen">
-        <iframe width="560" height="315" src="http://www.youtube.com/embed/<%= @campaign.engagement_player.try(:youtube_video_id) %>?modestbranding=1&amp;rel=0&amp;showinfo=0&amp;theme=light&amp;color=white&amp;autohide=0" frameborder="0"></iframe>
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/<%= campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>?modestbranding=1&amp;rel=0&amp;showinfo=0&amp;theme=light&amp;color=white&amp;autohide=0" frameborder="0"></iframe>
       </div>
     </div>
     <div class="col-md-4">
@@ -11,7 +11,7 @@
 
       <table class="table table-striped">
         <tbody>
-          <% @campaign.engagement_player.survey.questions.each do |question| %>
+          <% Campaign::EngagementPlayer::QuestionDecorator.decorate_collection(campaign.engagement_player.survey.questions).each do |question| %>
             <tr>
               <td>
                 <a href="<%= question.permalink %>" target="_blank">
@@ -20,7 +20,7 @@
                 </a>
                 <h5><%= question.help_text %></h5>
                 <ul>
-                <% question.options.each do |option| %>
+                <% Campaign::EngagementPlayer::OptionDecorator.decorate_collection(question.options).each do |option| %>
                   <li>
                     <a href="<%= option.permalink %>" target="_blank">
                       <%= fa_icon "link" %>
