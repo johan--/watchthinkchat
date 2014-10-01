@@ -9,12 +9,10 @@ child(:engagement_player, unless: lambda { |campaign| campaign.engagement_player
   }
 }
 child(:guided_pair, unless: lambda { |campaign| campaign.guided_pair.nil? }) {
-child(:guided_pair) {
   attributes :enabled
   attributes :title, :description if root_object.enabled?
 }
 child(:community, unless: lambda { |campaign| campaign.community.nil? }) {
-child(:community) {
   attributes :enabled
   if root_object.enabled?
     attributes :other_campaign, :permalink
