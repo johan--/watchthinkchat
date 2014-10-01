@@ -7,7 +7,7 @@ describe Dashboard::Api::QuestionsController do
     @campaign = create(:campaign)
     manager.campaigns << @campaign
     manager.permissions.where(resource: @campaign).first.owner!
-    @survey = create(:engagement_player, campaign: @campaign).survey
+    @survey = @campaign.survey
     (0..1).each { |_n| create(:question, survey: @survey) }
   end
 

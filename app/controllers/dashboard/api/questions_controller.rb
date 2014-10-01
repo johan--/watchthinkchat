@@ -59,7 +59,6 @@ module Dashboard
       def question_scope
         current_manager.campaigns
                        .find(params[:campaign_id])
-                       .engagement_player
                        .survey
                        .questions
       end
