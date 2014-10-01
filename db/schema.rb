@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930040013) do
+ActiveRecord::Schema.define(version: 20141001230318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,32 +50,6 @@ ActiveRecord::Schema.define(version: 20140930040013) do
     t.boolean  "enabled",           default: true
   end
 
-  create_table "campaign_engagement_player_options", force: true do |t|
-    t.string   "title"
-    t.integer  "conditional",             default: 0
-    t.string   "code"
-    t.integer  "question_id"
-    t.integer  "conditional_question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "campaign_engagement_player_questions", force: true do |t|
-    t.integer  "survey_id"
-    t.string   "title"
-    t.string   "help_text"
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "code"
-  end
-
-  create_table "campaign_engagement_player_surveys", force: true do |t|
-    t.integer  "engagement_player_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "campaign_engagement_players", force: true do |t|
     t.boolean  "enabled"
     t.string   "media_link"
@@ -95,6 +69,33 @@ ActiveRecord::Schema.define(version: 20140930040013) do
     t.datetime "updated_at"
   end
 
+  create_table "campaign_survey_question_options", force: true do |t|
+    t.string   "title"
+    t.integer  "conditional",             default: 0
+    t.string   "code"
+    t.integer  "question_id"
+    t.integer  "conditional_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaign_survey_questions", force: true do |t|
+    t.integer  "survey_id"
+    t.string   "title"
+    t.string   "help_text"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "code"
+  end
+
+  create_table "campaign_surveys", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "enabled",     default: true
+    t.integer  "campaign_id"
+  end
+
   create_table "campaigns", force: true do |t|
     t.string   "name"
     t.string   "url"
@@ -107,7 +108,7 @@ ActiveRecord::Schema.define(version: 20140930040013) do
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
-  add_index "campaigns", ["url"], name: "index_campaigns_on_url", using: :btree
+  add_index "campaigns", ["url", "subdomain"], name: "index_campaigns_on_url_and_subdomain", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0

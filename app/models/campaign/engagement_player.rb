@@ -3,30 +3,20 @@ class Campaign
     extend Translatable
     # associations
     belongs_to :campaign
-    has_one :survey, dependent: :destroy
-    has_many :questions, through: :survey
     has_many :translations, as: :resource, dependent: :destroy
 
     # callbacks
-    after_save :generate_survey, on: :create
     before_destroy :destroy_associations
 
     # validations
     validates :media_link, presence: true
     validates :campaign, presence: true
-    validates :survey,
-              presence: true,
-              on: :update,
-              unless: proc { created_at.nil? }
+    validates :enabled, inclusion: [true, false]
 
     # definitions
     translatable :media_link
 
     protected
-
-    def generate_survey
-      self.survey ||= create_survey
-    end
 
     def destroy_associations
       Translation.where(resource_id: id).destroy_all

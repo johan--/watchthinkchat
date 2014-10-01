@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :question, class: Campaign::EngagementPlayer::Question do
+  factory :question, class: Campaign::Survey::Question do
     survey
     title { Faker::Lorem.sentence }
     help_text { Faker::Hacker.say_something_smart }

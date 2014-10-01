@@ -1,5 +1,5 @@
 class Campaign
-  class EngagementPlayer
+  class Survey
     class Question < ActiveRecord::Base
       extend Translatable
       # associations

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Campaign::EngagementPlayer::Question, type: :model do
+RSpec.describe Campaign::Survey::Question, type: :model do
   it 'is invalid without survey' do
     expect(build(:question, survey: nil)).not_to be_valid
   end

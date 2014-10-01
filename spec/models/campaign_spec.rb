@@ -60,15 +60,15 @@ RSpec.describe Campaign, type: :model do
 
   # callbacks
   context 'after create' do
-    let(:campaign) { create(:campaign, status: nil) }
-    it 'after create sets status to basic' do
-      expect(campaign.basic?).to eq(true)
+    let(:campaign) { create(:campaign) }
+    it 'after create should set survey object' do
+      expect(campaign.survey).to_not be_nil
     end
   end
 
   # definitions
   context 'after create' do
-    let(:campaign) { create(:campaign, status: nil) }
+    let(:campaign) { create(:campaign, status: :basic) }
     it 'creates a translation object when name is set' do
       expect(campaign.translations
         .where(field: :name, content: campaign.name))

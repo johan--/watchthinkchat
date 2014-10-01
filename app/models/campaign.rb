@@ -9,22 +9,27 @@ class Campaign < ActiveRecord::Base
   has_many :translations, as: :resource, dependent: :destroy
   has_many :available_locales, dependent: :destroy
   has_many :locales, through: :available_locales
+  belongs_to :locale
   has_one :engagement_player,
           dependent: :destroy,
           class_name: 'Campaign::EngagementPlayer'
+  has_one :survey,
+          dependent: :destroy,
+          class_name: 'Campaign::Survey'
   has_one :community,
           dependent: :destroy,
           class_name: 'Campaign::Community'
   has_one :guided_pair,
           dependent: :destroy,
           class_name: 'Campaign::GuidedPair'
-  belongs_to :locale
   accepts_nested_attributes_for :engagement_player, update_only: true
+  accepts_nested_attributes_for :survey, update_only: true
   accepts_nested_attributes_for :community, update_only: true
   accepts_nested_attributes_for :guided_pair, update_only: true
 
   # validations
   validates_associated :engagement_player
+  validates_associated :survey
   validates_associated :community
   validates_associated :guided_pair
   validates :name, presence: true, unless: :basic?
@@ -41,8 +46,8 @@ class Campaign < ActiveRecord::Base
                       unless: :subdomain? },
             allow_blank: true
   # callbacks
-  before_create do
-    self.status ||= :basic
+  after_create do
+    campaign.create_survey
   end
 
   # definitions
@@ -50,7 +55,7 @@ class Campaign < ActiveRecord::Base
                 :closed,
                 :opened,
                 :engagement_player,
-                :engagement_player_survey,
+                :survey,
                 :guided_pair,
                 :community]
   translatable :name
