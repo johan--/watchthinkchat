@@ -11,9 +11,27 @@ RSpec.describe Campaign, type: :model do
   it { is_expected.to have_many(:translations).dependent(:destroy) }
   it { is_expected.to have_many(:available_locales) }
   it { is_expected.to have_many(:locales).through(:available_locales) }
-  it { is_expected.to have_one :engagement_player }
+  it { is_expected.to have_one(:engagement_player).validate(true) }
+  it { is_expected.to have_one(:survey).validate(true) }
+  it { is_expected.to have_one(:community).validate(true) }
+  it { is_expected.to have_one(:guided_pair).validate(true) }
+  it do
+    is_expected.to(
+      accept_nested_attributes_for(:engagement_player).update_only(true))
+  end
+  it do
+    is_expected.to(
+      accept_nested_attributes_for(:survey).update_only(true))
+  end
+  it do
+    is_expected.to(
+      accept_nested_attributes_for(:community).update_only(true))
+  end
+  it do
+    is_expected.to(
+      accept_nested_attributes_for(:guided_pair).update_only(true))
+  end
   it { is_expected.to belong_to :locale }
-  it { is_expected.to accept_nested_attributes_for :engagement_player }
 
   # validations
   context 'when status is opened' do
