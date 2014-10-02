@@ -11,7 +11,7 @@
 
       <table class="table table-striped">
         <tbody>
-          <% Campaign::EngagementPlayer::QuestionDecorator.decorate_collection(campaign.engagement_player.survey.questions).each do |question| %>
+          <% Campaign::Survey::QuestionDecorator.decorate_collection(campaign.survey.questions).each do |question| %>
             <tr>
               <td>
                 <a href="<%= question.permalink %>" target="_blank">
@@ -20,7 +20,7 @@
                 </a>
                 <h5><%= question.help_text %></h5>
                 <ul>
-                <% Campaign::EngagementPlayer::OptionDecorator.decorate_collection(question.options).each do |option| %>
+                <% Campaign::Survey::Question::OptionDecorator.decorate_collection(question.options).each do |option| %>
                   <li>
                     <a href="<%= option.permalink %>" target="_blank">
                       <%= fa_icon "link" %>
