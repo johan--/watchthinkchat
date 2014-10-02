@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001230318) do
+ActiveRecord::Schema.define(version: 20141002213017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 20141001230318) do
   end
 
   add_index "campaigns", ["locale_id"], name: "index_campaigns_on_locale_id", using: :btree
-  add_index "campaigns", ["url", "subdomain"], name: "index_campaigns_on_url_and_subdomain", using: :btree
+  add_index "campaigns", ["url"], name: "index_campaigns_on_url", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -162,6 +162,21 @@ ActiveRecord::Schema.define(version: 20141001230318) do
   add_index "translations", ["field"], name: "index_translations_on_field", using: :btree
   add_index "translations", ["locale_id"], name: "index_translations_on_locale_id", using: :btree
   add_index "translations", ["resource_id"], name: "index_translations_on_resource_id", using: :btree
+
+  create_table "user_interactions", force: true do |t|
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.integer  "visitor_id"
+    t.integer  "campaign_id"
+    t.integer  "action"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_interactions", ["campaign_id"], name: "index_user_interactions_on_campaign_id", using: :btree
+  add_index "user_interactions", ["resource_id"], name: "index_user_interactions_on_resource_id", using: :btree
+  add_index "user_interactions", ["visitor_id"], name: "index_user_interactions_on_visitor_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: ""
