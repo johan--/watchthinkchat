@@ -1,14 +1,9 @@
 class Campaign
-  class Community < ActiveRecord::Base
-    extend Translatable
+  class Community < Component
     # associations
-    belongs_to :campaign
     belongs_to :child_campaign, class_name: '::Campaign'
-    has_many :translations, as: :resource, dependent: :destroy
 
     # validations
-    validates :campaign, presence: true
-    validates :enabled, inclusion: [true, false]
     validates :other_campaign,
               inclusion: [true, false],
               if: -> { enabled? }
