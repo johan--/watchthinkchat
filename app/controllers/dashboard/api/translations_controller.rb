@@ -45,16 +45,13 @@ module Dashboard
       end
 
       def load_base_translation
-        @base_translation ||= current_translator.campaigns
-                                                .find(params[:campaign_id])
-                                                .translations
-                                                .find(params[:id])
+        @base_translation ||= translation_scope.find(params[:id])
       end
 
       def translation_scope
         current_translator.campaigns
                           .find(params[:campaign_id])
-                          .translations
+                          .translation_groups
       end
 
       def translation_params
