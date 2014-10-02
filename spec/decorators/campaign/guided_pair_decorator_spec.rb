@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Campaign::GuidedPairDecorator, type: :decorator do
   let(:guided_pair) do
-    create(:guided_pair, title: nil, description: nil).decorate
+    create(:guided_pair, title: '', description: '').decorate
   end
 
   it 'returns default title if not present' do
