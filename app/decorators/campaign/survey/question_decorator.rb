@@ -1,6 +1,7 @@
 class Campaign
-  class EngagementPlayer
+  class Survey
     class QuestionDecorator < Draper::Decorator
+      decorates_association :option
       delegate_all
 
       def permalink

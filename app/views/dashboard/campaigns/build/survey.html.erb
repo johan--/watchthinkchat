@@ -92,13 +92,13 @@
         <div class="form-group row">
           <label class="col-md-2 control-label" for="question_title">Question</label>
           <div class="col-md-8">
-            <input name="question_title" class="form-control" type="text" ng-model="question_attributes.title" required />
+            <input name="new_question_title" class="form-control" type="text" ng-model="question_attributes.title" required />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-2 control-label" for="question_help_text">Help Text</label>
           <div class="col-md-8">
-            <input name="question_help_text"class="form-control" type="text" ng-model="question_attributes.help_text" />
+            <input name="new_question_help_text"class="form-control" type="text" ng-model="question_attributes.help_text" />
           </div>
         </div>
         <div class="form-group row options">
@@ -110,13 +110,13 @@
                   <span class="input-group-addon">
                     <input type="radio" disabled>
                   </span>
-                  <input name="option_text" class="form-control" type="text" value="{{option.title}}" required ng-model="option.title" />
+                  <input name="new_option_text" class="form-control" type="text" value="{{option.title}}" required ng-model="option.title" />
                 </div>
               </div>
               <div class="col-sm-4 no-pad">
                 <div class="row">
                   <div class="col-sm-6">
-                    <select class="form-control" ng-model="option.conditional" required>
+                    <select name ="new_conditional" class="form-control" ng-model="option.conditional" required>
                       <option value="next">Continue</option>
                       <option value="skip">Skip to</option>
                       <option value="finish">Finish</option>

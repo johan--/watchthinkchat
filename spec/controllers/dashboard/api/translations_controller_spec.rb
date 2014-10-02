@@ -14,7 +14,7 @@ describe Dashboard::Api::TranslationsController do
               .first
               .update(state: Permission.states[:translator],
                       locale: @locale)
-    @survey = create(:engagement_player, campaign: @campaign).survey
+    @survey = create(:survey, campaign: @campaign)
     (0..1).each { |_n| create(:question, survey: @survey) }
   end
   describe '#show' do

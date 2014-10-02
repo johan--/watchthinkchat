@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Campaign::EngagementPlayer::OptionDecorator, type: :decorator do
+describe Campaign::Survey::Question::OptionDecorator, type: :decorator do
   let(:option) { create(:option) }
   let(:option_decorator) { option.decorate }
 

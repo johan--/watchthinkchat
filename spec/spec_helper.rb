@@ -11,6 +11,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'shoulda/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -92,4 +93,5 @@ RSpec.configure do |config|
   config.include JsonApiHelpers, type: :controller
   config.include IntegrationHelpers, type: :feature
   config.include Warden::Test::Helpers, type: :feature
+  config.include Capybara::Angular::DSL, type: :feature
 end

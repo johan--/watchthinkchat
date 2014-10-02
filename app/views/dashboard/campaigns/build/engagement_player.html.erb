@@ -12,6 +12,9 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
+                <%= ep.input :enabled, as: :radio, collection: [['On', true], ['Off', false]], label: 'Engagement Player' %>
+              </div>
+              <div class="col-md-12">
                 <%=  ep.input :media_link, input_html: {placeholder: 'Youtube Link', onBlur: 'onYouTubeIframeAPIReady()'} %>
               </div>
             </div>

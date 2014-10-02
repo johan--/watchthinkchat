@@ -5,7 +5,7 @@ module Dashboard
 
       steps :basic,
             :engagement_player,
-            :engagement_player_survey,
+            :survey,
             :guided_pair,
             :community,
             :opened
@@ -14,12 +14,10 @@ module Dashboard
 
       def show
         load_campaign
-        unless @campaign.opened? ||
-               @campaign.status.to_sym == step ||
+        unless @campaign.opened? || @campaign.status.to_sym == step ||
                future_step?(@campaign.status.to_sym)
-          redirect_to campaign_build_path(campaign_id: @campaign.id,
-                                          id: @campaign.status)
-          return
+          return redirect_to(
+          campaign_build_path(campaign_id: @campaign, id: @campaign.status))
         end
         present_campaign
         render_wizard
@@ -69,6 +67,7 @@ module Dashboard
           locale_ids: [],
           engagement_player_attributes:
             [:id,
+             :enabled,
              :media_link,
              :media_start,
              :media_stop],
