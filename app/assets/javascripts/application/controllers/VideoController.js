@@ -1,6 +1,4 @@
 angular.module('chatApp').controller('VideoController', function ($scope, $rootScope, $location) {
-  console.log($rootScope.campaign);
-
   $scope.playerVars = {
     autoplay: 0,
     modestbranding: 1,
@@ -9,8 +7,18 @@ angular.module('chatApp').controller('VideoController', function ($scope, $rootS
     iv_load_policy: 3,
     html5: 1
   };
+  if($rootScope.campaign.engagement_player.media_start){
+    $scope.playerVars.start = $rootScope.campaign.engagement_player.media_start;
+  }
+  if($rootScope.campaign.engagement_player.media_stop){
+    $scope.playerVars.end = $rootScope.campaign.engagement_player.media_stop;
+  }
 
   $scope.$on('youtube.player.ended', function ($event, player) {
-    $location.path('/q/' + $rootScope.campaign.engagement_player.questions[0].code);
+    if($rootScope.campaign.survey.enabled){
+      $location.path('/q/' + $rootScope.campaign.survey.questions[0].code);
+    }else{
+      $location.path('/complete');
+    }
   });
 });
