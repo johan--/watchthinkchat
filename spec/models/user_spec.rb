@@ -3,14 +3,10 @@ require 'spec_helper'
 RSpec.describe User, type: :model do
   # associations
   it { is_expected.to have_many(:permissions).dependent(:destroy) }
-
-  # validations
-  it { is_expected.to validate_presence_of :first_name }
-  it { is_expected.to validate_presence_of :email }
-  it { is_expected.to validate_uniqueness_of :email }
-  it { is_expected.to validate_presence_of :password }
-  it { is_expected.to validate_confirmation_of(:password).on(:create) }
-
+  it do
+    is_expected.to have_many(:campaigns).through(:permissions)
+                                        .source(:resource)
+  end
   # definitions
   describe '#as' do
     let(:user) { create(:user) }

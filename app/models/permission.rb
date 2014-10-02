@@ -17,6 +17,7 @@ class Permission < ActiveRecord::Base
     :viewer,
     :editor,
     :owner,
-    :translator
+    :translator,
+    :visitor
   ]
 end

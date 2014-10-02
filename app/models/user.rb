@@ -3,12 +3,10 @@ class User < ActiveRecord::Base
 
   # associations
   has_many :permissions, dependent: :destroy
-
-  # validations
-  validates :first_name, presence: true
-  validates :email, presence: true, uniqueness: true, email: true
-  validates :password, presence: true
-  validates :password, confirmation: true, on: :create
+  has_many :campaigns,
+           through: :permissions,
+           source: :resource,
+           source_type: 'Campaign'
 
   # definintions
   devise :invitable, :registerable,

@@ -6,6 +6,11 @@ describe 'Site', type: :feature, js: true do
     before do
       Capybara.app_host = "http://#{campaign.url}.lvh.me:7171"
     end
+    describe 'create visitor object' do
+      subject { -> { visit root_path } }
+      it { is_expected.to change(User, :count).by(1) }
+      it { is_expected.to change(Permission, :count).by(1) }
+    end
     scenario 'visitor comes to root_path' do
       visit root_path
       expect(evaluate_script('campaign')).to(
