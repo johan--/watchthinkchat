@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe UserDecorator, type: :decorator do
   let(:available_locale) { create(:available_locale).decorate }

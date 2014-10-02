@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Dashboard::Api::QuestionsController do
   let(:manager) { create(:manager) }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'Site', type: :feature, js: true do
   feature 'cname' do

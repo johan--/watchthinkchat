@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Campaign::GuidedPairDecorator, type: :decorator do
   let(:guided_pair) do
