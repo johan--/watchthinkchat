@@ -5,7 +5,6 @@ class ApiController < ApplicationController
   def token
     unless user_signed_in?
       visitor = User::Visitor.create
-      visitor.save
       sign_in visitor
     end
     current_user.roles << :visitor
