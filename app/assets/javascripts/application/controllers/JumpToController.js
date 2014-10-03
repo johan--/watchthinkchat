@@ -2,13 +2,13 @@ angular.module('chatApp').controller('JumpToController', function ($scope, $root
 
   var findNextQuestion = function(){
     var questionIndex, nextQuestion;
-    angular.forEach($rootScope.campaign.engagement_player.questions, function(q, k){
+    angular.forEach($rootScope.campaign.survey.questions, function(q, k){
       if(_.contains(q.options, option)){
         questionIndex = k;
       }
     });
     if(angular.isDefined(questionIndex)){
-      nextQuestion = $rootScope.campaign.engagement_player.questions[questionIndex + 1];
+      nextQuestion = $rootScope.campaign.survey.questions[questionIndex + 1];
     }
     return nextQuestion;
   };

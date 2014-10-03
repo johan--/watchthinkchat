@@ -1,6 +1,9 @@
 angular.module('chatApp', ['ngRoute', 'youtube-embed'])
     .config(function ($routeProvider) {
       $routeProvider.when('/', {
+        template: '',
+        controller: 'MainController'
+      }).when('/player', {
         templateUrl: '/templates/video.html',
         controller: 'VideoController'
       }).when('/q/:questionId', {
@@ -8,11 +11,11 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
         controller: 'QuestionController',
         resolve: {
           question: ['$rootScope', '$route', function ($rootScope, $route) {
-            return _.find($rootScope.campaign.engagement_player.questions, { 'code': $route.current.params.questionId });
+            return _.find($rootScope.campaign.survey.questions, { 'code': $route.current.params.questionId });
           }],
           nextQuestion: ['$rootScope', '$route', function ($rootScope, $route) {
-            var questionIndex = _.findIndex($rootScope.campaign.engagement_player.questions, { 'code': $route.current.params.questionId });
-            return $rootScope.campaign.engagement_player.questions[questionIndex + 1];
+            var questionIndex = _.findIndex($rootScope.campaign.survey.questions, { 'code': $route.current.params.questionId });
+            return $rootScope.campaign.survey.questions[questionIndex + 1];
           }]
         }
       }).when('/jumpTo/:jumpId', {
@@ -20,7 +23,7 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
         controller: 'JumpToController',
         resolve: {
           option: ['$rootScope', '$route', function ($rootScope, $route) {
-            return _.find(_.flatten($rootScope.campaign.engagement_player.questions, 'options'), { 'code': $route.current.params.jumpId });
+            return _.find(_.flatten($rootScope.campaign.survey.questions, 'options'), { 'code': $route.current.params.jumpId });
           }]
         }
       }).when('/complete', {
