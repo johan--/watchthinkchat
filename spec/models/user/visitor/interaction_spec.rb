@@ -28,4 +28,9 @@ RSpec.describe User::Visitor::Interaction, type: :model do
                                                   :finish])
   end
   it { is_expected.to serialize(:data) }
+  it 'only allows interactions where resources are related to campaigns' do
+    @interaction = build(:interaction)
+    @interaction.resource = create(:campaign)
+    expect(@interaction).to_not be_valid
+  end
 end

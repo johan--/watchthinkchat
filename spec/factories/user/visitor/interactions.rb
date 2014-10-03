@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :interaction, class: User::Visitor::Interaction do
-    association :resource, factory: :campaign
     visitor
     campaign
     action 0
+    after(:build) { |interaction| interaction.resource = interaction.campaign }
   end
 end

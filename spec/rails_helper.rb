@@ -91,6 +91,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include JsonApiHelpers, type: :controller
+  config.include JsonApiHelpers, type: :request
   config.include IntegrationHelpers, type: :feature
   config.include Warden::Test::Helpers, type: :feature
   config.include Capybara::Angular::DSL, type: :feature

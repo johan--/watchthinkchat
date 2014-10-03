@@ -57,6 +57,7 @@
 <% end %>
 <% content_for :javascript do %>
   <script src="//static.getclicky.com/js" type="text/javascript"></script>
+  <script src="http://api.<%= "#{ENV['base_url']}:#{request.port}" %>/token.js" type="text/javascript"></script>
   <script type="text/javascript">
     // <![CDATA[
       var campaign = <%= Rabl::Renderer.json(@campaign.decorate, 'site/campaign', view_path: 'app/views').html_safe %>;
