@@ -1,6 +1,6 @@
 # WatchThinkChat
 [![CodeClimate](http://img.shields.io/codeclimate/github/CruGlobal/watchthinkchat.svg?style=flat)](https://codeclimate.com/github/CruGlobal/watchthinkchat) [![Coverage](http://img.shields.io/codeclimate/coverage/github/CruGlobal/watchthinkchat.svg?style=flat)](https://codeclimate.com/github/CruGlobal/watchthinkchat) [![Travis-CI](http://img.shields.io/travis/CruGlobal/watchthinkchat.svg?style=flat)](https://travis-ci.org/CruGlobal/watchthinkchat) [![Travis-CI](http://img.shields.io/gemnasium/CruGlobal/watchthinkchat.svg?style=flat)](https://gemnasium.com/CruGlobal/watchthinkchat)
-[![Inline docs](http://inch-ci.org/github/CruGlobal/watchthinkchat.png?branch=master)](http://inch-ci.org/github/CruGlobal/watchthinkchat)
+[![Inline docs](http://inch-ci.org/github/CruGlobal/watchthinkchat.svg?branch=master&style=flat)](http://inch-ci.org/github/CruGlobal/watchthinkchat)
 
 WatchThinkChat is an online tool that makes it easier than ever for you organize digital outreaches.
 
