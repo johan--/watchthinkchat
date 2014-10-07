@@ -63,7 +63,7 @@
           <th class="text-right" style="width:10%">Translators</th>
           <td>
           <% campaign_locale.permissions.each do |permission| %>
-            <span class="label label-primary"><%= permission.user.name %> <%= link_to fa_icon('times'), campaign_permission_path(campaign, permission), method: :delete, class:"text-danger" %></span>
+            <span class="label label-primary"><%= permission.user.decorate.name %> <%= link_to fa_icon('times'), campaign_permission_path(campaign, permission), method: :delete, class:"text-danger" %></span>
           <% end %>
           </td>
         </tr>

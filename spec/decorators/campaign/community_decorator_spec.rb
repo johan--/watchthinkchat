@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Campaign::CommunityDecorator, type: :decorator do
   describe 'when other_campaign' do

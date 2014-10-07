@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Campaign::Survey::Question::OptionDecorator, type: :decorator do
   let(:option) { create(:option) }

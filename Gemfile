@@ -23,6 +23,7 @@ gem 'role_model'
 gem 'pusher'
 gem 'rest-client'
 gem 'platform-api'
+gem 'versionist'
 
 # Assets CSS
 gem 'sass-rails', '~> 4.0.3'

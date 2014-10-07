@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe User::DashboardUser, type: :model do
   it 'is an abstract class' do

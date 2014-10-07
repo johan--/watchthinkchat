@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Campaign::Survey::Question, type: :model do
   it 'is invalid without survey' do

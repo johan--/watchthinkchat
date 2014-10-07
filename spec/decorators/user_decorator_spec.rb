@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe UserDecorator, type: :decorator do
   let(:user) { create(:user).decorate }
