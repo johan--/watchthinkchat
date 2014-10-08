@@ -1,16 +1,18 @@
-# rubocop:disable Style/ClassAndModuleChildren
-class Campaign::CommunityDecorator < Draper::Decorator
-  decorates Campaign::Community
-  delegate_all
+require_dependency(
+  Rails.root.join 'app', 'models', 'campaign')
+class Campaign
+  class CommunityDecorator < Draper::Decorator
+    decorates Campaign::Community
+    delegate_all
 
-  def permalink
-    return child_campaign.decorate.permalink if other_campaign?
-    url
-  end
+    def permalink
+      return child_campaign.decorate.permalink if other_campaign?
+      url
+    end
 
-  def display_title
-    return child_campaign.name if other_campaign?
-    title
+    def display_title
+      return child_campaign.name if other_campaign?
+      title
+    end
   end
 end
-# rubocop:enable Style/ClassAndModuleChildren
