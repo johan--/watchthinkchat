@@ -1,27 +1,31 @@
 module Dashboard
   class TranslationsController < Dashboard::BaseController
     def index
-      load_translation_permissions
+      load_translations
     end
 
     def edit
-      load_translation_permission
+      load_translation
+      load_base_translation
     end
 
     protected
 
-    def load_translation_permissions
-      @translation_permissions ||= translation_permission_scope
+    def load_translations
+      @translations ||= translation_scope
     end
 
-    def load_translation_permission
-      @translation_permission ||= translation_permission_scope.find(params[:id])
-      # authorize! :read, @translation_permission
-      @campaign = @translation_permission.resource
-      @translation_permission
+    def load_translation
+      @translation ||= translation_scope.find(params[:id])
     end
 
-    def translation_permission_scope
+    def load_base_translation
+      raise @base_translation.inspect
+      @base_translation ||=
+        @translation.campaign.translations.where('content != \'\'').base
+    end
+
+    def translation_scope
       current_translator.permissions.where(resource_type: Campaign).translator
     end
   end

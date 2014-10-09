@@ -7,15 +7,15 @@
       <table class="table table-striped index-table">
         <tbody>
           <tr>
-            <td style="background-image: url(//img.youtube.com/vi/<%= @campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
+            <td style="background-image: url(//img.youtube.com/vi/<%= @translation.campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
               <div class="button-row">
                 <a href="<%= translations_path %>" class="btn btn-default">
                   <%= fa_icon "chevron-left" %>
                 </a>
               </div>
               <div class="pull-left cover">
-                <h3><%= @campaign.name %></h3>
-                <div><span class="label label-primary"><%= @translation_permission.locale.name %></span></div>
+                <h3><%= @translation.campaign.name %></h3>
+                <div><span class="label label-primary"><%= @translation.locale.name %></span></div>
               </div>
             </td>
           </tr>
@@ -51,8 +51,8 @@
 <% content_for :javascript do %>
   <script type="text/javascript">
     //<![CDATA[
-      var locale_id = <%= @translation_permission.locale.id %>;
-      var base_translations = <%= Translation.where(campaign: @campaign).base.all.to_json.html_safe %>;
+      var locale_id = <%= @translation.locale.id %>;
+      var base_translations = <%= @base_translation.to_json.html_safe %>;
     //]]>
   </script>
   <%= javascript_include_tag 'dashboard/translations/edit/application' %>
