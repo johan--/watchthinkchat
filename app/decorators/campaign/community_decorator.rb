@@ -1,5 +1,7 @@
+require_dependency(Rails.root.join 'app', 'models', 'campaign')
 class Campaign
   class CommunityDecorator < Draper::Decorator
+    decorates Campaign::Community
     delegate_all
 
     def permalink
