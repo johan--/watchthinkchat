@@ -20,7 +20,6 @@ module Dashboard
     end
 
     def load_base_translation
-      raise @base_translation.inspect
       @base_translation ||=
         @translation.campaign.translations.where('content != \'\'').base
     end
