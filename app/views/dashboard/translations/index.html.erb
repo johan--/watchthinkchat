@@ -1,5 +1,5 @@
 <div class="col-md-12">
-  <%- if @translation_permissions.empty? %>
+  <%- if @translations.empty? %>
   <div class="row">
     <div class="col-md-offset-4 col-md-4 empty-state text-center">
       <h2>Start Creating</h2>
@@ -19,17 +19,17 @@
     <div class="panel-body panel-index-body">
       <table class="table table-striped index-table">
         <tbody>
-          <% @translation_permissions.each do |translation_permission| %>
+          <% @translations.each do |translation| %>
             <tr>
-              <td style="background-image: url(//img.youtube.com/vi/<%= translation_permission.resource.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
+              <td style="background-image: url(//img.youtube.com/vi/<%= translation.campaign.engagement_player.try(:decorate).try(:youtube_video_id) %>/maxresdefault.jpg)">
                 <div class="button-row">
-                  <a href="<%= edit_translation_path(translation_permission) %>" class="btn btn-primary">
+                  <a href="<%= edit_translation_path(translation) %>" class="btn btn-primary">
                     <%= fa_icon "chevron-right" %>
                   </a>
                 </div>
                 <div class="pull-left cover">
-                  <h3><%= translation_permission.resource.name %></h3>
-                  <div><span class="label label-primary"><%= translation_permission.locale.name %></span></div>
+                  <h3><%= translation.campaign.name %></h3>
+                  <div><span class="label label-primary"><%= translation.locale.name %></span></div>
                 </div>
               </td>
             </tr>
