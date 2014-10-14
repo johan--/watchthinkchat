@@ -22,7 +22,7 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
         expect(response).to have_http_status :created
       end
 
-      it 'only stores one object' do
+      it 'stores one object and updates data' do
         expect do
           post "http://api.#{ENV['base_url']}/v1/interactions",
                { interaction: { resource_id: campaign.id,
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
                  access_token: @access_token },
                referer: "http://#{campaign.url}/"
         end.to change(User::Visitor::Interaction, :count).by(1)
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :ok
       end
     end
     context 'invalid action parameter' do
