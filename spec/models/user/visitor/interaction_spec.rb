@@ -15,6 +15,12 @@ RSpec.describe User::Visitor::Interaction, type: :model do
   it { is_expected.to validate_presence_of(:resource) }
   it { is_expected.to validate_presence_of(:visitor) }
   it { is_expected.to validate_presence_of(:action) }
+  it do
+    is_expected.to(
+      validate_uniqueness_of(:action).scoped_to([:campaign_id,
+                                                 :resource_id,
+                                                 :visitor_id]))
+  end
 
   # definitions
   it do

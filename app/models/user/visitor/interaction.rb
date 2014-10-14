@@ -12,8 +12,7 @@ class User
       validates :visitor, presence: true
       validates :action,
                 presence: true,
-                uniqueness:
-                  { scope: [:resource_type, :resource_id, :visitor_id] }
+                uniqueness: { scope: [:campaign_id, :resource_id, :visitor_id] }
       validate :related_resource
       # definitions
       serialize :data, JSON
