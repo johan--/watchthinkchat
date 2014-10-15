@@ -12,7 +12,6 @@
   </head>
   <body>
     <%= yield %>
-    <script src="http://api.dev.watchthinkchat.com:5000/token.js" type="text/javascript"></script>
     <%= yield :javascript %>
     <script src="http://js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
     <%= javascript_include_tag "application/application" %>
