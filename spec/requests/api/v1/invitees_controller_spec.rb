@@ -26,7 +26,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
     it 'creates a new invitee' do
       expect do
         post "http://api.#{ENV['base_url']}/v1/invitees",
-             { access_token: @access_token }.merge(attributes_for(:visitor)),
+             { access_token: @access_token }.merge(invitee: attributes_for(:visitor)),
              referer: "http://#{campaign.url}/"
       end.to change(Visitor, :count).by(1)
       expect(json_response.keys).to(
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
     it 'updates an exisiting invitee' do
       @invitee = @current_visitor.invitees.create(attributes_for(:visitor))
       put "http://api.#{ENV['base_url']}/v1/invitees/#{@invitee.id}",
-          { access_token: @access_token }.merge(attributes_for(:visitor)),
+          { access_token: @access_token }.merge(invitee: attributes_for(:visitor)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
         eq %w(id first_name last_name email invite_token)

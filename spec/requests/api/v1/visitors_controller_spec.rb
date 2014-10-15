@@ -25,7 +25,7 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
   describe 'PUT /visitors' do
     it 'updates current visitor' do
       put "http://api.#{ENV['base_url']}/v1/visitor",
-          { access_token: @access_token }.merge(attributes_for(:visitor)),
+          { access_token: @access_token }.merge(visitor: attributes_for(:visitor)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
         eq %w(first_name last_name email share_token)
