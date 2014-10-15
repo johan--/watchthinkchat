@@ -16,7 +16,7 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
           { access_token: @access_token },
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email share_token)
+        eq %w(first_name last_name email share_token)
       )
       expect(response).to have_http_status :ok
     end
@@ -28,7 +28,7 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
           { access_token: @access_token }.merge(attributes_for(:visitor)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email share_token)
+        eq %w(first_name last_name email share_token)
       )
       expect(response).to have_http_status :ok
     end
