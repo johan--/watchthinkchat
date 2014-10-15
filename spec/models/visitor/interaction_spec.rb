@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User::Visitor::Interaction, type: :model do
+RSpec.describe Visitor::Interaction, type: :model do
   subject { create(:interaction) }
   # associations
   it { is_expected.to belong_to(:campaign) }

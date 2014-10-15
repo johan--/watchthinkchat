@@ -20,7 +20,7 @@ module Api
           interaction_scope.where(
             resource_id: interaction_params[:resource_id],
             resource_type: interaction_params[:resource_type],
-            action: User::Visitor::Interaction.actions[interaction_params[:action]]
+            action: Visitor::Interaction.actions[interaction_params[:action]]
           ).first
         @state = :ok unless @interaction.nil?
         @interaction
@@ -32,7 +32,6 @@ module Api
       end
 
       def save_interaction
-        authorize! :visitor, @interaction.campaign
         @interaction.save!
       end
 

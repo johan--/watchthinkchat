@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :interaction, class: User::Visitor::Interaction do
+  factory :interaction, class: Visitor::Interaction do
     visitor
     campaign
     action 0
