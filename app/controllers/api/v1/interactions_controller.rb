@@ -2,21 +2,11 @@ module Api
   module V1
     class InteractionsController < Api::V1Controller
       def create
-        build_interaction
-        save_interaction
-        render json: @interaction.to_json,
-               status: :created
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
-      end
-
-      def update
         load_interaction
         build_interaction
         save_interaction
-        render json: @interaction.to_json,
-               status: :ok
+        render json: @interaction.to_json, status:
+          (@interaction.changed? ? :created : @state)
       rescue ArgumentError, ActiveRecord::RecordInvalid => ex
         render json: { errors: ex.message }.to_json,
                status: :unprocessable_entity
@@ -24,13 +14,15 @@ module Api
 
       protected
 
-      def load_interactions
-        @interactions ||= interaction_scope
-      end
-
       def load_interaction
-        @interaction ||= interaction_scope.find(params[:id])
-        authorize! :visitor, @interaction.campaign
+        @state = :created
+        @interaction ||=
+          interaction_scope.where(
+            resource_id: interaction_params[:resource_id],
+            resource_type: interaction_params[:resource_type],
+            action: User::Visitor::Interaction.actions[interaction_params[:action]]
+          ).first
+        @state = :ok unless @interaction.nil?
         @interaction
       end
 
