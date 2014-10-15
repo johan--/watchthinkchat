@@ -53,6 +53,7 @@ Godchat::Application.routes.draw do
           value: "application/api.#{ENV['base_url']}; version=1" },
         parameter: { name: 'version', value: '1' },
         path: { value: 'v1' }) do
+        resource :visitor, only: [:show, :update]
         resources :interactions, only: [:create, :update]
       end
     end
