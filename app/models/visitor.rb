@@ -1,13 +1,13 @@
 class Visitor < ActiveRecord::Base
   has_many :interactions, dependent: :destroy
-  has_many :invited_visitors,
+  has_many :invitees,
            class_name: 'Visitor',
            dependent: :nullify,
-           foreign_key: :invited_id
+           foreign_key: :inviter_id
   has_one :inviter,
           class_name: 'Visitor',
           foreign_key: :id,
-          primary_key: :invited_id
+          primary_key: :inviter_id
   before_validation :ensure_tokens
   devise :database_authenticatable
 
