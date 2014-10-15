@@ -18,7 +18,7 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
                                 action: 'start' },
                  access_token: @access_token },
                referer: "http://#{campaign.url}/"
-        end.to change(User::Visitor::Interaction, :count).by(1)
+        end.to change(Visitor::Interaction, :count).by(1)
         expect(response).to have_http_status :created
       end
 
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
                                 action: 'start' },
                  access_token: @access_token },
                referer: "http://#{campaign.url}/"
-        end.to change(User::Visitor::Interaction, :count).by(1)
+        end.to change(Visitor::Interaction, :count).by(1)
         expect(response).to have_http_status :ok
       end
     end

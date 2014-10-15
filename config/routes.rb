@@ -40,6 +40,7 @@ Godchat::Application.routes.draw do
 
   constraints DomainConstraint.new(["api.#{ENV['base_url']}",
                                     "api.#{ENV['base_url']}.lvh.me"]) do
+    devise_for :visitors
     get 'token',
         to: 'api#token',
         as: :api_root,

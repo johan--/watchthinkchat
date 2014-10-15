@@ -21,14 +21,11 @@ module Api
       url.slice! ".#{ENV['base_url']}"
       url.slice! '.lvh.me' if Rails.env.test? # capybara-webkit bug
       @campaign = Campaign.opened.find_by(url: url).decorate
-      Permission.find_or_create_by(resource: @campaign,
-                                   user: current_visitor,
-                                   state: Permission.states[:visitor])
     end
 
     def authenticate_user_from_token!
       user_token = params[:access_token].presence
-      user = user_token && User.find_by(authentication_token: user_token.to_s)
+      user = user_token && Visitor.find_by(authentication_token: user_token.to_s)
       sign_in user, store: false if user
     end
   end

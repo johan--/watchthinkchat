@@ -38,19 +38,5 @@ RSpec.describe User, type: :model do
         end
       end
     end
-    context ':visitor' do
-      context 'is visitor' do
-        it 'returns visitor object' do
-          user.roles << :visitor
-          expect(user.as(:visitor)).to be_a(User::Visitor)
-        end
-      end
-      context 'is not visitor' do
-        it 'throws an exception' do
-          expect { user.as(:visitor) }
-            .to raise_error(ActiveRecord::ActiveRecordError)
-        end
-      end
-    end
   end
 end

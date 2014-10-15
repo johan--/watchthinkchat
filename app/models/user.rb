@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, omniauth_providers: [:facebook]
 
   roles_attribute :roles_mask
-  roles :nobody, :manager, :translator, :visitor
+  roles :nobody, :manager, :translator
 
   def as(role)
     return becomes "User::#{role.to_s.camelize}".constantize if self.is? role
