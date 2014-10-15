@@ -1,7 +1,8 @@
 Godchat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
-  constraints DomainConstraint.new(["app.#{ENV['base_url']}", "app.#{ENV['base_url']}.lvh.me"]) do
+  constraints DomainConstraint.new(["app.#{ENV['base_url']}",
+                                    "app.#{ENV['base_url']}.lvh.me"]) do
     devise_for :users,
                controllers: { registrations: 'registrations',
                               omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -35,6 +36,25 @@ Godchat::Application.routes.draw do
       end
     end
     root to: redirect('users/sign_in'), as: :unauthenticated_root
+  end
+
+  constraints DomainConstraint.new(["api.#{ENV['base_url']}",
+                                    "api.#{ENV['base_url']}.lvh.me"]) do
+    get 'token',
+        to: 'api#token',
+        as: :api_root,
+        defaults: { format: 'js' }
+    scope module: 'api' do
+      api_version(
+        module: 'V1',
+        header: {
+          name: 'Accept',
+          value: "application/api.#{ENV['base_url']}; version=1" },
+        parameter: { name: 'version', value: '1' },
+        path: { value: 'v1' }) do
+        resources :interactions, only: [:create, :update]
+      end
+    end
   end
 
   root 'site#index'

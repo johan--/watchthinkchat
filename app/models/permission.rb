@@ -17,6 +17,9 @@ class Permission < ActiveRecord::Base
     :viewer,
     :editor,
     :owner,
-    :translator
+    :translator,
+    :visitor
   ]
+
+  delegate :campaign, to: :resource
 end

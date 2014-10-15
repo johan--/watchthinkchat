@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Campaign::Community, type: :model do
   it { is_expected.to belong_to :campaign }

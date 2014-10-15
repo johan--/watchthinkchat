@@ -12,26 +12,26 @@ class Campaign < ActiveRecord::Base
   belongs_to :locale
   has_one :engagement_player,
           dependent: :destroy,
-          class_name: 'Campaign::EngagementPlayer'
+          class_name: 'Campaign::EngagementPlayer',
+          validate: true
   has_one :survey,
           dependent: :destroy,
-          class_name: 'Campaign::Survey'
+          class_name: 'Campaign::Survey',
+          validate: true
   has_one :community,
           dependent: :destroy,
-          class_name: 'Campaign::Community'
+          class_name: 'Campaign::Community',
+          validate: true
   has_one :guided_pair,
           dependent: :destroy,
-          class_name: 'Campaign::GuidedPair'
+          class_name: 'Campaign::GuidedPair',
+          validate: true
   accepts_nested_attributes_for :engagement_player, update_only: true
   accepts_nested_attributes_for :survey, update_only: true
   accepts_nested_attributes_for :community, update_only: true
   accepts_nested_attributes_for :guided_pair, update_only: true
 
   # validations
-  validates_associated :engagement_player
-  validates_associated :survey
-  validates_associated :community
-  validates_associated :guided_pair
   validates :name, presence: true, unless: :basic?
   validates :locale, presence: true, unless: :basic?
   validates :url, presence: true, uniqueness: true, unless: :basic?

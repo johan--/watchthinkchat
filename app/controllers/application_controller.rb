@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    super.decorate
+    super.try(:decorate)
+  end
+
+  def current_visitor
+    current_user.as :visitor
   end
 end

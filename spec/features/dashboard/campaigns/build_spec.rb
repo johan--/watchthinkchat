@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'Campaign Builder', type: :feature, js: true do
   let(:manager) { create(:manager) }
