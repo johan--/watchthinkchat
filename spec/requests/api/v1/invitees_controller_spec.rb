@@ -7,11 +7,15 @@ RSpec.describe Api::V1::InviteesController, type: :request do
     get "http://api.#{ENV['base_url']}/token.js",
         referer: "http://#{campaign.url}/"
     @access_token = response.body[/\".*?\"/].gsub(/"/, '')
-    @current_visitor = Visitor.first
+    @current_visitor = Visitor.first.as(:inviter)
   end
   describe 'GET /invitees' do
     it 'retuns a list of invitees' do
-      @current_visitor.invitees.create(attributes_for(:visitor))
+      @invitee = create(:invitee)
+      create(:invitation,
+             invitee: @invitee,
+             inviter: @current_visitor,
+             campaign_id: campaign.id)
       get "http://api.#{ENV['base_url']}/v1/invitees",
           { access_token: @access_token },
           referer: "http://#{campaign.url}/"
@@ -28,7 +32,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
         post "http://api.#{ENV['base_url']}/v1/invitees",
              { access_token: @access_token }.merge(invitee: attributes_for(:visitor)),
              referer: "http://#{campaign.url}/"
-      end.to change(Visitor, :count).by(1)
+      end.to change(Visitor::Invitation, :count).by(1)
       expect(json_response.keys).to(
         eq %w(id first_name last_name email invite_token)
       )
@@ -39,7 +43,11 @@ RSpec.describe Api::V1::InviteesController, type: :request do
   describe 'GET /invitees/:id' do
     context 'valid id' do
       it 'returns an invitee' do
-        @invitee = @current_visitor.invitees.create(attributes_for(:visitor))
+        @invitee = create(:invitee)
+        create(:invitation,
+               invitee: @invitee,
+               inviter: @current_visitor,
+               campaign_id: campaign.id)
         get "http://api.#{ENV['base_url']}/v1/invitees/#{@invitee.id}",
             { access_token: @access_token },
             referer: "http://#{campaign.url}/"
@@ -62,9 +70,14 @@ RSpec.describe Api::V1::InviteesController, type: :request do
 
   describe 'PUT /invitees/:id' do
     it 'updates an exisiting invitee' do
-      @invitee = @current_visitor.invitees.create(attributes_for(:visitor))
+      @invitee = create(:invitee)
+      create(:invitation,
+             invitee: @invitee,
+             inviter: @current_visitor,
+             campaign_id: campaign.id)
       put "http://api.#{ENV['base_url']}/v1/invitees/#{@invitee.id}",
-          { access_token: @access_token }.merge(invitee: attributes_for(:visitor)),
+          { access_token: @access_token }
+            .merge(invitee: attributes_for(:invitee)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
         eq %w(id first_name last_name email invite_token)
