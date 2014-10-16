@@ -3,7 +3,7 @@ class ApiController < ApplicationController
   respond_to :js
 
   def token
-    unless user_signed_in?
+    unless visitor_signed_in?
       load_visitor
       sign_in @visitor
     end
