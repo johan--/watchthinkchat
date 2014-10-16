@@ -3,7 +3,7 @@ class ApiController < ApplicationController
   respond_to :js
 
   def token
-      load_visitor
+    load_visitor
     sign_in @visitor unless visitor_signed_in?
     @token = current_visitor.authentication_token
   end
@@ -27,7 +27,7 @@ class ApiController < ApplicationController
     return if inviter.nil?
     Visitor::Invitation.create(
       invitee: current_visitor.try(:as, :invitee) || Visitor::Invitee.create,
-                               inviter: inviter,
+      inviter: inviter,
       campaign: @campaign
     ).invitee
   end
@@ -35,7 +35,14 @@ class ApiController < ApplicationController
   def visitor_from_invitation
     invite = URI(request.referer).path.match(%r{/i/(?<token>.*)/?})
     return if invite.nil?
-    Visitor::Invitation.find_by(token: invite[:token]).try(:invitee)
+    unless visitor_signed_in?
+      return Visitor::Invitation.find_by(token: invite[:token]).try(:invitee)
+    end
+    invite = Visitor::Invitation.find_by(token: invite[:token])
+    return if invite.nil?
+    invite.invitee.destroy
+    invite.update(invitee: current_visitor.as(:invitee))
+    current_visitor
   end
 
   protected
