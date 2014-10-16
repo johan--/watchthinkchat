@@ -8,6 +8,11 @@ class ApiController < ApplicationController
     @token = current_visitor.authentication_token
   end
 
+  def cors_preflight_check
+    cors_set_access_control_headers
+    render text: ''
+  end
+
   private
 
   def load_visitor
@@ -53,5 +58,15 @@ class ApiController < ApplicationController
     url.slice! ".#{ENV['base_url']}"
     url.slice! '.lvh.me' if Rails.env.test? # capybara-webkit bug
     @campaign = Campaign.opened.find_by(url: url).decorate
+  end
+
+  def cors_set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] =
+      'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] =
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    headers['Access-Control-Max-Age'] = '1728000'
   end
 end

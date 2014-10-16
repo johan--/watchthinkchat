@@ -45,6 +45,9 @@ Godchat::Application.routes.draw do
         to: 'api#token',
         as: :api_root,
         defaults: { format: 'js' }
+    match '*path',
+          to: 'api#cors_preflight_check',
+          via: [:options]
     scope module: 'api' do
       api_version(
         module: 'V1',
