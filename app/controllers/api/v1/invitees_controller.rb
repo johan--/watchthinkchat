@@ -34,7 +34,7 @@ module Api
       protected
 
       def load_invitees
-        @invitees ||= invitee_scope
+        @invitees ||= invitee_scope.joins(:invitations).where('visitor_invitations.campaign_id = ?', @campaign.id)
       end
 
       def load_invitee
@@ -48,11 +48,14 @@ module Api
       end
 
       def save_invitee
+        return @invitee.save! if @invitee.persisted?
         @invitee.save!
+        current_visitor.as(:inviter).invitations.create(invitee: @invitee,
+                                                        campaign: @campaign)
       end
 
       def invitee_scope
-        current_visitor.invitees
+        current_visitor.as(:inviter).invitees
       end
 
       def invitee_params
