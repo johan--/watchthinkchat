@@ -3,10 +3,8 @@ class ApiController < ApplicationController
   respond_to :js
 
   def token
-    unless visitor_signed_in?
       load_visitor
-      sign_in @visitor
-    end
+    sign_in @visitor unless visitor_signed_in?
     @token = current_visitor.authentication_token
   end
 
@@ -17,6 +15,7 @@ class ApiController < ApplicationController
       @visitor ||= visitor_from_invitation
       @visitor ||= visitor_from_share
     end
+    @visitor ||= current_visitor
     @visitor ||= Visitor.create
   end
 
@@ -26,9 +25,11 @@ class ApiController < ApplicationController
     load_campaign
     inviter = Visitor::Inviter.find_by(share_token: share[:token])
     return if inviter.nil?
-    Visitor::Invitation.create(invitee: Visitor::Invitee.create,
+    Visitor::Invitation.create(
+      invitee: current_visitor.try(:as, :invitee) || Visitor::Invitee.create,
                                inviter: inviter,
-                               campaign: @campaign).invitee
+      campaign: @campaign
+    ).invitee
   end
 
   def visitor_from_invitation
