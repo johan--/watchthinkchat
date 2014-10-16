@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015031350) do
+ActiveRecord::Schema.define(version: 20141015220933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,12 +215,20 @@ ActiveRecord::Schema.define(version: 20141015031350) do
   add_index "visitor_interactions", ["resource_id"], name: "index_visitor_interactions_on_resource_id", using: :btree
   add_index "visitor_interactions", ["visitor_id"], name: "index_visitor_interactions_on_visitor_id", using: :btree
 
+  create_table "visitor_invitations", force: true do |t|
+    t.integer  "campaign_id"
+    t.integer  "invitee_id"
+    t.integer  "inviter_id"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "visitors", force: true do |t|
     t.string  "first_name"
     t.string  "last_name"
     t.string  "email"
     t.string  "authentication_token"
-    t.string  "invite_token"
     t.string  "share_token"
     t.string  "encrypted_password"
     t.integer "inviter_id"
@@ -228,7 +236,6 @@ ActiveRecord::Schema.define(version: 20141015031350) do
 
   add_index "visitors", ["authentication_token"], name: "index_visitors_on_authentication_token", unique: true, using: :btree
   add_index "visitors", ["email"], name: "index_visitors_on_email", unique: true, using: :btree
-  add_index "visitors", ["invite_token"], name: "index_visitors_on_invite_token", unique: true, using: :btree
   add_index "visitors", ["inviter_id"], name: "index_visitors_on_inviter_id", using: :btree
   add_index "visitors", ["share_token"], name: "index_visitors_on_share_token", unique: true, using: :btree
 
