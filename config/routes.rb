@@ -1,4 +1,4 @@
-Godchat::Application.routes.draw do
+WatchThinkChat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   constraints DomainConstraint.new(["app.#{ENV['base_url']}",
