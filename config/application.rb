@@ -13,8 +13,6 @@ Bundler.require(*Rails.groups)
 module WatchThinkChat
   class Application < Rails::Application
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
-
     config.assets.initialize_on_precompile = false
     config.i18n.default_locale = :en
     config.i18n.load_path +=
