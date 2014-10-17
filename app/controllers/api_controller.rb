@@ -34,7 +34,7 @@ class ApiController < ApplicationController
       invitee: current_visitor.try(:as, :invitee) || Visitor::Invitee.create,
       inviter: inviter,
       campaign: @campaign
-    ).invitee
+    ).invitee.becomes Visitor
   end
 
   def visitor_from_invitation
