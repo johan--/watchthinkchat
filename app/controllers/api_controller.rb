@@ -5,7 +5,7 @@ class ApiController < ApplicationController
   def token
     load_visitor
     sign_in @visitor unless visitor_signed_in?
-    @token = current_visitor.authentication_token
+    @token = current_visitor.try(:authentication_token)
   end
 
   def cors_preflight_check
