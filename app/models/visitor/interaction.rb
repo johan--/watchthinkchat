@@ -21,7 +21,7 @@ class Visitor
     protected
 
     def related_resource
-      return if resource.nil? || resource.campaign == campaign
+      return unless resource && resource.campaign != campaign
       errors.add(:resource, 'must be related to campaign')
     end
   end
