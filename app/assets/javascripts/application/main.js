@@ -29,6 +29,9 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
       }).when('/complete', {
         templateUrl: '/templates/complete.html',
         controller: 'CompleteController'
+      }).when('/pair', {
+        templateUrl: '/templates/guided_pair.html',
+        controller: 'PairController'
       }).otherwise({
         redirectTo: '/'
       });

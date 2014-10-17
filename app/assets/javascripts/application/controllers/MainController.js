@@ -10,4 +10,9 @@ angular.module('chatApp').controller('MainController', function ($scope, $rootSc
     $location.path('/q/' + $rootScope.campaign.survey.questions[0].code);
     return;
   }
+
+  if($rootScope.campaign.guided_pair.enabled){
+    $location.path('/pair');
+    return;
+  }
 });

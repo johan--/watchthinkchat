@@ -1,4 +1,12 @@
-angular.module('chatApp').controller('VideoController', function ($scope, $rootScope, $location) {
+angular.module('chatApp').controller('VideoController', function ($scope, $rootScope, $location, api) {
+  api.call('post', '/v1/interactions', {
+    access_token: window.token,
+    interaction: {
+      resource_id: 0,
+      resource_type: $rootScope.campaign.engagement_player.resource_type,
+      action: 'start'
+    }
+  });
   $scope.playerVars = {
     autoplay: 0,
     modestbranding: 1,
