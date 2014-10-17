@@ -1,13 +1,13 @@
 attribute :id, :name
 node(:resource_type) { Campaign }
-child(:engagement_player, unless: lambda { |campaign| campaign.engagement_player.nil? }) {
+child(:engagement_player, if: lambda { |campaign| campaign.engagement_player }) {
   attributes :id, :enabled
   node(:resource_type) { Campaign::EngagementPlayer }
   if root_object.enabled?
     attributes :media_link, :media_start, :media_stop, :enabled
   end
 }
-child(:survey, unless: lambda { |campaign| campaign.survey.nil? }) {
+child(:survey, if: lambda { |campaign| campaign.survey }) {
   attributes :id, :enabled
   node(:resource_type) { Campaign::Survey }
   if root_object.enabled?
@@ -21,14 +21,14 @@ child(:survey, unless: lambda { |campaign| campaign.survey.nil? }) {
     }
   end
 }
-child(:guided_pair, unless: lambda { |campaign| campaign.guided_pair.nil? }) {
+child(:guided_pair, if: lambda { |campaign| campaign.guided_pair }) {
   attributes :id, :enabled
   node(:resource_type) { Campaign::GuidedPair }
   if root_object.enabled?
     attributes :title, :description
   end
 }
-child(:community, unless: lambda { |campaign| campaign.community.nil? }) {
+child(:community, if: lambda { |campaign| campaign.community }) {
   attributes :id, :enabled
   node(:resource_type) { Campaign::Community }
   if root_object.enabled?

@@ -16,7 +16,7 @@ class ApiController < ApplicationController
   private
 
   def load_visitor
-    unless request.referer.nil?
+    if request.referer
       @visitor ||= visitor_from_invitation
       @visitor ||= visitor_from_share
     end
@@ -26,10 +26,10 @@ class ApiController < ApplicationController
 
   def visitor_from_share
     share = URI(request.referer).path.match(%r{/s/(?<token>.*)/?})
-    return if share.nil?
+    return unless share
     load_campaign
     inviter = Visitor::Inviter.find_by(share_token: share[:token])
-    return if inviter.nil?
+    return unless inviter
     Visitor::Invitation.create(
       invitee: current_visitor.try(:as, :invitee) || Visitor::Invitee.create,
       inviter: inviter,
@@ -39,12 +39,12 @@ class ApiController < ApplicationController
 
   def visitor_from_invitation
     invite = URI(request.referer).path.match(%r{/i/(?<token>.*)/?})
-    return if invite.nil?
+    return unless invite
     unless visitor_signed_in?
       return Visitor::Invitation.find_by(token: invite[:token]).try(:invitee)
     end
     invite = Visitor::Invitation.find_by(token: invite[:token])
-    return if invite.nil?
+    return unless invite
     invite.invitee.destroy
     invite.update(invitee: current_visitor.as(:invitee))
     current_visitor
@@ -53,7 +53,7 @@ class ApiController < ApplicationController
   protected
 
   def load_campaign
-    return if request.referer.nil?
+    return unless request.referer
     url = URI(request.referer).host
     url.slice! ".#{ENV['base_url']}"
     url.slice! '.lvh.me' if Rails.env.test? # capybara-webkit bug

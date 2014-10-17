@@ -5,11 +5,9 @@ module Api
         load_interaction
         build_interaction
         save_interaction
-        render json: @interaction.to_json, status:
-          (@interaction.changed? ? :created : @state)
+        render json: @interaction.to_json, status: (@state)
       rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
+        render json: { errors: ex.message }.to_json, status: :unprocessable_entity
       end
 
       protected
@@ -22,7 +20,7 @@ module Api
             resource_type: interaction_params[:resource_type],
             action: Visitor::Interaction.actions[interaction_params[:action]]
           ).first
-        @state = :ok unless @interaction.nil?
+        @state = :ok if @interaction
         @interaction
       end
 
@@ -42,10 +40,7 @@ module Api
       def interaction_params
         interaction_params = params[:interaction]
         return {} unless interaction_params
-        interaction_params.permit(:resource_id,
-                                  :resource_type,
-                                  :action,
-                                  :data)
+        interaction_params.permit(:resource_id, :resource_type, :action, :data)
       end
     end
   end
