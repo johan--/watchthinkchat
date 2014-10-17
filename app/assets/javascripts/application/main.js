@@ -35,11 +35,51 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
       }).otherwise({
         redirectTo: '/'
       });
-    }).run(function ($rootScope, $window) {
-        $rootScope.campaign = $window.campaign;
-        $rootScope.navigateBack = function(){
-          $window.history.back();
-        };
+    }).run(function ($rootScope, $window, api) {
+      $rootScope.campaign = $window.campaign;
+
+      $rootScope.$on("$routeChangeStart", function(event, next, current) {
+        var nextController = next.$$route.controller;
+        var currentController = '';
+        if(angular.isDefined(current)){ currentController = current.$$route.controller; }
+
+        if(nextController === currentController){
+          return;
+        }
+
+        if(getResourceInfo(currentController)){
+          api.interaction({
+            interaction: {
+              resource_id: getResourceInfo(currentController).id,
+              resource_type: getResourceInfo(currentController).resource_type,
+              action: 'finish'
+            }
+          });
+        }
+
+        if(getResourceInfo(nextController)){
+          api.interaction({
+            interaction: {
+              resource_id: getResourceInfo(nextController).id,
+              resource_type: getResourceInfo(nextController).resource_type,
+              action: 'start'
+            }
+          });
+        }
+      });
+
+      var getResourceInfo = function(controller){
+        switch(controller) {
+          case 'VideoController':
+            return $rootScope.campaign.engagement_player;
+          case 'QuestionController':
+            return $rootScope.campaign.survey;
+          case 'PairController':
+            return $rootScope.campaign.guided_pair;
+          default:
+            return null;
+        }
+      };
     }).config(["$httpProvider", function(provider) {
       //provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
     }]);
