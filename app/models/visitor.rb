@@ -10,9 +10,9 @@ class Visitor < ActiveRecord::Base
   private
 
   def ensure_tokens
-    self.share_token = generate_token(share_token) if share_token.nil?
-    return unless authentication_token.nil?
-    self.authentication_token = generate_token(authentication_token)
+    self.share_token = generate_token('share_token') unless share_token
+    return if authentication_token
+    self.authentication_token = generate_token('authentication_token')
   end
 
   def generate_token(field)
