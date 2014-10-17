@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::InteractionsController, type: :request do
   let(:campaign) { create(:campaign) }
+  let(:engagement_player) { create(:engagement_player, campaign: campaign) }
 
   before do
     get "http://api.#{ENV['base_url']}/token.js",
@@ -13,8 +14,8 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
       it 'retuns newly created object' do
         expect do
           post "http://api.#{ENV['base_url']}/v1/interactions",
-               { interaction: { resource_id: campaign.id,
-                                resource_type: 'Campaign',
+               { interaction: { resource_id: engagement_player.id,
+                                resource_type: 'Campaign::EngagementPlayer',
                                 action: 'start' },
                  access_token: @access_token },
                referer: "http://#{campaign.url}/"
