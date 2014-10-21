@@ -1,4 +1,4 @@
-Godchat::Application.routes.draw do
+WatchThinkChat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   constraints DomainConstraint.new(["app.#{ENV['base_url']}",
@@ -40,10 +40,14 @@ Godchat::Application.routes.draw do
 
   constraints DomainConstraint.new(["api.#{ENV['base_url']}",
                                     "api.#{ENV['base_url']}.lvh.me"]) do
+    devise_for :visitors
     get 'token',
         to: 'api#token',
         as: :api_root,
         defaults: { format: 'js' }
+    match '*path',
+          to: 'api#cors_preflight_check',
+          via: [:options]
     scope module: 'api' do
       api_version(
         module: 'V1',
@@ -52,6 +56,8 @@ Godchat::Application.routes.draw do
           value: "application/api.#{ENV['base_url']}; version=1" },
         parameter: { name: 'version', value: '1' },
         path: { value: 'v1' }) do
+        resource :visitor, only: [:show, :update]
+        resources :invitees, only: [:index, :create, :show, :update]
         resources :interactions, only: [:create, :update]
       end
     end

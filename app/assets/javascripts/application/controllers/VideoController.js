@@ -14,7 +14,7 @@ angular.module('chatApp').controller('VideoController', function ($scope, $rootS
     $scope.playerVars.end = $rootScope.campaign.engagement_player.media_stop;
   }
 
-  $scope.$on('youtube.player.ended', function ($event, player) {
+  $scope.$on('youtube.player.ended', function () {
     if($rootScope.campaign.survey.enabled){
       $location.path('/q/' + $rootScope.campaign.survey.questions[0].code);
     }else{

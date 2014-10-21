@@ -3,7 +3,7 @@ class SiteController < ApplicationController
   decorates_assigned :campaign
 
   def index
-    return render 'no_campaign' if @campaign.nil?
+    return render 'no_campaign' unless @campaign
   end
 
   protected
