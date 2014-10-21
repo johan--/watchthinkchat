@@ -16,7 +16,7 @@ class Visitor
     validate :related_resource
     # definitions
     serialize :data, JSON
-    enum action: [:start, :finish]
+    enum action: [:start, :finish, :click]
 
     protected
 
