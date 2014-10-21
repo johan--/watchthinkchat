@@ -20,7 +20,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
           { access_token: @access_token },
           referer: "http://#{campaign.url}/"
       expect(json_response.first.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter invite_token)
       )
       expect(response).to have_http_status :ok
     end
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
              referer: "http://#{campaign.url}/"
       end.to change(Visitor::Invitation, :count).by(1)
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter invite_token)
       )
       expect(response).to have_http_status :created
     end
@@ -52,7 +52,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
             { access_token: @access_token },
             referer: "http://#{campaign.url}/"
         expect(json_response.keys).to(
-          eq %w(id first_name last_name email invite_token)
+          eq %w(id first_name last_name email notify_inviter invite_token)
         )
         expect(response).to have_http_status :ok
       end
@@ -80,7 +80,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
             .merge(invitee: attributes_for(:invitee)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter invite_token)
       )
       expect(response).to have_http_status :ok
     end

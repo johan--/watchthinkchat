@@ -63,7 +63,8 @@ module Api
         return {} unless invitee_params
         invitee_params.permit(:first_name,
                               :last_name,
-                              :email)
+                              :email,
+                              :notify_inviter)
       end
     end
   end
