@@ -75,7 +75,11 @@ module Dashboard
             [:id,
              :title,
              :description,
-             :enabled],
+             :enabled,
+             :facebook,
+             :twitter,
+             :email,
+             :link],
           community_attributes:
             [:id,
              :title,

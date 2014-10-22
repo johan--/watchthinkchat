@@ -15,10 +15,25 @@
               </div>
               <div class="enabled_fields">
                 <div class="col-md-12">
-                  <%=  c.input :title, input_html: { value: c.object.title } %>
+                  <%=  c.input :title, input_html: { value: c.object.decorate.title } %>
                 </div>
                 <div class="col-md-12">
-                  <%=  c.input :description, input_html: { value: c.object.description } %>
+                  <%=  c.input :description, input_html: { value: c.object.decorate.description } %>
+                </div>
+                <p>Allow Visitors to Share Campaign On:</p>
+                <div class="row">
+                  <div class="col-md-3">
+                    <%=  c.input :facebook %>
+                  </div>
+                  <div class="col-md-3">
+                    <%=  c.input :twitter %>
+                  </div>
+                  <div class="col-md-3">
+                    <%=  c.input :link %>
+                  </div>
+                  <div class="col-md-3">
+                    <%=  c.input :email %>
+                  </div>
                 </div>
               </div>
             </div>
