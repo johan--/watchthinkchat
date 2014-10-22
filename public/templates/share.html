@@ -1,0 +1,49 @@
+<div class="row content">
+  <div class="col-sm-12 col-xs-12 content-column">
+    <div class="after-chat-information">
+      <h2>Share</h2>
+      <p><a href="">Email</a> | <a href="" ng-click="facebookShare(visitorInfo.url)">Facebook</a> | <a href="" ng-click="twitterShare(visitorInfo.url)">Twitter</a></p>
+
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invite.first_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invite.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="invite.email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Message</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" style="height:140px;" ng-model="invite.message"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="invite.notify"> Notify me when friend comes to WTC
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-default" ng-click="emailShare(invite)">Send Invite</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -32,6 +32,9 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
       }).when('/pair', {
         templateUrl: '/templates/guided_pair.html',
         controller: 'PairController'
+      }).when('/share', {
+        templateUrl: '/templates/share.html',
+        controller: 'ShareController'
       }).otherwise({
         redirectTo: '/'
       });
