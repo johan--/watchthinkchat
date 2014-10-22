@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :guided_pair, class: Campaign::GuidedPair do
+  factory :share, class: Campaign::Share do
     campaign
     enabled true
     title 'MyString'

@@ -6,7 +6,7 @@ angular.module('chatApp')
             if(angular.isDefined(nextQuestion)){
               $location.path('/q/' + nextQuestion.code);
             }else{
-              if($rootScope.campaign.guided_pair.enabled){
+              if($rootScope.campaign.share.enabled){
                 $location.path('/pair');
               }else{
                 $location.path('/complete');
@@ -17,7 +17,7 @@ angular.module('chatApp')
             $location.path('/q/' + option.conditional_question_id);
             break;
           case 'finish':
-              if($rootScope.campaign.guided_pair.enabled){
+              if($rootScope.campaign.share.enabled){
                 $location.path('/pair');
               }else{
                 $location.path('/complete');

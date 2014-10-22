@@ -22,14 +22,14 @@ class Campaign < ActiveRecord::Base
           dependent: :destroy,
           class_name: 'Campaign::Community',
           validate: true
-  has_one :guided_pair,
+  has_one :share,
           dependent: :destroy,
-          class_name: 'Campaign::GuidedPair',
+          class_name: 'Campaign::Share',
           validate: true
   accepts_nested_attributes_for :engagement_player, update_only: true
   accepts_nested_attributes_for :survey, update_only: true
   accepts_nested_attributes_for :community, update_only: true
-  accepts_nested_attributes_for :guided_pair, update_only: true
+  accepts_nested_attributes_for :share, update_only: true
 
   # validations
   validates :name, presence: true, unless: :basic?
@@ -56,7 +56,7 @@ class Campaign < ActiveRecord::Base
                 :opened,
                 :engagement_player,
                 :survey,
-                :guided_pair,
+                :share,
                 :community]
   translatable :name
   scope :owner, (lambda do
