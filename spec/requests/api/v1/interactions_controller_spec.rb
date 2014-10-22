@@ -9,6 +9,18 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
         referer: "http://#{campaign.url}/"
     @access_token = response.body[/\".*?\"/].gsub(/"/, '')
   end
+
+  describe Api::V1::InteractionsController::InteractionParams do
+    describe '.permit' do
+      it 'returns the cleaned params' do
+        interaction_params = attributes_for(:interaction)
+        params = ActionController::Parameters.new(interaction: { random: 'value' }.merge(interaction_params))
+        permitted_params = Api::V1::InteractionsController::InteractionParams.permit(params)
+        expect(permitted_params).to eq(interaction_params.with_indifferent_access)
+      end
+    end
+  end
+
   describe 'POST /interaction' do
     context 'valid object' do
       it 'retuns newly created object' do
@@ -22,7 +34,6 @@ RSpec.describe Api::V1::InteractionsController, type: :request do
         end.to change(Visitor::Interaction, :count).by(1)
         expect(response).to have_http_status :created
       end
-
       it 'stores one object and updates data' do
         expect do
           post "http://api.#{ENV['base_url']}/v1/interactions",

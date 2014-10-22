@@ -8,6 +8,7 @@ RSpec.describe Visitor, type: :model do
   it { is_expected.to have_db_column(:authentication_token) }
   it { is_expected.to have_db_index(:authentication_token) }
   it { is_expected.to have_db_column(:notify_inviter).of_type(:boolean) }
+  it { is_expected.to have_db_column(:notify_me_on_share).of_type(:boolean) }
   # definitions
   describe '#as' do
     let(:visitor) { create(:visitor) }
