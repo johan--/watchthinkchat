@@ -9,6 +9,18 @@ RSpec.describe Api::V1::InviteesController, type: :request do
     @access_token = response.body[/\".*?\"/].gsub(/"/, '')
     @current_visitor = Visitor.first.as(:inviter)
   end
+
+  describe Api::V1::InviteesController::InviteeParams do
+    describe '.permit' do
+      it 'returns the cleaned params' do
+        invitee_params = attributes_for(:invitee)
+        params = ActionController::Parameters.new(invitee: { random: 'value' }.merge(invitee_params))
+        permitted_params = Api::V1::InviteesController::InviteeParams.permit(params)
+        expect(permitted_params).to eq(invitee_params.with_indifferent_access)
+      end
+    end
+  end
+
   describe 'GET /invitees' do
     it 'retuns a list of invitees' do
       @invitee = create(:invitee)
