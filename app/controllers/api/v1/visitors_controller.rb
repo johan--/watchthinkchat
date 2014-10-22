@@ -36,11 +36,13 @@ module Api
       end
 
       def visitor_params
-        visitor_params = params[:visitor]
-        return {} unless visitor_params
-        visitor_params.permit(:first_name,
-                              :last_name,
-                              :email)
+        VisitorParams.permit(params)
+      end
+
+      class VisitorParams
+        def self.permit(params)
+          params.require(:visitor).permit(:first_name, :last_name, :email)
+        end
       end
     end
   end

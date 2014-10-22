@@ -9,6 +9,16 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
     @access_token = response.body[/\".*?\"/].gsub(/"/, '')
     @current_visitor = Visitor.first
   end
+  describe Api::V1::VisitorsController::VisitorParams do
+    describe '.permit' do
+      it 'returns the cleaned params' do
+        visitor_params = attributes_for(:visitor)
+        params = ActionController::Parameters.new(visitor: { random: 'value' }.merge(visitor_params))
+        permitted_params = Api::V1::VisitorsController::VisitorParams.permit(params)
+        expect(permitted_params).to eq(visitor_params.with_indifferent_access)
+      end
+    end
+  end
 
   describe 'GET /visitors' do
     it 'returns current visitor' do

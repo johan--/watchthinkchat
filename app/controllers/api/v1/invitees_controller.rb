@@ -59,11 +59,13 @@ module Api
       end
 
       def invitee_params
-        invitee_params = params[:invitee]
-        return {} unless invitee_params
-        invitee_params.permit(:first_name,
-                              :last_name,
-                              :email)
+        InviteeParams.permit(params)
+      end
+
+      class InviteeParams
+        def self.permit(params)
+          params.require(:invitee).permit(:first_name, :last_name, :email)
+        end
       end
     end
   end
