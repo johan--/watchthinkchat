@@ -1,5 +1,4 @@
 angular.module('chatApp').service('api', function ($http, $cacheFactory) {
-  var apiUrl = 'http://api.dev.watchthinkchat.com:5000';
   //var apiCache = $cacheFactory('api');
 
   this.interaction = function (data, successFn, errorFn) {
