@@ -21,9 +21,9 @@ child(:survey, if: lambda { |campaign| campaign.survey }) {
     }
   end
 }
-child(:guided_pair, if: lambda { |campaign| campaign.guided_pair }) {
+child(:share, if: lambda { |campaign| campaign.share }) {
   attributes :id, :enabled
-  node(:resource_type) { Campaign::GuidedPair }
+  node(:resource_type) { Campaign::Share }
   if root_object.enabled?
     attributes :title, :description
   end

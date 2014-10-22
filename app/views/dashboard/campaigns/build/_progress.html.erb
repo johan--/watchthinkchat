@@ -21,12 +21,12 @@
       <h4>Survey</h4>
       <small>Questions and Options</small>
     </a>
-    <a href="<%= wizard_path :guided_pair %>" class="<%= step_class :guided_pair %>">
-      <%- if @campaign.status.to_sym == :guided_pair %>
+    <a href="<%= wizard_path :share %>" class="<%= step_class :share %>">
+      <%- if @campaign.status.to_sym == :share %>
         <div class="pull-right"><%= fa_icon 'angle-right' %></div>
       <% end -%>
-      <h4>Guided Pair</h4>
-      <small>Invite a Friend</small>
+      <h4>Share</h4>
+      <small>Share with Friends</small>
     </a>
     <a href="<%= wizard_path :community %>" class="<%= step_class :community %>">
       <%- if @campaign.status.to_sym == :community %>

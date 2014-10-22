@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015220933) do
+ActiveRecord::Schema.define(version: 20141022044735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,13 +60,17 @@ ActiveRecord::Schema.define(version: 20141015220933) do
     t.integer  "media_stop"
   end
 
-  create_table "campaign_guided_pairs", force: true do |t|
+  create_table "campaign_shares", force: true do |t|
     t.boolean  "enabled",     default: true
     t.string   "title"
     t.text     "description"
     t.integer  "campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "facebook",    default: true
+    t.boolean  "twitter",     default: true
+    t.boolean  "link",        default: true
+    t.boolean  "email",       default: true
   end
 
   create_table "campaign_survey_question_options", force: true do |t|
@@ -232,6 +236,8 @@ ActiveRecord::Schema.define(version: 20141015220933) do
     t.string  "share_token"
     t.string  "encrypted_password"
     t.integer "inviter_id"
+    t.boolean "notify_inviter",       default: false
+    t.boolean "notify_me_on_share",   default: false
   end
 
   add_index "visitors", ["authentication_token"], name: "index_visitors_on_authentication_token", unique: true, using: :btree

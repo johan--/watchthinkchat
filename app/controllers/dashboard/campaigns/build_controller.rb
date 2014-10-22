@@ -6,7 +6,7 @@ module Dashboard
       steps :basic,
             :engagement_player,
             :survey,
-            :guided_pair,
+            :share,
             :community,
             :opened
 
@@ -71,7 +71,7 @@ module Dashboard
              :media_link,
              :media_start,
              :media_stop],
-          guided_pair_attributes:
+          share_attributes:
             [:id,
              :title,
              :description,
