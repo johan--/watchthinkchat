@@ -26,8 +26,9 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
           { access_token: @access_token },
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(first_name last_name email share_token notify_me_on_share)
+        eq %w(first_name last_name email notify_me_on_share url)
       )
+      expect(json_response['url']).to eq("#{campaign.decorate.permalink}/i/#{@current_visitor.share_token}")
       expect(response).to have_http_status :ok
     end
   end
@@ -38,8 +39,9 @@ RSpec.describe Api::V1::VisitorsController, type: :request do
           { access_token: @access_token }.merge(visitor: attributes_for(:visitor)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(first_name last_name email share_token notify_me_on_share)
+        eq %w(first_name last_name email notify_me_on_share url)
       )
+      expect(json_response['url']).to eq("#{campaign.decorate.permalink}/i/#{@current_visitor.share_token}")
       expect(response).to have_http_status :ok
     end
   end
