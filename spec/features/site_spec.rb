@@ -31,4 +31,15 @@ describe 'Site', type: :feature, js: true do
         )
     end
   end
+
+  feature 'api url' do
+    let(:campaign) { create(:campaign) }
+    before do
+      Capybara.app_host = "http://#{campaign.url}.lvh.me:7171"
+    end
+    scenario 'visitor comes to root_path' do
+      visit root_path
+      expect(evaluate_script('apiUrl')).to eq("http://api.#{ENV['base_url']}:7171")
+    end
+  end
 end
