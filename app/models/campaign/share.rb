@@ -1,5 +1,5 @@
 class Campaign
-  class GuidedPair < Component
+  class Share < Component
     # definitions
     translatable :title, :description
   end

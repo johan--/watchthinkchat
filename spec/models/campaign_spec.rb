@@ -14,7 +14,7 @@ RSpec.describe Campaign, type: :model do
   it { is_expected.to have_one(:engagement_player).validate(true) }
   it { is_expected.to have_one(:survey).validate(true) }
   it { is_expected.to have_one(:community).validate(true) }
-  it { is_expected.to have_one(:guided_pair).validate(true) }
+  it { is_expected.to have_one(:share).validate(true) }
   it do
     is_expected.to(
       accept_nested_attributes_for(:engagement_player).update_only(true))
@@ -29,7 +29,7 @@ RSpec.describe Campaign, type: :model do
   end
   it do
     is_expected.to(
-      accept_nested_attributes_for(:guided_pair).update_only(true))
+      accept_nested_attributes_for(:share).update_only(true))
   end
   it { is_expected.to belong_to :locale }
 
@@ -85,6 +85,15 @@ RSpec.describe Campaign, type: :model do
   end
 
   # definitions
+  it do
+    is_expected.to define_enum_for(:status).with([:basic,
+                                                  :closed,
+                                                  :opened,
+                                                  :engagement_player,
+                                                  :survey,
+                                                  :share,
+                                                  :community])
+  end
   context 'after create' do
     let(:campaign) { create(:campaign, status: :basic) }
     it 'creates a translation object when name is set' do
