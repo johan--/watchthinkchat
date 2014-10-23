@@ -5,7 +5,7 @@
       Campaign Wizard
     </header>
     <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
-      <%= f.semantic_fields_for :share, @campaign.share || @campaign.build_share do |c| %>
+      <%= f.semantic_fields_for :share, @campaign.share || @campaign.build_share.decorate do |c| %>
         <%=  c.hidden_field :id %>
         <div class="panel-body">
           <div class="container-fluid">
@@ -19,6 +19,13 @@
                 </div>
                 <div class="col-md-12">
                   <%=  c.input :description, input_html: { value: c.object.description } %>
+                </div>
+                <p>Custom Email Invite</p>
+                <div class="col-md-12">
+                  <%=  c.input :subject, input_html: { value: c.object.subject } %>
+                </div>
+                <div class="col-md-12">
+                  <%=  c.input :message, input_html: { value: c.object.message } %>
                 </div>
               </div>
             </div>
