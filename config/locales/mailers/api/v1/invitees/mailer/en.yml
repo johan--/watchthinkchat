@@ -1,0 +1,11 @@
+en:
+  mailers:
+    api:
+      v1:
+        invitees:
+          mailer:
+            salutation: Hey %{name}
+            organization:
+              name: Indigitous
+              tag: We are a movement passionate about connecting people to Jesus using Digital Strategies
+            why: You're receiving this Email because you've been invited by %{name}

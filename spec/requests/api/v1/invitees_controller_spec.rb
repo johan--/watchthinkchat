@@ -9,6 +9,18 @@ RSpec.describe Api::V1::InviteesController, type: :request do
     @access_token = response.body[/\".*?\"/].gsub(/"/, '')
     @current_visitor = Visitor.first.as(:inviter)
   end
+
+  describe Api::V1::InviteesController::InviteeParams do
+    describe '.permit' do
+      it 'returns the cleaned params' do
+        invitee_params = attributes_for(:invitee)
+        params = ActionController::Parameters.new(invitee: { random: 'value' }.merge(invitee_params))
+        permitted_params = Api::V1::InviteesController::InviteeParams.permit(params)
+        expect(permitted_params).to eq(invitee_params.with_indifferent_access)
+      end
+    end
+  end
+
   describe 'GET /invitees' do
     it 'retuns a list of invitees' do
       @invitee = create(:invitee)
@@ -20,7 +32,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
           { access_token: @access_token },
           referer: "http://#{campaign.url}/"
       expect(json_response.first.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter url)
       )
       expect(response).to have_http_status :ok
     end
@@ -34,7 +46,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
              referer: "http://#{campaign.url}/"
       end.to change(Visitor::Invitation, :count).by(1)
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter url)
       )
       expect(response).to have_http_status :created
     end
@@ -52,7 +64,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
             { access_token: @access_token },
             referer: "http://#{campaign.url}/"
         expect(json_response.keys).to(
-          eq %w(id first_name last_name email invite_token)
+          eq %w(id first_name last_name email notify_inviter url)
         )
         expect(response).to have_http_status :ok
       end
@@ -80,7 +92,7 @@ RSpec.describe Api::V1::InviteesController, type: :request do
             .merge(invitee: attributes_for(:invitee)),
           referer: "http://#{campaign.url}/"
       expect(json_response.keys).to(
-        eq %w(id first_name last_name email invite_token)
+        eq %w(id first_name last_name email notify_inviter url)
       )
       expect(response).to have_http_status :ok
     end
