@@ -33,7 +33,7 @@
                 <div class="form-group">
                   <%= ep.label :media_start %>
                   <div class="input-group">
-                    <input class="form-control" id="campaign_engagement_player_attributes_media_start" name="campaign[engagement_player_attributes][media_start]" placeholder="Start ms" step="any" type="number">
+                    <input class="form-control" id="campaign_engagement_player_attributes_media_start" name="campaign[engagement_player_attributes][media_start]" placeholder="Start ms" step="any" type="number" value="<%= ep.object.media_start %>">
                     <span class="input-group-btn">
                       <button class="btn btn-default" onClick="setPosition('start'); return false;">Use Current</button>
                     </span>
@@ -44,7 +44,7 @@
                 <div class="form-group">
                   <%= ep.label :media_stop %>
                   <div class="input-group">
-                    <input class="form-control" id="campaign_engagement_player_attributes_media_stop" name="campaign[engagement_player_attributes][media_stop]" placeholder="Stop ms" step="any" type="number">
+                    <input class="form-control" id="campaign_engagement_player_attributes_media_stop" name="campaign[engagement_player_attributes][media_stop]" placeholder="Stop ms" step="any" type="number" value="<%= ep.object.media_stop %>">
                     <span class="input-group-btn">
                       <button class="btn btn-default" onClick="setPosition('stop'); return false;">Use Current</button>
                     </span>
