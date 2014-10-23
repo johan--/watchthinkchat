@@ -41,7 +41,7 @@ module Api
 
       class VisitorParams
         def self.permit(params)
-          params.require(:visitor).permit(:first_name, :last_name, :email)
+          params.require(:visitor).permit(:first_name, :last_name, :email, :notify_me_on_share)
         end
       end
     end

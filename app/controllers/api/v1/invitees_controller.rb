@@ -64,7 +64,7 @@ module Api
 
       class InviteeParams
         def self.permit(params)
-          params.require(:invitee).permit(:first_name, :last_name, :email)
+          params.require(:invitee).permit(:first_name, :last_name, :email, :notify_inviter)
         end
       end
     end

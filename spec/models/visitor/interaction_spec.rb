@@ -19,7 +19,8 @@ RSpec.describe Visitor::Interaction, type: :model do
   # definitions
   it do
     is_expected.to define_enum_for(:action).with([:start,
-                                                  :finish])
+                                                  :finish,
+                                                  :click])
   end
   it { is_expected.to serialize(:data) }
   it 'only allows interactions where resources are related to campaigns' do

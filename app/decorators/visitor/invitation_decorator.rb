@@ -4,5 +4,9 @@ class Visitor
     decorates_association :invitee
     decorates_association :inviter
     decorates_association :campaign
+
+    def url
+      "#{campaign.permalink}/i/#{token}"
+    end
   end
 end
