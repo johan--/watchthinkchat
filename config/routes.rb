@@ -57,7 +57,11 @@ WatchThinkChat::Application.routes.draw do
         parameter: { name: 'version', value: '1' },
         path: { value: 'v1' }) do
         resource :visitor, only: [:show, :update]
-        resources :invitees, only: [:index, :create, :show, :update]
+        resources :invitees, only: [:index, :create, :show, :update] do
+          scope module: :invitees do
+            resources :emails, only: [:create]
+          end
+        end
         resources :interactions, only: [:create, :update]
       end
     end
