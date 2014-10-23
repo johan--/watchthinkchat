@@ -30,5 +30,9 @@ describe Api::V1::Invitees::Mailer, type: :mailer do
     it 'renders message' do
       expect(mail.body.encoded).to match(email.message)
     end
+
+    it 'renders invite link' do
+      expect(mail.body.encoded).to match(email.invitation.url)
+    end
   end
 end

@@ -5,6 +5,7 @@ module Api
         def send_invitation(email)
           @message = email.message
           @campaign = email.campaign.decorate
+          @invitation = email.invitation.decorate
           @invitee = email.invitee.decorate
           @inviter = email.inviter.decorate
           mail from: email.from,
