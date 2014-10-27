@@ -1,67 +1,70 @@
 <div class="row content">
-  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
+  <div class="col-sm-12 col-xs-12 content-column">
     <div class="after-chat-information">
-      <h1>{{campaign.guided_pair.title}}</h1>
-      <p>{{campaign.guided_pair.description}}</p>
+      <h2>Share</h2>
+      <p><a href="" ng-click="showEmailForm = !showEmailForm">Email</a> | <a href="" ng-click="facebookShare(visitorInfo.url)">Facebook</a> | <a href="" ng-click="twitterShare(visitorInfo.url)">Twitter</a></p>
 
-
-      <h2>Invite Friends</h2>
-      <p><a href="">Email</a> | <a href="" ng-click="facebookLogin()">Facebook</a> | <a href="">Twitter</a></p>
-
-      <form class="form-horizontal" role="form">
+      <form class="form-horizontal" role="form" ng-show="showEmailForm">
         <div class="form-group">
-          <label class="col-sm-3 control-label">First Name</label>
+          <label class="col-sm-3 control-label">Your First Name</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="invite.first_name">
+            <input type="text" class="form-control" ng-model="visitorInfo.first_name">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-3 control-label">Last Name</label>
+          <label class="col-sm-3 control-label">Your Last Name</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="invite.last_name">
+            <input type="text" class="form-control" ng-model="visitorInfo.last_name">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-3 control-label">Email</label>
+          <label class="col-sm-3 control-label">Your Email</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" ng-model="invite.email">
+            <input type="email" class="form-control" ng-model="visitorInfo.email">
           </div>
         </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.first_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="invitee.email">
+          </div>
+        </div>
+
+
         <div class="form-group">
           <label class="col-sm-3 control-label">Message</label>
           <div class="col-sm-9">
-            <textarea class="form-control" style="height:140px;" ng-model="invite.message"></textarea>
+            <textarea class="form-control" style="height:140px;" ng-model="email.message"></textarea>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9">
             <div class="checkbox">
               <label>
-                <input type="checkbox" ng-model="invite.notify"> Notify me when friend comes to WTC
+                <input type="checkbox" ng-model="visitorInfo.notify_me_on_share"> Notify me when friend comes to WTC
               </label>
             </div>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9">
-            <button type="submit" class="btn btn-default" ng-click="sendInvite(invite)">Send Invite</button>
+            <button type="submit" class="btn btn-default" ng-click="sendEmailShare()">Send Invite</button>
           </div>
         </div>
       </form>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-6 content-column">
-    <div class="row">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-        <h2>Current Invites</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray">
-        <ul>
-          <li ng-repeat="i in currentInvites">{{i.first_name}} {{i.last_name}}</li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>

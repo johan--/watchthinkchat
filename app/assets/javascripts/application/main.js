@@ -77,8 +77,10 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
             return $rootScope.campaign.engagement_player;
           case 'QuestionController':
             return $rootScope.campaign.survey;
-          case 'PairController':
+          case 'ShareController':
             return $rootScope.campaign.share;
+          case 'PairController':
+            return $rootScope.campaign.guided_pair;
           default:
             return null;
         }

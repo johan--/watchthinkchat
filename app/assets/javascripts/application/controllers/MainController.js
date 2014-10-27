@@ -12,7 +12,7 @@ angular.module('chatApp').controller('MainController', function ($scope, $rootSc
   }
 
   if($rootScope.campaign.share.enabled){
-    $location.path('/pair');
+    $location.path('/share');
     return;
   }
 });
