@@ -11,7 +11,7 @@ angular.module('chatApp').controller('MainController', function ($scope, $rootSc
     return;
   }
 
-  if($rootScope.campaign.guided_pair.enabled){
+  if($rootScope.campaign.share.enabled){
     $location.path('/pair');
     return;
   }

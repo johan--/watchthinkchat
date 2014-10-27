@@ -67,17 +67,17 @@ describe 'Campaign Builder', type: :feature, js: true do
       end.to change(Campaign::Survey::Question, :count).by(1)
       click_button 'Next'
       expect(current_path).to eq(campaign_build_path(campaign,
-                                                     :guided_pair))
+                                                     :share))
     end
-    scenario 'guided pair page' do
-      campaign.guided_pair!
-      guided_pair_attributes = attributes_for(:guided_pair)
-      visit campaign_build_path(campaign, :guided_pair)
+    scenario 'share page' do
+      campaign.share!
+      share_attributes = attributes_for(:share)
+      visit campaign_build_path(campaign, :share)
       choose 'On'
-      fill_in 'campaign[guided_pair_attributes][title]',
-              with: guided_pair_attributes[:title]
-      fill_in 'campaign[guided_pair_attributes][description]',
-              with: guided_pair_attributes[:description]
+      fill_in 'campaign[share_attributes][title]',
+              with: share_attributes[:title]
+      fill_in 'campaign[share_attributes][description]',
+              with: share_attributes[:description]
       click_button 'Next'
       expect(current_path).to eq(campaign_build_path(campaign,
                                                      :community))

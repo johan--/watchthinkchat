@@ -1,6 +1,6 @@
 en:
   models:
     campaign:
-      guided_pair:
-        title: "Guided Pairs"
+      share:
+        title: "Share"
         description: "Default Instruction"

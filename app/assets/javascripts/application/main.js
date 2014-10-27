@@ -30,7 +30,7 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
         templateUrl: '/templates/complete.html',
         controller: 'CompleteController'
       }).when('/pair', {
-        templateUrl: '/templates/guided_pair.html',
+        templateUrl: '/templates/share.html',
         controller: 'PairController'
       }).when('/share', {
         templateUrl: '/templates/share.html',
@@ -78,7 +78,7 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
           case 'QuestionController':
             return $rootScope.campaign.survey;
           case 'PairController':
-            return $rootScope.campaign.guided_pair;
+            return $rootScope.campaign.share;
           default:
             return null;
         }

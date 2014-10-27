@@ -5,13 +5,13 @@
       Campaign Wizard
     </header>
     <%= semantic_form_for @campaign, url: wizard_path, method: :put, html: {class: 'form-horizontal'} do |f| %>
-      <%= f.semantic_fields_for :guided_pair, @campaign.guided_pair || @campaign.build_guided_pair do |c| %>
+      <%= f.semantic_fields_for :share, @campaign.share || @campaign.build_share do |c| %>
         <%=  c.hidden_field :id %>
         <div class="panel-body">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <%= c.input :enabled, as: :radio, collection: [['On', true], ['Off', false]], label: 'Guided Pair' %>
+                <%= c.input :enabled, as: :radio, collection: [['On', true], ['Off', false]], label: 'Share' %>
               </div>
               <div class="enabled_fields">
                 <div class="col-md-12">
@@ -38,10 +38,10 @@
   <script type="text/javascript">
   $('.enabled_fields').hide();
 
-  if ($("input:radio[name='campaign[guided_pair_attributes][enabled]']:checked").val() == "true" )
+  if ($("input:radio[name='campaign[share_attributes][enabled]']:checked").val() == "true" )
     $('.enabled_fields').show();
 
-  $('#campaign_guided_pair_attributes_enabled_input input').change(function () {
+  $('#campaign_share_attributes_enabled_input input').change(function () {
     if ($(this).val() == "true") {
       $('.enabled_fields').show();
     } else {
