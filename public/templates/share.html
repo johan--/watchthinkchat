@@ -1,79 +1,70 @@
 <div class="row content">
-  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 content-column">
-    <div class="after-chat-information" ng-show="(growthChallengeStep===2 || growthChallengeStep===3)">
-      <h1>{{campaign.share.title}}</h1>
-      <p>{{campaign.share.description}}</p>
-      <h2>Why involve a Christian friend you know and trust?</h2>
-      <p>To get a genuine look at how your friend follows Jesus. Select someone you know and trust, who has mentioned their faith to you, and is able to listen.</p>
-    </div>
+  <div class="col-sm-12 col-xs-12 content-column">
+    <div class="after-chat-information">
+      <h2>Share</h2>
+      <p><a href="" ng-click="showEmailForm = !showEmailForm">Email</a> | <a href="" ng-click="facebookShare(visitorInfo.url)">Facebook</a> | <a href="" ng-click="twitterShare(visitorInfo.url)">Twitter</a></p>
 
-    <div ng-show="growthChallengeStep===9">
-      <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. You signed up for the Growth Challenge today and wanted to do that without adding a friend at step 2. Perhaps you can add a friend if you feel like it later. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. Check your email to confirm your subscription - and get on with the Growth Challenge. We pray you grow!</p>
-      <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
-    </div>
-    <div ng-show="growthChallengeStep===10">
-      <p>Thanks for taking the time to watch #Fallingplates today. We hope that the film made a real impact in how you understand God’s love for you. Spiritual growth is a key value to us at Cru. We hope that beyond watching - thinking  and chatting that you can actually grow into all that God would have for you. We pray that signing up for the Growth Challenge today and adding a friend will be transformative! We pray you grow! Go check your email to confirm your subscription.</p><p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
-    </div>
-    <div ng-show="growthChallengeStep===99">
-      <p>We are sorry to see you go, please tell us why you left.</p>
-      <p>God bless your growth.<br>Your friends at Cru<br><a href="http://www.cruoncampus.org" target="_blank">www.cruoncampus.org</a></p>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-6 content-column">
-    <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-click="growthChallengeNextStep(2)">
-        <h1>Interested in taking our Free 4-week Growth Challenge Video Series?</h1>
-      </div>
-    </div>
-    <div class="row after-chat-challenge" ng-show="growthChallengeStep<99">
-      <a href="#" title="Learn More" ng-click="growthChallengeNextStep(2)">
-        <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-          <div class="forward-button"></div>
-          Learn More
-        </div>
-      </a>
-    </div>
-
-    <div class="row" ng-show="growthChallengeStep==2 || growthChallengeStep===3">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box red">
-        <h2>Get Started!</h2>
-      </div>
-    </div>
-    <div class="row" ng-show="growthChallengeStep===2 || growthChallengeStep===3">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray" ng-class="{dim: growthChallengeStep!==2}">
-        <h2>Step 1: Video Series</h2>
-        <p>Enter your email</p>
-        <form class="form-inline">
-          <div class="form-group input">
-            <input class="form-control" type="email" placeholder="Email" ng-model="visitor_email">
-            <a href="" class="btn btn-danger" ng-click="facebookLogin();" ng-attr-title="We will never post to Facebook without your permission"><i class="fa fa-facebook-square"></i></a>
-            <button type="submit" class="btn btn-default btn-danger" ng-click="growthChallengeNextStep(3)">Submit</button>
+      <form class="form-horizontal" role="form" ng-show="showEmailForm">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="visitorInfo.first_name">
           </div>
-        </form>
-        <small>Privacy Policy: Don't worry, we won't sell or torture your personal data.</small>
-      </div>
-    </div>
-    <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail===''">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-        <h2>Step 2: Add Friend</h2>
-        <p>Invite your Christian Friend</p>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Facebook</a>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('email')"><i class="fa fa-envelope-o"></i> Invite via Email</a>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9" ng-hide="button_clicked.id===6"><i class="fa fa-frown-o"></i> Go it alone</a>
-      </div>
-    </div>
-    <div class="row"  ng-show="(growthChallengeStep===2 || growthChallengeStep===3) && christianFriendEmail!==''">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8 box gray step2" ng-class="{dim: growthChallengeStep!==3}">
-        <h2>Step 2: The Challenge</h2>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('accept')"><i class="fa fa-check"></i> Invite via Facebook</a>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeInviteFriend('fb')"><i class="fa fa-facebook-square"></i> Invite via Email</a>
-        <a href="#" class="btn btn-large btn-danger btn-block" ng-click="growthChallengeStep=9"><i class="fa fa-frown-o"></i> Go it alone</a>
-      </div>
-    </div>
-    <div class="row" ng-show="growthChallengeStep===100">
-      <div class="col-md-12 col-lg-offset-4 col-lg-8">
-        <p>Feedback sent, thank you!</p>
-      </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="visitorInfo.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="visitorInfo.email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.first_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="invitee.email">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Message</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" style="height:140px;" ng-model="email.message"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="visitorInfo.notify_me_on_share"> Notify me when friend comes to WTC
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-default" ng-click="sendEmailShare()">Send Invite</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

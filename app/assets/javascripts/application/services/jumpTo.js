@@ -7,7 +7,7 @@ angular.module('chatApp')
               $location.path('/q/' + nextQuestion.code);
             }else{
               if($rootScope.campaign.share.enabled){
-                $location.path('/pair');
+                $location.path('/share');
               }else{
                 $location.path('/complete');
               }
@@ -18,7 +18,7 @@ angular.module('chatApp')
             break;
           case 'finish':
               if($rootScope.campaign.share.enabled){
-                $location.path('/pair');
+                $location.path('/share');
               }else{
                 $location.path('/complete');
               }
