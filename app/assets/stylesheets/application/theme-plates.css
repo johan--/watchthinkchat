@@ -1,0 +1,173 @@
+body {
+	background:url("/assets/backgroundfallingplates.jpg") #E6E6E6 no-repeat center top;
+	background-size:cover;
+	background-attachment:fixed;
+}
+
+h1 {
+	color:#aa0000;
+}
+
+h2 {
+	color:#00d5dc;
+}
+
+.button,
+.button:focus {
+	color:#ffffff;
+	background-color:#aa0000;
+	background-color:rgba(170,0,0,.90);
+}
+
+.button:hover {
+	color:#ffffff;
+	background-color:rgba(0,0,0,.50);
+}
+
+.button:active {
+	opacity:.9;
+}
+
+::-webkit-input-placeholder {
+  color:#8c8c8c;
+	opacity:1 !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color:#8c8c8c; 
+	opacity:1 !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color:#8c8c8c;  
+	opacity:1 !important;
+}
+
+:-ms-input-placeholder {  
+  color:#8c8c8c;  
+	opacity:1 !important;
+}
+
+input[type=text],
+input[type=email] {
+	color:#8c8c8c;
+	background:url("/assets/u183-sprite.png") repeat-x left top #ffffff;
+}
+
+/* Header */
+
+#header {
+	background:#727272;
+	background:rgba(0,0,0,.5);
+	color:#ffffff;
+}
+
+#header a {
+	color:#ffffff;
+}
+
+.message {
+	background:#727272;
+	background-color: rgba(0,0,0,.25);
+	border-color: transparent;
+	border-style: none; 
+	color:#ffffff;
+}
+
+.share-message {
+	background-color: #ffffff;
+	border-color: transparent;
+	border-style: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+	color:#5a5a5a;
+}
+
+#header .back {
+	background-image:url("/assets/icon_backarrow_640_ffffff.png");
+	opacity:.6;
+}
+
+#header .back:hover,
+#header .back:active {
+	opacity:1;
+}
+
+/* Survey */
+
+.question h1 {
+	color:#ffffff;
+}
+
+/* Form */
+
+#main.form {
+	background:#393939;
+	background:rgba(0,0,0,.5);
+	color:#ffffff;
+}
+
+.form h1 {
+	color:#8c8c8c;
+}
+
+/* Signup Message */
+
+#signup-message {
+	color:#5a5a5a;
+	background:#E6E6E6;
+	margin-bottom:-40px;
+}
+
+#signup-message h2 {
+	color:#8c8c8c;
+}
+
+#signup-message .button {
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	background-color:#aa0000;
+}
+
+#signup-message .button:hover {
+	background-color:rgba(0,0,0,.5);
+}
+
+/* Languages */
+
+#main.language-select {
+	background:#393939;
+	background:rgba(0,0,0,.9);
+	margin-bottom:0;
+}
+
+.language {
+	color:#8c8c8c;
+}
+
+.language:hover {
+	color:#aa0000;
+}
+
+/* Footer */
+
+#footer {
+	background:#e6e6e6;
+}
+
+#footer .privacy,
+#footer .info {
+	opacity:.3;
+}
+
+#footer .privacy:hover,
+#footer .info:hover {
+	opacity:1;
+}
+
+#footer .privacy {
+	background-image:url("/assets/icon_privacy_640_000000.png");
+}
+
+#footer .info {
+	background-image:url("/assets/icon_info_640_000000.png");
+}

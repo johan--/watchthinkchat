@@ -1,6 +1,12 @@
-<h1>Thank you!</h1>
+<section>
+  <div id="content-secondary-section" class="message">
+    <div class="container">
+      <h1>Thank you!</h1>
 
-<div ng-show="communityObj" style="color: white; padding-top: 15px;">
-  <h2>Continue to: <a ng-href="{{communityObj.permalink}}" ng-bind="communityObj.title"></a></h2>
-  <p ng-bind="communityObj.description"></p>
-</div>
+      <div ng-show="communityObj">
+        <h3>Continue to: <a ng-href="{{communityObj.permalink}}" ng-bind="communityObj.title"></a></h3>
+        <p ng-bind="communityObj.description"></p>
+      </div>
+    </div>
+  </div>
+</section>
