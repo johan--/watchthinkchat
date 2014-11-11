@@ -41,6 +41,10 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
     }).run(function ($rootScope, $window, api) {
       $rootScope.campaign = $window.campaign;
 
+      $rootScope.back = function(){
+        $window.history.back();
+      };
+
       $rootScope.$on("$routeChangeStart", function(event, next, current) {
         var nextController = next.$$route.controller;
         var currentController = '';
