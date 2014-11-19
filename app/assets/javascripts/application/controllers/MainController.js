@@ -11,8 +11,5 @@ angular.module('chatApp').controller('MainController', function ($scope, $rootSc
     return;
   }
 
-  if($rootScope.campaign.share.enabled){
-    $location.path('/share');
-    return;
-  }
+  $location.path('/complete');
 });

@@ -6,22 +6,14 @@ angular.module('chatApp')
             if(angular.isDefined(nextQuestion)){
               $location.path('/q/' + nextQuestion.code);
             }else{
-              if($rootScope.campaign.share.enabled){
-                $location.path('/share');
-              }else{
-                $location.path('/complete');
-              }
+              $location.path('/complete');
             }
             break;
           case 'skip':
             $location.path('/q/' + option.conditional_question_id);
             break;
           case 'finish':
-              if($rootScope.campaign.share.enabled){
-                $location.path('/share');
-              }else{
-                $location.path('/complete');
-              }
+            $location.path('/complete');
             break;
         }
       };

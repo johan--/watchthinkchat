@@ -1,12 +1,93 @@
-<section>
-  <div id="content-secondary-section" class="message">
+<!--<section>-->
+  <!--<div id="main" class="form">-->
+    <!--<div class="container">-->
+      <!--<h1></h1>-->
+      <!--<p><a href="#" class="button button-narrow">Learn More</a></p>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</section>-->
+<section ng-if="campaign.share.enabled">
+  <div id="content-secondary-section" class="message share-message">
     <div class="container">
-      <h1>Thank you!</h1>
-
-      <div ng-show="communityObj">
-        <h3>Continue to: <a ng-href="{{communityObj.permalink}}" ng-bind="communityObj.title"></a></h3>
-        <p ng-bind="communityObj.description"></p>
+      <div class="share-icons">
+        <a href="" ng-click="showEmailForm = !showEmailForm"><img src="/assets/icon_email_640_00d6dc.png" alt="Email" /></a>
+        <a href="" ng-click="facebookShare(visitorInfo.url)"><img src="/assets/icon_facebook_640_00d6dc.png" alt="Facebook" /></a>
+        <a href="" ng-click="twitterShare(visitorInfo.url)"><img src="/assets/icon_twitter_640_00d6dc.png" alt="Twitter" /></a>
       </div>
+      <h2>{{campaign.share.title}}</h2>
+      <p>{{campaign.share.description}}</p>
+
+      <form class="form-horizontal" role="form" ng-show="showEmailForm" style="max-width:457px; margin:auto;">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="visitorInfo.first_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="visitorInfo.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Your Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="visitorInfo.email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.first_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="invitee.last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Friend's Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" ng-model="invitee.email">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Message</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" style="height:140px;" ng-model="email.message"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="visitorInfo.notify_me_on_share"> Notify me when friend comes to WTC
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-default" ng-click="sendEmailShare()">Send Invite</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<section ng-if="campaign.community.enabled">
+  <div id="signup-message">
+    <div class="container">
+      <div class="video-wrapper-small"></div>
+      <h2>{{campaign.community.title}}</h2>
+      <p>{{campaign.community.description}}</p>
+      <p><a ng-href="{{campaign.community.permalink}}" class="button button-narrow">Learn More</a></p>
     </div>
   </div>
 </section>
