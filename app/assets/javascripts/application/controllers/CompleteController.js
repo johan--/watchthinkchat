@@ -1,4 +1,4 @@
-angular.module('chatApp').controller('CompleteController', function ($scope, $window, api) {
+angular.module('chatApp').controller('CompleteController', function ($scope, $window, $modal, api) {
   api.call('get', '/v1/visitor', null, function(data){
     $scope.visitorInfo = data;
   });
@@ -9,6 +9,24 @@ angular.module('chatApp').controller('CompleteController', function ($scope, $wi
 
   $scope.twitterShare = function(url){
     $window.open('https://twitter.com/share?url=' + encodeURIComponent(url), 'twitterShare', 'height=400,width=650');
+  };
+
+  $scope.linkModal = function(url){
+    $modal.open({
+      templateUrl: '/templates/modals/shareLink.html',
+      controller: function($scope, $modalInstance, link){
+        $scope.link = link;
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+      },
+      resolve: {
+        link: function () {
+          return url;
+        }
+      }
+    });
   };
 
   $scope.sendEmailShare = function(){
