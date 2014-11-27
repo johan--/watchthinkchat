@@ -75,6 +75,8 @@ module Dashboard
             [:id,
              :title,
              :description,
+             :subject,
+             :message,
              :enabled],
           community_attributes:
             [:id,

@@ -6,8 +6,6 @@ module Api
         build_interaction
         save_interaction
         render json: @interaction.to_json, status: (@state)
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json, status: :unprocessable_entity
       end
 
       protected
@@ -38,9 +36,13 @@ module Api
       end
 
       def interaction_params
-        interaction_params = params[:interaction]
-        return {} unless interaction_params
-        interaction_params.permit(:resource_id, :resource_type, :action, :data)
+        InteractionParams.permit(params)
+      end
+
+      class InteractionParams
+        def self.permit(params)
+          params.require(:interaction).permit(:resource_id, :resource_type, :action, :data)
+        end
       end
     end
   end

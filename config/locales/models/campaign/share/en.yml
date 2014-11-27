@@ -4,3 +4,5 @@ en:
       share:
         title: "Share"
         description: "Default Instruction"
+        subject: "Default email subject"
+        message: "Default email message"

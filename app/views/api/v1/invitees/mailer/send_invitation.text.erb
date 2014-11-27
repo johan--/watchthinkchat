@@ -1,0 +1,8 @@
+<%= t 'mailers.api.v1.invitees.mailer.salutation', name: @invitee.first_name %>
+
+<%= @message %>
+
+<%= @campaign.name %> [<%= @invitation.url %>]
+
+<%= t 'mailers.api.v1.invitees.mailer.organization.name' %> | <%= t 'mailers.api.v1.invitees.mailer.organization.tag' %>
+<%= t 'mailers.api.v1.invitees.mailer.why', name: @inviter.first_name %>

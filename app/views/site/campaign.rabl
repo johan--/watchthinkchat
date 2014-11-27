@@ -25,7 +25,7 @@ child(:share, if: lambda { |campaign| campaign.share }) {
   attributes :id, :enabled
   node(:resource_type) { Campaign::Share }
   if root_object.enabled?
-    attributes :title, :description
+    attributes :title, :description, :subject, :message
   end
 }
 child(:community, if: lambda { |campaign| campaign.community }) {

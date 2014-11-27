@@ -10,9 +10,6 @@ module Api
         build_visitor
         save_visitor
         render 'show', status: :ok
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
       end
 
       protected
@@ -36,11 +33,13 @@ module Api
       end
 
       def visitor_params
-        visitor_params = params[:visitor]
-        return {} unless visitor_params
-        visitor_params.permit(:first_name,
-                              :last_name,
-                              :email)
+        VisitorParams.permit(params)
+      end
+
+      class VisitorParams
+        def self.permit(params)
+          params.require(:visitor).permit(:first_name, :last_name, :email, :notify_me_on_share)
+        end
       end
     end
   end
