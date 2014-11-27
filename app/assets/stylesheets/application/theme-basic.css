@@ -1,0 +1,143 @@
+body {
+	background:#E6E6E6;
+}
+
+h1 {
+	color:#00D5Dc;
+}
+
+h2 {
+	color:#00d5dc;
+}
+
+.button,
+.button:focus {
+	color:#ffffff;
+	background-color:#00bcc2;
+}
+
+.button:hover {
+	opacity:.6;
+	color:#ffffff;
+}
+
+.button:active {
+	opacity:.8;
+}
+
+::-webkit-input-placeholder {
+  color:#8c8c8c;
+	opacity:1 !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color:#8c8c8c; 
+	opacity:1 !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color:#8c8c8c;  
+	opacity:1 !important;
+}
+
+:-ms-input-placeholder {  
+  color:#8c8c8c;  
+	opacity:1 !important;
+}
+
+input[type=text],
+input[type=email] {
+	color:#8c8c8c;
+	background:url("../images/u183-sprite.png") repeat-x left top #ffffff;
+}
+
+/* Header */
+
+#header {
+	background:#727272;
+	color:#ffffff;
+}
+
+#header a {
+	color:#ffffff;
+}
+
+.message {
+	background-color: #ffffff;
+	border-color: transparent;
+	border-style: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+	color:#5a5a5a;
+}
+
+#header .back {
+	background-image:url("../images/icon_backarrow_640_ffffff.png");
+	opacity:.6;
+}
+
+#header .back:hover,
+#header .back:active {
+	opacity:1;
+}
+
+/* Survey */
+
+.question h1 {
+	color:#5a5a5a;
+}
+
+/* Form */
+
+#main.form {
+	background:#393939;
+	color:#ffffff;
+}
+
+.form h1 {
+	color:#8c8c8c;
+}
+
+/* Signup Message */
+
+#signup-message {
+	color:#5a5a5a;
+}
+
+#signup-message h2 {
+	color:#8c8c8c;
+}
+
+#signup-message .button {
+	text-transform:uppercase;
+	letter-spacing:.2em;
+}
+
+/* Languages */
+
+.language {
+	color:#8c8c8c;
+}
+
+.language:hover {
+	color:#00D5Dc;
+}
+
+/* Footer */
+
+#footer .privacy,
+#footer .info {
+	opacity:.3;
+}
+
+#footer .privacy:hover,
+#footer .info:hover {
+	opacity:1;
+}
+
+#footer .privacy {
+	background-image:url("../images/icon_privacy_640_000000.png");
+}
+
+#footer .info {
+	background-image:url("../images/icon_info_640_000000.png");
+}

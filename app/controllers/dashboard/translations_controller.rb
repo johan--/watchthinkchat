@@ -21,7 +21,7 @@ module Dashboard
 
     def load_base_translation
       @base_translation ||=
-        @translation.campaign.translations.where('content != \'\'').base
+        @translation.campaign.translation_groups.where('content != \'\'').base
     end
 
     def translation_scope

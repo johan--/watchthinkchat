@@ -1,7 +1,6 @@
 angular.module('chatApp').service('facebook', function () {
   this.status = function () {
     FB.getLoginStatus(function(response) {
-      console.log(status);
     });
   };
 

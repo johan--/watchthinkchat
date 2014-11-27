@@ -32,11 +32,18 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
       }).when('/pair', {
         templateUrl: '/templates/share.html',
         controller: 'PairController'
+      }).when('/share', {
+        templateUrl: '/templates/share.html',
+        controller: 'ShareController'
       }).otherwise({
         redirectTo: '/'
       });
     }).run(function ($rootScope, $window, api) {
       $rootScope.campaign = $window.campaign;
+
+      $rootScope.back = function(){
+        $window.history.back();
+      };
 
       $rootScope.$on("$routeChangeStart", function(event, next, current) {
         var nextController = next.$$route.controller;
@@ -74,8 +81,10 @@ angular.module('chatApp', ['ngRoute', 'youtube-embed'])
             return $rootScope.campaign.engagement_player;
           case 'QuestionController':
             return $rootScope.campaign.survey;
-          case 'PairController':
+          case 'ShareController':
             return $rootScope.campaign.share;
+          case 'PairController':
+            return $rootScope.campaign.guided_pair;
           default:
             return null;
         }
