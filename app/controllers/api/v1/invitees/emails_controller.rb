@@ -7,9 +7,6 @@ module Api
           save_email
           @email = @email.decorate
           render 'show', status: :created
-        rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-          render json: { errors: ex.message }.to_json,
-                 status: :unprocessable_entity
         end
 
         protected

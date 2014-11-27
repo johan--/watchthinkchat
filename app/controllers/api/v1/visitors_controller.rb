@@ -10,9 +10,6 @@ module Api
         build_visitor
         save_visitor
         render 'show', status: :ok
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
       end
 
       protected

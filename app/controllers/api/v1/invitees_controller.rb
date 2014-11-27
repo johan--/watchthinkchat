@@ -7,18 +7,12 @@ module Api
 
       def show
         load_invitee
-      rescue ActiveRecord::RecordNotFound => ex
-        render json: { errors: ex.message }.to_json,
-               status: :not_found
       end
 
       def create
         build_invitee
         save_invitee
         render 'show', status: :created
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
       end
 
       def update
@@ -26,9 +20,6 @@ module Api
         build_invitee
         save_invitee
         render 'show', status: :ok
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json,
-               status: :unprocessable_entity
       end
 
       protected

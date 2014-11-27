@@ -6,8 +6,6 @@ module Api
         build_interaction
         save_interaction
         render json: @interaction.to_json, status: (@state)
-      rescue ArgumentError, ActiveRecord::RecordInvalid => ex
-        render json: { errors: ex.message }.to_json, status: :unprocessable_entity
       end
 
       protected

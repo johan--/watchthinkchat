@@ -4,6 +4,14 @@ module Api
     before_action :authenticate
     before_action :load_campaign
 
+    rescue_from ArgumentError, ActiveRecord::RecordInvalid do |ex|
+      render json: { errors: ex.message }.to_json, status: :unprocessable_entity
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |ex|
+      render json: { errors: ex.message }.to_json, status: :not_found
+    end
+
     protected
 
     def authenticate
