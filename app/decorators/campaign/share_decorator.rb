@@ -1,3 +1,4 @@
+require 'campaign'
 class Campaign
   class ShareDecorator < Draper::Decorator
     delegate_all
