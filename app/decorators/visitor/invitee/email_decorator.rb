@@ -1,3 +1,5 @@
+require 'visitor'
+require 'visitor/invitee'
 class Visitor
   class Invitee
     class EmailDecorator < Draper::Decorator

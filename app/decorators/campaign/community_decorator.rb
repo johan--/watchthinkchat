@@ -1,4 +1,4 @@
-require_dependency(Rails.root.join 'app', 'models', 'campaign')
+require 'campaign'
 class Campaign
   class CommunityDecorator < Draper::Decorator
     decorates Campaign::Community
