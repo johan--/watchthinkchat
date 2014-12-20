@@ -1,3 +1,4 @@
+require 'campaign'
 class Campaign
   class CommunityDecorator < Draper::Decorator
     decorates Campaign::Community
