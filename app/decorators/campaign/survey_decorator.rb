@@ -1,4 +1,3 @@
-require 'campaign'
 class Campaign
   class SurveyDecorator < Draper::Decorator
     decorates_association :question
