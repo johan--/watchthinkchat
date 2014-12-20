@@ -1,3 +1,4 @@
+require 'campaign'
 class Campaign
   class EngagementPlayerDecorator < Draper::Decorator
     decorates_association :survey
